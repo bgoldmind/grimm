@@ -20,9 +20,9 @@ if (BEAM_SIGN_PACKAGE AND WIN32)
     set(WINDOWS_IDENTITIY_PFX_PASSWORD "" CACHE STRING "Password, which unlocks the PFX file (optional)")
     set(BEAM_SIGN_SUBJECT_NAME "" CACHE STRING "Beam subjet")
     set(SIGNTOOL_OPTIONS /tr http://timestamp.digicert.com /td sha256 /fd sha256 /n "${BEAM_SIGN_SUBJECT_NAME}")
-    
+
     #set(SIGNTOOL_OPTIONS /fd SHA256 /a /f ${WINDOWS_IDENTITIY_PFX_FILE} /tr http://timestamp.digicert.com  )
-    
+
     #if(NOT ${WINDOWS_IDENTITIY_PFX_PASSWORD} EQUAL "")
     #    set(SIGNTOOL_OPTIONS ${SIGNTOOL_OPTIONS} /p ${WINDOWS_IDENTITIY_PFX_PASSWORD})
     #else()
@@ -116,7 +116,7 @@ endif()
 
 set(BEAM_QT_UI_WALLET TRUE)
 if (BEAM_NO_QT_UI_WALLET)
-    set(BEAM_QT_UI_WALLET FALSE)    
+    set(BEAM_QT_UI_WALLET FALSE)
 endif()
 
 set(BEAM_USE_STATIC FALSE)
@@ -158,30 +158,9 @@ elseif(BEAM_MAINNET)
     set(BEAM_DISPLAY_SUFFIX "")
 endif()
 
-option(BEAM_HW_WALLET "Build with hardware wallet support" OFF)
 
-if(BEAM_HW_WALLET)
 
-    if(BEAM_USE_STATIC)
-        set(BUILD_SHARED_LIBS OFF CACHE BOOL "")
 
-        if(WIN32)
-            set(CURL_STATIC_CRT ON CACHE BOOL "")
-        endif()
-
-        add_definitions(-DCURL_STATICLIB)
-    else()        
-        if(WIN32)
-            set(protobuf_MSVC_STATIC_RUNTIME OFF CACHE BOOL "")
-        endif()
-    endif()
-
-    set(protobuf_BUILD_TESTS OFF CACHE BOOL "")
-    set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "")
-
-    add_subdirectory(3rdparty/protobuf/cmake)
-
-endif()
 
 if(MSVC)
     if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
@@ -237,11 +216,7 @@ else()
 
 endif()
 
-if(BEAM_HW_WALLET)
-    set(HTTP_ONLY ON CACHE BOOL "")
-    set(BUILD_CURL_EXE OFF CACHE BOOL "")
-    add_subdirectory(3rdparty/curl)
-endif()
+
 
 if(UNIX OR WIN32)
     set(UV_INTERNAL ON)
@@ -394,7 +369,7 @@ if (WIN32)
     set(CPACK_NSIS_DELETE_ICONS_EXTRA "Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Beam Wallet${BEAM_DISPLAY_SUFFIX}.lnk\\\"")
 
     set(CPACK_NSIS_EXECUTABLES_DIRECTORY .)
-    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "Beam Wallet${BEAM_DISPLAY_SUFFIX}.exe") 
+    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "Beam Wallet${BEAM_DISPLAY_SUFFIX}.exe")
     set(CPACK_NSIS_PACKAGE_NAME "Beam Wallet${BEAM_DISPLAY_SUFFIX}")
 
 elseif (APPLE)
@@ -432,16 +407,16 @@ include(CPack)
 #if (BEAM_SIGN_PACKAGE AND WIN32)
 #    add_custom_target(signing ALL  COMMENT "Signing Package...")
 #
-# 
+#
 #     # Signing the installer
 #     add_custom_target(signing-installer)
 #     set(BEAM_INSTALLER_NAME ${CPACK_NSIS_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}.exe)
-#     
+#
 #     add_custom_command(
 #         TARGET signing-installer
 #         COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} ${BEAM_INSTALLER_NAME}
 #         ## Other optional options:
-#         # /tr timestampServerUrl 
+#         # /tr timestampServerUrl
 #        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 #     )
 #endif()

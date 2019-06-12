@@ -20,9 +20,7 @@
 #include <QApplication>
 #include <QTranslator>
 
-#if defined(BEAM_HW_WALLET)
-#include "wallet/hw_wallet.h"
-#endif
+
 
 using namespace beam;
 using namespace beam::wallet;
@@ -61,7 +59,7 @@ AppModel::AppModel(WalletSettings& settings, QQmlApplicationEngine& qmlEngine)
     assert(s_instance == nullptr);
     s_instance = this;
 
-    loadTranslation();    
+    loadTranslation();
     connect(&m_settings, SIGNAL(localeChanged()), SLOT(onLocaleChanged()));
 
     m_nodeModel.start();
@@ -78,7 +76,7 @@ bool AppModel::createWallet(const SecString& seed, const SecString& pass)
     if (WalletDB::isInitialized(dbFilePath))
     {
         // it seems that we are trying to restore or login to another wallet.
-        // Rename existing db 
+        // Rename existing db
         boost::filesystem::path p = dbFilePath;
         boost::filesystem::path newName = dbFilePath + "_" + to_string(getTimestamp());
         boost::filesystem::rename(p, newName);
@@ -222,36 +220,9 @@ void AppModel::onLocaleChanged()
 
 void AppModel::start()
 {
-    // TODO(alex.starun): should be uncommented when HW detection will be done
 
-//#if defined(BEAM_HW_WALLET)
-//    {
-//        HWWallet hw;
-//        auto key = hw.getOwnerKeySync();
-//        
-//        LOG_INFO() << "Owner key" << key;
-//
-//        // TODO: password encryption will be removed
-//        std::string pass = "1";
-//        KeyString ks;
-//        ks.SetPassword(Blob(pass.data(), static_cast<uint32_t>(pass.size())));
-//
-//        ks.m_sRes = key;
-//
-//        std::shared_ptr<ECC::HKdfPub> pKdf = std::make_shared<ECC::HKdfPub>();
-//
-//        if (ks.Import(*pKdf))
-//        {
-//            m_nodeModel.setOwnerKey(pKdf);
-//        }
-//        else
-//        {
-//            LOG_ERROR() << "veiw key import failed";            
-//        }
-//    }
-//#else
     m_nodeModel.setKdf(m_db->get_MasterKdf());
-//#endif
+
 
     std::string nodeAddrStr;
 

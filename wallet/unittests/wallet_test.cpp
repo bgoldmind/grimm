@@ -42,9 +42,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/intrusive/list.hpp>
 
-#if defined(BEAM_HW_WALLET)
-#include "wallet/hw_wallet.h"
-#endif
+
 
 using namespace beam;
 using namespace std;
@@ -327,12 +325,12 @@ namespace
         mainReactor->run();
         sw.stop();
         cout << "Third transfer elapsed time: " << sw.milliseconds() << " ms\n";
-    
+
         // check coins
         newSenderCoins = sender.GetCoins();
         newReceiverCoins = receiver.GetCoins();
 
-        // no coins 
+        // no coins
         WALLET_CHECK(newSenderCoins.size() == 5);
         WALLET_CHECK(newReceiverCoins.size() == 2);
 
@@ -373,7 +371,7 @@ namespace
         TestNode node;
         TestWalletRig sender("sender", createSenderWalletDB(), f);
         TestWalletRig receiver("receiver", createReceiverWalletDB(), f);
-  
+
         WALLET_CHECK(sender.m_WalletDB->selectCoins(6).size() == 2);
         WALLET_CHECK(sender.m_WalletDB->getTxHistory().empty());
         WALLET_CHECK(receiver.m_WalletDB->getTxHistory().empty());
@@ -507,7 +505,7 @@ namespace
         newSenderCoins = sender.GetCoins();
         newReceiverCoins = receiver.GetCoins();
 
-        // no coins 
+        // no coins
         WALLET_CHECK(newSenderCoins.size() == 5);
         WALLET_CHECK(newReceiverCoins.size() == 2);
 
@@ -729,7 +727,7 @@ namespace
         txDescription.m_status = TxStatus::Pending;
         txDescription.m_selfTx = false;
         sender.m_WalletDB->saveTx(txDescription);
-        
+
         const int UpdateCount = 100000;
         helpers::StopWatch sw;
         sw.start();
@@ -1398,23 +1396,7 @@ void TestNegotiation()
 }
 
 
-#if defined(BEAM_HW_WALLET)
-void TestHWWallet()
-{
-    cout << "Test HW wallet" << std::endl;
 
-    HWWallet hw;
-    hw.getOwnerKey([](const std::string& key)
-    {
-        LOG_INFO() << "HWWallet.getOwnerKey(): " << key;
-    });
-
-    hw.generateNonce(1, [](const ECC::Point& nonce)
-    {
-        LOG_INFO() << "HWWallet.generateNonce(): " << nonce;
-    });
-}
-#endif
 
 int main()
 {
@@ -1452,9 +1434,7 @@ int main()
     TestColdWalletReceiving();
 
     TestTxExceptionHandling();
-#if defined(BEAM_HW_WALLET)
-    TestHWWallet();
-#endif
+
 
     assert(g_failureCount == 0);
     return WALLET_CHECK_RESULT;

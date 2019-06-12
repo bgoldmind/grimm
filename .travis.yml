@@ -11,21 +11,20 @@ matrix:
     - os: osx
       language: cpp
       osx_image: xcode9.3
-      install: 
+      install:
         - export TZ=Etc/GMT-3
         - brew update
         - brew unlink cmake
-        - brew unlink boost 
+        - brew unlink boost
         - brew install qt5 cmake boost
         - brew link qt5 --force
         - export PATH=/usr/local/opt/qt/bin:$PATH
         - export OPENSSL_ROOT_DIR="/usr/local/opt/openssl"
-      env: 
+      env:
         - BUILD_TYPE=Debug
         - OS_FOLDER=mac
       script:
-        - git apply 3rdparty/protobuf-patch.diff
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_HW_WALLET=Off . && make -j 4 && ctest --verbose && cpack;
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH . && make -j 4 && ctest --verbose && cpack;
         # extract build version
         - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
         - echo BEAM_VERSION = $BEAM_VERSION
@@ -44,7 +43,7 @@ matrix:
         - export TZ=Etc/GMT-3
         - brew update
         - brew unlink cmake
-        - brew unlink boost 
+        - brew unlink boost
         - brew install cmake boost
         - sudo git clone --depth=1 https://github.com/nesbox/qt5-static-mac.git /usr/local/qt5-static
         - export PATH=/usr/local/qt5-static/bin:$PATH
@@ -62,12 +61,11 @@ matrix:
         - security import distkey.p12 -P $MACOS_DISTRIBUTION_KEY_PASSWORD  -k ~/Library/Keychains/macos-build.keychain -T /usr/bin/codesign
         - security import devapp.cer -k ~/Library/Keychains/macos-build.keychain -T /usr/bin/codesign
         - security set-key-partition-list -S "apple-tool:,apple:" -s -k travis macos-build.keychain
-      env: 
+      env:
         - BUILD_TYPE=Release
         - OS_FOLDER=mac
       script:
-        - git apply 3rdparty/protobuf-patch.diff
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_SIGN_MACOS_BINARY=On -DBEAM_HW_WALLET=Off . && make -j 4 && ctest --verbose && cpack;
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_SIGN_MACOS_BINARY=On . && make -j 4 && ctest --verbose && cpack;
         # extract build version
         - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
         - echo BEAM_VERSION = $BEAM_VERSION
@@ -114,12 +112,11 @@ matrix:
         - sudo apt-get install qt510declarative qt510svg libgl1-mesa-dev-lts-xenial
         - eval "CC=gcc-7 && CXX=g++-7"
         - export PATH=/opt/qt510/bin:$PATH
-      env: 
+      env:
         - BUILD_TYPE=Debug
         - OS_FOLDER=linux
       script:
-        - git apply 3rdparty/protobuf-patch.diff
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_HW_WALLET=Off . && make -j 4 && ctest --verbose && cpack;
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH . && make -j 4 && ctest --verbose && cpack;
         # extract build version
         - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
         - echo BEAM_VERSION = $BEAM_VERSION
@@ -160,14 +157,13 @@ matrix:
         - git clone --depth=1 https://github.com/nesbox/qt5-static-linux.git /home/travis/qt5-static
         - export QT5_ROOT_DIR="/home/travis/qt5-static"
         - export QML_IMPORT_PATH="/home/travis/qt5-static/qml"
-      env: 
+      env:
         - BUILD_TYPE=Release
         - OS_FOLDER=linux
       script:
-        - git apply 3rdparty/protobuf-patch.diff
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_HW_WALLET=Off .
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH .
         - make -j 4
-        - ctest --verbose 
+        - ctest --verbose
         - cpack
         # extract build version
         - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
@@ -207,7 +203,7 @@ matrix:
       after_success:
         # extract build version
         - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION 
+        - echo BEAM_VERSION = $BEAM_VERSION
         - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI
         - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI
         - tar -cvzf libwallet-jni-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
@@ -356,7 +352,7 @@ after_success:
   - tar -cvzf beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/wallet beam-wallet$BEAM_TARGET_SUFFIX beam-wallet.cfg
   - tar -cvzf wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/wallet wallet-api$BEAM_TARGET_SUFFIX wallet-api.cfg
   - tar -cvzf explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/explorer explorer-node$BEAM_TARGET_SUFFIX explorer-node.cfg
-    
+
   # upload binaries to FTP
   - curl --retry 3 --ftp-create-dirs -T beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
   - curl --retry 3 --ftp-create-dirs -T beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/

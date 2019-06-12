@@ -23,9 +23,7 @@
 
 #include <memory>
 
-#if defined(BEAM_HW_WALLET)
-#include "hw_wallet.h"
-#endif
+
 
 namespace beam::wallet
 {
@@ -80,52 +78,7 @@ namespace beam::wallet
         virtual ECC::Scalar SignSync(const std::vector<Key::IDV>& inputs, const std::vector<Key::IDV>& outputs, const ECC::Scalar::Native& offset, size_t nonceSlot, const ECC::Hash::Value& message, const ECC::Point::Native& publicNonce, const ECC::Point::Native& commitment) = 0;
     };
 
-#if defined(BEAM_HW_WALLET)
-    //
-    // Private key keeper in HW wallet implementation
-    //
-    class HWWalletKeyKeeper : public IPrivateKeyKeeper
-    {
-    public:
-        void GeneratePublicKeys(const std::vector<Key::IDV>& ids, bool createCoinKey, Callback<PublicKeys>&&, ExceptionCallback&&) override
-        {
 
-        }
-
-        size_t AllocateNonceSlot() override
-        {
-            return 0;
-        }
-
-        PublicKeys GeneratePublicKeysSync(const std::vector<Key::IDV>& ids, bool createCoinKey) override
-        {
-            return {};
-        }
-
-        ECC::Point GeneratePublicKeySync(const Key::IDV& id, bool createCoinKey) override
-        {
-            return {};
-        }
-
-        Outputs GenerateOutputsSync(Height schemeHeigh, const std::vector<Key::IDV>& ids) override
-        {
-            return {};
-        }
-
-        ECC::Point GenerateNonceSync(size_t slot) override
-        {            
-            return m_hwWallet.generateNonceSync(static_cast<uint8_t>(slot));
-        }
-
-        ECC::Scalar SignSync(const std::vector<Key::IDV>& inputs, const std::vector<Key::IDV>& outputs, const ECC::Scalar::Native& offset, size_t nonceSlot, const ECC::Hash::Value& message, const ECC::Point::Native& publicNonce, const ECC::Point::Native& commitment) override
-        {
-            return {};
-        }
-    private:
-
-        beam::HWWallet m_hwWallet;
-    };
-#endif
 
     //
     // Private key keeper in local storage implementation
@@ -178,7 +131,7 @@ namespace beam::wallet
 
     //
     // State machine for managing per transaction negotiations between wallets
-    // 
+    //
     class BaseTransaction : public ITransaction
                           , public std::enable_shared_from_this<ITransaction>
     {
