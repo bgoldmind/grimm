@@ -476,7 +476,7 @@ namespace
         return -1;
     }
 
-    WalletAddress newAddress(const IWalletDB::Ptr& walletDB, const std::string& comment, bool isNever = false)
+    WalletAddress CreateNewAddress(const IWalletDB::Ptr& walletDB, const std::string& comment, bool isNever = false)
     {
         WalletAddress address = storage::createAddress(*walletDB);
 
@@ -614,7 +614,7 @@ namespace
                 << left << setw(columnWidths[1]) << " direction" << " |"
                 << right << setw(columnWidths[2]) << " amount, BEAM" << " |"
                 << left << setw(columnWidths[3]) << " status" << " |"
-                << setw(columnWidths[4]) << " ID" << " |" 
+                << setw(columnWidths[4]) << " ID" << " |"
                 << setw(columnWidths[5]) << " kernel ID" << " |" << endl;
 
             for (auto& tx : txHistory)
@@ -623,7 +623,7 @@ namespace
                     << " " << left << setw(columnWidths[0]) << format_timestamp("%Y.%m.%d %H:%M:%S", tx.m_createTime * 1000, false) << " "
                     << " " << left << setw(columnWidths[1]) << (tx.m_selfTx ? "self transaction" : (tx.m_sender ? "outgoing" : "incoming"))
                     << " " << right << setw(columnWidths[2]) << PrintableAmount(tx.m_amount, true) << "  "
-                    << " " << left << setw(columnWidths[3]+1) << getTxStatus(tx) 
+                    << " " << left << setw(columnWidths[3]+1) << getTxStatus(tx)
                     << " " << setw(columnWidths[4]+1) << to_hex(tx.m_txId.data(), tx.m_txId.size())
                     << " " << setw(columnWidths[5]+1) << to_string(tx.m_kernelID) << '\n';
             }
@@ -682,7 +682,7 @@ namespace
             << setw(columnWidths[4]) << " status" << " |"
             << setw(columnWidths[5]) << " type" << endl;
 
-        
+
         walletDB->visit([&columnWidths](const Coin& c)->bool
         {
             cout << "   "
@@ -1017,7 +1017,7 @@ int main_impl(int argc, char* argv[])
                     auto command = vm[cli::COMMAND].as<string>();
 
                     {
-                        const vector<string> commands =
+                        const string commands[] =
                         {
                             cli::INIT,
                             cli::RESTORE,
@@ -1044,7 +1044,7 @@ int main_impl(int argc, char* argv[])
                             cli::SWAP_LISTEN
                         };
 
-                        if (find(commands.cbegin(), commands.cend(), command) == commands.cend())
+                        if (find(begin(commands), end(commands), command) == end(commands))
                         {
                             LOG_ERROR() << "unknown command: \'" << command << "\'";
                             return -1;
@@ -1115,7 +1115,7 @@ int main_impl(int argc, char* argv[])
                             LOG_INFO() << "wallet successfully created...";
 
                             // generate default address
-                            newAddress(walletDB, "default");
+                            CreateNewAddress(walletDB, "default");
 
                             return 0;
                         }
@@ -1174,7 +1174,7 @@ int main_impl(int argc, char* argv[])
                     if (command == cli::NEW_ADDRESS)
                     {
                         auto comment = vm[cli::NEW_ADDRESS_COMMENT].as<string>();
-                        newAddress(walletDB, comment, vm[cli::EXPIRATION_TIME].as<string>() == "never");
+                        CreateNewAddress(walletDB, comment, vm[cli::EXPIRATION_TIME].as<string>() == "never");
 
                         if (!vm.count(cli::LISTEN))
                         {
@@ -1313,6 +1313,22 @@ int main_impl(int argc, char* argv[])
                             }
 
                             auto nnet = make_shared<proto::FlyClient::NetworkStd>(wallet);
+                            nnet->m_Cfg.m_PollPeriod_ms = vm[cli::NODE_POLL_PERIOD].as<Nonnegative<uint32_t>>().value;
+                            if (nnet->m_Cfg.m_PollPeriod_ms)
+                            {
+                              LOG_INFO() << "Node poll period = " << nnet->m_Cfg.m_PollPeriod_ms << " ms";
+                              uint32_t timeout_ms = std::max(Rules::get().DA.Target_s * 1000, nnet->m_Cfg.m_PollPeriod_ms);
+                                if (timeout_ms != nnet->m_Cfg.m_PollPeriod_ms)
+                                {
+                                    LOG_INFO() << "Node poll period has been automatically rounded up to block rate: " << timeout_ms << " ms";
+                                }
+                            }
+                            uint32_t responceTime_s = Rules::get().DA.Target_s * wallet::kDefaultTxResponseTime;
+                            if (nnet->m_Cfg.m_PollPeriod_ms >= responceTime_s * 1000)
+                            {
+                              LOG_WARNING() << "The \"--node_poll_period\" parameter set to more than " << uint32_t(responceTime_s / 3600) << " hours may cause transaction problems.";
+
+                            }
                             nnet->m_Cfg.m_vNodes.push_back(nodeAddress);
                             nnet->Connect();
                             wallet.AddMessageEndpoint(make_shared<WalletNetworkViaBbs>(wallet, nnet, walletDB));
@@ -1326,7 +1342,7 @@ int main_impl(int argc, char* argv[])
                         if (!btcOptions.m_userName.empty() && !btcOptions.m_pass.empty())
                         {
                             btcOptions.m_feeRate = vm[cli::SWAP_FEERATE].as<Positive<Amount>>().value;
-                            
+
                             if (vm.count(cli::BTC_CONFIRMATIONS) > 0)
                             {
                                 btcOptions.m_confirmations = vm[cli::BTC_CONFIRMATIONS].as<Positive<uint16_t>>().value;
@@ -1336,7 +1352,7 @@ int main_impl(int argc, char* argv[])
                             {
                                 btcOptions.m_lockTimeInBlocks = vm[cli::BTC_LOCK_TIME].as<Positive<uint32_t>>().value;
                             }
-                            
+
                             wallet.initBitcoin(io::Reactor::get_Current(), btcOptions);
                         }
 
@@ -1410,9 +1426,9 @@ int main_impl(int argc, char* argv[])
                                     return -1;
                                 }
 
-                                WalletAddress senderAddress = newAddress(walletDB, "");
+                                WalletAddress senderAddress = CreateNewAddress(walletDB, "");
 
-                                currentTxID = wallet.swap_coins(senderAddress.m_walletID, receiverWalletID, 
+                                currentTxID = wallet.swap_coins(senderAddress.m_walletID, receiverWalletID,
                                     move(amount), move(fee), swapCoin, swapAmount, isBeamSide);
                             }
 
@@ -1441,7 +1457,7 @@ int main_impl(int argc, char* argv[])
 
                         if (isTxInitiator)
                         {
-                            WalletAddress senderAddress = newAddress(walletDB, "");
+                            WalletAddress senderAddress = CreateNewAddress(walletDB, "");
                             CoinIDList coinIDs = GetPreselectedCoinIDs(vm);
                             currentTxID = wallet.transfer_money(senderAddress.m_walletID, receiverWalletID, move(amount), move(fee), coinIDs, command == cli::SEND, kDefaultTxLifetime, kDefaultTxResponseTime, {}, true);
                         }

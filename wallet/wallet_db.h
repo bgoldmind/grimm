@@ -392,6 +392,7 @@ namespace beam::wallet
         void flushDB();
         void onModified();
         void onFlushTimer();
+        void onPrepareToModify();
     private:
         friend struct sqlite::Statement;
         sqlite3* _db;

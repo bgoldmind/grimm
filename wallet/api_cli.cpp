@@ -48,11 +48,10 @@ using json = nlohmann::json;
 
 static const unsigned LOG_ROTATION_PERIOD = 3 * 60 * 60 * 1000; // 3 hours
 static const size_t PACKER_FRAGMENTS_SIZE = 4096;
-
-namespace
-{
     using namespace beam;
     using namespace beam::wallet;
+namespace
+{
 
     struct TlsOptions
     {
@@ -68,7 +67,7 @@ namespace
         WalletApi::ACL::value_type keys;
         int curLine = 1;
 
-        while (std::getline(file, line)) 
+        while (std::getline(file, line))
         {
             boost::algorithm::trim(line);
 
@@ -117,7 +116,7 @@ namespace
     class WalletApiServer : public IWalletApiServer
     {
     public:
-        WalletApiServer(IWalletDB::Ptr walletDB, Wallet& wallet, IWalletMessageEndpoint& wnet, io::Reactor& reactor, 
+        WalletApiServer(IWalletDB::Ptr walletDB, Wallet& wallet, IWalletMessageEndpoint& wnet, io::Reactor& reactor,
             io::Address listenTo, bool useHttp, WalletApi::ACL acl, const TlsOptions& tlsOptions, const std::vector<uint32_t>& whitelist)
             : _reactor(reactor)
             , _bindAddress(listenTo)
@@ -191,8 +190,8 @@ namespace
 
         void on_stream_accepted(io::TcpStream::Ptr&& newStream, io::ErrorCode errorCode)
         {
-            if (errorCode == 0) 
-            {          
+            if (errorCode == 0)
+            {
                 auto peer = newStream->peer_address();
 
                 if (!_whitelist.empty())
@@ -292,7 +291,7 @@ namespace
                 }
             }
 
-            void onMessage(int id, const CreateAddress& data) override 
+            void onMessage(int id, const CreateAddress& data) override
             {
                 LOG_DEBUG() << "CreateAddress(id = " << id << ")";
 
@@ -396,7 +395,7 @@ namespace
                         WalletAddress senderAddress = storage::createAddress(*_walletDB);
                         _walletDB->saveAddress(senderAddress);
 
-                        from = senderAddress.m_walletID;     
+                        from = senderAddress.m_walletID;
                     }
 
                     ByteBuffer message(data.comment.begin(), data.comment.end());
@@ -481,7 +480,7 @@ namespace
                 try
                 {
                     WalletID from(Zero);
-                    
+
                     WalletAddress senderAddress = storage::createAddress(*_walletDB);
                     _walletDB->saveAddress(senderAddress);
 
@@ -633,7 +632,7 @@ namespace
                 }
             }
 
-            void onMessage(int id, const GetUtxo& data) override 
+            void onMessage(int id, const GetUtxo& data) override
             {
                 LOG_DEBUG() << "GetUtxo(id = " << id << ")";
 
@@ -858,7 +857,7 @@ namespace
 
             void serializeMsg(const json& msg) override
             {
-                serialize_json_msg(_body, _packer, msg);                
+                serialize_json_msg(_body, _packer, msg);
                 _keepalive = send(_connection, 200, "OK");
             }
 
@@ -976,7 +975,7 @@ int main(int argc, char* argv[])
             std::string walletPath;
             std::string nodeURI;
             bool useHttp;
-
+            Nonnegative<uint32_t> pollPeriod_ms;
             bool useAcl;
             std::string aclPath;
             std::string whitelist;
@@ -1004,6 +1003,8 @@ int main(int argc, char* argv[])
                 (cli::API_USE_HTTP, po::value<bool>(&options.useHttp)->default_value(false), "use JSON RPC over HTTP")
                 (cli::IP_WHITELIST, po::value<std::string>(&options.whitelist)->default_value(""), "IP whitelist")
                 (cli::LOG_CLEANUP_DAYS, po::value<uint32_t>(&options.logCleanupPeriod)->default_value(5), "old logfiles cleanup period(days)")
+                (cli::NODE_POLL_PERIOD, po::value<Nonnegative<uint32_t>>(&options.pollPeriod_ms)->default_value(Nonnegative<uint32_t>(0)), "Node poll period in milliseconds. Set to 0 to keep connection. Anyway poll period would be no less than the expected rate of blocks if it is less then it will be rounded up to block rate value.")
+
             ;
 
             po::options_description authDesc("User authorization options");
@@ -1040,7 +1041,7 @@ int main(int argc, char* argv[])
                 std::ifstream cfg("wallet-api.cfg");
 
                 if (cfg)
-                {                    
+                {
                     po::store(po::parse_config_file(cfg, desc), vm);
                 }
             }
@@ -1052,7 +1053,7 @@ int main(int argc, char* argv[])
             Rules::get().UpdateChecksum();
             LOG_INFO() << "Beam Wallet API " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
             LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
-            
+
             if (options.useAcl)
             {
                 if (!(boost::filesystem::exists(options.aclPath) && (acl = loadACL(options.aclPath))))
@@ -1141,6 +1142,22 @@ int main(int argc, char* argv[])
         Wallet wallet{ walletDB };
 
         auto nnet = std::make_shared<proto::FlyClient::NetworkStd>(wallet);
+        nnet->m_Cfg.m_PollPeriod_ms = options.pollPeriod_ms.value;
+        if (nnet->m_Cfg.m_PollPeriod_ms)
+        {
+          LOG_INFO() << "Node poll period = " << nnet->m_Cfg.m_PollPeriod_ms << " ms";
+          uint32_t timeout_ms = std::max(Rules::get().DA.Target_s * 1000, nnet->m_Cfg.m_PollPeriod_ms);
+            if (timeout_ms != nnet->m_Cfg.m_PollPeriod_ms)
+            {
+                LOG_INFO() << "Node poll period has been automatically rounded up to block rate: " << timeout_ms << " ms";
+            }
+        }
+        uint32_t responceTime_s = Rules::get().DA.Target_s * wallet::kDefaultTxResponseTime;
+        if (nnet->m_Cfg.m_PollPeriod_ms >= responceTime_s * 1000)
+        {
+            LOG_WARNING() << "The \"--node_poll_period\" parameter set to more than " << uint32_t(responceTime_s / 3600) << " hours may cause transaction problems.";
+
+        }
         nnet->m_Cfg.m_vNodes.push_back(node_addr);
         nnet->Connect();
 
@@ -1148,7 +1165,7 @@ int main(int argc, char* argv[])
 		wallet.AddMessageEndpoint(wnet);
         wallet.SetNodeEndpoint(nnet);
 
-        WalletApiServer server(walletDB, wallet, *wnet, *reactor, 
+        WalletApiServer server(walletDB, wallet, *wnet, *reactor,
             listenTo, options.useHttp, acl, tlsOptions, whitelist);
 
         io::Reactor::get_Current().run();

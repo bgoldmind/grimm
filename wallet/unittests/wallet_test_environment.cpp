@@ -231,7 +231,7 @@ IWalletDB::Ptr createSqliteWalletDB(const string& path, bool separateDBForPrivat
 
     ECC::NoLeak<ECC::uintBig> seed;
     seed.V = Zero;
-               
+
     auto walletDB = WalletDB::init(path, DBPassword, seed, io::Reactor::get_Current().shared_from_this(), separateDBForPrivateData);
     return walletDB;
 }
@@ -338,11 +338,12 @@ private:
     }
 
 };
-        
+
 
 struct TestWalletRig
 {
-    TestWalletRig(const string& name, IWalletDB::Ptr walletDB, Wallet::TxCompletedAction&& action = Wallet::TxCompletedAction(), bool coldWallet = false, bool oneTimeBbsEndpoint = false)
+        TestWalletRig(const string& name, IWalletDB::Ptr walletDB, Wallet::TxCompletedAction&& action = Wallet::TxCompletedAction(), bool coldWallet = false, bool oneTimeBbsEndpoint = false, uint32_t nodePollPeriod_ms = 0)
+
         : m_WalletDB{ walletDB }
         , m_KeyKeeper{ make_shared<wallet::LocalPrivateKeyKeeper>(walletDB) }
         , m_Wallet{ m_WalletDB, move(action), coldWallet ? []() {io::Reactor::get_Current().stop(); } : Wallet::UpdateCompletedAction() }
@@ -366,6 +367,7 @@ struct TestWalletRig
         else
         {
             auto nodeEndpoint = make_shared<proto::FlyClient::NetworkStd>(m_Wallet);
+            nodeEndpoint->m_Cfg.m_PollPeriod_ms = nodePollPeriod_ms;
             nodeEndpoint->m_Cfg.m_vNodes.push_back(io::Address::localhost().port(32125));
             nodeEndpoint->Connect();
             if (oneTimeBbsEndpoint)
