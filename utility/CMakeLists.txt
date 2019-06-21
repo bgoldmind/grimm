@@ -1,3 +1,7 @@
+if (POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
+endif()
+
 set(UTILITY_SRC
     common.cpp
     logger.cpp
@@ -31,7 +35,7 @@ set(IO_SRC
 # ~etc
 )
 
-if (BEAM_USE_AVX)   
+if (BEAM_USE_AVX)
     if (MSVC)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     elseif(ANDROID)
@@ -74,19 +78,19 @@ target_link_libraries(utility mnemonic)
 
 if(ANDROID)
     if(ANDROID_ABI STREQUAL "armeabi-v7a")
-        target_link_libraries(utility 
+        target_link_libraries(utility
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_filesystem-clang-mt-a32-1_68.a
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_system-clang-mt-a32-1_68.a)
     elseif(ANDROID_ABI STREQUAL "x86")
-        target_link_libraries(utility 
+        target_link_libraries(utility
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_filesystem-clang-mt-x32-1_68.a
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_system-clang-mt-x32-1_68.a)
     elseif(ANDROID_ABI STREQUAL "x86_64")
-        target_link_libraries(utility 
+        target_link_libraries(utility
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_filesystem-clang-mt-x64-1_68.a
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_system-clang-mt-x64-1_68.a)
     elseif(ANDROID_ABI STREQUAL "arm64-v8a")
-        target_link_libraries(utility 
+        target_link_libraries(utility
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_filesystem-clang-mt-a64-1_68.a
             $ENV{BOOST_ROOT_ANDROID}/libs/${ANDROID_ABI}/libboost_system-clang-mt-a64-1_68.a)
     endif()

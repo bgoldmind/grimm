@@ -238,6 +238,10 @@ else()
         add_definitions(-DNOMINMAX)
     endif()
 
+    if (POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+    endif()
+
     find_package(Boost REQUIRED)
 
     if(BEAM_USE_STATIC)
