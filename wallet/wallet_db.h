@@ -62,7 +62,7 @@ namespace beam::wallet
         std::string toStringID() const;
         Amount getAmount() const;
 
-        typedef Key::IDV ID; // unique identifier for the coin (including value), can be used to create blinding factor 
+        typedef Key::IDV ID; // unique identifier for the coin (including value), can be used to create blinding factor
         ID m_ID;
 
         Status m_status;        // current status of the coin
@@ -74,19 +74,19 @@ namespace beam::wallet
 
         boost::optional<TxID> m_createTxId;  // id of the transaction which created the UTXO
         boost::optional<TxID> m_spentTxId;   // id of the transaction which spernt the UTXO
-        
+
         uint64_t m_sessionId;   // Used in the API to lock coins for specific session (see https://github.com/BeamMW/beam/wiki/Beam-wallet-protocol-API#tx_split)
 
         bool IsMaturityValid() const; // is/was the UTXO confirmed?
         Height get_Maturity() const; // would return MaxHeight unless the UTXO was confirmed
-        
+
         std::string getStatusString() const;
         static boost::optional<Coin::ID> FromString(const std::string& str);
     };
 
     using CoinIDList = std::vector<Coin::ID>;
 
-    
+
     // Used for SBBS Address management in the wallet
     struct WalletAddress
     {
@@ -96,7 +96,7 @@ namespace beam::wallet
         Timestamp m_createTime;
         uint64_t  m_duration; // if it equals 0 then address never expires
         uint64_t  m_OwnID; // set for own address
-        
+
         WalletAddress();
         bool isExpired() const;
         Timestamp getCreateTime() const;
@@ -178,7 +178,12 @@ namespace beam::wallet
 		// import blockchain recovery data (all at once)
 		// should be used only upon creation on 'clean' wallet. Throws exception on error
 		void ImportRecovery(const std::string& path);
-
+        struct IRecoveryProgress
+        {
+          virtual bool OnProgress(uint64_t done, uint64_t total) { return true; } // return false to stop recovery
+        };
+        // returns false if callback asked to stop verification.
+        bool ImportRecovery(const std::string& path, IRecoveryProgress&);
         // Allocates new Key ID, used for generation of the blinding factor
         // Will return the next id starting from a random base created during wallet initialization
         virtual uint64_t AllocateKidRange(uint64_t nCount) = 0;
@@ -252,7 +257,7 @@ namespace beam::wallet
         virtual boost::optional<WalletAddress> getAddress(const WalletID&) const = 0;
         virtual void deleteAddress(const WalletID&) = 0;
 
-        // 
+        //
         virtual Timestamp getLastUpdateTime() const = 0;
         virtual void setSystemStateID(const Block::SystemState::ID& stateID) = 0;
         virtual bool getSystemStateID(Block::SystemState::ID& stateID) const = 0;
@@ -266,7 +271,7 @@ namespace beam::wallet
         virtual Block::SystemState::IHistory& get_History() = 0;
         virtual void ShrinkHistory() = 0;
 
-        
+
         // ///////////////////////////////
         // Message management
         virtual std::vector<WalletMessage> getWalletMessages() const = 0;
@@ -399,7 +404,7 @@ namespace beam::wallet
         std::vector<IWalletDbObserver*> m_subscribers;
 
         // Wallet has ablity to track blockchain state
-        // This interface allows to check and update the blockchain state 
+        // This interface allows to check and update the blockchain state
         // in the wallet database. Used in FlyClient implementation
         struct History :public Block::SystemState::IHistory {
             bool Enum(IWalker&, const Height* pBelow) override;
@@ -409,7 +414,7 @@ namespace beam::wallet
 
             IMPLEMENT_GET_PARENT_OBJ(WalletDB, m_History)
         } m_History;
-        
+
         mutable ParameterCache m_TxParametersCache;
         mutable std::map<WalletID, boost::optional<WalletAddress>> m_AddressesCache;
     };
@@ -548,7 +553,7 @@ namespace beam::wallet
             }
 
             bool IsValid() const;
-            
+
             std::string to_string() const;
             void Reset();
             static PaymentInfo FromByteBuffer(const ByteBuffer& data);

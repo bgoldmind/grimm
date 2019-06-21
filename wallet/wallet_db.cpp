@@ -1182,10 +1182,16 @@ namespace beam::wallet
     }
 
 	void IWalletDB::ImportRecovery(const std::string& path)
-	{
+  {
+		IRecoveryProgress prog;
+		BEAM_VERIFY(ImportRecovery(path, prog));
+	}
+
+	bool IWalletDB::ImportRecovery(const std::string& path, IRecoveryProgress& prog)
+  {
 		beam::RecoveryInfo::Reader rp;
 		rp.Open(path.c_str());
-
+    uint64_t nTotal = rp.m_Stream.get_Remaining();
 		beam::Key::IPKdf::Ptr pOwner = get_MasterKdf();
 
 		while (true)
@@ -1193,7 +1199,9 @@ namespace beam::wallet
 			RecoveryInfo::Entry x;
 			if (!rp.Read(x))
 				break;
-
+      uint64_t nRemaining = rp.m_Stream.get_Remaining();
+  		if (!prog.OnProgress(nTotal - nRemaining, nTotal))
+  		return false;
 			Key::IDV kidv;
 			if (!x.m_Output.Recover(x.m_CreateHeight, *pOwner, kidv))
 				continue;
@@ -1227,6 +1235,7 @@ namespace beam::wallet
 
 		if (!vec.empty())
 			get_History().AddStates(&vec.front(), vec.size());
+      return true;
 	}
 
     vector<Coin> WalletDB::selectCoins(Amount amount)
