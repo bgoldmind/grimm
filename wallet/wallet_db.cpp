@@ -146,7 +146,7 @@ namespace beam::wallet
 
         void enterKey(sqlite3 * db, const SecString& password)
         {
-            if (password.size() > numeric_limits<int>::max())
+            if (password.size() > static_cast<size_t>(numeric_limits<int>::max()))
             {
                 throwIfError(SQLITE_TOOBIG, db);
             }
@@ -162,7 +162,7 @@ namespace beam::wallet
             using Result = pair<Amount, Indexes>;
 
             const Coins& m_Coins; // input coins must be in ascending order, without zeroes
-            
+
             CoinSelector3(const Coins& coins)
                 :m_Coins(coins)
             {
@@ -462,7 +462,7 @@ namespace beam::wallet
 
             void bind(int col, const void* blob, size_t size)
             {
-                if (size > numeric_limits<int32_t>::max())// 0x7fffffff
+                if (size > static_cast<size_t>(numeric_limits<int32_t>::max()))// 0x7fffffff
                 {
                     throwIfError(SQLITE_TOOBIG, _db);
                 }
@@ -753,7 +753,7 @@ namespace beam::wallet
 
     std::string Coin::getStatusString() const
     {
-        static std::map<Status, std::string> Strings 
+        static std::map<Status, std::string> Strings
         {
             {Unavailable,   "unavailable"},
             {Available,     "available"},
@@ -823,7 +823,7 @@ namespace beam::wallet
             int ret = sqlite3_exec(db, req, nullptr, nullptr, nullptr);
             throwIfError(ret, db);
         }
-    
+
         void CreateAddressesTable(sqlite3* db)
         {
             const char* req = "CREATE TABLE " ADDRESSES_NAME " (" ENUM_ADDRESS_FIELDS(LIST_WITH_TYPES, COMMA, ) ") WITHOUT ROWID;";
@@ -960,7 +960,7 @@ namespace beam::wallet
 
                             {
                                 const char* req = "SELECT * FROM " STORAGE_NAME "_del;";
-                                
+
                                 for (sqlite::Statement stm(walletDB.get(), req);  stm.step(); )
                                 {
                                     Coin coin;
@@ -1595,7 +1595,7 @@ namespace beam::wallet
                 return false; // public database
             }
         }
-        
+
         {
             const char* req = "SELECT value FROM " PRIVATE_VARIABLES_NAME " WHERE name=?1;";
 
@@ -1623,7 +1623,7 @@ namespace beam::wallet
     Timestamp WalletDB::getLastUpdateTime() const
     {
         Timestamp timestamp = {};
-        
+
         if (storage::getVar(*this, LastUpdateTimeName, timestamp))
         {
             return timestamp;
@@ -2086,7 +2086,7 @@ namespace beam::wallet
                 return true;
             }
         }
-        
+
         sqlite::Statement stm(this, "INSERT INTO " TX_PARAMS_NAME " (" ENUM_TX_PARAMS_FIELDS(LIST, COMMA, ) ") VALUES(" ENUM_TX_PARAMS_FIELDS(BIND_LIST, COMMA, ) ");");
         TxParameter parameter;
         parameter.m_txID = txID;
@@ -2846,7 +2846,7 @@ namespace beam::wallet
         bool VerifyPaymentProof(const ByteBuffer& data)
         {
             PaymentInfo pi = PaymentInfo::FromByteBuffer(data);
-            
+
             if (!pi.IsValid())
             {
                 return false;
