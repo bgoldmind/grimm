@@ -25,6 +25,7 @@ Dialog {
 	property var reset: function() {
 		activate.checked = false;
 		disactivate.checked = false;
+    isAddressWithCommentExist = false;
 		if (isExpiredAddress) {
 			expirationOptionsForUnactive.model = expirationOptions;
 			expirationOptionsForUnactive.currentIndex = 0;
@@ -192,7 +193,7 @@ Dialog {
 			Item {
 				Layout.minimumWidth: 10
 			}
-			
+
 			CustomSwitch {
 				id: disactivate
 				Layout.alignment: Qt.AlignRight | Qt.AlignTop
@@ -391,7 +392,7 @@ Dialog {
 						if (disactivate.checked) {
 							makeExpired = true;
 						} else if (isNeverExpired()) {
-							isNever = 
+							isNever =
 								expirationOptionsForActive.currentIndex == 1;
 							makeActive =
 								expirationOptionsForActive.currentIndex == 0;
