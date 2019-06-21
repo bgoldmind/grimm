@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@
 
 
 
-using namespace beam;
+using namespace grimm;
 using namespace std;
 using namespace ECC;
 
@@ -112,7 +112,7 @@ namespace
         auto senderWalletDB = createSqliteWalletDB("sender_wallet.db", false);
 
         // add coin with keyType - Coinbase
-        beam::Amount coin_amount = 40;
+        grimm::Amount coin_amount = 40;
         Coin coin = CreateAvailCoin(coin_amount, 0);
         coin.m_ID.m_Type = Key::Type::Coinbase;
         senderWalletDB->store(coin);
@@ -539,7 +539,7 @@ namespace
         auto senderWalletDB = createSqliteWalletDB("sender_wallet.db", false);
 
         // add coin with keyType - Coinbase
-        beam::Amount coin_amount = 40;
+        grimm::Amount coin_amount = 40;
         Coin coin = CreateAvailCoin(coin_amount, 0);
         coin.m_ID.m_Type = Key::Type::Coinbase;
         senderWalletDB->store(coin);
@@ -1046,7 +1046,7 @@ namespace
     }
 }
 
-bool RunNegLoop(beam::Negotiator::IBase& a, beam::Negotiator::IBase& b, const char* szTask)
+bool RunNegLoop(grimm::Negotiator::IBase& a, grimm::Negotiator::IBase& b, const char* szTask)
 {
 	using namespace Negotiator;
 
@@ -1134,7 +1134,7 @@ bool RunNegLoop(beam::Negotiator::IBase& a, beam::Negotiator::IBase& b, const ch
 	return true;
 }
 
-Amount SetKidvs(beam::Negotiator::IBase& neg, const Amount* p, size_t n, uint32_t code, uint32_t i0 = 0)
+Amount SetKidvs(grimm::Negotiator::IBase& neg, const Amount* p, size_t n, uint32_t code, uint32_t i0 = 0)
 {
 	std::vector<Key::IDV> vec;
 	vec.resize(n);
@@ -1404,7 +1404,7 @@ int main()
 #if LOG_VERBOSE_ENABLED
     logLevel = LOG_LEVEL_VERBOSE;
 #endif
-    auto logger = beam::Logger::create(logLevel, logLevel);
+    auto logger = grimm::Logger::create(logLevel, logLevel);
     Rules::get().FakePoW = true;
 	Rules::get().pForks[1].m_Height = 100500; // needed for lightning network to work
     Rules::get().UpdateChecksum();

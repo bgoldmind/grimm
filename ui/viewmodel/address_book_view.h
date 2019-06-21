@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class AddressItem : public QObject
 public:
 
     AddressItem() = default;
-    AddressItem(const beam::wallet::WalletAddress&);
+    AddressItem(const grimm::wallet::WalletAddress&);
 
     QString getAddress() const;
     QString getName() const;
@@ -45,11 +45,11 @@ public:
     bool isNeverExpired() const;
 
     bool isExpired() const;
-    beam::Timestamp getCreateTimestamp() const;
-    beam::Timestamp getExpirationTimestamp() const;
+    grimm::Timestamp getCreateTimestamp() const;
+    grimm::Timestamp getExpirationTimestamp() const;
 
 private:
-    beam::wallet::WalletAddress m_walletAddress;
+    grimm::wallet::WalletAddress m_walletAddress;
 };
 
 class ContactItem : public QObject
@@ -61,14 +61,14 @@ class ContactItem : public QObject
 
 public:
     ContactItem() = default;
-    ContactItem(const beam::wallet::WalletAddress&);
+    ContactItem(const grimm::wallet::WalletAddress&);
 
     QString getAddress() const;
     QString getName() const;
     QString getCategory() const;
 
 private:
-    beam::wallet::WalletAddress m_walletAddress;
+    grimm::wallet::WalletAddress m_walletAddress;
 };
 
 class AddressBookViewModel : public QObject
@@ -130,8 +130,8 @@ public:
     void setContactSortRole(QString);
 
 public slots:
-    void onStatus(const beam::wallet::WalletStatus& amount);
-    void onAddresses(bool own, const std::vector<beam::wallet::WalletAddress>& addresses);
+    void onStatus(const grimm::wallet::WalletStatus& amount);
+    void onAddresses(bool own, const std::vector<grimm::wallet::WalletAddress>& addresses);
 
 signals:
     void contactsChanged();

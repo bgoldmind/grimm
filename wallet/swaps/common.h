@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@
 
 #include "../common.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
-    /*constexpr uint32_t kBeamLockTimeInBlocks = 24 * 60;*/
+    /*constexpr uint32_t kGrimmLockTimeInBlocks = 24 * 60;*/
     // TODO: Must be changed after tests!
-    constexpr uint32_t kBeamLockTimeInBlocks = 140;
+    constexpr uint32_t kGrimmLockTimeInBlocks = 140;
 
     enum SubTxIndex : SubTxID
     {
-        BEAM_LOCK_TX = 2,
-        BEAM_REFUND_TX = 3,
-        BEAM_REDEEM_TX = 4,
+        GRIMM_LOCK_TX = 2,
+        GRIMM_REFUND_TX = 3,
+        GRIMM_REDEEM_TX = 4,
         LOCK_TX = 5,
         REFUND_TX = 6,
         REDEEM_TX = 7

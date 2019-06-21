@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "negotiator.h"
 #include "ecc_native.h"
 
-namespace beam {
+namespace grimm {
 namespace Negotiator {
 
 namespace Gateway
@@ -557,7 +557,7 @@ uint32_t MultiTx::Update2()
 
 			krn.m_Signature.m_k = k; // incomplete yet
 
-			BEAM_VERIFY(RaiseTo(1));
+			GRIMM_VERIFY(RaiseTo(1));
 
 			Send(krn.m_Commitment, Codes::KrnCommitment);
 			Send(krn.m_Signature.m_NoncePub, Codes::KrnNonce);
@@ -1213,4 +1213,4 @@ void ChannelUpdate::QueryVar(std::string& s, uint32_t code)
 }
 
 } // namespace Negotiator
-} // namespace beam
+} // namespace grimm

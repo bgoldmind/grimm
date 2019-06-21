@@ -50,7 +50,7 @@ Rectangle {
             
             color: Style.active
             opacity: 0.5
-            //% "Where to buy BEAM?"
+            //% "Where to buy GRIMM?"
             text: qsTrId("available-panel-where-to-buy")
         }
         SvgImage {
@@ -98,7 +98,7 @@ Rectangle {
             font.styleName: "Light"; font.weight: Font.Light
             color: Style.active
 
-            text: "BEAM"
+            text: "GRIMM"
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 3
         }

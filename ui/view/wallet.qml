@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import Beam.Wallet 1.0
+import Grimm.Wallet 1.0
 import "controls"
 
 Item {
@@ -382,7 +382,7 @@ Item {
                     font.pixelSize: 18
                     font.styleName: "Bold"; font.weight: Font.Bold
                     color: Style.content_main
-                    //% "Receive Beam"
+                    //% "Receive Grimm"
                     text: qsTrId("wallet-receive-title")
                 }
 
@@ -499,7 +499,7 @@ Item {
                                     SFText {
                                         font.pixelSize: 24
                                         color: Style.content_main
-                                        //% "BEAM"
+                                        //% "GRIMM"
                                         text: qsTrId("send-curency-name")
                                     }
                                 }
@@ -640,7 +640,7 @@ Item {
                     font.pixelSize: 18
                     font.styleName: "Bold"; font.weight: Font.Bold
                     color: Style.content_main
-                    //% "Send Beam"
+                    //% "Send Grimm"
                     text: qsTrId("send-title")
                 }
 
@@ -775,7 +775,7 @@ Item {
                                 SFText {
                                     font.pixelSize: 24
                                     color: Style.content_main
-                                    //% "BEAM"
+                                    //% "GRIMM"
                                     text: qsTrId("send-curency-name")
                                 }
                             }
@@ -1059,7 +1059,7 @@ Item {
                         onClicked: {
                             if (viewModel.isValidReceiverAddress(viewModel.receiverAddr)) {
                                 confirmationDialog.addressText = viewModel.receiverAddr;
-                                //% "BEAM"
+                                //% "GRIMM"
                                 confirmationDialog.amountText = amount_input.amount.toLocaleString(Qt.locale(), 'f', -128) + " " + qsTrId("send-curency-name");
                                 //% "GROTH"
                                 confirmationDialog.feeText = fee_input.amount.toLocaleString(Qt.locale(), 'f', -128) + " " + qsTrId("send-curency-sub-name");
@@ -1143,13 +1143,13 @@ Item {
                         value: viewModel.available
                         onCopyValueText: viewModel.copyToClipboard(value)
                         onOpenExternal : function() {
-                            var externalLink = "https://www.beam.mw/#exchanges";
-                            if (viewModel.isAllowedBeamMWLinks) {
+                            var externalLink = "https://www.grimmw.com/#exchanges";
+                            if (viewModel.isAllowedgrimmLinks) {
                                 Qt.openUrlExternally(externalLink);
                             } else {
                                 exchangesList.externalUrl = externalLink;
                                 exchangesList.onOkClicked = function () {
-                                    viewModel.isAllowedBeamMWLinks = true;
+                                    viewModel.isAllowedgrimmLinks = true;
                                 };
                                 exchangesList.open();
                             }
@@ -1253,7 +1253,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 26 
-                                source: "qrc:/assets/beam-circle.svg"
+                                source: "qrc:/assets/grimm-circle.svg"
                             }
                         }
                     }

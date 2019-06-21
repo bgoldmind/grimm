@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "loading_view.h"
 #include "model/app_model.h"
 
-using namespace beam;
+using namespace grimm;
 using namespace std;
 
 LoadingViewModel::LoadingViewModel()
@@ -42,8 +42,8 @@ LoadingViewModel::LoadingViewModel()
     connect(&m_walletModel, SIGNAL(nodeConnectionChanged(bool)),
         SLOT(onNodeConnectionChanged(bool)));
 
-    connect(&m_walletModel, SIGNAL(walletError(beam::wallet::ErrorType)),
-        SLOT(onGetWalletError(beam::wallet::ErrorType)));
+    connect(&m_walletModel, SIGNAL(walletError(grimm::wallet::ErrorType)),
+        SLOT(onGetWalletError(grimm::wallet::ErrorType)));
 
     if (!m_hasLocalNode)
     {
@@ -177,20 +177,20 @@ void LoadingViewModel::onNodeConnectionChanged(bool isNodeConnected)
     m_walletConnected = isNodeConnected;
 }
 
-void LoadingViewModel::onGetWalletError(beam::wallet::ErrorType error)
+void LoadingViewModel::onGetWalletError(grimm::wallet::ErrorType error)
 {
     if (m_isCreating)
     {
         switch (error)
         {
-            case beam::wallet::ErrorType::NodeProtocolIncompatible:
+            case grimm::wallet::ErrorType::NodeProtocolIncompatible:
             {
                 //% "Incompatible peer"
                 emit walletError(qtTrId("loading-view-protocol-error"), m_walletModel.GetErrorString(error));
                 return;
             }
-            case beam::wallet::ErrorType::ConnectionAddrInUse:
-            case beam::wallet::ErrorType::HostResolvedError:
+            case grimm::wallet::ErrorType::ConnectionAddrInUse:
+            case grimm::wallet::ErrorType::HostResolvedError:
             {
                 //% "Connection error"
                 emit walletError(qtTrId("loading-view-connection-error"), m_walletModel.GetErrorString(error));

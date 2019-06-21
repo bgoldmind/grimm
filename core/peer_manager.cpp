@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "peer_manager.h"
 #include "../utility/logger.h"
 
-namespace beam {
+namespace grimm {
 
 uint32_t PeerManager::Rating::Saturate(uint32_t v)
 {
@@ -357,4 +357,4 @@ std::ostream& operator << (std::ostream& s, const PeerManager::PeerInfo& pi)
 	return s;
 }
 
-} // namespace beam
+} // namespace grimm

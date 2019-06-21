@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 #include "tools/tx_generator.h"
 #include "tools/new_tx_tests.h"
 
-using namespace beam;
+using namespace grimm;
 
 class TestNodeConnection : public NewTxConnection
 {

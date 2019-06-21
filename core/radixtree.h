@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "block_crypt.h"
 #include <deque>
 
-namespace beam
+namespace grimm
 {
 
 class RadixTree
@@ -306,4 +306,4 @@ protected:
 	void LoadIntenral(ISerializer&);
 };
 
-} // namespace beam
+} // namespace grimm

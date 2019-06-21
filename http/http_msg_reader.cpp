@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 #include "utility/logger.h"
 #include "utility/helpers.h"
 
-namespace beam {
+namespace grimm {
 
 using std::string_view;
 

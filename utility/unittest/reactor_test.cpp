@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 #include <future>
 #include <iostream>
 
-using namespace beam;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::io;
 using namespace std;
 
 void reactor_start_stop() {

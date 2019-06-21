@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,9 +58,9 @@ struct LogMessageStub {
 };
 
 #if SHOW_CODE_LOCATION
-    #define LOG_MESSAGE(LEVEL) if (beam::Logger::will_log(LEVEL)) beam::LogMessage(LEVEL, __FILE__, __LINE__, __FUNCTION__)
+    #define LOG_MESSAGE(LEVEL) if (grimm::Logger::will_log(LEVEL)) grimm::LogMessage(LEVEL, __FILE__, __LINE__, __FUNCTION__)
 #else
-    #define LOG_MESSAGE(LEVEL) if (beam::Logger::will_log(LEVEL)) beam::LogMessage(LEVEL)
+    #define LOG_MESSAGE(LEVEL) if (grimm::Logger::will_log(LEVEL)) grimm::LogMessage(LEVEL)
 #endif
 
 #define LOG_CRITICAL() LOG_MESSAGE(LOG_LEVEL_CRITICAL)
@@ -87,7 +87,7 @@ struct LogMessageStub {
 #define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif // WIN32
 
-namespace beam {
+namespace grimm {
 
 // Logger options
 struct LoggerConfig {

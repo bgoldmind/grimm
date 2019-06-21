@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "node/node.h"
 #include <boost/program_options.hpp>
 
-class BaseNodeConnection : public beam::proto::NodeConnection
+class BaseNodeConnection : public grimm::proto::NodeConnection
 {
 public:
 	BaseNodeConnection(int argc, char* argv[]);
@@ -29,7 +29,7 @@ protected:
 	void InitKdf();
 
 protected:
-	beam::Key::IKdf::Ptr m_pKdf;
+	grimm::Key::IKdf::Ptr m_pKdf;
 	boost::program_options::variables_map m_VM;
 };
 
@@ -43,16 +43,16 @@ public:
 protected:
 	void OnConnectedSecure() override;
 	void OnDisconnect(const DisconnectReason&) override;
-    void OnMsg(beam::proto::Authentication&&) override;
+    void OnMsg(grimm::proto::Authentication&&) override;
 
 	virtual void GenerateTests();
 
 	virtual void RunTest();
 
 protected:
-	beam::io::Reactor::Ptr m_Reactor;
-	beam::io::Reactor::Scope m_Scope;
-	beam::io::Timer::Ptr m_Timer;
+	grimm::io::Reactor::Ptr m_Reactor;
+	grimm::io::Reactor::Scope m_Scope;
+	grimm::io::Timer::Ptr m_Timer;
 	bool m_Failed;
 	std::vector<std::function<void()>> m_Tests;
 	size_t m_Index;

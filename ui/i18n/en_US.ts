@@ -156,8 +156,8 @@
         <translation>apply</translation>
     </message>
     <message id="logo-name">
-        <source>BEAM</source>
-        <translation>BEAM</translation>
+        <source>GRIMM</source>
+        <translation>GRIMM</translation>
     </message>
     <message id="logo-description">
         <source>Scalable confidential cryptocurrency</source>
@@ -485,8 +485,8 @@
         <translation>Wallet</translation>
     </message>
     <message id="wallet-receive-title">
-        <source>Receive Beam</source>
-        <translation>Receive Beam</translation>
+        <source>Receive Grimm</source>
+        <translation>Receive Grimm</translation>
     </message>
     <message id="wallet-receive-my-addr-label">
         <source>My address</source>
@@ -533,8 +533,8 @@
         <translation>delete</translation>
     </message>
     <message id="send-title">
-        <source>Send Beam</source>
-        <translation>Send Beam</translation>
+        <source>Send Grimm</source>
+        <translation>Send Grimm</translation>
     </message>
     <message id="send-send-to-label">
         <source>Send To:</source>
@@ -553,8 +553,8 @@
         <translation>Transaction amount</translation>
     </message>
     <message id="send-curency-name">
-        <source>BEAM</source>
-        <translation>BEAM</translation>
+        <source>GRIMM</source>
+        <translation>GRIMM</translation>
     </message>
     <message id="send-founds-fail">
         <source>Insufficient funds: you would need %1 to complete the transaction</source>
@@ -653,8 +653,8 @@
         <translation>I agree</translation>
     </message>
     <message id="start-restore-message-line">
-        <source>You are trying to restore an existing Beam Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</source>
-        <translation>You are trying to restore an existing Beam Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</translation>
+        <source>You are trying to restore an existing Grimm Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</source>
+        <translation>You are trying to restore an existing Grimm Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</translation>
     </message>
     <message id="start-create-button">
         <source>create new wallet</source>
@@ -913,24 +913,24 @@
         <translation>Wallet is not connected to the node</translation>
     </message>
     <message id="tx-failture-undefined">
-        <source>Unexpected reason, please send wallet logs to Beam support</source>
-        <translation>Unexpected reason, please send wallet logs to Beam support</translation>
+        <source>Unexpected reason, please send wallet logs to Grimm support</source>
+        <translation>Unexpected reason, please send wallet logs to Grimm support</translation>
     </message>
     <message id="tx-failture-cancelled">
         <source>Transaction cancelled</source>
         <translation>Transaction cancelled</translation>
     </message>
     <message id="tx-failture-receiver-signature-invalid">
-        <source>Receiver signature in not valid, please send wallet logs to Beam support</source>
-        <translation>Receiver signature in not valid, please send wallet logs to Beam support</translation>
+        <source>Receiver signature in not valid, please send wallet logs to Grimm support</source>
+        <translation>Receiver signature in not valid, please send wallet logs to Grimm support</translation>
     </message>
     <message id="tx-failture-not-registered-in-blockchain">
         <source>Failed to register transaction with the blockchain, see node logs for details</source>
         <translation>Failed to register transaction with the blockchain, see node logs for details</translation>
     </message>
     <message id="tx-failture-not-valid">
-        <source>Transaction is not valid, please send wallet logs to Beam support</source>
-        <translation>Transaction is not valid, please send wallet logs to Beam support</translation>
+        <source>Transaction is not valid, please send wallet logs to Grimm support</source>
+        <translation>Transaction is not valid, please send wallet logs to Grimm support</translation>
     </message>
     <message id="tx-failture-kernel-invalid">
         <source>Invalid kernel proof provided</source>
@@ -957,8 +957,8 @@
         <translation>Transaction timed out</translation>
     </message>
     <message id="tx-failture-not-signed-by-receiver">
-        <source>Payment not signed by the receiver, please send wallet logs to Beam support</source>
-        <translation>Payment not signed by the receiver, please send wallet logs to Beam support</translation>
+        <source>Payment not signed by the receiver, please send wallet logs to Grimm support</source>
+        <translation>Payment not signed by the receiver, please send wallet logs to Grimm support</translation>
     </message>
     <message id="tx-failture-max-height-to-high">
         <source>Kernel maximum height is too high</source>
@@ -969,8 +969,8 @@
         <translation>Transaction has invalid state</translation>
     </message>
     <message id="tx-curency-name">
-        <source>beams</source>
-        <translation>beams</translation>
+        <source>grimms</source>
+        <translation>grimms</translation>
     </message>
     <message id="tx-curency-sub-name">
         <source>groths</source>
@@ -1150,8 +1150,8 @@
         <translation>Language</translation>
     </message>
     <message id="available-panel-where-to-buy">
-        <source>Where to buy BEAM?</source>
-        <translation>Where to buy BEAM?</translation>
+        <source>Where to buy GRIMM?</source>
+        <translation>Where to buy GRIMM?</translation>
     </message>
     <message id="open-external-open">
         <source>open</source>
@@ -1162,8 +1162,8 @@
         <translation>External link</translation>
     </message>
     <message id="open-external-message">
-        <source>Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose -Cancel-. You can chage your choice in app setting anytime.</source>
-        <translation>Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose &quot;Cancel&quot;. You can chage your choice in app setting anytime.</translation>
+        <source>Grimm Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose -Cancel-. You can chage your choice in app setting anytime.</source>
+        <translation>Grimm Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose &quot;Cancel&quot;. You can chage your choice in app setting anytime.</translation>
     </message>
     <message id="start-restore-message-title">
         <source>Restore wallet</source>
@@ -1251,11 +1251,11 @@ or send this address to the sender over secure channel</translation>
         <extracomment>Entry in adress table context menu to show QR</extracomment>
         <translation>show QR code</translation>
     </message>
-    <message id="settings-general-allow-beammw-label-p1">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.beam.mw/&apos;&gt;beam.mw&lt;/a&gt; and &lt;a href=&apos;https://explorer.beam.mw/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
-        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.beam.mw/&apos;&gt;beam.mw&lt;/a&gt; and &lt;a href=&apos;https://explorer.beam.mw/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</oldsource>
-        <extracomment>general settings, label for alow access beam.mw part 1</extracomment>
-        <translation type="obsolete">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.beam.mw/&apos;&gt;beam.mw&lt;/a&gt; and &lt;a href=&apos;https://explorer.beam.mw/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
+    <message id="settings-general-allow-grimm-label-p1">
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
+        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</oldsource>
+        <extracomment>general settings, label for alow access grimmw.com part 1</extracomment>
+        <translation type="obsolete">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
 exchanges and transaction data)</translation>
     </message>
     <message id="settings-peers-title">
@@ -1278,16 +1278,16 @@ exchanges and transaction data)</translation>
         <extracomment>settings tab, general section, show data folder link</extracomment>
         <translation>show in folder</translation>
     </message>
-    <message id="settings-general-allow-beammw-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.beam.mw/&apos;&gt;beam.mw&lt;/a&gt; and &lt;a href=&apos;https://explorer.beam.mw/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
+    <message id="settings-general-allow-grimm-label">
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
         <extracomment>general settings, label for alow open external links</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.beam.mw/&apos;&gt;beam.mw&lt;/a&gt; and &lt;a href=&apos;https://explorer.beam.mw/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
+        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
 exchanges and transaction data)</translation>
     </message>
     <message id="settings-report-problem-message">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:support@beam.mw&apos;&gt;support@beam.mw&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/BeamMW&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:support@grimmw.com&apos;&gt;support@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>
         <extracomment>settings tab, report problem section, message</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:support@beam.mw&apos;&gt;support@beam.mw&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/BeamMW&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</translation>
+        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:support@grimmw.com&apos;&gt;support@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</translation>
     </message>
     <message id="edit-addr-24-option">
         <source>in 24 hours from now</source>

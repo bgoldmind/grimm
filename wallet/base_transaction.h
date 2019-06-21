@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 
 
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     TxID GenerateTxID();
 

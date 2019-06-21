@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #include "merkle.h"
 #include "ecc_native.h"
 
-namespace beam {
+namespace grimm {
 namespace Merkle {
 
 void Interpret(Hash& out, const Hash& hLeft, const Hash& hRight)
@@ -120,7 +120,7 @@ void Mmr::get_Proof(Proof& proof, uint64_t i) const
 	ProofBuilderStd bld;
 	bld.m_Proof.swap(proof);
 
-    BEAM_VERIFY(get_Proof(bld, i));
+    GRIMM_VERIFY(get_Proof(bld, i));
 	bld.m_Proof.swap(proof);
 }
 
@@ -148,7 +148,7 @@ bool Mmr::get_Proof(IProofBuilder& proof, uint64_t i) const
 			if (nRemaining >> pos.H)
 				bFullSibling = true;
 			else
-                BEAM_VERIFY(get_HashForRange(node.second, n0, nRemaining));
+                GRIMM_VERIFY(get_HashForRange(node.second, n0, nRemaining));
 		}
 
 		if (bFullSibling)
@@ -591,4 +591,4 @@ void MultiProof::Verifier::Process(uint64_t i)
 }
 
 } // namespace Merkle
-} // namespace beam
+} // namespace grimm

@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 #include <numeric>
 #include "utility/logger.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     using namespace ECC;
     using namespace std;
@@ -43,7 +43,7 @@ namespace beam::wallet
         switch (reason)
         {
 #define MACRO(name, code, message) case name: return message;
-            BEAM_TX_FAILURE_REASON_MAP(MACRO)
+            GRIMM_TX_FAILURE_REASON_MAP(MACRO)
 #undef MACRO
         }
         return "Unknown reason";

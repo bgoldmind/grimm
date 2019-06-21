@@ -24,7 +24,7 @@ struct AES
 
 	struct StreamCipher
 	{
-		beam::uintBig_t<s_BlockSize> m_Counter; // CTR mode
+		grimm::uintBig_t<s_BlockSize> m_Counter; // CTR mode
 
 		// generated cipherstream
 		uint8_t m_pBuf[s_BlockSize];

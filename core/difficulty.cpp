@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "difficulty.h"
 #include <cmath>
 
-namespace beam
+namespace grimm
 {
 	void Difficulty::Pack(uint32_t order, uint32_t mantissa)
 	{
@@ -249,4 +249,4 @@ namespace beam
 		return s;
 	}
 
-} // namespace beam
+} // namespace grimm

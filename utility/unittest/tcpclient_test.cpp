@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@
 #endif
 #include "utility/logger.h"
 
-using namespace beam;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::io;
 using namespace std;
 
 std::vector<TcpStream::Ptr> streams;
@@ -51,7 +51,7 @@ int calc_errors() {
     return retCode;
 }
 
-#define DOMAIN_NAME "beam.mw"
+#define DOMAIN_NAME "grimmw.com"
 
 bool on_recv(ErrorCode what, void* data, size_t size) {
     if (data && size) {

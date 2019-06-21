@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -430,9 +430,9 @@ namespace ECC
 		void Write(const Scalar::Native&);
 		void Write(const Point&);
 		void Write(const Point::Native&);
-		void Write(const beam::Blob&);
+		void Write(const grimm::Blob&);
 		template <uint32_t nBytes_>
-		void Write(const beam::uintBig_t<nBytes_>& x) { Write(x.m_pData, x.nBytes); }
+		void Write(const grimm::uintBig_t<nBytes_>& x) { Write(x.m_pData, x.nBytes); }
 		template <uint32_t n>
 		void Write(const char(&sz)[n]) { Write(sz, n); }
 		void Write(const std::string& str) { Write(str.c_str(), static_cast<uint32_t>(str.size() + 1)); }
@@ -487,11 +487,11 @@ namespace ECC
 
 		Hash::Value m_Prk;
 		Hash::Value m_Okm;
-		beam::uintBig_t<1> m_Counter; // wraps-around, it's fine
+		grimm::uintBig_t<1> m_Counter; // wraps-around, it's fine
 		bool m_bFirstTime;
 
 		void Reset();
-		void WriteIkm(const beam::Blob&);
+		void WriteIkm(const grimm::Blob&);
 
 	public:
 
@@ -504,7 +504,7 @@ namespace ECC
 
 		~NonceGenerator() { SecureErase(*this); }
 
-		beam::Blob m_Context;
+		grimm::Blob m_Context;
 
 		template <uint32_t nContext>
 		NonceGenerator& SetContext(const char(&szContext)[nContext]) {

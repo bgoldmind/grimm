@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "negotiator.h"
 #include "fly_client.h"
 
-namespace beam {
+namespace grimm {
 namespace Lightning {
 
 	using namespace Negotiator;
@@ -215,4 +215,4 @@ namespace Lightning {
 
 
 } // namespace Lightning
-} // namespace beam
+} // namespace grimm

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ namespace ECC {
 		HKdf::Create(pRes, seed);
 	}
 
-	void SetRandom(beam::Node& n)
+	void SetRandom(grimm::Node& n)
 	{
 		uintBig seed;
 		SetRandom(seed);
@@ -91,7 +91,7 @@ void TestFailed(const char* szExpr, uint32_t nLine)
 
 #define fail_test(msg) TestFailed(msg, __LINE__)
 
-namespace beam
+namespace grimm
 {
 	ByteBuffer g_Treasury;
 
@@ -188,7 +188,7 @@ namespace beam
 		data.m_sCustomMsg = "test treasury";
 		tres.Build(data);
 
-		beam::Serializer ser;
+		grimm::Serializer ser;
 		ser & data;
 
 		ser.swap_buf(g_Treasury);
@@ -2280,82 +2280,82 @@ namespace beam
 
 int main()
 {
-	//auto logger = beam::Logger::create(LOG_LEVEL_DEBUG, LOG_LEVEL_DEBUG);
-	beam::PrintEmissionSchedule();
+	//auto logger = grimm::Logger::create(LOG_LEVEL_DEBUG, LOG_LEVEL_DEBUG);
+	grimm::PrintEmissionSchedule();
 
-	beam::Rules::get().AllowPublicUtxos = true;
-	beam::Rules::get().FakePoW = true;
-	beam::Rules::get().Macroblock.MaxRollback = 10;
-	beam::Rules::get().DA.WindowWork = 35;
-	beam::Rules::get().Maturity.Coinbase = 35; // lowered to see more txs
-	beam::Rules::get().Emission.Drop0 = 5;
-	beam::Rules::get().Emission.Drop1 = 8;
-	beam::Rules::get().CA.Enabled = true;
-	beam::Rules::get().pForks[1].m_Height = 16;
-	beam::Rules::get().UpdateChecksum();
+	grimm::Rules::get().AllowPublicUtxos = true;
+	grimm::Rules::get().FakePoW = true;
+	grimm::Rules::get().Macroblock.MaxRollback = 10;
+	grimm::Rules::get().DA.WindowWork = 35;
+	grimm::Rules::get().Maturity.Coinbase = 35; // lowered to see more txs
+	grimm::Rules::get().Emission.Drop0 = 5;
+	grimm::Rules::get().Emission.Drop1 = 8;
+	grimm::Rules::get().CA.Enabled = true;
+	grimm::Rules::get().pForks[1].m_Height = 16;
+	grimm::Rules::get().UpdateChecksum();
 
-	beam::PrepareTreasury();
+	grimm::PrepareTreasury();
 
-	beam::TestHalving();
-	beam::TestChainworkProof();
+	grimm::TestHalving();
+	grimm::TestChainworkProof();
 
 	// Make sure this test doesn't run in parallel. We have the following potential collisions for Nodes:
 	//	.db files
 	//	ports, wrong beacon and etc.
-	verify_test(beam::helpers::ProcessWideLock("/tmp/BEAM_node_test_lock"));
+	verify_test(grimm::helpers::ProcessWideLock("/tmp/GRIMM_node_test_lock"));
 
-	beam::DeleteFile(beam::g_sz);
-	beam::DeleteFile(beam::g_sz2);
+	grimm::DeleteFile(grimm::g_sz);
+	grimm::DeleteFile(grimm::g_sz2);
 
 	printf("NodeDB test...\n");
 	fflush(stdout);
 
-	beam::TestNodeDB();
-	beam::DeleteFile(beam::g_sz);
+	grimm::TestNodeDB();
+	grimm::DeleteFile(grimm::g_sz);
 
 	{
 		printf("NodeProcessor test1...\n");
 		fflush(stdout);
 
 
-		std::vector<beam::BlockPlus::Ptr> blockChain;
-		beam::TestNodeProcessor1(blockChain);
-		beam::DeleteFile(beam::g_sz);
-		beam::DeleteFile(beam::g_sz2);
+		std::vector<grimm::BlockPlus::Ptr> blockChain;
+		grimm::TestNodeProcessor1(blockChain);
+		grimm::DeleteFile(grimm::g_sz);
+		grimm::DeleteFile(grimm::g_sz2);
 
 		printf("NodeProcessor test2...\n");
 		fflush(stdout);
 
-		beam::TestNodeProcessor2(blockChain);
-		beam::DeleteFile(beam::g_sz);
+		grimm::TestNodeProcessor2(blockChain);
+		grimm::DeleteFile(grimm::g_sz);
 
 		printf("NodeProcessor test3...\n");
 		fflush(stdout);
 
-		beam::TestNodeProcessor3(blockChain);
-		beam::DeleteFile(beam::g_sz);
-		beam::DeleteFile(beam::g_sz2);
+		grimm::TestNodeProcessor3(blockChain);
+		grimm::DeleteFile(grimm::g_sz);
+		grimm::DeleteFile(grimm::g_sz2);
 	}
 
 	printf("NodeX2 concurrent test...\n");
 	fflush(stdout);
 
-	beam::TestNodeConversation();
-	beam::DeleteFile(beam::g_sz);
-	beam::DeleteFile(beam::g_sz2);
+	grimm::TestNodeConversation();
+	grimm::DeleteFile(grimm::g_sz);
+	grimm::DeleteFile(grimm::g_sz2);
 
 	printf("Node <---> Client test (with proofs)...\n");
 	fflush(stdout);
 
-	beam::TestNodeClientProto();
-	beam::DeleteFile(beam::g_sz);
-	beam::DeleteFile(beam::g_sz2);
+	grimm::TestNodeClientProto();
+	grimm::DeleteFile(grimm::g_sz);
+	grimm::DeleteFile(grimm::g_sz2);
 
 	printf("Node <---> FlyClient test...\n");
 	fflush(stdout);
 
-	beam::TestFlyClient();
-	beam::DeleteFile(beam::g_sz);
+	grimm::TestFlyClient();
+	grimm::DeleteFile(grimm::g_sz);
 
 	return g_TestsFailed ? -1 : 0;
 }

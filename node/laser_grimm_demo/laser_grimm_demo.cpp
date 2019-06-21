@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #define LOG_VERBOSE_ENABLED 0
 #include "utility/logger.h"
 
-namespace beam {
+namespace grimm {
 namespace Lightning	{
 
 #ifdef WIN32
@@ -791,7 +791,7 @@ void Test()
 
 
 } // namespace Lightning
-} // namespace beam
+} // namespace grimm
 
 
 
@@ -799,6 +799,6 @@ void Test()
 
 int main()
 {
-	beam::Lightning::Test();
+	grimm::Lightning::Test();
 	return 0;
 }

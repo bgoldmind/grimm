@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.mw.beam.beamwallet.core.*;
-import com.mw.beam.beamwallet.core.entities.*;
-import com.mw.beam.beamwallet.core.entities.dto.*;
-import com.mw.beam.beamwallet.core.listeners.*;
+import com.mw.grimm.grimmwallet.core.*;
+import com.mw.grimm.grimmwallet.core.entities.*;
+import com.mw.grimm.grimmwallet.core.entities.dto.*;
+import com.mw.grimm.grimmwallet.core.listeners.*;
 
 import java.util.Arrays;
 

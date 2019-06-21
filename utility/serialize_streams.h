@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include <string.h>
 #include <vector>
 
-namespace beam { namespace detail {
+namespace grimm { namespace detail {
 
 // Growing buffer serializer ostream
 struct SerializeOstream {

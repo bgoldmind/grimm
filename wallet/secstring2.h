@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <string>
 
-namespace beam {
+namespace grimm {
 
 class SecString {
 public:

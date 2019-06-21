@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ void TestFailed(const char* szExpr, uint32_t nLine)
 			TestFailed(#x, __LINE__); \
 	} while (false)
 
-namespace beam
+namespace grimm
 {
 	class BlockChainClient
 		:public ChainNavigator
@@ -642,13 +642,13 @@ namespace beam
 		}
 	}
 
-} // namespace beam
+} // namespace grimm
 
 int main()
 {
-	beam::TestNavigator();
-	beam::TestUtxoTree();
-	beam::TestMmr();
+	grimm::TestNavigator();
+	grimm::TestUtxoTree();
+	grimm::TestMmr();
 
 	return g_TestsFailed ? -1 : 0;
 }

@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,12 +63,12 @@ namespace
     }
 }
 
-namespace beam::wallet
+namespace grimm::wallet
 {
-    BitcoinSide::BitcoinSide(BaseTransaction& tx, IBitcoinBridge::Ptr bitcoinBridge, bool isBeamSide)
+    BitcoinSide::BitcoinSide(BaseTransaction& tx, IBitcoinBridge::Ptr bitcoinBridge, bool isGrimmSide)
         : m_tx(tx)
         , m_bitcoinBridge(bitcoinBridge)
-        , m_isBtcOwner(!isBeamSide)
+        , m_isBtcOwner(!isGrimmSide)
     {
     }
 
@@ -209,7 +209,7 @@ namespace beam::wallet
     {
         NoLeak<uintBig> secretPrivateKey;
         GenRandom(secretPrivateKey.V);
-        m_tx.SetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, false, BEAM_REDEEM_TX);
+        m_tx.SetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, false, GRIMM_REDEEM_TX);
     }
 
     libbitcoin::chain::script BitcoinSide::CreateAtomicSwapContract()
@@ -221,7 +221,7 @@ namespace beam::wallet
 
         libbitcoin::wallet::ec_public secretPublicKey;
 
-        if (NoLeak<uintBig> secretPrivateKey; m_tx.GetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, SubTxIndex::BEAM_REDEEM_TX))
+        if (NoLeak<uintBig> secretPrivateKey; m_tx.GetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, SubTxIndex::GRIMM_REDEEM_TX))
         {
             // secretPrivateKey -> secretPublicKey
             libbitcoin::ec_secret secret;
@@ -232,7 +232,7 @@ namespace beam::wallet
         }
         else
         {
-            Point publicKeyPoint = m_tx.GetMandatoryParameter<Point>(TxParameterID::AtomicSwapSecretPublicKey, SubTxIndex::BEAM_REDEEM_TX);
+            Point publicKeyPoint = m_tx.GetMandatoryParameter<Point>(TxParameterID::AtomicSwapSecretPublicKey, SubTxIndex::GRIMM_REDEEM_TX);
 
             // publicKeyPoint -> secretPublicKey
             auto publicKeyRaw = SerializePubkey(ConvertPointToPubkey(publicKeyPoint));
@@ -577,7 +577,7 @@ namespace beam::wallet
             {
                 // AtomicSwapSecretPrivateKey -> libbitcoin::wallet::ec_private
                 NoLeak<uintBig> secretPrivateKey;
-                m_tx.GetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, SubTxIndex::BEAM_REDEEM_TX);
+                m_tx.GetParameter(TxParameterID::AtomicSwapSecretPrivateKey, secretPrivateKey.V, SubTxIndex::GRIMM_REDEEM_TX);
                 libbitcoin::ec_secret secret;
                 std::copy(std::begin(secretPrivateKey.V.m_pData), std::end(secretPrivateKey.V.m_pData), secret.begin());
 

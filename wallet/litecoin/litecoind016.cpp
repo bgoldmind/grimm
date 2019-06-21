@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ namespace {
     constexpr uint8_t kLitecoinMainnetP2KH = 48;
 }
 
-namespace beam
+namespace grimm
 {
     Litecoind016::Litecoind016(io::Reactor& reactor, const LitecoinOptions& options)
         : Bitcoind016(reactor, options)

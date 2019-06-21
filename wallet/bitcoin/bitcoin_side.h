@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@
 
 #include <memory>
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     class BitcoinSide : public SecondSide, public std::enable_shared_from_this<BitcoinSide>
     {
     public:
-        BitcoinSide(BaseTransaction& tx, std::shared_ptr<IBitcoinBridge> bitcoinBridge, bool isBeamSide);
+        BitcoinSide(BaseTransaction& tx, std::shared_ptr<IBitcoinBridge> bitcoinBridge, bool isGrimmSide);
 
         bool Initialize() override;
         bool InitLockTime() override;

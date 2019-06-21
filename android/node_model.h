@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,13 +22,13 @@
 #include "node/node_client.h"
 
 class NodeModel
-    : private beam::INodeClientObserver
+    : private grimm::INodeClientObserver
 {
 public:
 
     NodeModel(const std::string& appPath);
 
-    void setKdf(beam::Key::IKdf::Ptr);
+    void setKdf(grimm::Key::IKdf::Ptr);
     void startNode();
     void stopNode();
 
@@ -41,8 +41,8 @@ protected:
     void onStartedNode() override;
     void onStoppedNode() override;
     // void onFailedToStartNode() override;
-    void onFailedToStartNode(beam::io::ErrorCode errorCode) override;
-    void onSyncError(beam::Node::IObserver::Error error) override;
+    void onFailedToStartNode(grimm::io::ErrorCode errorCode) override;
+    void onSyncError(grimm::Node::IObserver::Error error) override;
 
     uint16_t getLocalNodePort() override;
     std::string getLocalNodeStorage() override;
@@ -52,6 +52,6 @@ protected:
     void onNodeThreadFinished() override;
 
 private:
-    beam::NodeClient m_nodeClient;
+    grimm::NodeClient m_nodeClient;
     std::string m_appPath;
 };

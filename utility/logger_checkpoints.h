@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,17 +21,17 @@
 #define NUM_ARGS(...) std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value
 
 #define CHECKPOINT_CREATE(SIZE) \
-    beam::CheckpointData<SIZE> COMBINE(checkpointData,__LINE__); \
-    beam::Checkpoint COMBINE(checkpoint,__LINE__)(COMBINE(checkpointData,__LINE__).items, SIZE, __FILE__, __LINE__, __FUNCTION__)
+    grimm::CheckpointData<SIZE> COMBINE(checkpointData,__LINE__); \
+    grimm::Checkpoint COMBINE(checkpoint,__LINE__)(COMBINE(checkpointData,__LINE__).items, SIZE, __FILE__, __LINE__, __FUNCTION__)
 
-#define CHECKPOINT_ADD() assert(beam::current_checkpoint()); *beam::current_checkpoint()
+#define CHECKPOINT_ADD() assert(grimm::current_checkpoint()); *grimm::current_checkpoint()
 
 #define CHECKPOINT(...) \
-    beam::CheckpointData<NUM_ARGS(__VA_ARGS__)> COMBINE(checkpointData,__LINE__); \
-    beam::Checkpoint COMBINE(checkpoint,__LINE__)(COMBINE(checkpointData,__LINE__).items, NUM_ARGS(__VA_ARGS__), __FILE__, __LINE__, __FUNCTION__); \
+    grimm::CheckpointData<NUM_ARGS(__VA_ARGS__)> COMBINE(checkpointData,__LINE__); \
+    grimm::Checkpoint COMBINE(checkpoint,__LINE__)(COMBINE(checkpointData,__LINE__).items, NUM_ARGS(__VA_ARGS__), __FILE__, __LINE__, __FUNCTION__); \
     COMBINE(checkpoint,__LINE__).push(__VA_ARGS__)
 
-namespace beam {
+namespace grimm {
 
 class Checkpoint* current_checkpoint();
 

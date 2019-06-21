@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include <thread>
 #include <future>
 
-using namespace beam;
+using namespace grimm;
 using namespace ECC;
 
 class TestNodeConnection : public BaseTestNode
@@ -61,7 +61,7 @@ void TestNodeConnection::GenerateTests()
 		// Outputs
 		for (Amount i = 0; i < amount; ++i)
 		{
-			gen.GenerateOutputInTx(1, 1, beam::Key::Type::Regular, true);
+			gen.GenerateOutputInTx(1, 1, grimm::Key::Type::Regular, true);
 		}
 
 		// Kernels

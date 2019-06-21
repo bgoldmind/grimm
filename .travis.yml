@@ -26,11 +26,11 @@ matrix:
       script:
         - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH . && make -j 4 && ctest --verbose && cpack;
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
-        - export BEAM_WALLET_UI_IN="BeamWallet$BEAM_DISPLAY_SUFFIX-$BEAM_VERSION-Darwin.dmg"
-        - export BEAM_WALLET_UI_OUT="Beam-Wallet$BEAM_DISPLAY_SUFFIX2-$BEAM_VERSION.dmg"
-        - export BEAM_WALLET_UI_OUT_VERLESS="Beam-Wallet$BEAM_DISPLAY_SUFFIX2.dmg"
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
+        - export GRIMM_WALLET_UI_IN="GrimmWallet$GRIMM_DISPLAY_SUFFIX-$GRIMM_VERSION-Darwin.dmg"
+        - export GRIMM_WALLET_UI_OUT="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2-$GRIMM_VERSION.dmg"
+        - export GRIMM_WALLET_UI_OUT_VERLESS="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2.dmg"
 
 ###############################################################################
 # OSX Release
@@ -65,19 +65,19 @@ matrix:
         - BUILD_TYPE=Release
         - OS_FOLDER=mac
       script:
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH -DBEAM_SIGN_MACOS_BINARY=On . && make -j 4 && ctest --verbose && cpack;
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DGRIMM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH -DGRIMM_SIGN_MACOS_BINARY=On . && make -j 4 && ctest --verbose && cpack;
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
-        - export BEAM_WALLET_UI_IN="BeamWallet$BEAM_DISPLAY_SUFFIX-$BEAM_VERSION-Darwin.dmg"
-        - export BEAM_WALLET_UI_OUT="Beam-Wallet$BEAM_DISPLAY_SUFFIX2-$BEAM_VERSION.dmg"
-        - export BEAM_WALLET_UI_OUT_VERLESS="Beam-Wallet$BEAM_DISPLAY_SUFFIX2.dmg"
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
+        - export GRIMM_WALLET_UI_IN="GrimmWallet$GRIMM_DISPLAY_SUFFIX-$GRIMM_VERSION-Darwin.dmg"
+        - export GRIMM_WALLET_UI_OUT="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2-$GRIMM_VERSION.dmg"
+        - export GRIMM_WALLET_UI_OUT_VERLESS="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2.dmg"
         # sign our builds
-        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" beam/beam-node$BEAM_TARGET_SUFFIX
-        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" wallet/beam-wallet$BEAM_TARGET_SUFFIX
-        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" wallet/wallet-api$BEAM_TARGET_SUFFIX
-        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" explorer/explorer-node$BEAM_TARGET_SUFFIX
-        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" $BEAM_WALLET_UI_IN
+        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" grimm/grimm-node$GRIMM_TARGET_SUFFIX
+        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" wallet/grimm-wallet$GRIMM_TARGET_SUFFIX
+        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" wallet/wallet-api$GRIMM_TARGET_SUFFIX
+        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" explorer/explorer-node$GRIMM_TARGET_SUFFIX
+        - codesign --force --deep --sign "$MACOS_SIGN_IDENTITY" $GRIMM_WALLET_UI_IN
 
 ###############################################################################
 # Linux Debug
@@ -105,7 +105,7 @@ matrix:
         - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
         - cd ${TRAVIS_BUILD_DIR}
         - cmake --version
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-linux.git /usr/local/boost_1_69_0
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-linux.git /usr/local/boost_1_69_0
         - export BOOST_ROOT="/usr/local/boost_1_69_0"
         - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
         - sudo apt-get update
@@ -118,11 +118,11 @@ matrix:
       script:
         - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBRANCH_NAME=$TRAVIS_BRANCH . && make -j 4 && ctest --verbose && cpack;
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
-        - export BEAM_WALLET_UI_IN="BeamWallet$BEAM_DISPLAY_SUFFIX-$BEAM_VERSION-Linux.deb"
-        - export BEAM_WALLET_UI_OUT="Beam-Wallet$BEAM_DISPLAY_SUFFIX2-$BEAM_VERSION.deb"
-        - export BEAM_WALLET_UI_OUT_VERLESS="Beam-Wallet$BEAM_DISPLAY_SUFFIX2.deb"
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
+        - export GRIMM_WALLET_UI_IN="GrimmWallet$GRIMM_DISPLAY_SUFFIX-$GRIMM_VERSION-Linux.deb"
+        - export GRIMM_WALLET_UI_OUT="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2-$GRIMM_VERSION.deb"
+        - export GRIMM_WALLET_UI_OUT_VERLESS="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2.deb"
 ###############################################################################
 # Linux Release
 ###############################################################################
@@ -151,7 +151,7 @@ matrix:
         - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
         - cd ${TRAVIS_BUILD_DIR}
         - cmake --version
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-linux.git /usr/local/boost_1_69_0
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-linux.git /usr/local/boost_1_69_0
         - export BOOST_ROOT="/usr/local/boost_1_69_0"
         - eval "CC=gcc-7 && CXX=g++-7"
         - git clone --depth=1 https://github.com/nesbox/qt5-static-linux.git /home/travis/qt5-static
@@ -161,16 +161,16 @@ matrix:
         - BUILD_TYPE=Release
         - OS_FOLDER=linux
       script:
-        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DBEAM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH .
+        - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEBUG_MESSAGES_IN_RELEASE_MODE=On -DGRIMM_LINK_TYPE=Static -DBRANCH_NAME=$TRAVIS_BRANCH .
         - make -j 4
         - ctest --verbose
         - cpack
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
-        - export BEAM_WALLET_UI_IN="BeamWallet$BEAM_DISPLAY_SUFFIX-$BEAM_VERSION-Linux.deb"
-        - export BEAM_WALLET_UI_OUT="Beam-Wallet$BEAM_DISPLAY_SUFFIX2-$BEAM_VERSION.deb"
-        - export BEAM_WALLET_UI_OUT_VERLESS="Beam-Wallet$BEAM_DISPLAY_SUFFIX2.deb"
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
+        - export GRIMM_WALLET_UI_IN="GrimmWallet$GRIMM_DISPLAY_SUFFIX-$GRIMM_VERSION-Linux.deb"
+        - export GRIMM_WALLET_UI_OUT="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2-$GRIMM_VERSION.deb"
+        - export GRIMM_WALLET_UI_OUT_VERLESS="Grimm-Wallet$GRIMM_DISPLAY_SUFFIX2.deb"
 
 ###############################################################################
 # Android x86 Release
@@ -191,8 +191,8 @@ matrix:
         - echo y | sdkmanager "ndk-bundle"
         - wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
         - sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-android.git /usr/local/boost_1_68-android
-        - sudo git clone --depth=1 https://github.com/BeamMW/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-android.git /usr/local/boost_1_68-android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
         - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
         - export BOOST_ROOT_ANDROID=/usr/local/boost_1_68-android
         - export OPENSSL_ROOT_DIR_ANDROID=/usr/local/Prebuilt-OpenSSL-Android
@@ -202,15 +202,15 @@ matrix:
         - make wallet-jni -j4
       after_success:
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
         - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI
         - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI
-        - tar -cvzf libwallet-jni-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+        - tar -cvzf libwallet-jni-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
         - curl --retry 3 --ftp-create-dirs -T libwallet-jni.tar.gz $BUILDS_SERVER_LATEST_PATH/
-        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$BEAM_VERSION.tar.gz
+        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$GRIMM_VERSION.tar.gz
         - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni.tar.gz
 
 ###############################################################################
@@ -232,8 +232,8 @@ matrix:
         - echo y | sdkmanager "ndk-bundle"
         - wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
         - sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-android.git /usr/local/boost_1_68-android
-        - sudo git clone --depth=1 https://github.com/BeamMW/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-android.git /usr/local/boost_1_68-android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
         - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
         - export BOOST_ROOT_ANDROID=/usr/local/boost_1_68-android
         - export OPENSSL_ROOT_DIR_ANDROID=/usr/local/Prebuilt-OpenSSL-Android
@@ -243,15 +243,15 @@ matrix:
         - make wallet-jni -j4
       after_success:
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
         - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI
         - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI
-        - tar -cvzf libwallet-jni-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+        - tar -cvzf libwallet-jni-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
         - curl --retry 3 --ftp-create-dirs -T libwallet-jni.tar.gz $BUILDS_SERVER_LATEST_PATH/
-        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$BEAM_VERSION.tar.gz
+        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$GRIMM_VERSION.tar.gz
         - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni.tar.gz
 
 ###############################################################################
@@ -273,8 +273,8 @@ matrix:
         - echo y | sdkmanager "ndk-bundle"
         - wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
         - sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-android.git /usr/local/boost_1_68-android
-        - sudo git clone --depth=1 https://github.com/BeamMW/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-android.git /usr/local/boost_1_68-android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
         - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
         - export BOOST_ROOT_ANDROID=/usr/local/boost_1_68-android
         - export OPENSSL_ROOT_DIR_ANDROID=/usr/local/Prebuilt-OpenSSL-Android
@@ -284,15 +284,15 @@ matrix:
         - make wallet-jni -j4
       after_success:
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
         - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI
         - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI
-        - tar -cvzf libwallet-jni-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+        - tar -cvzf libwallet-jni-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
         - curl --retry 3 --ftp-create-dirs -T libwallet-jni.tar.gz $BUILDS_SERVER_LATEST_PATH/
-        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$BEAM_VERSION.tar.gz
+        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$GRIMM_VERSION.tar.gz
         - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni.tar.gz
 
 ###############################################################################
@@ -314,8 +314,8 @@ matrix:
         - echo y | sdkmanager "ndk-bundle"
         - wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
         - sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
-        - sudo git clone --depth=1 https://github.com/BeamMW/boost-android.git /usr/local/boost_1_68-android
-        - sudo git clone --depth=1 https://github.com/BeamMW/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/boost-android.git /usr/local/boost_1_68-android
+        - sudo git clone --depth=1 https://github.com/freenetcoder/openssl-android.git /usr/local/Prebuilt-OpenSSL-Android
         - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
         - export BOOST_ROOT_ANDROID=/usr/local/boost_1_68-android
         - export OPENSSL_ROOT_DIR_ANDROID=/usr/local/Prebuilt-OpenSSL-Android
@@ -325,15 +325,15 @@ matrix:
         - make wallet-jni -j4
       after_success:
         # extract build version
-        - BEAM_VERSION="$(cat beam_version.gen)" && rm beam_version.gen
-        - echo BEAM_VERSION = $BEAM_VERSION
+        - GRIMM_VERSION="$(cat grimm_version.gen)" && rm grimm_version.gen
+        - echo GRIMM_VERSION = $GRIMM_VERSION
         - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI
         - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI
-        - tar -cvzf libwallet-jni-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/BeamMW/beam/android libwallet-jni.so com
-        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+        - tar -cvzf libwallet-jni-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - tar -cvzf libwallet-jni.tar.gz --directory=$HOME/build/grimm/grimm/android libwallet-jni.so com
+        - curl --retry 3 --ftp-create-dirs -T libwallet-jni-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
         - curl --retry 3 --ftp-create-dirs -T libwallet-jni.tar.gz $BUILDS_SERVER_LATEST_PATH/
-        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$BEAM_VERSION.tar.gz
+        - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni-$GRIMM_VERSION.tar.gz
         - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/android-$ANDROID_ABI/" libwallet-jni.tar.gz
 
 ###############################################################################
@@ -341,56 +341,56 @@ matrix:
 ###############################################################################
 before_script:
   - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
-  - BEAM_TARGET_SUFFIX="-masternet"
-  - BEAM_DISPLAY_SUFFIX="Masternet"
-  - BEAM_DISPLAY_SUFFIX2="-Masternet"
+  - GRIMM_TARGET_SUFFIX="-masternet"
+  - GRIMM_DISPLAY_SUFFIX="Masternet"
+  - GRIMM_DISPLAY_SUFFIX2="-Masternet"
 
 after_success:
   # deploy using ftp server
   - BUILDS_SERVER_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER
-  - tar -cvzf beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/beam beam-node$BEAM_TARGET_SUFFIX beam-node.cfg
-  - tar -cvzf beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/wallet beam-wallet$BEAM_TARGET_SUFFIX beam-wallet.cfg
-  - tar -cvzf wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/wallet wallet-api$BEAM_TARGET_SUFFIX wallet-api.cfg
-  - tar -cvzf explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz --directory=$HOME/build/BeamMW/beam/explorer explorer-node$BEAM_TARGET_SUFFIX explorer-node.cfg
+  - tar -cvzf grimm-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/grimm grimm-node$GRIMM_TARGET_SUFFIX grimm-node.cfg
+  - tar -cvzf grimm-wallet-cli$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/wallet grimm-wallet$GRIMM_TARGET_SUFFIX grimm-wallet.cfg
+  - tar -cvzf wallet-api$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/wallet wallet-api$GRIMM_TARGET_SUFFIX wallet-api.cfg
+  - tar -cvzf explorer-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz --directory=$HOME/build/grimm/grimm/explorer explorer-node$GRIMM_TARGET_SUFFIX explorer-node.cfg
 
   # upload binaries to FTP
-  - curl --retry 3 --ftp-create-dirs -T beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
-  - curl --retry 3 --ftp-create-dirs -T beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
-  - curl --retry 3 --ftp-create-dirs -T wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
-  - curl --retry 3 --ftp-create-dirs -T explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_PATH/
-  - curl --retry 3 --ftp-create-dirs -T "$HOME/build/BeamMW/beam/$BEAM_WALLET_UI_IN" "$BUILDS_SERVER_PATH/$BEAM_WALLET_UI_OUT"
+  - curl --retry 3 --ftp-create-dirs -T grimm-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+  - curl --retry 3 --ftp-create-dirs -T grimm-wallet-cli$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+  - curl --retry 3 --ftp-create-dirs -T wallet-api$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+  - curl --retry 3 --ftp-create-dirs -T explorer-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_PATH/
+  - curl --retry 3 --ftp-create-dirs -T "$HOME/build/grimm/grimm/$GRIMM_WALLET_UI_IN" "$BUILDS_SERVER_PATH/$GRIMM_WALLET_UI_OUT"
 
   # upload binaries to FTP, to the latest folder
   - BUILDS_SERVER_LATEST_PATH=${BUILD_SERVER}/files/$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER
-  - curl --retry 3 --ftp-create-dirs -T beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/beam-node$BEAM_TARGET_SUFFIX.tar.gz
-  - curl --retry 3 --ftp-create-dirs -T beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/beam-wallet-cli$BEAM_TARGET_SUFFIX.tar.gz
-  - curl --retry 3 --ftp-create-dirs -T wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/wallet-api$BEAM_TARGET_SUFFIX.tar.gz
-  - curl --retry 3 --ftp-create-dirs -T explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/explorer-node$BEAM_TARGET_SUFFIX.tar.gz
-  - curl --retry 3 --ftp-create-dirs -T "$HOME/build/BeamMW/beam/$BEAM_WALLET_UI_IN" "$BUILDS_SERVER_LATEST_PATH/$BEAM_WALLET_UI_OUT_VERLESS"
+  - curl --retry 3 --ftp-create-dirs -T grimm-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/grimm-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - curl --retry 3 --ftp-create-dirs -T grimm-wallet-cli$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/grimm-wallet-cli$GRIMM_TARGET_SUFFIX.tar.gz
+  - curl --retry 3 --ftp-create-dirs -T wallet-api$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/wallet-api$GRIMM_TARGET_SUFFIX.tar.gz
+  - curl --retry 3 --ftp-create-dirs -T explorer-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz $BUILDS_SERVER_LATEST_PATH/explorer-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - curl --retry 3 --ftp-create-dirs -T "$HOME/build/grimm/grimm/$GRIMM_WALLET_UI_IN" "$BUILDS_SERVER_LATEST_PATH/$GRIMM_WALLET_UI_OUT_VERLESS"
 
   # prep for deploy to AWS S3
-  - cp $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_IN $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_OUT
+  - cp $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_IN $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_OUT
 
   # upload binaries to S3
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_OUT
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" grimm-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" grimm-wallet-cli$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" wallet-api$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" explorer-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/$(date +%Y.%m.%d)/$BUILD_TYPE/$OS_FOLDER/" $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_OUT
 
   # prep for deploy to AWS S3, latest folder
-  - cp beam-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz beam-node$BEAM_TARGET_SUFFIX.tar.gz
-  - cp beam-wallet-cli$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz beam-wallet-cli$BEAM_TARGET_SUFFIX.tar.gz
-  - cp wallet-api$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz wallet-api$BEAM_TARGET_SUFFIX.tar.gz
-  - cp explorer-node$BEAM_TARGET_SUFFIX-$BEAM_VERSION.tar.gz explorer-node$BEAM_TARGET_SUFFIX.tar.gz
-  - cp $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_IN $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_OUT_VERLESS
+  - cp grimm-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz grimm-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - cp grimm-wallet-cli$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz grimm-wallet-cli$GRIMM_TARGET_SUFFIX.tar.gz
+  - cp wallet-api$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz wallet-api$GRIMM_TARGET_SUFFIX.tar.gz
+  - cp explorer-node$GRIMM_TARGET_SUFFIX-$GRIMM_VERSION.tar.gz explorer-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - cp $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_IN $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_OUT_VERLESS
 
   # upload binaries to S3, to the latest folder
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" beam-node$BEAM_TARGET_SUFFIX.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" beam-wallet-cli$BEAM_TARGET_SUFFIX.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" wallet-api$BEAM_TARGET_SUFFIX.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" explorer-node$BEAM_TARGET_SUFFIX.tar.gz
-  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" $HOME/build/BeamMW/beam/$BEAM_WALLET_UI_OUT_VERLESS
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" grimm-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" grimm-wallet-cli$GRIMM_TARGET_SUFFIX.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" wallet-api$GRIMM_TARGET_SUFFIX.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" explorer-node$GRIMM_TARGET_SUFFIX.tar.gz
+  - artifacts upload --target-paths "$TRAVIS_BRANCH/latest/$BUILD_TYPE/$OS_FOLDER/" $HOME/build/grimm/grimm/$GRIMM_WALLET_UI_OUT_VERLESS
 
 notifications:
   email:

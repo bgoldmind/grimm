@@ -5,7 +5,7 @@
 #include <atomic>
 #include "utility/logger.h"
 
-namespace beam {
+namespace grimm {
 
 class ExternalPOWStub : public IExternalPOW {
 public:

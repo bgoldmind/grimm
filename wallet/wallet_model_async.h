@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include "wallet/wallet_db.h"
 #include "wallet/wallet_network.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
 
     struct IWalletModelAsync
@@ -44,7 +44,7 @@ namespace beam::wallet
 
         virtual void setNodeAddress(const std::string& addr) = 0;
 
-        virtual void changeWalletPassword(const beam::SecString& password) = 0;
+        virtual void changeWalletPassword(const grimm::SecString& password) = 0;
 
         virtual void getNetworkStatus() = 0;
         virtual void refresh() = 0;

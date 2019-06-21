@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ int main()
         in.m_X.m_pData[0] = 123;
         in.m_Y = 1;
 
-        beam::Serializer ser;
+        grimm::Serializer ser;
         ser & in;
 
         auto [buf, size] = ser.buffer();
 
-        beam::Deserializer des;
+        grimm::Deserializer des;
         des.reset(buf, size);
 
         ECC::Point out;

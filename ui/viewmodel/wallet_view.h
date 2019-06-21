@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ class TxObject : public QObject
 public:
 
     TxObject(QObject* parent = nullptr);
-    TxObject(const beam::wallet::TxDescription& tx, QObject* parent = nullptr);
+    TxObject(const grimm::wallet::TxDescription& tx, QObject* parent = nullptr);
 
     bool income() const;
     QString date() const;
@@ -66,7 +66,7 @@ public:
     QString getSendingAddress() const;
     QString getReceivingAddress() const;
     QString getFee() const;
-    beam::wallet::WalletID peerId() const;
+    grimm::wallet::WalletID peerId() const;
     QString getKernelID() const;
     void setKernelID(const QString& value);
     QString getTransactionID() const;
@@ -75,12 +75,12 @@ public:
 
     void setUserName(const QString& name);
     void setDisplayName(const QString& name);
-    void setStatus(beam::wallet::TxStatus status);
-    void setFailureReason(beam::wallet::TxFailureReason reason);
+    void setStatus(grimm::wallet::TxStatus status);
+    void setFailureReason(grimm::wallet::TxFailureReason reason);
 
-    void update(const beam::wallet::TxDescription& tx);
+    void update(const grimm::wallet::TxDescription& tx);
 
-    const beam::wallet::TxDescription& getTxDescription() const;
+    const grimm::wallet::TxDescription& getTxDescription() const;
 
     Q_INVOKABLE bool inProgress() const;
     Q_INVOKABLE bool isCompleted() const;
@@ -99,7 +99,7 @@ signals:
     void kernelIDChanged();
     void failureReasonChanged();
 private:
-    beam::wallet::TxDescription m_tx;
+    grimm::wallet::TxDescription m_tx;
     QString m_userName;
     QString m_displayName;
     QString m_kernelID;
@@ -130,16 +130,16 @@ signals:
     void paymentProofChanged();
 private:
     QString m_paymentProof;
-    beam::wallet::storage::PaymentInfo m_paymentInfo;
+    grimm::wallet::storage::PaymentInfo m_paymentInfo;
 };
 
 class MyPaymentInfoItem : public PaymentInfoItem
 {
     Q_OBJECT
 public:
-    MyPaymentInfoItem(const beam::wallet::TxID& txID, QObject* parent = nullptr);
+    MyPaymentInfoItem(const grimm::wallet::TxID& txID, QObject* parent = nullptr);
 private slots:
-    void onPaymentProofExported(const beam::wallet::TxID& txID, const QString& proof);
+    void onPaymentProofExported(const grimm::wallet::TxID& txID, const QString& proof);
 };
 
 class WalletViewModel : public QObject
@@ -184,7 +184,7 @@ class WalletViewModel : public QObject
     Q_PROPERTY(int defaultFeeInGroth READ getDefaultFeeInGroth CONSTANT)
 
     Q_PROPERTY(int expires READ getExpires WRITE setExpires NOTIFY expiresChanged)
-    Q_PROPERTY(bool isAllowedBeamMWLinks READ isAllowedBeamMWLinks WRITE allowBeamMWLinks NOTIFY beamMWLinksAllowed)
+    Q_PROPERTY(bool isAllowedgrimmLinks READ isAllowedgrimmLinks WRITE allowgrimmLinks NOTIFY grimmLinksAllowed)
 
 public:
 
@@ -250,18 +250,18 @@ public:
     void setExpires(int value);
     int getExpires() const;
 
-    bool isAllowedBeamMWLinks() const;
-    void allowBeamMWLinks(bool value);
+    bool isAllowedgrimmLinks() const;
+    void allowgrimmLinks(bool value);
 
 public slots:
-    void onStatus(const beam::wallet::WalletStatus& amount);
-    void onTxStatus(beam::wallet::ChangeAction action, const std::vector<beam::wallet::TxDescription>& items);
+    void onStatus(const grimm::wallet::WalletStatus& amount);
+    void onTxStatus(grimm::wallet::ChangeAction action, const std::vector<grimm::wallet::TxDescription>& items);
     void sendMoney();
     void syncWithNode();
-    void onChangeCalculated(beam::Amount change);
-    void onChangeCurrentWalletIDs(beam::wallet::WalletID senderID, beam::wallet::WalletID receiverID);
-    void onAddresses(bool own, const std::vector<beam::wallet::WalletAddress>& addresses);
-    void onGeneratedNewAddress(const beam::wallet::WalletAddress& addr);
+    void onChangeCalculated(grimm::Amount change);
+    void onChangeCurrentWalletIDs(grimm::wallet::WalletID senderID, grimm::wallet::WalletID receiverID);
+    void onAddresses(bool own, const std::vector<grimm::wallet::WalletAddress>& addresses);
+    void onGeneratedNewAddress(const grimm::wallet::WalletAddress& addr);
     void onNewAddressFailed();
     void onSendMoneyVerified();
     void onCantSendToExpired();
@@ -284,12 +284,12 @@ signals:
     void sendMoneyVerified();
     void cantSendToExpired();
     void newAddressFailed();
-    void beamMWLinksAllowed();
+    void grimmLinksAllowed();
 
 private:
-    beam::Amount calcSendAmount() const;
-    beam::Amount calcFeeAmount() const;
-    beam::Amount calcTotalAmount() const;
+    grimm::Amount calcSendAmount() const;
+    grimm::Amount calcFeeAmount() const;
+    grimm::Amount calcTotalAmount() const;
 
     void sortTx();
 
@@ -300,18 +300,18 @@ private:
     WalletModel& _model;
     WalletSettings& _settings;
 
-    beam::wallet::WalletStatus _status ;
+    grimm::wallet::WalletStatus _status ;
 
     QString _sendAmount;
     double _amountForReceive;
     QString _feeGrothes;
 
-    beam::Amount _change;
+    grimm::Amount _change;
 
     TxList _txList;
 
     QString _receiverAddr;
-    beam::wallet::WalletAddress _newReceiverAddr;
+    grimm::wallet::WalletAddress _newReceiverAddr;
     QString _newReceiverName;
     QString _comment;
 

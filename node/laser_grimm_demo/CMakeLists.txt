@@ -1,6 +1,6 @@
-set(TARGET_NAME laser_beam_demo)
+set(TARGET_NAME laser_grimm_demo)
 
-add_executable(${TARGET_NAME} laser_beam_demo.cpp)
+add_executable(${TARGET_NAME} laser_grimm_demo.cpp)
 
 if(LINUX)
 	target_link_libraries(${TARGET_NAME} -static-libstdc++ -static-libgcc)

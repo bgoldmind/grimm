@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,11 +48,11 @@
 #include "version.h"
 
 using namespace std;
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 using namespace ECC;
 
-namespace beam
+namespace grimm
 {
     std::ostream& operator<<(std::ostream& os, Coin::Status s)
     {
@@ -116,15 +116,15 @@ namespace beam
     {
         static const char* Initial = "initial";
         static const char* Invitation = "invitation";
-        static const char* BuildingBeamLockTX = "building Beam LockTX";
-        static const char* BuildingBeamRefundTX = "building Beam RefundTX";
-        static const char* BuildingBeamRedeemTX = "building Beam RedeemTX";
+        static const char* BuildingGrimmLockTX = "building Grimm LockTX";
+        static const char* BuildingGrimmRefundTX = "building Grimm RefundTX";
+        static const char* BuildingGrimmRedeemTX = "building Grimm RedeemTX";
         static const char* HandlingContractTX = "handling LockTX";
         static const char* SendingRefundTX = "sending RefundTX";
         static const char* SendingRedeemTX = "sending RedeemTX";
-        static const char* SendingBeamLockTX = "sending Beam LockTX";
-        static const char* SendingBeamRefundTX = "sending Beam RefundTX";
-        static const char* SendingBeamRedeemTX = "sending Beam RedeemTX";
+        static const char* SendingGrimmLockTX = "sending Grimm LockTX";
+        static const char* SendingGrimmRefundTX = "sending Grimm RefundTX";
+        static const char* SendingGrimmRedeemTX = "sending Grimm RedeemTX";
         static const char* Completed = "completed";
         static const char* Cancelled = "cancelled";
         static const char* Aborted = "aborted";
@@ -140,24 +140,24 @@ namespace beam
             return Initial;
         case wallet::AtomicSwapTransaction::State::Invitation:
             return Invitation;
-        case wallet::AtomicSwapTransaction::State::BuildingBeamLockTX:
-            return BuildingBeamLockTX;
-        case wallet::AtomicSwapTransaction::State::BuildingBeamRefundTX:
-            return BuildingBeamRefundTX;
-        case wallet::AtomicSwapTransaction::State::BuildingBeamRedeemTX:
-            return BuildingBeamRedeemTX;
+        case wallet::AtomicSwapTransaction::State::BuildingGrimmLockTX:
+            return BuildingGrimmLockTX;
+        case wallet::AtomicSwapTransaction::State::BuildingGrimmRefundTX:
+            return BuildingGrimmRefundTX;
+        case wallet::AtomicSwapTransaction::State::BuildingGrimmRedeemTX:
+            return BuildingGrimmRedeemTX;
         case wallet::AtomicSwapTransaction::State::HandlingContractTX:
             return HandlingContractTX;
         case wallet::AtomicSwapTransaction::State::SendingRefundTX:
             return SendingRefundTX;
         case wallet::AtomicSwapTransaction::State::SendingRedeemTX:
             return SendingRedeemTX;
-        case wallet::AtomicSwapTransaction::State::SendingBeamLockTX:
-            return SendingBeamLockTX;
-        case wallet::AtomicSwapTransaction::State::SendingBeamRefundTX:
-            return SendingBeamRefundTX;
-        case wallet::AtomicSwapTransaction::State::SendingBeamRedeemTX:
-            return SendingBeamRedeemTX;
+        case wallet::AtomicSwapTransaction::State::SendingGrimmLockTX:
+            return SendingGrimmLockTX;
+        case wallet::AtomicSwapTransaction::State::SendingGrimmRefundTX:
+            return SendingGrimmRefundTX;
+        case wallet::AtomicSwapTransaction::State::SendingGrimmRedeemTX:
+            return SendingGrimmRedeemTX;
         case wallet::AtomicSwapTransaction::State::CompleteSwap:
             return Completed;
         case wallet::AtomicSwapTransaction::State::Cancelled:
@@ -612,7 +612,7 @@ namespace
             cout << "TRANSACTIONS\n\n  |"
                 << left << setw(columnWidths[0]) << " datetime" << " |"
                 << left << setw(columnWidths[1]) << " direction" << " |"
-                << right << setw(columnWidths[2]) << " amount, BEAM" << " |"
+                << right << setw(columnWidths[2]) << " amount, GRIMM" << " |"
                 << left << setw(columnWidths[3]) << " status" << " |"
                 << setw(columnWidths[4]) << " ID" << " |"
                 << setw(columnWidths[5]) << " kernel ID" << " |" << endl;
@@ -643,7 +643,7 @@ namespace
 
             cout << "SWAP TRANSACTIONS\n\n  |"
                 << left << setw(columnWidths[0]) << " datetime" << " |"
-                << right << setw(columnWidths[1]) << " amount, BEAM" << " |"
+                << right << setw(columnWidths[1]) << " amount, GRIMM" << " |"
                 << right << setw(columnWidths[2]) << " swap amount" << " |"
                 << left << setw(columnWidths[3]) << " swap type" << " |"
                 << left << setw(columnWidths[4]) << " status" << " |"
@@ -653,14 +653,14 @@ namespace
             {
                 Amount swapAmount = 0;
                 storage::getTxParameter(*walletDB, tx.m_txId, wallet::kDefaultSubTxID, wallet::TxParameterID::AtomicSwapAmount, swapAmount);
-                bool isBeamSide = false;
-                storage::getTxParameter(*walletDB, tx.m_txId, wallet::kDefaultSubTxID, wallet::TxParameterID::AtomicSwapIsBeamSide, isBeamSide);
+                bool isGrimmSide = false;
+                storage::getTxParameter(*walletDB, tx.m_txId, wallet::kDefaultSubTxID, wallet::TxParameterID::AtomicSwapIsGrimmSide, isGrimmSide);
 
                 AtomicSwapCoin swapCoin = AtomicSwapCoin::Unknown;
                 storage::getTxParameter(*walletDB, tx.m_txId, wallet::kDefaultSubTxID, wallet::TxParameterID::AtomicSwapCoin, swapCoin);
 
                 stringstream ss;
-                ss << (isBeamSide ? "Beam" : getAtomicSwapCoinText(swapCoin)) << " <--> " << (!isBeamSide ? "Beam" : getAtomicSwapCoinText(swapCoin));
+                ss << (isGrimmSide ? "Grimm" : getAtomicSwapCoinText(swapCoin)) << " <--> " << (!isGrimmSide ? "Grimm" : getAtomicSwapCoinText(swapCoin));
 
                 cout << "   "
                     << " " << left << setw(columnWidths[0]) << format_timestamp("%Y.%m.%d %H:%M:%S", tx.m_createTime * 1000, false)
@@ -676,7 +676,7 @@ namespace
         const array<uint8_t, 6> columnWidths{ { 49, 14, 14, 18, 30, 8} };
         cout << "  |"
             << left << setw(columnWidths[0]) << " ID" << " |"
-            << right << setw(columnWidths[1]) << " beam" << " |"
+            << right << setw(columnWidths[1]) << " grimm" << " |"
             << setw(columnWidths[2]) << " groth" << " |"
             << left << setw(columnWidths[3]) << " maturity" << " |"
             << setw(columnWidths[4]) << " status" << " |"
@@ -757,7 +757,7 @@ namespace
             std::string sTxt;
             sTxt.resize(res.size() * 2);
 
-            beam::to_hex(&sTxt.front(), res.data(), res.size());
+            grimm::to_hex(&sTxt.front(), res.data(), res.size());
             LOG_INFO() << "Exported form: " << sTxt;
         }
 
@@ -779,7 +779,7 @@ namespace
         return 0;
     }
 
-    int ExportMinerKey(const po::variables_map& vm, const IWalletDB::Ptr& walletDB, const beam::SecString& pass)
+    int ExportMinerKey(const po::variables_map& vm, const IWalletDB::Ptr& walletDB, const grimm::SecString& pass)
     {
         uint32_t subKey = vm[cli::KEY_SUBKEY].as<Nonnegative<uint32_t>>().value;
         if (subKey < 1)
@@ -800,7 +800,7 @@ namespace
         return 0;
     }
 
-    int ExportOwnerKey(const IWalletDB::Ptr& walletDB, const beam::SecString& pass)
+    int ExportOwnerKey(const IWalletDB::Ptr& walletDB, const grimm::SecString& pass)
     {
         Key::IKdf::Ptr pKey = walletDB->get_ChildKdf(0);
         const ECC::HKdf& kdf = static_cast<ECC::HKdf&>(*pKey);
@@ -905,7 +905,7 @@ namespace
             return false;
         }
 
-        signedAmount *= Rules::Coin; // convert beams to coins
+        signedAmount *= Rules::Coin; // convert grimms to coins
 
         amount = static_cast<ECC::Amount>(std::round(signedAmount));
         if (amount == 0)
@@ -926,7 +926,7 @@ static const unsigned LOG_ROTATION_PERIOD_SEC = 3*60*60; // 3 hours
 
 int main_impl(int argc, char* argv[])
 {
-    beam::Crash::InstallHandler(NULL);
+    grimm::Crash::InstallHandler(NULL);
 
     try
     {
@@ -935,7 +935,7 @@ int main_impl(int argc, char* argv[])
         po::variables_map vm;
         try
         {
-            vm = getOptions(argc, argv, "beam-wallet.cfg", options, true);
+            vm = getOptions(argc, argv, "grimm-wallet.cfg", options, true);
         }
         catch (const po::invalid_option_value& e)
         {
@@ -986,7 +986,7 @@ int main_impl(int argc, char* argv[])
 #define LOG_FILES_PREFIX "wallet_"
 
         const auto path = boost::filesystem::system_complete(LOG_FILES_DIR);
-        auto logger = beam::Logger::create(logLevel, logLevel, fileLogLevel, LOG_FILES_PREFIX, path.string());
+        auto logger = grimm::Logger::create(logLevel, logLevel, fileLogLevel, LOG_FILES_PREFIX, path.string());
 
         try
         {
@@ -1057,7 +1057,7 @@ int main_impl(int argc, char* argv[])
                         return 0;
                     }
 
-                    LOG_INFO() << "Beam Wallet " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
+                    LOG_INFO() << "Grimm Wallet " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
                     LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
 
                     bool coldWallet = vm.count(cli::COLD_WALLET) > 0;
@@ -1073,7 +1073,7 @@ int main_impl(int argc, char* argv[])
 
                     if (!WalletDB::isInitialized(walletPath) && (command != cli::INIT && command != cli::RESTORE))
                     {
-                        LOG_ERROR() << "Please initialize your wallet first... \nExample: beam-wallet --command=init";
+                        LOG_ERROR() << "Please initialize your wallet first... \nExample: grimm-wallet --command=init";
                         return -1;
                     }
                     else if (WalletDB::isInitialized(walletPath) && (command == cli::INIT || command == cli::RESTORE))
@@ -1085,7 +1085,7 @@ int main_impl(int argc, char* argv[])
                     LOG_INFO() << "starting a wallet...";
 
                     SecString pass;
-                    if (!beam::read_wallet_pass(pass, vm))
+                    if (!grimm::read_wallet_pass(pass, vm))
                     {
                         LOG_ERROR() << "Please, provide password for the wallet.";
                         return -1;
@@ -1093,7 +1093,7 @@ int main_impl(int argc, char* argv[])
 
                     if ((command == cli::INIT || command == cli::RESTORE) && vm.count(cli::PASS) == 0)
                     {
-                        if (!beam::confirm_wallet_pass(pass))
+                        if (!grimm::confirm_wallet_pass(pass))
                         {
                             LOG_ERROR() << "Passwords do not match";
                             return -1;
@@ -1411,7 +1411,7 @@ int main_impl(int argc, char* argv[])
                             }
 
                             Amount swapAmount = vm[cli::SWAP_AMOUNT].as<Positive<Amount>>().value;
-                            bool isBeamSide = (vm.count(cli::SWAP_BEAM_SIDE) != 0);
+                            bool isGrimmSide = (vm.count(cli::SWAP_GRIMM_SIDE) != 0);
 
                             if (command == cli::SWAP_INIT)
                             {
@@ -1429,7 +1429,7 @@ int main_impl(int argc, char* argv[])
                                 WalletAddress senderAddress = CreateNewAddress(walletDB, "");
 
                                 currentTxID = wallet.swap_coins(senderAddress.m_walletID, receiverWalletID,
-                                    move(amount), move(fee), swapCoin, swapAmount, isBeamSide);
+                                    move(amount), move(fee), swapCoin, swapAmount, isGrimmSide);
                             }
 
                             if (command == cli::SWAP_LISTEN)
@@ -1442,7 +1442,7 @@ int main_impl(int argc, char* argv[])
 
                                 auto signedAmount = vm[cli::AMOUNT].as<Positive<double>>().value;
 
-                                signedAmount *= Rules::Coin; // convert beams to coins
+                                signedAmount *= Rules::Coin; // convert grimms to coins
 
                                 amount = static_cast<ECC::Amount>(std::round(signedAmount));
                                 if (amount == 0)
@@ -1451,7 +1451,7 @@ int main_impl(int argc, char* argv[])
                                     return false;
                                 }
 
-                                wallet.initSwapConditions(amount, swapAmount, swapCoin, isBeamSide);
+                                wallet.initSwapConditions(amount, swapAmount, swapCoin, isGrimmSide);
                             }
                         }
 

@@ -1,6 +1,6 @@
-// BEAM OpenCL Miner
+// GRIMM OpenCL Miner
 // OpenCL Host Interface
-// Copyright 2018 The Beam Team	
+// Copyright 2018 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
 #include "clHost.h"
@@ -13,7 +13,7 @@
 
 #include "utility/logger.h"
 
-namespace beamMiner {
+namespace grimmMiner {
 
 using namespace std;
 
@@ -58,7 +58,7 @@ void CL_CALLBACK CCallbackFunc(cl_event ev, cl_int err , void* data) {
 
 // Function to load the OpenCL kernel and prepare our device for mining
 void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
-	LOG_INFO() << "Loading and compiling Beam OpenCL Kernel";
+	LOG_INFO() << "Loading and compiling Grimm OpenCL Kernel";
 
 	// reading the kernel file
 	cl_int err;

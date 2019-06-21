@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 #include <boost/filesystem.hpp>
 
 
-using namespace beam;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::io;
 using namespace std;
 
 NodeModel::NodeModel()
@@ -32,12 +32,12 @@ NodeModel::NodeModel()
 
 }
 
-void NodeModel::setKdf(beam::Key::IKdf::Ptr kdf)
+void NodeModel::setKdf(grimm::Key::IKdf::Ptr kdf)
 {
     m_nodeClient.setKdf(kdf);
 }
 
-void NodeModel::setOwnerKey(beam::Key::IPKdf::Ptr key)
+void NodeModel::setOwnerKey(grimm::Key::IPKdf::Ptr key)
 {
     m_nodeClient.setOwnerKey(key);
 }
@@ -82,7 +82,7 @@ void NodeModel::onFailedToStartNode(io::ErrorCode errorCode)
     emit failedToStartNode(wallet::getWalletError(errorCode));
 }
 
-void NodeModel::onSyncError(beam::Node::IObserver::Error error)
+void NodeModel::onSyncError(grimm::Node::IObserver::Error error)
 {
     switch(error)
     {

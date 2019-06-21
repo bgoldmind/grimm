@@ -5,23 +5,23 @@
 #include <numeric>
 
 using namespace std;
-using namespace beam;
+using namespace grimm;
 
-namespace beamui
+namespace grimmui
 {
-    QString toString(const beam::wallet::WalletID& walletID)
+    QString toString(const grimm::wallet::WalletID& walletID)
     {
         auto id = std::to_string(walletID);
         return QString::fromStdString(id);
     }
 
-    QString toString(const beam::Merkle::Hash& walletID)
+    QString toString(const grimm::Merkle::Hash& walletID)
     {
         auto id = std::to_string(walletID);
         return QString::fromStdString(id);
     }
 
-    QString BeamToString(const Amount& value)
+    QString GrimmToString(const Amount& value)
     {
         auto realAmount = double(int64_t(value)) / Rules::Coin;
         QString qstr = QLocale().toString(realAmount, 'f', QLocale::FloatingPointShortest);
@@ -29,7 +29,7 @@ namespace beamui
         return qstr;
     }
 
-    QString toString(const beam::Timestamp& ts)
+    QString toString(const grimm::Timestamp& ts)
     {
         QDateTime datetime;
         datetime.setTime_t(ts);

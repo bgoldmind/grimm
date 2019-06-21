@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 #	include <unistd.h>
 #endif // WIN32
 
-namespace beam
+namespace grimm
 {
 	void test_SysRet(bool bFail, const char* str)
 	{
@@ -89,12 +89,12 @@ namespace beam
 	{
 #ifdef WIN32
 		if (m_pMapping)
-            BEAM_VERIFY(UnmapViewOfFile(m_pMapping));
+            GRIMM_VERIFY(UnmapViewOfFile(m_pMapping));
 		if (m_hMapping)
-            BEAM_VERIFY(CloseHandle(m_hMapping));
+            GRIMM_VERIFY(CloseHandle(m_hMapping));
 #else // WIN32
 		if (m_pMapping)
-            BEAM_VERIFY(!munmap(m_pMapping, m_nMapping));
+            GRIMM_VERIFY(!munmap(m_pMapping, m_nMapping));
 #endif // WIN32
 
 		ResetVarsMapping();
@@ -106,10 +106,10 @@ namespace beam
 
 #ifdef WIN32
 		if (INVALID_HANDLE_VALUE != m_hFile)
-            BEAM_VERIFY(CloseHandle(m_hFile));
+            GRIMM_VERIFY(CloseHandle(m_hFile));
 #else // WIN32
 		if (-1 != m_hFile)
-            BEAM_VERIFY(!close(m_hFile));
+            GRIMM_VERIFY(!close(m_hFile));
 #endif // WIN32
 
 		ResetVarsFile();
@@ -640,4 +640,4 @@ namespace beam
 		}
 	}
 
-} // namespace beam
+} // namespace grimm

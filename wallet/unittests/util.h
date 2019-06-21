@@ -1,7 +1,7 @@
 #pragma once
 #include "wallet/wallet_db.h"
 
-namespace beam {
+namespace grimm {
 
 wallet::IWalletDB::Ptr init_wallet_db(const std::string& path, ECC::uintBig* walletSeed, io::Reactor::Ptr reactor);
 

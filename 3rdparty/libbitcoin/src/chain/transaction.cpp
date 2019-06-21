@@ -309,7 +309,7 @@ bool transaction::from_data(reader& source, bool wire, bool witness)
     return source;
 }
 
-// beam. only for testing
+// grimm. only for testing
 bool transaction::from_data_without_inputs(const data_chunk& data)
 {
     data_source istream(data);

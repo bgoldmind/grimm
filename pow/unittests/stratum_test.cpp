@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 #include "utility/helpers.h"
 #include "utility/logger.h"
 
-using namespace beam;
+using namespace grimm;
 
 namespace {
 
@@ -31,7 +31,7 @@ std::string to_string(const io::SharedBuffer& buf) {
 int json_creation_test() {
     int nErrors = 0;
 
-    using namespace beam::stratum;
+    using namespace grimm::stratum;
 
     try {
         io::SerializedMsg m;
@@ -62,7 +62,7 @@ int json_creation_test() {
 }
 
 void gen_examples() {
-    using namespace beam::stratum;
+    using namespace grimm::stratum;
 
     Block::PoW pow;
     ECC::GenRandom(&pow.m_Nonce, Block::PoW::NonceType::nBytes);

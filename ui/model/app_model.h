@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,9 +36,9 @@ public:
 
     WalletModel::Ptr getWallet() const;
 
-    bool createWallet(const beam::SecString& seed, const beam::SecString& pass);
-    bool openWallet(const beam::SecString& pass);
-    bool checkWalletPassword(const beam::SecString& pass) const;
+    bool createWallet(const grimm::SecString& seed, const grimm::SecString& pass);
+    bool openWallet(const grimm::SecString& pass);
+    bool checkWalletPassword(const grimm::SecString& pass) const;
     void changeWalletPassword(const std::string& pass);
 
     void applySettingsChanges();
@@ -51,12 +51,12 @@ public:
 public slots:
     void startedNode();
     void stoppedNode();
-    void onFailedToStartNode(beam::wallet::ErrorType errorCode);
+    void onFailedToStartNode(grimm::wallet::ErrorType errorCode);
     void onLocaleChanged();
 
 private:
     void start();
-    void OnWalledOpened(const beam::SecString& pass);
+    void OnWalledOpened(const grimm::SecString& pass);
     void resetWalletImpl();
     void loadTranslation();
 
@@ -68,8 +68,8 @@ private:
     QQmlApplicationEngine& m_qmlEngine;
     MessageManager m_messages;
     ECC::NoLeak<ECC::uintBig> m_passwordHash;
-    beam::io::Reactor::Ptr m_walletReactor;
-    beam::wallet::IWalletDB::Ptr m_db;
+    grimm::io::Reactor::Ptr m_walletReactor;
+    grimm::wallet::IWalletDB::Ptr m_db;
     std::unique_ptr<QTranslator> m_translator;
     static AppModel* s_instance;
 };

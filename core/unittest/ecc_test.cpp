@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ secp256k1_context* g_psecp256k1 = NULL;
 
 int g_TestsFailed = 0;
 
-const beam::Height g_hFork = 3; // whatever
+const grimm::Height g_hFork = 3; // whatever
 
 void TestFailed(const char* szExpr, uint32_t nLine)
 {
@@ -144,13 +144,13 @@ void TestShifted2(const uint8_t* pSrc, uint32_t nSrc, const uint8_t* pDst, uint3
 }
 
 template <uint32_t n0, uint32_t n1>
-void TestShifted(const beam::uintBig_t<n0>& x0, const beam::uintBig_t<n1>& x1, int nShift)
+void TestShifted(const grimm::uintBig_t<n0>& x0, const grimm::uintBig_t<n1>& x1, int nShift)
 {
 	TestShifted2(x0.m_pData, x0.nBytes, x1.m_pData, x1.nBytes, nShift);
 }
 
 template <uint32_t n0, uint32_t n1>
-void TestShifts(const beam::uintBig_t<n0>& src, beam::uintBig_t<n0>& src2, beam::uintBig_t<n1>& trg, int nShift)
+void TestShifts(const grimm::uintBig_t<n0>& src, grimm::uintBig_t<n0>& src2, grimm::uintBig_t<n1>& trg, int nShift)
 {
 	src2 = src;
 	src2.ShiftLeft(nShift, trg);
@@ -194,10 +194,10 @@ void TestUintBig()
 	// test shifts, when src/dst types is smaller/bigger/equal
 	for (int j = 0; j < 20; j++)
 	{
-		beam::uintBig_t<32> a;
-		beam::uintBig_t<32 - 8> b;
-		beam::uintBig_t<32 + 8> c;
-		beam::uintBig_t<32> d;
+		grimm::uintBig_t<32> a;
+		grimm::uintBig_t<32 - 8> b;
+		grimm::uintBig_t<32 + 8> c;
+		grimm::uintBig_t<32> d;
 
 		SetRandom(a);
 
@@ -554,14 +554,14 @@ void TestCommitments()
 
 	Scalar::Native sk;
 	ECC::Point::Native comm;
-	beam::SwitchCommitment().Create(sk, comm, kdf, kidv);
+	grimm::SwitchCommitment().Create(sk, comm, kdf, kidv);
 
 	sigma = Commitment(sk, kidv.m_Value);
 	sigma = -sigma;
 	sigma += comm;
 	verify_test(sigma == Zero);
 
-	beam::SwitchCommitment().Recover(sigma, kdf, kidv);
+	grimm::SwitchCommitment().Recover(sigma, kdf, kidv);
 	sigma = -sigma;
 	sigma += comm;
 	verify_test(sigma == Zero);
@@ -570,7 +570,7 @@ void TestCommitments()
 template <typename T>
 void WriteSizeSerialized(const char* sz, const T& t)
 {
-	beam::SerializerSizeCounter ssc;
+	grimm::SerializerSizeCounter ssc;
 	ssc & t;
 
 	printf("%s size = %u\n", sz, (uint32_t) ssc.m_Counter.m_Value);
@@ -595,14 +595,14 @@ void TestRangeProof(bool bCustomTag)
 	SetRandom(cp.m_Seed.V);
 	cp.m_Kidv.m_Value = 345000;
 
-	beam::AssetID aid;
+	grimm::AssetID aid;
 	if (bCustomTag)
 		SetRandom(aid);
 	else
 		aid = Zero;
 
 	AssetTag tag;
-	tag.m_hGen = beam::SwitchCommitment(&aid).m_hGen;
+	tag.m_hGen = grimm::SwitchCommitment(&aid).m_hGen;
 
 	Scalar::Native sk;
 	SetRandom(sk);
@@ -810,7 +810,7 @@ void TestRangeProof(bool bCustomTag)
 	kdf.Generate(seed);
 
 	{
-		beam::Output outp;
+		grimm::Output outp;
 		outp.m_AssetID = aid;
 		outp.m_Coinbase = true; // others may be disallowed
 		outp.Create(g_hFork, sk, kdf, Key::IDV(20300, 1, Key::Type::Regular), kdf, true);
@@ -821,7 +821,7 @@ void TestRangeProof(bool bCustomTag)
 		WriteSizeSerialized("Out-UTXO-Public-RecoveryOnly", outp);
 	}
 	{
-		beam::Output outp;
+		grimm::Output outp;
 		outp.m_AssetID = aid;
 		outp.Create(g_hFork, sk, kdf, Key::IDV(20300, 1, Key::Type::Regular), kdf);
 		verify_test(outp.IsValid(g_hFork, comm));
@@ -831,9 +831,9 @@ void TestRangeProof(bool bCustomTag)
 		WriteSizeSerialized("Out-UTXO-Confidential-RecoveryOnly", outp);
 	}
 
-	WriteSizeSerialized("In-Utxo", beam::Input());
+	WriteSizeSerialized("In-Utxo", grimm::Input());
 
-	beam::TxKernel txk;
+	grimm::TxKernel txk;
 	txk.m_Fee = 50;
 	WriteSizeSerialized("Kernel(simple)", txk);
 }
@@ -842,8 +842,8 @@ void TestMultiSigOutput()
 {
     ECC::Amount amount = 5000;
 
-    beam::Key::IKdf::Ptr pKdf_A;
-    beam::Key::IKdf::Ptr pKdf_B;
+    grimm::Key::IKdf::Ptr pKdf_A;
+    grimm::Key::IKdf::Ptr pKdf_B;
     uintBig secretB;
     uintBig secretA;
     SetRandom(secretA);
@@ -861,7 +861,7 @@ void TestMultiSigOutput()
     // blindingFactor = sk + sk1
     Scalar::Native blindingFactorA;
     Scalar::Native blindingFactorB;
-    beam::SwitchCommitment switchCommitment;
+    grimm::SwitchCommitment switchCommitment;
     switchCommitment.Create(blindingFactorA, *pKdf_A, creatorParamsB.m_Kidv);
     switchCommitment.Create(blindingFactorB, *pKdf_B, creatorParamsB.m_Kidv);
 
@@ -878,14 +878,14 @@ void TestMultiSigOutput()
     commitment += Context::get().G * blindingFactorA;
     commitment += Context::get().G * blindingFactorB;
 
-	beam::Output outp;
+	grimm::Output outp;
 	outp.m_Commitment = commitment;
 
 	Oracle o0; // context for creating the bulletproof.
 	outp.Prepare(o0, g_hFork);
 
     // from Output::get_SeedKid
-    beam::Output::GenerateSeedKid(creatorParamsB.m_Seed.V, outp.m_Commitment, *pKdf_B);
+    grimm::Output::GenerateSeedKid(creatorParamsB.m_Seed.V, outp.m_Commitment, *pKdf_B);
 
     // 1st cycle. peers produce Part2
     RangeProof::Confidential::Part2 p2;
@@ -939,7 +939,7 @@ void TestMultiSigOutput()
     Scalar::Native offset;
 
     // create Input
-    std::unique_ptr<beam::Input> pInput(new beam::Input);
+    std::unique_ptr<grimm::Input> pInput(new grimm::Input);
 
     // create test coin
     Key::IDV kidv;
@@ -948,11 +948,11 @@ void TestMultiSigOutput()
     kidv.m_SubIdx = 0;
     kidv.m_Value = amount;
     Scalar::Native k;
-    beam::SwitchCommitment(nullptr).Create(k, pInput->m_Commitment, *pKdf_A, kidv);
+    grimm::SwitchCommitment(nullptr).Create(k, pInput->m_Commitment, *pKdf_A, kidv);
     offset = k;
 
     // output
-    std::unique_ptr<beam::Output> pOutput(new beam::Output);
+    std::unique_ptr<grimm::Output> pOutput(new grimm::Output);
 	*pOutput = outp;
     {
         ECC::Point::Native comm;
@@ -986,7 +986,7 @@ void TestMultiSigOutput()
     ECC::Point::Native noncePublic = noncePublicA + noncePublicB;
 
     ECC::Hash::Value message;
-    std::unique_ptr<beam::TxKernel> pKernel(new beam::TxKernel);
+    std::unique_ptr<grimm::TxKernel> pKernel(new grimm::TxKernel);
     pKernel->m_Fee = 0;
     pKernel->m_Height.m_Min = 100;
     pKernel->m_Height.m_Max = 220;
@@ -1022,22 +1022,22 @@ void TestMultiSigOutput()
     pKernel->m_Signature.m_NoncePub = noncePublic;
 
     // create transaction
-    beam::Transaction transaction;
+    grimm::Transaction transaction;
     transaction.m_vKernels.push_back(move(pKernel));
     transaction.m_Offset = offset;
     transaction.m_vInputs.push_back(std::move(pInput));
     transaction.m_vOutputs.push_back(std::move(pOutput));
     transaction.Normalize();
 
-    beam::TxBase::Context::Params pars;
-    beam::TxBase::Context context(pars);
+    grimm::TxBase::Context::Params pars;
+    grimm::TxBase::Context context(pars);
 	context.m_Height.m_Min = g_hFork;
     verify_test(transaction.IsValid(context));
 }
 
 struct TransactionMaker
 {
-	beam::Transaction m_Trans;
+	grimm::Transaction m_Trans;
 	HKdf m_Kdf;
 
 	TransactionMaker()
@@ -1065,9 +1065,9 @@ struct TransactionMaker
 			kG += Context::get().G * m_k;
 		}
 
-		void AddInput(beam::Transaction& t, Amount val, Key::IKdf& kdf, const beam::AssetID* pAssetID = nullptr)
+		void AddInput(grimm::Transaction& t, Amount val, Key::IKdf& kdf, const grimm::AssetID* pAssetID = nullptr)
 		{
-			std::unique_ptr<beam::Input> pInp(new beam::Input);
+			std::unique_ptr<grimm::Input> pInp(new grimm::Input);
 
 			Key::IDV kidv;
 			SetRandomOrd(kidv.m_Idx);
@@ -1076,15 +1076,15 @@ struct TransactionMaker
 			kidv.m_Value = val;
 
 			Scalar::Native k;
-			beam::SwitchCommitment(pAssetID).Create(k, pInp->m_Commitment, kdf, kidv);
+			grimm::SwitchCommitment(pAssetID).Create(k, pInp->m_Commitment, kdf, kidv);
 
 			t.m_vInputs.push_back(std::move(pInp));
 			m_k += k;
 		}
 
-		void AddOutput(beam::Transaction& t, Amount val, Key::IKdf& kdf, const beam::AssetID* pAssetID = nullptr)
+		void AddOutput(grimm::Transaction& t, Amount val, Key::IKdf& kdf, const grimm::AssetID* pAssetID = nullptr)
 		{
-			std::unique_ptr<beam::Output> pOut(new beam::Output);
+			std::unique_ptr<grimm::Output> pOut(new grimm::Output);
 
 			Scalar::Native k;
 
@@ -1113,7 +1113,7 @@ struct TransactionMaker
 
 	Peer m_pPeers[2]; // actually can be more
 
-	void CoSignKernel(beam::TxKernel& krn, const Hash::Value& hvLockImage)
+	void CoSignKernel(grimm::TxKernel& krn, const Hash::Value& hvLockImage)
 	{
 		// 1st pass. Public excesses and Nonces are summed.
 		Scalar::Native pX[_countof(m_pPeers)];
@@ -1167,15 +1167,15 @@ struct TransactionMaker
 		krn.m_Signature.m_k = kSig;
 	}
 
-	void CreateTxKernel(std::vector<beam::TxKernel::Ptr>& lstTrg, Amount fee, std::vector<beam::TxKernel::Ptr>& lstNested, bool bEmitCustomTag, bool bNested)
+	void CreateTxKernel(std::vector<grimm::TxKernel::Ptr>& lstTrg, Amount fee, std::vector<grimm::TxKernel::Ptr>& lstNested, bool bEmitCustomTag, bool bNested)
 	{
-		std::unique_ptr<beam::TxKernel> pKrn(new beam::TxKernel);
+		std::unique_ptr<grimm::TxKernel> pKrn(new grimm::TxKernel);
 		pKrn->m_Fee = fee;
 		pKrn->m_CanEmbed = bNested;
 		pKrn->m_vNested.swap(lstNested);
 
 		// hashlock
-		pKrn->m_pHashLock.reset(new beam::TxKernel::HashLock);
+		pKrn->m_pHashLock.reset(new grimm::TxKernel::HashLock);
 
 		uintBig hlPreimage;
 		SetRandom(hlPreimage);
@@ -1187,18 +1187,18 @@ struct TransactionMaker
 		{
 			// emit some asset
 			Scalar::Native skAsset;
-			beam::AssetID aid;
+			grimm::AssetID aid;
 			Amount valAsset = 4431;
 
 			SetRandom(skAsset);
-			beam::proto::Sk2Pk(aid, skAsset);
+			grimm::proto::Sk2Pk(aid, skAsset);
 
-			if (beam::Rules::get().CA.Deposit)
+			if (grimm::Rules::get().CA.Deposit)
 				m_pPeers[0].AddInput(m_Trans, valAsset, m_Kdf); // input being-deposited
 
 			m_pPeers[0].AddOutput(m_Trans, valAsset, m_Kdf, &aid); // output UTXO to consume the created asset
 
-			std::unique_ptr<beam::TxKernel> pKrnEmission(new beam::TxKernel);
+			std::unique_ptr<grimm::TxKernel> pKrnEmission(new grimm::TxKernel);
 			pKrnEmission->m_AssetEmission = valAsset;
 			pKrnEmission->m_Commitment.m_X = aid;
 			pKrnEmission->m_Commitment.m_Y = 0;
@@ -1214,7 +1214,7 @@ struct TransactionMaker
 
 
 		Point::Native exc;
-		beam::AmountBig::Type fee2;
+		grimm::AmountBig::Type fee2;
 		verify_test(!pKrn->IsValid(g_hFork, fee2, exc)); // should not pass validation unless correct hash preimage is specified
 
 		// finish HL: add hash preimage
@@ -1245,7 +1245,7 @@ void TestTransaction()
 	tm.AddInput(1, 1000);
 	tm.AddOutput(1, 5400);
 
-	std::vector<beam::TxKernel::Ptr> lstNested, lstDummy;
+	std::vector<grimm::TxKernel::Ptr> lstNested, lstDummy;
 
 	Amount fee1 = 100, fee2 = 2;
 
@@ -1257,11 +1257,11 @@ void TestTransaction()
 
 	tm.m_Trans.Normalize();
 
-	beam::TxBase::Context::Params pars;
-	beam::TxBase::Context ctx(pars);
+	grimm::TxBase::Context::Params pars;
+	grimm::TxBase::Context ctx(pars);
 	ctx.m_Height.m_Min = g_hFork;
 	verify_test(tm.m_Trans.IsValid(ctx));
-	verify_test(ctx.m_Fee == beam::AmountBig::Type(fee1 + fee2));
+	verify_test(ctx.m_Fee == grimm::AmountBig::Type(fee1 + fee2));
 }
 
 
@@ -1274,12 +1274,12 @@ void TestCutThrough()
 
 	tm.m_Trans.Normalize();
 
-	beam::TxBase::Context::Params pars;
-	beam::TxBase::Context ctx(pars);
+	grimm::TxBase::Context::Params pars;
+	grimm::TxBase::Context ctx(pars);
 	ctx.m_Height.m_Min = g_hFork;
 	verify_test(ctx.ValidateAndSummarize(tm.m_Trans, tm.m_Trans.get_Reader()));
 
-	beam::Input::Ptr pInp(new beam::Input);
+	grimm::Input::Ptr pInp(new grimm::Input);
 	pInp->m_Commitment = tm.m_Trans.m_vOutputs.front()->m_Commitment;
 	tm.m_Trans.m_vInputs.push_back(std::move(pInp));
 
@@ -1379,7 +1379,7 @@ void TestKdf()
 
 	const std::string sPass("test password");
 
-	beam::KeyString ks1;
+	grimm::KeyString ks1;
 	ks1.SetPassword(sPass);
 	ks1.m_sMeta = "hello, World!";
 
@@ -1404,21 +1404,21 @@ void TestKdf()
 void TestBbs()
 {
 	Scalar::Native privateAddr, nonce;
-	beam::PeerID publicAddr;
+	grimm::PeerID publicAddr;
 
 	SetRandom(privateAddr);
-	beam::proto::Sk2Pk(publicAddr, privateAddr);
+	grimm::proto::Sk2Pk(publicAddr, privateAddr);
 
 	const char szMsg[] = "Hello, World!";
 
 	SetRandom(nonce);
-	beam::ByteBuffer buf;
-	verify_test(beam::proto::Bbs::Encrypt(buf, publicAddr, nonce, szMsg, sizeof(szMsg)));
+	grimm::ByteBuffer buf;
+	verify_test(grimm::proto::Bbs::Encrypt(buf, publicAddr, nonce, szMsg, sizeof(szMsg)));
 
 	uint8_t* p = &buf.at(0);
 	uint32_t n = (uint32_t) buf.size();
 
-	verify_test(beam::proto::Bbs::Decrypt(p, n, privateAddr));
+	verify_test(grimm::proto::Bbs::Decrypt(p, n, privateAddr));
 	verify_test(n == sizeof(szMsg));
 	verify_test(!memcmp(p, szMsg, n));
 
@@ -1426,10 +1426,10 @@ void TestBbs()
 	p = &buf.at(0);
 	n = (uint32_t) buf.size();
 
-	verify_test(!beam::proto::Bbs::Decrypt(p, n, privateAddr));
+	verify_test(!grimm::proto::Bbs::Decrypt(p, n, privateAddr));
 }
 
-void TestRatio(const beam::Difficulty& d0, const beam::Difficulty& d1, double k)
+void TestRatio(const grimm::Difficulty& d0, const grimm::Difficulty& d1, double k)
 {
 	const double tol = 1.000001;
 	double k_ = d0.ToFloat() / d1.ToFloat();
@@ -1438,7 +1438,7 @@ void TestRatio(const beam::Difficulty& d0, const beam::Difficulty& d1, double k)
 
 void TestDifficulty()
 {
-	using namespace beam;
+	using namespace grimm;
 
 	Difficulty::Raw r1, r2;
 	Difficulty(Difficulty::s_Inf).Unpack(r1);
@@ -1555,7 +1555,7 @@ void TestFourCC()
 #define TEST_FOURCC(name) \
 	{ \
 		uint32_t nFourCC = FOURCC_FROM(name); \
-		beam::FourCC::Text txt(nFourCC); \
+		grimm::FourCC::Text txt(nFourCC); \
 		verify_test(IsOkFourCC(txt, #name)); \
 	}
 
@@ -1568,11 +1568,11 @@ void TestFourCC()
 
 void TestTreasury()
 {
-	beam::Treasury::Parameters pars;
+	grimm::Treasury::Parameters pars;
 	pars.m_Bursts = 12;
 	pars.m_MaturityStep = 1440 * 30 * 4;
 
-	beam::Treasury tres;
+	grimm::Treasury tres;
 
 	const uint32_t nPeers = 3;
 	HKdf pKdfs[nPeers];
@@ -1584,26 +1584,26 @@ void TestTreasury()
 		SetRandom(seed);
 		pKdfs[i].Generate(seed);
 
-		beam::PeerID pid;
+		grimm::PeerID pid;
 		Scalar::Native sk;
-		beam::Treasury::get_ID(pKdfs[i], pid, sk);
+		grimm::Treasury::get_ID(pKdfs[i], pid, sk);
 
 		// 2. Plan is created (2%, 3%, 4% of the total emission)
-		beam::Treasury::Entry* pE = tres.CreatePlan(pid, beam::Rules::get().Emission.Value0 * (i + 2)/100, pars);
+		grimm::Treasury::Entry* pE = tres.CreatePlan(pid, grimm::Rules::get().Emission.Value0 * (i + 2)/100, pars);
 		verify_test(pE->m_Request.m_WalletID == pid);
 
 		// test Request serialization
-		beam::Serializer ser0;
+		grimm::Serializer ser0;
 		ser0 & pE->m_Request;
 
-		beam::Deserializer der0;
+		grimm::Deserializer der0;
 		der0.reset(ser0.buffer().first, ser0.buffer().second);
 
-		beam::Treasury::Request req;
+		grimm::Treasury::Request req;
 		der0 & req;
 
 		// 3. Plan is appvoved by the wallet, response is generated
-		pE->m_pResponse.reset(new beam::Treasury::Response);
+		pE->m_pResponse.reset(new grimm::Treasury::Response);
 		uint64_t nIndex = 1;
 		verify_test(pE->m_pResponse->Create(req, pKdfs[i], nIndex));
 		verify_test(pE->m_pResponse->m_WalletID == pid);
@@ -1613,27 +1613,27 @@ void TestTreasury()
 	}
 
 	// test serialization
-	beam::Serializer ser1;
+	grimm::Serializer ser1;
 	ser1 & tres;
 
 	tres.m_Entries.clear();
 
-	beam::Deserializer der1;
+	grimm::Deserializer der1;
 	der1.reset(ser1.buffer().first, ser1.buffer().second);
 	der1 & tres;
 
 	verify_test(tres.m_Entries.size() == nPeers);
 
 	std::string msg = "cool treasury";
-	beam::Treasury::Data data;
+	grimm::Treasury::Data data;
 	data.m_sCustomMsg = msg;
 	tres.Build(data);
 	verify_test(!data.m_vGroups.empty());
 
-	std::vector<beam::Treasury::Data::Burst> vBursts = data.get_Bursts();
+	std::vector<grimm::Treasury::Data::Burst> vBursts = data.get_Bursts();
 
 	// test serialization
-	beam::ByteBuffer bb;
+	grimm::ByteBuffer bb;
 	ser1.swap_buf(bb);
 	ser1 & data;
 
@@ -1649,7 +1649,7 @@ void TestTreasury()
 
 	for (uint32_t i = 0; i < nPeers; i++)
 	{
-		std::vector<beam::Treasury::Data::Coin> vCoins;
+		std::vector<grimm::Treasury::Data::Coin> vCoins;
 		data.Recover(pKdfs[i], vCoins);
 		verify_test(vCoins.size() == pars.m_Bursts);
 	}
@@ -1978,7 +1978,7 @@ void RunBenchmark()
 			for (uint32_t i = 0; i < bm.N; i++)
 			{
 				Hash::Processor()
-					<< beam::Blob(pBuf, sizeof(pBuf))
+					<< grimm::Blob(pBuf, sizeof(pBuf))
 					>> hv;
 			}
 
@@ -2176,8 +2176,8 @@ int main()
 {
 	g_psecp256k1 = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
 
-	beam::Rules::get().CA.Enabled = true;
-	beam::Rules::get().pForks[1].m_Height = g_hFork;
+	grimm::Rules::get().CA.Enabled = true;
+	grimm::Rules::get().pForks[1].m_Height = g_hFork;
 	ECC::TestAll();
 	ECC::RunBenchmark();
 

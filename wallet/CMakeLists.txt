@@ -1,4 +1,4 @@
-set(TARGET_NAME beam-wallet${BEAM_TARGET_SUFFIX})
+set(TARGET_NAME grimm-wallet${GRIMM_TARGET_SUFFIX})
 
 add_definitions( -DSQLITE_HAS_CODEC )
 
@@ -56,7 +56,7 @@ add_library(wallet_api_proto STATIC api.cpp)
 add_dependencies(wallet_api_proto wallet utility http)
 target_link_libraries(wallet_api_proto wallet utility http)
 
-set(WALLET_API_NAME wallet-api${BEAM_TARGET_SUFFIX})
+set(WALLET_API_NAME wallet-api${GRIMM_TARGET_SUFFIX})
 
 add_executable(${WALLET_API_NAME} api_cli.cpp)
 target_include_directories(${WALLET_API_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -69,7 +69,7 @@ endif()
 
 add_subdirectory(unittests)
 
-if (BEAM_SIGN_PACKAGE AND WIN32)
+if (GRIMM_SIGN_PACKAGE AND WIN32)
     add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} "${CMAKE_CURRENT_BINARY_DIR}\\{TARGET_NAME}.exe"

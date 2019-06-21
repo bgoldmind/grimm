@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include "proto.h"
 #include "../utility/logger.h"
 
-namespace beam {
+namespace grimm {
 namespace proto {
 
 /////////////////////////
@@ -291,7 +291,7 @@ bool Bbs::IsHashValid(const ECC::Hash::Value& hv)
 union HighestMsgCode
 {
 #define THE_MACRO(code, msg) uint8_t m_pBuf_##msg[code + 1];
-    BeamNodeMsgsAll(THE_MACRO)
+    GrimmNodeMsgsAll(THE_MACRO)
 #undef THE_MACRO
 };
 
@@ -301,7 +301,7 @@ bool NotCalled_VerifyNoDuplicatedIDs(uint32_t id)
     {
 #define THE_MACRO(code, msg) \
     case code:
-        BeamNodeMsgsAll(THE_MACRO)
+        GrimmNodeMsgsAll(THE_MACRO)
 #undef THE_MACRO
         return true;
     }
@@ -319,7 +319,7 @@ NodeConnection::NodeConnection()
 #define THE_MACRO(code, msg) \
     m_Protocol.add_message_handler<NodeConnection, msg##_NoInit, &NodeConnection::OnMsgInternal>(uint8_t(code), this, 0, 1024*1024*10);
 
-    BeamNodeMsgsAll(THE_MACRO)
+    GrimmNodeMsgsAll(THE_MACRO)
 #undef THE_MACRO
 }
 
@@ -554,7 +554,7 @@ bool NodeConnection::OnMsgInternal(uint64_t, msg##_NoInit&& v) \
     } \
 } \
 
-BeamNodeMsgsAll(THE_MACRO)
+GrimmNodeMsgsAll(THE_MACRO)
 #undef THE_MACRO
 
 void NodeConnection::TestInputMsgContext(uint8_t code)
@@ -967,4 +967,4 @@ void NodeConnection::Server::Listen(const io::Address& addr)
 }
 
 } // namespace proto
-} // namespace beam
+} // namespace grimm

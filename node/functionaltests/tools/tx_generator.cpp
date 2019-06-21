@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "tx_generator.h"
 
-using namespace beam;
+using namespace grimm;
 using namespace ECC;
 
 TxGenerator::TxGenerator(Key::IKdf& kdf)
@@ -25,7 +25,7 @@ TxGenerator::TxGenerator(Key::IKdf& kdf)
 	m_MsgTx.m_Transaction->m_Offset = m_Offset;
 }
 
-void TxGenerator::GenerateInputInTx(Height h, Amount v, beam::Key::Type keyType, uint32_t ind)
+void TxGenerator::GenerateInputInTx(Height h, Amount v, grimm::Key::Type keyType, uint32_t ind)
 {
 	Scalar::Native key;
 
@@ -36,7 +36,7 @@ void TxGenerator::GenerateInputInTx(Height h, Amount v, beam::Key::Type keyType,
 	m_MsgTx.m_Transaction->m_Offset = m_Offset;
 }
 
-void TxGenerator::GenerateOutputInTx(Height h, Amount v, beam::Key::Type keyType, bool isPublic, uint32_t ind)
+void TxGenerator::GenerateOutputInTx(Height h, Amount v, grimm::Key::Type keyType, bool isPublic, uint32_t ind)
 {
 	Output::Ptr pOut(new Output);
 	ECC::Scalar::Native key;

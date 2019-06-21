@@ -9,7 +9,7 @@
     #include <stdlib.h>
 #endif
 
-namespace beam {
+namespace grimm {
 
 void SecString::erase() {
     if (_size > 0) ECC::SecureErase(_data, static_cast<uint32_t>(_size));

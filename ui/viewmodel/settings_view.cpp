@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 #include <algorithm>
 
 
-using namespace beam;
+using namespace grimm;
 using namespace ECC;
 using namespace std;
 
@@ -177,18 +177,18 @@ void SettingsViewModel::setPasswordReqiredToSpendMoney(bool value)
     }
 }
 
-bool SettingsViewModel::isAllowedBeamMWLinks() const
+bool SettingsViewModel::isAllowedgrimmLinks() const
 {
-    return m_isAllowedBeamMWLinks;
+    return m_isAllowedgrimmLinks;
 }
 
-void SettingsViewModel::allowBeamMWLinks(bool value)
+void SettingsViewModel::allowgrimmLinks(bool value)
 {
-    if (value != m_isAllowedBeamMWLinks)
+    if (value != m_isAllowedgrimmLinks)
     {
-        m_isAllowedBeamMWLinks = value;
-        m_settings.setAllowedBeamMWLinks(m_isAllowedBeamMWLinks);
-        emit beamMWLinksAllowed();
+        m_isAllowedgrimmLinks = value;
+        m_settings.setAllowedgrimmLinks(m_isAllowedgrimmLinks);
+        emit grimmLinksAllowed();
     }
 }
 
@@ -312,7 +312,7 @@ void SettingsViewModel::undoChanges()
     setLockTimeout(m_settings.getLockTimeout());
     setLocalNodePeers(m_settings.getLocalNodePeers());
     setPasswordReqiredToSpendMoney(m_settings.isPasswordReqiredToSpendMoney());
-    allowBeamMWLinks(m_settings.isAllowedBeamMWLinks());
+    allowgrimmLinks(m_settings.isAllowedgrimmLinks());
     setCurrentLanguageIndex(
             m_supportedLanguages.indexOf(m_settings.getLanguageName()));
 }

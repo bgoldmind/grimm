@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #include "second_side.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     class LockTxBuilder;
 
@@ -61,17 +61,17 @@ namespace beam::wallet
             Initial,
             Invitation,
 
-            BuildingBeamLockTX,
-            BuildingBeamRefundTX,
-            BuildingBeamRedeemTX,
+            BuildingGrimmLockTX,
+            BuildingGrimmRefundTX,
+            BuildingGrimmRedeemTX,
 
             HandlingContractTX,
             SendingRefundTX,
             SendingRedeemTX,
 
-            SendingBeamLockTX,
-            SendingBeamRefundTX,
-            SendingBeamRedeemTX,
+            SendingGrimmLockTX,
+            SendingGrimmRefundTX,
+            SendingGrimmRedeemTX,
 
             Cancelled,
 
@@ -114,30 +114,30 @@ namespace beam::wallet
         void ConfirmSharedTxInvitation(const BaseTxBuilder& builder);
 
 
-        SubTxState BuildBeamLockTx();
-        SubTxState BuildBeamWithdrawTx(SubTxID subTxID, Transaction::Ptr& resultTx);
-        bool CompleteBeamWithdrawTx(SubTxID subTxID);
+        SubTxState BuildGrimmLockTx();
+        SubTxState BuildGrimmWithdrawTx(SubTxID subTxID, Transaction::Ptr& resultTx);
+        bool CompleteGrimmWithdrawTx(SubTxID subTxID);
                 
         bool SendSubTx(Transaction::Ptr transaction, SubTxID subTxID);
 
-        bool IsBeamLockTimeExpired() const;
+        bool IsGrimmLockTimeExpired() const;
 
-        // wait SubTX in BEAM chain(request kernel proof), returns true if got kernel proof
+        // wait SubTX in GRIMM chain(request kernel proof), returns true if got kernel proof
         bool CompleteSubTx(SubTxID subTxID);
 
         bool GetKernelFromChain(SubTxID subTxID) const;
 
         Amount GetAmount() const;
         bool IsSender() const;
-        bool IsBeamSide() const;
+        bool IsGrimmSide() const;
 
         void OnSubTxFailed(TxFailureReason reason, SubTxID subTxID, bool notify = false);
         void CheckSubTxFailures();
         void ExtractSecretPrivateKey();
 
-        mutable boost::optional<bool> m_IsBeamSide;
+        mutable boost::optional<bool> m_IsGrimmSide;
         mutable boost::optional<bool> m_IsSender;
-        mutable boost::optional<beam::Amount> m_Amount;
+        mutable boost::optional<grimm::Amount> m_Amount;
 
         Transaction::Ptr m_LockTx;
         Transaction::Ptr m_WithdrawTx;

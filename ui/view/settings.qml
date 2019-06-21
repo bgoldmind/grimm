@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.0
 import "controls"
-import Beam.Wallet 1.0
+import Grimm.Wallet 1.0
 
 Rectangle {
 
@@ -94,17 +94,17 @@ Rectangle {
     function handleExternalLink(mouse, element) {
         if (element.cursorShape == Qt.PointingHandCursor) {
             var externalLink = element.parent.linkAt(mouse.x, mouse.y);
-            if (viewModel.isAllowedBeamMWLinks) {
+            if (viewModel.isAllowedgrimmLinks) {
                 Qt.openUrlExternally(externalLink);
             } else {
                 externalLinkConfirmation.externalUrl = externalLink;
                 externalLinkConfirmation.onOkClicked = function () {
-                    viewModel.isAllowedBeamMWLinks = true;
+                    viewModel.isAllowedgrimmLinks = true;
                 };
                 externalLinkConfirmation.open();
             }
         } else {
-            viewModel.isAllowedBeamMWLinks = !viewModel.isAllowedBeamMWLinks;
+            viewModel.isAllowedgrimmLinks = !viewModel.isAllowedgrimmLinks;
         }
     }
 
@@ -625,11 +625,11 @@ Rectangle {
 
                                     SFText {
                                         //: general settings, label for alow open external links
-                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.beam.mw/'>beam.mw</a> and <a href='https://explorer.beam.mw/'>blockchain explorer</a> (to fetch exchanges and transaction data)"
-                                        text: qsTrId("settings-general-allow-beammw-label")
+                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.grimmw.com/'>grimmw.com</a> and <a href='https://explorer.grimmw.com/'>blockchain explorer</a> (to fetch exchanges and transaction data)"
+                                        text: qsTrId("settings-general-allow-grimm-label")
                                         textFormat: Text.RichText
                                         font.pixelSize: 14
-                                        color: allowBeamMWLinks.palette.text
+                                        color: allowgrimmLinks.palette.text
                                         wrapMode: Text.WordWrap
                                         Layout.preferredWidth: generalBlock.width - 95
                                         Layout.preferredHeight: 32
@@ -652,13 +652,13 @@ Rectangle {
                                     }
 
                                     CustomSwitch {
-                                        id: allowBeamMWLinks
+                                        id: allowgrimmLinks
                                         Layout.preferredWidth: 30
-                                        checked: viewModel.isAllowedBeamMWLinks
+                                        checked: viewModel.isAllowedgrimmLinks
                                         Binding {
                                             target: viewModel
-                                            property: "isAllowedBeamMWLinks"
-                                            value: allowBeamMWLinks.checked
+                                            property: "isAllowedgrimmLinks"
+                                            value: allowgrimmLinks.checked
                                         }
                                     }
                                 }
@@ -738,7 +738,7 @@ Rectangle {
                                     Layout.topMargin: 7
                                     Layout.preferredWidth: 419
                                     //: settings tab, report problem section, message
-                                    //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>To report a problem:<br />1. Click “Save wallet logs” and choose a destination folder for log archive<br />2. Send email to <a href='mailto:support@beam.mw'>support@beam.mw</a> or open a ticket in <a href='https://github.com/BeamMW'>Github</a><br />3. Don’t forget to attach logs archive"
+                                    //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>To report a problem:<br />1. Click “Save wallet logs” and choose a destination folder for log archive<br />2. Send email to <a href='mailto:support@grimmw.com'>support@grimmw.com</a> or open a ticket in <a href='https://github.com/freenetcoder'>Github</a><br />3. Don’t forget to attach logs archive"
                                     text: qsTrId("settings-report-problem-message")
                                     textFormat: Text.RichText
                                     color: Style.content_main

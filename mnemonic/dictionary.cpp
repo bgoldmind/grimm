@@ -1,6 +1,6 @@
 #include "dictionary.h"
 
-namespace beam
+namespace grimm
 {
     namespace language
     {

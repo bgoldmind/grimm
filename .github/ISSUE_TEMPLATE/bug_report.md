@@ -25,10 +25,10 @@ A clear and concise description of what you expected to happen.
 **Platform and build**
 * Windows, Mac, Linux, Android or iOS
 * OS version
-* BEAM Build number
+* GRIMM Build number
 
 **Configuration, log, memory dump files (if applicable)**
-Add relevant files. The filenames and locations are described here: https://github.com/BeamMW/beam/wiki/Folder-and-file-locations
+
 
 **Log file(s) (if applicable)**
 Add relevant log file(s),  located in the `logs` folder.

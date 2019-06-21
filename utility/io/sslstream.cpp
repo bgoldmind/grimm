@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "sslstream.h"
 #include "utility/helpers.h"
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 SslStream::SslStream(const SSLContext::Ptr& ctx) :
     _ssl(ctx, BIND_THIS_MEMFN(on_decrypted_data), BIND_THIS_MEMFN(on_encrypted_data), 16384)

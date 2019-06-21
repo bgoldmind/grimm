@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ namespace ECC {
 	}
 }
 
-namespace beam
+namespace grimm
 {
 #ifdef WIN32
 		const char* g_sz = "mytest.db";
@@ -258,12 +258,12 @@ int main()
 #if LOG_VERBOSE_ENABLED
     logLevel = LOG_LEVEL_VERBOSE;
 #endif
-    auto logger = beam::Logger::create(logLevel, logLevel);
+    auto logger = grimm::Logger::create(logLevel, logLevel);
 
-	beam::helpers::ProcessWideLock("/tmp/BEAM_node_test_lock");
+	grimm::helpers::ProcessWideLock("/tmp/GRIMM_node_test_lock");
 
-    beam::TestP2pSane();
-    beam::TestNode1(10, 100);
+    grimm::TestP2pSane();
+    grimm::TestNode1(10, 100);
 
     return g_Ret;
 }

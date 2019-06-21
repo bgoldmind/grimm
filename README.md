@@ -1,70 +1,70 @@
 
-![alt text](https://s3.eu-central-1.amazonaws.com/website-storage.beam.mw/media/homepage/scc/scc-1.jpg "Beam Logo")
+![alt text](https://s3.eu-central-1.amazonaws.com/website-storage.grimmw.com/media/homepage/scc/scc-1.jpg "Grimm Logo")
 
-### Welcome to Beam
+### Welcome to Grimm
 
 
-BEAM is a next generation scalable, confidential cryptocurrency based on an elegant and innovative [Mimblewimble protocol](https://docs.beam.mw/Mimblewimble.pdf).
+GRIMM is a next generation scalable, confidential cryptocurrency based on an elegant and innovative [Mimblewimble protocol](https://docs.grimmw.com/Mimblewimble.pdf).
 
 ### ANNOUNCEMENTS
 
 
 
-[Download latest version](http://beam.mw/downloads)
+[Download latest version](http://grimmw.com/downloads)
 **Bright Boson 2.0 with ultra fast sync, payment proof and lots of improvements**
 
 
-**Beam released Mobile Wallet for iOS**. [Download](https://www.beam.mw/downloads/mainnet-ios)
+**Grimm released Mobile Wallet for iOS**. [Download](https://www.grimmw.com/downloads/mainnet-ios)
 
 
 ### JOIN OUR COMMUNITIES ON TELEGRAM
 
-[English](https://t.me/BeamPrivacy) | [Русский](https://t.me/Beam_RU) | [中文](https://t.me/beamchina) | [日本語](https://t.me/beamjp)
+[English](https://t.me/GrimmPrivacy) | [Русский](https://t.me/Grimm_RU) | [中文](https://t.me/grimmchina) | [日本語](https://t.me/grimmjp)
 
-### FOLLOW BEAM 
+### FOLLOW GRIMM
 
-[twitter](https://twitter.com/beamprivacy) | [medium](https://medium.com/beam-mw) | [reddit](https://www.reddit.com/r/beamprivacy/) | [gitter](https://gitter.im/beamprivacy/Lobby) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
+[twitter](https://twitter.com/grimmprivacy) | [medium](https://medium.com/grimm-mw) | [reddit](https://www.reddit.com/r/grimmprivacy/) | [gitter](https://gitter.im/grimmprivacy/Lobby) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
 
 
 ### GET STARTED
 
 
-Get Beam binaries here: http://beam.mw/downloads
+Get Grimm binaries here: http://grimmw.com/downloads
 
 If you build from source please use 'mainnet' branch\
 
 Peers:
 
-eu-nodes.mainnet.beam.mw:8100
+eu-nodes.mainnet.grimmw.com:8100
 
-us-nodes.mainnet.beam.mw:8100
+us-nodes.mainnet.grimmw.com:8100
 
-ap-nodes.mainnet.beam.mw:8100
+ap-nodes.mainnet.grimmw.com:8100
 
-Latest documentation is here: https://documentation.beam.mw
+Latest documentation is here: https://documentation.grimmw.com
 
-Things that make BEAM special include:
+Things that make GRIMM special include:
 
 * Users have complete control over privacy - a user decides which information will be available and to which parties, having complete control over his personal data in accordance to his will and applicable laws.
-* Confidentiality without penalty - in BEAM confidential transactions do not cause bloating of the blockchain, avoiding excessive computational overhead or penalty on performance or scalability while completely concealing the transaction value.
+* Confidentiality without penalty - in GRIMM confidential transactions do not cause bloating of the blockchain, avoiding excessive computational overhead or penalty on performance or scalability while completely concealing the transaction value.
 * No trusted setup required
 * Blocks are mined using Equihash Proof-of-Work algorithm.
 * Limited emission using periodic halving.
 * No addresses are stored in the blockchain - no information whatsoever about either the sender or the receiver of a transaction is stored in the blockchain.
 * Superior scalability through compact blockchain size - using the “cut-through” feature of
-Mimblewimble makes the BEAM blockchain orders of magnitude smaller than any other
+Mimblewimble makes the GRIMM blockchain orders of magnitude smaller than any other
 blockchain implementation.
-* BEAM supports many transaction types such as escrow transactions, time locked
+* GRIMM supports many transaction types such as escrow transactions, time locked
 transactions, atomic swaps and more.
 * No premine. No ICO. Backed by a treasury, emitted from every block during the first five
 years.
 * Implemented from scratch in C++.
 
-[Read our position paper](https://docs.beam.mw/BEAM_Position_Paper_v0.2.2.pdf)
+[Read our position paper](https://docs.grimmw.com/GRIMM_Position_Paper_v0.2.2.pdf)
 
 ### Roadmap
 
-See Beam roadmap for 2019 on https://beam.mw
+See Grimm roadmap for 2019 on https://grimmw.com
 
 ### Current status
 
@@ -89,10 +89,3 @@ See Beam roadmap for 2019 on https://beam.mw
 - Payment proof
 - Ultra fast sync
 - Android Mobile wallet
-
-See [How to build](https://github.com/BeamMW/beam/wiki/How-to-build)
-
-# Build status
-[![Build Status](https://travis-ci.org/BeamMW/beam.svg?branch=master)](https://travis-ci.org/BeamMW/beam)
-[![Build status](https://ci.appveyor.com/api/projects/status/0j424l1h61gwqddm/branch/master?svg=true)](https://ci.appveyor.com/project/beam-mw/beam/branch/master)
-

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.2
 import QtGraphicalEffects 1.0
 import "controls"
-import Beam.Wallet 1.0
+import Grimm.Wallet 1.0
 import QtQuick.Layouts 1.3
 
 Item
@@ -53,7 +53,7 @@ Item
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment : Text.AlignHCenter
                 width: parent.width
-                //% "You are trying to restore an existing Beam Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device."
+                //% "You are trying to restore an existing Grimm Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device."
                 text: qsTrId("start-restore-message-line")
                 color: Style.content_main
                 font.pixelSize: 14

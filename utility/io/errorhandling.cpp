@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "errorhandling.h"
 #include <stdio.h>
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 const char* error_str(ErrorCode errorCode) {
     switch (errorCode) {
@@ -30,7 +30,7 @@ const char* error_str(ErrorCode errorCode) {
     }
 }
 
-const char* error_descr(beam::io::ErrorCode errorCode) {
+const char* error_descr(grimm::io::ErrorCode errorCode) {
     switch (errorCode) {
         case EC_OK: return "OK";
         case EC_WRITE_BUFFER_OVERFLOW: return "stream write buffer overflow";

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 
 
 
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 using namespace ECC;
 using namespace std;
 
@@ -53,7 +53,7 @@ AppModel* AppModel::getInstance()
 AppModel::AppModel(WalletSettings& settings, QQmlApplicationEngine& qmlEngine)
     : m_settings{settings}
     , m_qmlEngine{qmlEngine}
-    , m_walletReactor(beam::io::Reactor::create())
+    , m_walletReactor(grimm::io::Reactor::create())
     , m_translator(make_unique<QTranslator>())
 {
     assert(s_instance == nullptr);
@@ -95,7 +95,7 @@ bool AppModel::createWallet(const SecString& seed, const SecString& pass)
     return true;
 }
 
-bool AppModel::openWallet(const beam::SecString& pass)
+bool AppModel::openWallet(const grimm::SecString& pass)
 {
     m_db = WalletDB::open(m_settings.getWalletStorage(), pass, m_walletReactor);
     if (!m_db)
@@ -105,7 +105,7 @@ bool AppModel::openWallet(const beam::SecString& pass)
     return true;
 }
 
-void AppModel::OnWalledOpened(const beam::SecString& pass)
+void AppModel::OnWalledOpened(const grimm::SecString& pass)
 {
     m_passwordHash = pass.hash();
     start();
@@ -179,8 +179,8 @@ void AppModel::startedNode()
     if (m_wallet && !m_wallet->isRunning())
     {
         disconnect(
-            &m_nodeModel, SIGNAL(failedToSyncNode(beam::wallet::ErrorType)),
-            this, SLOT(onFailedToStartNode(beam::wallet::ErrorType)));
+            &m_nodeModel, SIGNAL(failedToSyncNode(grimm::wallet::ErrorType)),
+            this, SLOT(onFailedToStartNode(grimm::wallet::ErrorType)));
         m_wallet->start();
     }
 }
@@ -191,15 +191,15 @@ void AppModel::stoppedNode()
     disconnect(&m_nodeModel, SIGNAL(stoppedNode()), this, SLOT(stoppedNode()));
 }
 
-void AppModel::onFailedToStartNode(beam::wallet::ErrorType errorCode)
+void AppModel::onFailedToStartNode(grimm::wallet::ErrorType errorCode)
 {
-    if (errorCode == beam::wallet::ErrorType::ConnectionAddrInUse && m_wallet)
+    if (errorCode == grimm::wallet::ErrorType::ConnectionAddrInUse && m_wallet)
     {
         emit m_wallet->walletError(errorCode);
         return;
     }
 
-    if (errorCode == beam::wallet::ErrorType::TimeOutOfSync && m_wallet)
+    if (errorCode == grimm::wallet::ErrorType::TimeOutOfSync && m_wallet)
     {
         //% "Failed to start the integrated node: the timezone settings of your machine are out of sync. Please fix them and restart the wallet."
         getMessages().addMessage(qtTrId("appmodel-failed-time-not-synced"));
@@ -229,8 +229,8 @@ void AppModel::start()
     if (m_settings.getRunLocalNode())
     {
         connect(&m_nodeModel, SIGNAL(startedNode()), SLOT(startedNode()));
-        connect(&m_nodeModel, SIGNAL(failedToStartNode(beam::wallet::ErrorType)), SLOT(onFailedToStartNode(beam::wallet::ErrorType)));
-        connect(&m_nodeModel, SIGNAL(failedToSyncNode(beam::wallet::ErrorType)), SLOT(onFailedToStartNode(beam::wallet::ErrorType)));
+        connect(&m_nodeModel, SIGNAL(failedToStartNode(grimm::wallet::ErrorType)), SLOT(onFailedToStartNode(grimm::wallet::ErrorType)));
+        connect(&m_nodeModel, SIGNAL(failedToSyncNode(grimm::wallet::ErrorType)), SLOT(onFailedToStartNode(grimm::wallet::ErrorType)));
 
         m_nodeModel.startNode();
 
@@ -279,7 +279,7 @@ void AppModel::resetWallet()
     resetWalletImpl();
 }
 
-bool AppModel::checkWalletPassword(const beam::SecString& pass) const
+bool AppModel::checkWalletPassword(const grimm::SecString& pass) const
 {
     auto passwordHash = pass.hash();
 
@@ -288,7 +288,7 @@ bool AppModel::checkWalletPassword(const beam::SecString& pass) const
 
 void AppModel::changeWalletPassword(const std::string& pass)
 {
-    beam::SecString t = pass;
+    grimm::SecString t = pass;
     m_passwordHash.V = t.hash().V;
 
     m_wallet->getAsync()->changeWalletPassword(pass);

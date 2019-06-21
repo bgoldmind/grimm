@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #include "../utility/logger_checkpoints.h"
 #include <condition_variable>
 
-namespace beam {
+namespace grimm {
 
 void NodeProcessor::OnCorrupted()
 {
@@ -819,7 +819,7 @@ void NodeProcessor::MultiblockContext::MyTask::SharedBlock::Exec(uint32_t iVerif
 
 	bool bSparse = (m_Ctx.m_Height.m_Min <= m_Mbc.m_This.m_SyncData.m_TxoLo);
 
-	beam::TxBase txbDummy;
+	grimm::TxBase txbDummy;
 	if (bSparse)
 		txbDummy.m_Offset = Zero;
 
@@ -1534,7 +1534,7 @@ bool NodeProcessor::HandleBlock(const NodeDB::StateID& sid, MultiblockContext& m
 
 		}
 		else
-            BEAM_VERIFY(HandleValidatedBlock(block.get_Reader(), block, sid.m_Height, false));
+            GRIMM_VERIFY(HandleValidatedBlock(block.get_Reader(), block, sid.m_Height, false));
 	}
 
 	if (bOk)
@@ -2586,7 +2586,7 @@ bool NodeProcessor::GenerateNewBlock(BlockContext& bc)
 	if (nSizeEstimated)
 		bc.m_Hdr.m_Height = h;
 
-    BEAM_VERIFY(HandleValidatedTx(bc.m_Block.get_Reader(), h, false)); // undo changes
+    GRIMM_VERIFY(HandleValidatedTx(bc.m_Block.get_Reader(), h, false)); // undo changes
 
 	// reset input maturities
 	for (size_t i = 0; i < bc.m_Block.m_vInputs.size(); i++)
@@ -2609,7 +2609,7 @@ bool NodeProcessor::GenerateNewBlock(BlockContext& bc)
 		return false; // ?!
 	}
 	GenerateNewHdr(bc);
-    BEAM_VERIFY(HandleValidatedTx(bc.m_Block.get_Reader(), h, false)); // undo changes
+    GRIMM_VERIFY(HandleValidatedTx(bc.m_Block.get_Reader(), h, false)); // undo changes
 
 
 	Serializer ser;
@@ -3026,7 +3026,7 @@ bool NodeProcessor::ImportMacroBlockInternal(Block::BodyBase::IMacroReader& r)
 	{
 		LOG_WARNING() << "Definition mismatch";
 
-        BEAM_VERIFY(HandleValidatedBlock(std::move(r), body, m_Cursor.m_ID.m_Height + 1, false, &id.m_Height));
+        GRIMM_VERIFY(HandleValidatedBlock(std::move(r), body, m_Cursor.m_ID.m_Height + 1, false, &id.m_Height));
 
 		return false;
 	}
@@ -3392,4 +3392,4 @@ bool NodeProcessor::GetBlock(const NodeDB::StateID& sid, ByteBuffer* pEthernal, 
 	return true;
 }
 
-} // namespace beam
+} // namespace grimm

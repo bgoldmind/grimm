@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@
 
 using namespace std;
 using namespace ECC;
-using namespace beam;
+using namespace grimm;
 
 namespace std
 {
-    string to_string(const beam::wallet::WalletID& id)
+    string to_string(const grimm::wallet::WalletID& id)
     {
         static_assert(sizeof(id) == sizeof(id.m_Channel) + sizeof(id.m_Pk), "");
 
         char szBuf[sizeof(id) * 2 + 1];
-        beam::to_hex(szBuf, &id, sizeof(id));
+        grimm::to_hex(szBuf, &id, sizeof(id));
 
         const char* szPtr = szBuf;
         while (*szPtr == '0')
@@ -49,13 +49,13 @@ namespace std
         return string(sz);
     }
 
-    string to_string(beam::wallet::AtomicSwapCoin value)
+    string to_string(grimm::wallet::AtomicSwapCoin value)
     {
         switch (value)
         {
-        case beam::wallet::AtomicSwapCoin::Bitcoin:
+        case grimm::wallet::AtomicSwapCoin::Bitcoin:
             return "btc";
-        case beam::wallet::AtomicSwapCoin::Litecoin:
+        case grimm::wallet::AtomicSwapCoin::Litecoin:
             return "ltc";
         default:
             return "";
@@ -63,7 +63,7 @@ namespace std
     }
 }
 
-namespace beam
+namespace grimm
 {
     std::ostream& operator<<(std::ostream& os, const wallet::TxID& uuid)
     {
@@ -90,7 +90,7 @@ namespace beam
         {
             if (amount.m_value >= Rules::Coin)
             {
-                ss << Amount(amount.m_value / Rules::Coin) << " beams ";
+                ss << Amount(amount.m_value / Rules::Coin) << " grimms ";
             }
             Amount c = amount.m_value % Rules::Coin;
             if (c > 0 || amount.m_value == 0)
@@ -104,7 +104,7 @@ namespace beam
     }
 }
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     AtomicSwapCoin from_string(const std::string& value)
     {

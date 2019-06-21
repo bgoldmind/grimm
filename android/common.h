@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@
 #define DEF2STR2(x) #x
 #define DEF2STR(x) DEF2STR2(x)
 
-#define BEAM_JAVA_PACKAGE(sep)                     com ## sep ## mw ## sep ## beam ## sep ## beamwallet ## sep ## core
-#define BEAM_JAVA_PREFIX                         BEAM_JAVA_PACKAGE(_)
-#define BEAM_JAVA_PATH                             "com/mw/beam/beamwallet/core" // doesn't work on clang DEF2STR(BEAM_JAVA_PACKAGE(/))
-#define BEAM_JAVA_API_INTERFACE(function)         CONCAT1(BEAM_JAVA_PREFIX, Api, function)
-#define BEAM_JAVA_WALLET_INTERFACE(function)     CONCAT1(BEAM_JAVA_PREFIX, entities_Wallet, function)
+#define GRIMM_JAVA_PACKAGE(sep)                     com ## sep ## mw ## sep ## grimm ## sep ## grimmwallet ## sep ## core
+#define GRIMM_JAVA_PREFIX                         GRIMM_JAVA_PACKAGE(_)
+#define GRIMM_JAVA_PATH                             "com/mw/grimm/grimmwallet/core" // doesn't work on clang DEF2STR(GRIMM_JAVA_PACKAGE(/))
+#define GRIMM_JAVA_API_INTERFACE(function)         CONCAT1(GRIMM_JAVA_PREFIX, Api, function)
+#define GRIMM_JAVA_WALLET_INTERFACE(function)     CONCAT1(GRIMM_JAVA_PREFIX, entities_Wallet, function)
 
 extern JavaVM* JVM;
 

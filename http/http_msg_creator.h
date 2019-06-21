@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #include "utility/io/fragment_writer.h"
 #include "nlohmann/json_fwd.hpp"
 
-namespace beam {
+namespace grimm {
 
 struct HeaderPair {
     const char* head;

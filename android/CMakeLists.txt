@@ -32,15 +32,15 @@ else()
 	add_jar(WalletJNI 
 		SOURCES 
 			WalletJNI.java 
-			com/mw/beam/beamwallet/core/Api.java
-			com/mw/beam/beamwallet/core/entities/Wallet.java
-			com/mw/beam/beamwallet/core/entities/dto/UtxoDTO.java
-			com/mw/beam/beamwallet/core/entities/dto/TxDescriptionDTO.java
-			com/mw/beam/beamwallet/core/entities/dto/SystemStateDTO.java
-			com/mw/beam/beamwallet/core/entities/dto/WalletStatusDTO.java
-            com/mw/beam/beamwallet/core/entities/dto/WalletAddressDTO.java
-            com/mw/beam/beamwallet/core/entities/dto/PaymentInfoDTO.java
-			com/mw/beam/beamwallet/core/listeners/WalletListener.java
+			com/mw/grimm/grimmwallet/core/Api.java
+			com/mw/grimm/grimmwallet/core/entities/Wallet.java
+			com/mw/grimm/grimmwallet/core/entities/dto/UtxoDTO.java
+			com/mw/grimm/grimmwallet/core/entities/dto/TxDescriptionDTO.java
+			com/mw/grimm/grimmwallet/core/entities/dto/SystemStateDTO.java
+			com/mw/grimm/grimmwallet/core/entities/dto/WalletStatusDTO.java
+            com/mw/grimm/grimmwallet/core/entities/dto/WalletAddressDTO.java
+            com/mw/grimm/grimmwallet/core/entities/dto/PaymentInfoDTO.java
+			com/mw/grimm/grimmwallet/core/listeners/WalletListener.java
 		ENTRY_POINT WalletJNI
 	)
 

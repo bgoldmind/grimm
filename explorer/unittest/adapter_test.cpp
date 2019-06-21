@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 #include <boost/filesystem.hpp>
 #include <wallet/unittests/util.h>
 
-namespace beam {
+namespace grimm {
 
 struct WaitHandle {
     io::Reactor::Ptr reactor;
@@ -43,7 +43,7 @@ WaitHandle run_node(const NodeParams& params) {
         std::launch::async,
         [&params, reactor]() {
             io::Reactor::Scope scope(*reactor);
-            beam::Node node;
+            grimm::Node node;
 
             node.m_Cfg.m_Listen.port(params.nodeAddress.port());
             node.m_Cfg.m_Listen.ip(params.nodeAddress.ip());
@@ -82,7 +82,7 @@ void cleanup_files() {
 
 int test_adapter(int seconds) {
     cleanup_files();
-    using namespace beam;
+    using namespace grimm;
 
     NodeParams nodeParams;
     nodeParams.nodeAddress = io::Address::localhost().port(NODE_PORT);
@@ -105,7 +105,7 @@ int test_adapter(int seconds) {
 } //namespace
 
 int main(int argc, char* argv[]) {
-    using namespace beam;
+    using namespace grimm;
 
     int logLevel = LOG_LEVEL_DEBUG;
 #if LOG_VERBOSE_ENABLED

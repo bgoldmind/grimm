@@ -1,4 +1,4 @@
-set(TARGET_NAME explorer-node${BEAM_TARGET_SUFFIX})
+set(TARGET_NAME explorer-node${GRIMM_TARGET_SUFFIX})
 
 set(EXPLORER_SRC
     server.cpp
@@ -19,7 +19,7 @@ target_link_libraries(${TARGET_NAME} explorer cli)
 
 add_subdirectory(unittest)
 
-if (BEAM_SIGN_PACKAGE AND WIN32)
+if (GRIMM_SIGN_PACKAGE AND WIN32)
     add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} "${CMAKE_CURRENT_BINARY_DIR}\\${TARGET_NAME}.exe"

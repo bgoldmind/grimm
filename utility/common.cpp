@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ void memxor(uint8_t* pDst, const uint8_t* pSrc, size_t n)
 		pDst[i] ^= pSrc[i];
 }
 
-namespace beam
+namespace grimm
 {
 
 #ifdef WIN32
@@ -128,7 +128,7 @@ namespace std
 		mode |= bRead ? ios_base::in : ios_base::out;
 
 #ifdef WIN32
-		std::wstring sPathArg = beam::Utf8toUtf16(sz);
+		std::wstring sPathArg = grimm::Utf8toUtf16(sz);
 #else // WIN32
 		const char* sPathArg = sz;
 #endif // WIN32
@@ -238,7 +238,7 @@ namespace std
 
 } // namespace std
 
-#if defined(BEAM_USE_STATIC)
+#if defined(GRIMM_USE_STATIC)
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900)
 
@@ -278,7 +278,7 @@ void MiniDumpWriteGuarded(EXCEPTION_POINTERS* pExc)
 
 	MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &mdei, NULL, NULL);
 
-    BEAM_VERIFY(CloseHandle(hFile));
+    GRIMM_VERIFY(CloseHandle(hFile));
 
 }
 
@@ -361,11 +361,11 @@ void PureCallHandler()
 	RaiseCustumExc(); // convert it to regular exc
 }
 
-void beam::Crash::InstallHandler(const char* szLocation)
+void grimm::Crash::InstallHandler(const char* szLocation)
 {
 	if (szLocation)
 	{
-		std::wstring s = beam::Utf8toUtf16(szLocation);
+		std::wstring s = grimm::Utf8toUtf16(szLocation);
 		size_t nLen = s.size();
 		if (nLen >= _countof(g_szDumpPathTemplate))
 			nLen = _countof(g_szDumpPathTemplate) - 1;
@@ -389,13 +389,13 @@ void beam::Crash::InstallHandler(const char* szLocation)
 
 #else // WIN32
 
-void beam::Crash::InstallHandler(const char*)
+void grimm::Crash::InstallHandler(const char*)
 {
 }
 
 #endif // WIN32
 
-void beam::Crash::Induce(Type type)
+void grimm::Crash::Induce(Type type)
 {
 	switch (type)
 	{

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,10 @@
 #include "model/qr.h"
 #include "utility/helpers.h"
 
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 using namespace std;
-using namespace beamui;
+using namespace grimmui;
 
 namespace
 {
@@ -92,14 +92,14 @@ QString TxObject::comment() const
 
 QString TxObject::amount() const
 {
-    return BeamToString(m_tx.m_amount);
+    return GrimmToString(m_tx.m_amount);
 }
 
 QString TxObject::change() const
 {
     if (m_tx.m_change)
     {
-        return BeamToString(m_tx.m_change);
+        return GrimmToString(m_tx.m_change);
     }
     return QString{};
 }
@@ -137,7 +137,7 @@ void TxObject::setDisplayName(const QString& name)
     }
 }
 
-beam::wallet::WalletID TxObject::peerId() const
+grimm::wallet::WalletID TxObject::peerId() const
 {
     return m_tx.m_peerId;
 }
@@ -164,17 +164,17 @@ QString TxObject::getFee() const
 {
     if (m_tx.m_fee)
     {
-        return BeamToString(m_tx.m_fee);
+        return GrimmToString(m_tx.m_fee);
     }
     return QString{};
 }
 
-const beam::wallet::TxDescription& TxObject::getTxDescription() const
+const grimm::wallet::TxDescription& TxObject::getTxDescription() const
 {
     return m_tx;
 }
 
-void TxObject::setStatus(beam::wallet::TxStatus status)
+void TxObject::setStatus(grimm::wallet::TxStatus status)
 {
     if (m_tx.m_status != status)
     {
@@ -208,15 +208,15 @@ QString TxObject::getFailureReason() const
     {
         QString Reasons[] =
         {
-            //% "Unexpected reason, please send wallet logs to Beam support"
+            //% "Unexpected reason, please send wallet logs to Grimm support"
             qtTrId("tx-failture-undefined"),
             //% "Transaction cancelled"
             qtTrId("tx-failture-cancelled"),
-            //% "Receiver signature in not valid, please send wallet logs to Beam support"
+            //% "Receiver signature in not valid, please send wallet logs to Grimm support"
             qtTrId("tx-failture-receiver-signature-invalid"),
             //% "Failed to register transaction with the blockchain, see node logs for details"
             qtTrId("tx-failture-not-registered-in-blockchain"),
-            //% "Transaction is not valid, please send wallet logs to Beam support"
+            //% "Transaction is not valid, please send wallet logs to Grimm support"
             qtTrId("tx-failture-not-valid"),
             //% "Invalid kernel proof provided"
             qtTrId("tx-failture-kernel-invalid"),
@@ -230,7 +230,7 @@ QString TxObject::getFailureReason() const
             qtTrId("tx-failture-parameters-not-readed"),
             //% "Transaction timed out"
             qtTrId("tx-failture-time-out"),
-            //% "Payment not signed by the receiver, please send wallet logs to Beam support"
+            //% "Payment not signed by the receiver, please send wallet logs to Grimm support"
             qtTrId("tx-failture-not-signed-by-receiver"),
             //% "Kernel maximum height is too high"
             qtTrId("tx-failture-max-height-to-high"),
@@ -244,7 +244,7 @@ QString TxObject::getFailureReason() const
     return QString();
 }
 
-void TxObject::setFailureReason(beam::wallet::TxFailureReason reason)
+void TxObject::setFailureReason(grimm::wallet::TxFailureReason reason)
 {
     if (m_tx.m_failureReason != reason)
     {
@@ -258,7 +258,7 @@ bool TxObject::hasPaymentProof() const
     return !income() && m_tx.m_status == TxStatus::Completed;
 }
 
-void TxObject::update(const beam::wallet::TxDescription& tx)
+void TxObject::update(const grimm::wallet::TxDescription& tx)
 {
     setStatus(tx.m_status);
     auto kernelID = QString::fromStdString(to_hex(tx.m_kernelID.m_pData, tx.m_kernelID.nBytes));
@@ -314,7 +314,7 @@ QString PaymentInfoItem::getReceiver() const
 
 QString PaymentInfoItem::getAmount() const
 {
-    return BeamToString(m_paymentInfo.m_Amount);
+    return GrimmToString(m_paymentInfo.m_Amount);
 }
 
 QString PaymentInfoItem::getKernelID() const
@@ -361,11 +361,11 @@ MyPaymentInfoItem::MyPaymentInfoItem(const TxID& txID, QObject* parent/* = nullp
     : PaymentInfoItem(parent)
 {
     auto model = AppModel::getInstance()->getWallet();
-    connect(model.get(), SIGNAL(paymentProofExported(const beam::wallet::TxID&, const QString&)), SLOT(onPaymentProofExported(const beam::wallet::TxID&, const QString&)));
+    connect(model.get(), SIGNAL(paymentProofExported(const grimm::wallet::TxID&, const QString&)), SLOT(onPaymentProofExported(const grimm::wallet::TxID&, const QString&)));
     model->getAsync()->exportPaymentProof(txID);
 }
 
-void MyPaymentInfoItem::onPaymentProofExported(const beam::wallet::TxID& txID, const QString& proof)
+void MyPaymentInfoItem::onPaymentProofExported(const grimm::wallet::TxID& txID, const QString& proof)
 {
     setPaymentProof(proof);
 }
@@ -385,22 +385,22 @@ WalletViewModel::WalletViewModel()
     , _qr(std::make_unique<QR>())
 {
 
-    connect(&_model, SIGNAL(walletStatus(const beam::wallet::WalletStatus&)), SLOT(onStatus(const beam::wallet::WalletStatus&)));
+    connect(&_model, SIGNAL(walletStatus(const grimm::wallet::WalletStatus&)), SLOT(onStatus(const grimm::wallet::WalletStatus&)));
 
-    connect(&_model, SIGNAL(txStatus(beam::wallet::ChangeAction, const std::vector<beam::wallet::TxDescription>&)),
-        SLOT(onTxStatus(beam::wallet::ChangeAction, const std::vector<beam::wallet::TxDescription>&)));
+    connect(&_model, SIGNAL(txStatus(grimm::wallet::ChangeAction, const std::vector<grimm::wallet::TxDescription>&)),
+        SLOT(onTxStatus(grimm::wallet::ChangeAction, const std::vector<grimm::wallet::TxDescription>&)));
 
-    connect(&_model, SIGNAL(changeCalculated(beam::Amount)),
-        SLOT(onChangeCalculated(beam::Amount)));
+    connect(&_model, SIGNAL(changeCalculated(grimm::Amount)),
+        SLOT(onChangeCalculated(grimm::Amount)));
 
-    connect(&_model, SIGNAL(changeCurrentWalletIDs(beam::wallet::WalletID, beam::wallet::WalletID)),
-        SLOT(onChangeCurrentWalletIDs(beam::wallet::WalletID, beam::wallet::WalletID)));
+    connect(&_model, SIGNAL(changeCurrentWalletIDs(grimm::wallet::WalletID, grimm::wallet::WalletID)),
+        SLOT(onChangeCurrentWalletIDs(grimm::wallet::WalletID, grimm::wallet::WalletID)));
 
-    connect(&_model, SIGNAL(addressesChanged(bool, const std::vector<beam::wallet::WalletAddress>&)),
-        SLOT(onAddresses(bool, const std::vector<beam::wallet::WalletAddress>&)));
+    connect(&_model, SIGNAL(addressesChanged(bool, const std::vector<grimm::wallet::WalletAddress>&)),
+        SLOT(onAddresses(bool, const std::vector<grimm::wallet::WalletAddress>&)));
 
-    connect(&_model, SIGNAL(generatedNewAddress(const beam::wallet::WalletAddress&)),
-        SLOT(onGeneratedNewAddress(const beam::wallet::WalletAddress&)));
+    connect(&_model, SIGNAL(generatedNewAddress(const grimm::wallet::WalletAddress&)),
+        SLOT(onGeneratedNewAddress(const grimm::wallet::WalletAddress&)));
 
     connect(&_model, SIGNAL(newAddressFailed()), SLOT(onNewAddressFailed()));
 
@@ -460,7 +460,7 @@ void WalletViewModel::copyToClipboard(const QString& text)
     QApplication::clipboard()->setText(text);
 }
 
-void WalletViewModel::onStatus(const beam::wallet::WalletStatus& status)
+void WalletViewModel::onStatus(const grimm::wallet::WalletStatus& status)
 {
     bool changed = false;
 
@@ -507,10 +507,10 @@ void WalletViewModel::onStatus(const beam::wallet::WalletStatus& status)
     }
 }
 
-void WalletViewModel::onTxStatus(beam::wallet::ChangeAction action, const std::vector<beam::wallet::TxDescription>& items)
+void WalletViewModel::onTxStatus(grimm::wallet::ChangeAction action, const std::vector<grimm::wallet::TxDescription>& items)
 {
     QList<TxObject*> deletedObjects;
-    if (action == beam::wallet::ChangeAction::Reset)
+    if (action == grimm::wallet::ChangeAction::Reset)
     {
         deletedObjects.swap(_txList);
         _txList.clear();
@@ -520,7 +520,7 @@ void WalletViewModel::onTxStatus(beam::wallet::ChangeAction action, const std::v
         }
         sortTx();
     }
-    else if (action == beam::wallet::ChangeAction::Removed)
+    else if (action == grimm::wallet::ChangeAction::Removed)
     {
         for (const auto& item : items)
         {
@@ -533,7 +533,7 @@ void WalletViewModel::onTxStatus(beam::wallet::ChangeAction action, const std::v
         }
         emit transactionsChanged();
     }
-    else if (action == beam::wallet::ChangeAction::Updated)
+    else if (action == grimm::wallet::ChangeAction::Updated)
     {
         auto txIt = _txList.begin();
         auto txEnd = _txList.end();
@@ -548,7 +548,7 @@ void WalletViewModel::onTxStatus(beam::wallet::ChangeAction action, const std::v
         }
         sortTx();
     }
-    else if (action == beam::wallet::ChangeAction::Added)
+    else if (action == grimm::wallet::ChangeAction::Added)
     {
         // TODO in sort order
         for (const auto& item : items)
@@ -565,7 +565,7 @@ void WalletViewModel::onTxStatus(beam::wallet::ChangeAction action, const std::v
 
 }
 
-void WalletViewModel::onChangeCalculated(beam::Amount change)
+void WalletViewModel::onChangeCalculated(grimm::Amount change)
 {
     if (_change != change)
     {
@@ -575,7 +575,7 @@ void WalletViewModel::onChangeCalculated(beam::Amount change)
     emit actualAvailableChanged();
 }
 
-void WalletViewModel::onChangeCurrentWalletIDs(beam::wallet::WalletID senderID, beam::wallet::WalletID receiverID)
+void WalletViewModel::onChangeCurrentWalletIDs(grimm::wallet::WalletID senderID, grimm::wallet::WalletID receiverID)
 {
     //setSenderAddr(toString(senderID));
     setReceiverAddr(toString(receiverID));
@@ -583,22 +583,22 @@ void WalletViewModel::onChangeCurrentWalletIDs(beam::wallet::WalletID senderID, 
 
 QString WalletViewModel::available() const
 {
-    return BeamToString(_status.available);
+    return GrimmToString(_status.available);
 }
 
 QString WalletViewModel::receiving() const
 {
-    return BeamToString(_status.receiving);
+    return GrimmToString(_status.receiving);
 }
 
 QString WalletViewModel::sending() const
 {
-    return BeamToString(_status.sending);
+    return GrimmToString(_status.sending);
 }
 
 QString WalletViewModel::maturing() const
 {
-    return BeamToString(_status.maturing);
+    return GrimmToString(_status.maturing);
 }
 
 QString WalletViewModel::sendAmount() const
@@ -611,8 +611,8 @@ QString WalletViewModel::getAmountMissingToSend() const
     Amount missed = calcTotalAmount() - _status.available;
     if (missed > 99999)
     {
-        //% "beams"
-        return BeamToString(missed) + " " +qtTrId("tx-curency-name");
+        //% "grimms"
+        return GrimmToString(missed) + " " +qtTrId("tx-curency-name");
     }
     //% "groths"
     return QLocale().toString(static_cast<qulonglong>(missed)) + " " + qtTrId("tx-curency-sub-name");
@@ -785,14 +785,14 @@ int WalletViewModel::getExpires() const
     return _expires;
 }
 
-bool WalletViewModel::isAllowedBeamMWLinks() const
+bool WalletViewModel::isAllowedgrimmLinks() const
 {
-    return _settings.isAllowedBeamMWLinks();
+    return _settings.isAllowedgrimmLinks();
 }
 
-void WalletViewModel::allowBeamMWLinks(bool value)
+void WalletViewModel::allowgrimmLinks(bool value)
 {
-    _settings.setAllowedBeamMWLinks(value);
+    _settings.setAllowedgrimmLinks(value);
 }
 
 QQmlListProperty<TxObject> WalletViewModel::getTransactions()
@@ -800,17 +800,17 @@ QQmlListProperty<TxObject> WalletViewModel::getTransactions()
     return QQmlListProperty<TxObject>(this, _txList);
 }
 
-beam::Amount WalletViewModel::calcSendAmount() const
+grimm::Amount WalletViewModel::calcSendAmount() const
 {
     return std::round(_sendAmount.toDouble() * Rules::Coin);
 }
 
-beam::Amount WalletViewModel::calcFeeAmount() const
+grimm::Amount WalletViewModel::calcFeeAmount() const
 {
     return _feeGrothes.toULongLong();
 }
 
-beam::Amount WalletViewModel::calcTotalAmount() const
+grimm::Amount WalletViewModel::calcTotalAmount() const
 {
     return calcSendAmount() + calcFeeAmount();
 }
@@ -883,7 +883,7 @@ void WalletViewModel::syncWithNode()
 
 QString WalletViewModel::actualAvailable() const
 {
-    return BeamToString(_status.available - calcTotalAmount() - _change);
+    return GrimmToString(_status.available - calcTotalAmount() - _change);
 }
 
 bool WalletViewModel::isEnoughMoney() const
@@ -893,7 +893,7 @@ bool WalletViewModel::isEnoughMoney() const
 
 QString WalletViewModel::change() const
 {
-    return BeamToString(_change);
+    return GrimmToString(_change);
 }
 
 QString WalletViewModel::getNewReceiverAddr() const
@@ -921,7 +921,7 @@ QString WalletViewModel::getNewReceiverName() const
     return _newReceiverName;
 }
 
-void WalletViewModel::onAddresses(bool own, const std::vector<beam::wallet::WalletAddress>& addresses)
+void WalletViewModel::onAddresses(bool own, const std::vector<grimm::wallet::WalletAddress>& addresses)
 {
     if (own)
     {
@@ -947,7 +947,7 @@ void WalletViewModel::onAddresses(bool own, const std::vector<beam::wallet::Wall
     }
 }
 
-void WalletViewModel::onGeneratedNewAddress(const beam::wallet::WalletAddress& addr)
+void WalletViewModel::onGeneratedNewAddress(const grimm::wallet::WalletAddress& addr)
 {
     _newReceiverAddr = addr;
     setExpires(0);

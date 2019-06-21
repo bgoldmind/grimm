@@ -1,9 +1,9 @@
-// BEAM OpenCL Miner
+// GRIMM OpenCL Miner
 // Main Function
-// Copyright 2018 The Beam Team	
+// Copyright 2018 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
-#include "beamStratum.h"
+#include "grimmStratum.h"
 #include "clHost.h"
 
 inline vector<string> &split(const string &s, char delim, vector<string> &elems) {
@@ -86,7 +86,7 @@ uint32_t cmdParser(vector<string> args, string &host, string &port, string &apiC
 int main(int argc, char* argv[]) {
 
 	cout << "====================================" << endl;
-	cout << "  BEAM Equihash 150/5 OpenCL miner  " << endl;
+	cout << "  GRIMM Equihash 150/5 OpenCL miner  " << endl;
 	cout << "====================================" << endl;
 
 	vector<string> cmdLineArgs(argv, argv+argc);
@@ -111,16 +111,16 @@ int main(int argc, char* argv[]) {
 
 		cout << "Parameters: " << endl;
 		cout << " --help / -h 			Showing this message" << endl;
-		cout << " --server <server>:<port>	The BEAM stratum server and port to connect to (required)" << endl;
-		cout << " --key <key>			The BEAM stratum server API key (required)" << endl;
+		cout << " --server <server>:<port>	The GRIMM stratum server and port to connect to (required)" << endl;
+		cout << " --key <key>			The GRIMM stratum server API key (required)" << endl;
 		cout << " --devices <numbers>		A comma seperated list of devices that should be used for mining (default: all in system)" << endl; 
 		cout << " --enable-cpu			Enable mining on OpenCL CPU devices" << endl;
 		exit(0);
 	}
 
-	beamMiner::beamStratum myStratum(host, port, apiCred, debug);
+	grimmMiner::grimmStratum myStratum(host, port, apiCred, debug);
 
-	beamMiner::clHost myClHost;
+	grimmMiner::clHost myClHost;
 	
 	cout << endl;
 	cout << "Setup OpenCL devices:" << endl;

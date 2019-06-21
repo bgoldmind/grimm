@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.mw.beam.beamwallet.core.entities.dto;
+package com.mw.grimm.grimmwallet.core.entities.dto;
 
-import java.util.*; 
-
-public class WalletAddressDTO
+public class UtxoDTO
 {
-    public String walletID;
-    public String label;
-    public String category;
-    public long createTime;
-    public long duration;
-    public long own;
+	public long id;
+    public String stringId;
+	public long amount;
+	public int status;
+	public long maturity;
+	public int keyType;
+	public long confirmHeight;
+	public String createTxId;
+	public String spentTxId;
 }

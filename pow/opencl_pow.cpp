@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,14 +29,14 @@ namespace
     struct Job 
     {
         string jobID;
-        beam::Merkle::Hash input;
-        beam::Block::PoW pow;
-        beam::IExternalPOW::BlockFound callback;
+        grimm::Merkle::Hash input;
+        grimm::Block::PoW pow;
+        grimm::IExternalPOW::BlockFound callback;
     };
 
     using SolutionCallback = function<void(Job&& job)>;
 
-    class WorkProvider : public beamMiner::minerBridge
+    class WorkProvider : public grimmMiner::minerBridge
     {
     public:
         WorkProvider(SolutionCallback&& solutionCallback)
@@ -84,9 +84,9 @@ namespace
             Job job;
             auto compressed = GetMinimalFromIndices(indices, 25);
             copy(compressed.begin(), compressed.end(), job.pow.m_Indices.begin());
-            beam::Block::PoW::NonceType t((const uint8_t*)&nonce);
+            grimm::Block::PoW::NonceType t((const uint8_t*)&nonce);
             job.pow.m_Nonce = t;
-            job.pow.m_Difficulty = beam::Difficulty(difficulty);
+            job.pow.m_Difficulty = grimm::Difficulty(difficulty);
             job.jobID = to_string(workId);
             _solutionCallback(move(job));
         }
@@ -102,7 +102,7 @@ namespace
     };
 }
 
-namespace beam {
+namespace grimm {
 
     class OpenCLMiner : public IExternalPOW
     {
@@ -187,7 +187,7 @@ namespace beam {
             while (true)
             {
                 vector<Job> jobs;
-                beam::IExternalPOW::BlockFound callback;
+                grimm::IExternalPOW::BlockFound callback;
                 {
                     unique_lock<mutex> lock(_mutex);
 
@@ -264,7 +264,7 @@ namespace beam {
         mutex _mutex;
         condition_variable _cond;
         WorkProvider _workProvider;
-        beamMiner::clHost _ClHost;
+        grimmMiner::clHost _ClHost;
         vector<Job> _solvedJobs;
         const vector<int32_t> _devices;
         

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.mw.beam.beamwallet.core.entities.dto;
+package com.mw.grimm.grimmwallet.core.entities.dto;
 
-public class WalletStatusDTO
+public class TxDescriptionDTO
 {
-	public long available;
-	public long receiving;
-    public long sending;
-    public long maturing;
-
-	public long updateLastTime;
-	public int updateDone;
-	public int updateTotal;
-
-	public SystemStateDTO system;
+	public String id;
+	public long amount;
+	public long fee;
+	public long change;
+	public long minHeight;
+	public String peerId;
+	public String myId;
+	public String message;
+	public long createTime;
+	public long modifyTime;
+	public boolean sender;
+    public boolean selfTx;
+	public int status;
+    public String kernelId;
+    public int failureReason;
 }

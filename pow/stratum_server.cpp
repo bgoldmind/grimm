@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 
 #include <assert.h>
 
-namespace beam {
+namespace grimm {
 
 std::unique_ptr<IExternalPOW> IExternalPOW::create(
     const IExternalPOW::Options& o, io::Reactor& reactor, io::Address listenTo, unsigned noncePrefixDigits

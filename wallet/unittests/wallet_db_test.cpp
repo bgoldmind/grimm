@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@
 
 using namespace std;
 using namespace ECC;
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 
 WALLET_TEST_INIT
 
@@ -40,7 +40,7 @@ IWalletDB::Ptr createSqliteWalletDB()
     ECC::NoLeak<ECC::uintBig> seed;
     seed.V = Zero;
     auto walletDB = WalletDB::init(dbName, string("pass123"), seed, io::Reactor::get_Current().shared_from_this());
-    beam::Block::SystemState::ID id = { };
+    grimm::Block::SystemState::ID id = { };
     id.m_Height = 134;
     walletDB->setSystemStateID(id);
     return walletDB;
@@ -223,12 +223,12 @@ void TestStoreCoins()
         coins.push_back(coin);
         return false;
     });
-    beam::Merkle::Hash t;
+    grimm::Merkle::Hash t;
     t = 12345678U;
     WALLET_CHECK(coins[0].m_confirmHeight == 423);
 }
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 void TestStoreTxRecord()
 {
     cout << "\nWallet database transactions test\n";
@@ -541,7 +541,7 @@ void TestAddresses()
     WalletAddress a = {};
     a.m_label = "test label";
     a.m_category = "test category";
-    a.m_createTime = beam::getTimestamp();
+    a.m_createTime = grimm::getTimestamp();
     a.m_duration = 23;
     a.m_OwnID = 44;
     a.m_walletID = storage::generateWalletIDFromIndex(*db, a.m_OwnID);
@@ -1095,7 +1095,7 @@ int main()
 #if LOG_VERBOSE_ENABLED
     logLevel = LOG_LEVEL_VERBOSE;
 #endif
-    auto logger = beam::Logger::create(logLevel, logLevel);
+    auto logger = grimm::Logger::create(logLevel, logLevel);
     ECC::InitializeContext();
 
     io::Reactor::Ptr mainReactor{ io::Reactor::create() };

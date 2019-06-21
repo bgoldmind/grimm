@@ -8,10 +8,10 @@
 #include <future>
 
 using namespace std;
-using namespace beam;
+using namespace grimm;
 using namespace ECC;
 
-namespace beam {
+namespace grimm {
 
 bool ReadTreasury(ByteBuffer& bb, const string& sPath)
 {

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #include "utility/logger.h"
 #include <mutex>
 
-namespace beam
+namespace grimm
 {
 
 struct Block::PoW::Helper
@@ -50,7 +50,7 @@ bool Block::PoW::Solve(const void* pInput, uint32_t nSizeInput, const Cancel& fn
 {
 	Helper hlp;
 
-	std::function<bool(const beam::ByteBuffer&)> fnValid = [this, &hlp](const beam::ByteBuffer& solution)
+	std::function<bool(const grimm::ByteBuffer&)> fnValid = [this, &hlp](const grimm::ByteBuffer& solution)
 		{
     		if (!hlp.TestDifficulty(&solution.front(), (uint32_t) solution.size(), m_Difficulty))
 				return false;
@@ -97,5 +97,5 @@ bool Block::PoW::IsValid(const void* pInput, uint32_t nSizeInput) const
 		hlp.TestDifficulty(&m_Indices.front(), (uint32_t) m_Indices.size(), m_Difficulty);
 }
 
-} // namespace beam
+} // namespace grimm
 

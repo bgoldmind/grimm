@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-using namespace beam;
+using namespace grimm;
 using json = nlohmann::json;
 
 namespace
@@ -200,7 +200,7 @@ sender:
  -- refund ---
 6) create refund TX with timelock like timelock in contract script
 7) if timelock expired, send refund TX to chain
--- redeem beam ---
+-- redeem grimm ---
 8) ?
 
 receiver

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 #include "db.h"
 #include "txpool.h"
 
-namespace beam {
+namespace grimm {
 
 class NodeProcessor
 {
@@ -352,4 +352,4 @@ struct LogSid
 std::ostream& operator << (std::ostream& s, const LogSid&);
 
 
-} // namespace beam
+} // namespace grimm

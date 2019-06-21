@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/intrusive/list.hpp>
 
-using namespace beam;
+using namespace grimm;
 using namespace std;
 using namespace ECC;
 
@@ -39,7 +39,7 @@ WALLET_TEST_INIT
 #include "wallet_test_environment.cpp"
 #include "swap_test_environment.cpp"
 
-void TestSwapTransaction(bool isBeamOwnerStart)
+void TestSwapTransaction(bool isGrimmOwnerStart)
 {
     cout << "\nTesting atomic swap transaction...\n";
 
@@ -67,8 +67,8 @@ void TestSwapTransaction(bool isBeamOwnerStart)
     io::Address receiverAddress;
     receiverAddress.resolve("127.0.0.1:10300");
 
-    Amount beamAmount = 3;
-    Amount beamFee = 1;
+    Amount grimmAmount = 3;
+    Amount grimmFee = 1;
     Amount swapAmount = 2000;
     Amount feeRate = 256;
 
@@ -105,15 +105,15 @@ void TestSwapTransaction(bool isBeamOwnerStart)
     receiverBtcWallet.addPeer(senderAddress);
     TxID txID = { {0} };
 
-    if (isBeamOwnerStart)
+    if (isGrimmOwnerStart)
     {
-        receiver.m_Wallet.initSwapConditions(beamAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, false);
-        txID = sender.m_Wallet.swap_coins(sender.m_WalletID, receiver.m_WalletID, beamAmount, beamFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, true);
+        receiver.m_Wallet.initSwapConditions(grimmAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, false);
+        txID = sender.m_Wallet.swap_coins(sender.m_WalletID, receiver.m_WalletID, grimmAmount, grimmFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, true);
     }
     else
     {
-        sender.m_Wallet.initSwapConditions(beamAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, true);
-        txID = receiver.m_Wallet.swap_coins(receiver.m_WalletID, sender.m_WalletID, beamAmount, beamFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, false);
+        sender.m_Wallet.initSwapConditions(grimmAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, true);
+        txID = receiver.m_Wallet.swap_coins(receiver.m_WalletID, sender.m_WalletID, grimmAmount, grimmFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, false);
     }
 
     auto receiverCoins = receiver.GetCoins();
@@ -126,7 +126,7 @@ void TestSwapTransaction(bool isBeamOwnerStart)
 
     receiverCoins = receiver.GetCoins();
     WALLET_CHECK(receiverCoins.size() == 1);
-    WALLET_CHECK(receiverCoins[0].m_ID.m_Value == beamAmount);
+    WALLET_CHECK(receiverCoins[0].m_ID.m_Value == grimmAmount);
     WALLET_CHECK(receiverCoins[0].m_status == Coin::Available);
     WALLET_CHECK(receiverCoins[0].m_createTxId == txID);
 
@@ -141,7 +141,7 @@ void TestSwapTransaction(bool isBeamOwnerStart)
     WALLET_CHECK(senderCoins[4].m_createTxId == txID);
 }
 
-void TestSwapTransactionWithoutChange(bool isBeamOwnerStart)
+void TestSwapTransactionWithoutChange(bool isGrimmOwnerStart)
 {
     cout << "\nTesting atomic swap transaction...\n";
 
@@ -169,8 +169,8 @@ void TestSwapTransactionWithoutChange(bool isBeamOwnerStart)
     io::Address receiverAddress;
     receiverAddress.resolve("127.0.0.1:10300");
 
-    Amount beamAmount = 4;
-    Amount beamFee = 1;
+    Amount grimmAmount = 4;
+    Amount grimmFee = 1;
     Amount swapAmount = 2000;
     Amount feeRate = 256;
 
@@ -207,15 +207,15 @@ void TestSwapTransactionWithoutChange(bool isBeamOwnerStart)
     receiverBtcWallet.addPeer(senderAddress);
     TxID txID = { {0} };
 
-    if (isBeamOwnerStart)
+    if (isGrimmOwnerStart)
     {
-        receiver.m_Wallet.initSwapConditions(beamAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, false);
-        txID = sender.m_Wallet.swap_coins(sender.m_WalletID, receiver.m_WalletID, beamAmount, beamFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, true);
+        receiver.m_Wallet.initSwapConditions(grimmAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, false);
+        txID = sender.m_Wallet.swap_coins(sender.m_WalletID, receiver.m_WalletID, grimmAmount, grimmFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, true);
     }
     else
     {
-        sender.m_Wallet.initSwapConditions(beamAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, true);
-        txID = receiver.m_Wallet.swap_coins(receiver.m_WalletID, sender.m_WalletID, beamAmount, beamFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, false);
+        sender.m_Wallet.initSwapConditions(grimmAmount, swapAmount, wallet::AtomicSwapCoin::Bitcoin, true);
+        txID = receiver.m_Wallet.swap_coins(receiver.m_WalletID, sender.m_WalletID, grimmAmount, grimmFee, wallet::AtomicSwapCoin::Bitcoin, swapAmount, false);
     }
 
     auto receiverCoins = receiver.GetCoins();
@@ -228,7 +228,7 @@ void TestSwapTransactionWithoutChange(bool isBeamOwnerStart)
 
     receiverCoins = receiver.GetCoins();
     WALLET_CHECK(receiverCoins.size() == 1);
-    WALLET_CHECK(receiverCoins[0].m_ID.m_Value == beamAmount);
+    WALLET_CHECK(receiverCoins[0].m_ID.m_Value == grimmAmount);
     WALLET_CHECK(receiverCoins[0].m_status == Coin::Available);
     WALLET_CHECK(receiverCoins[0].m_createTxId == txID);
 
@@ -242,7 +242,7 @@ void TestSwapTransactionWithoutChange(bool isBeamOwnerStart)
 int main()
 {
     int logLevel = LOG_LEVEL_DEBUG;
-    auto logger = beam::Logger::create(logLevel, logLevel);
+    auto logger = grimm::Logger::create(logLevel, logLevel);
     Rules::get().FakePoW = true;
     Rules::get().UpdateChecksum();
 

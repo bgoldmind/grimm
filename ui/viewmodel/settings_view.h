@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class SettingsViewModel : public QObject
     Q_PROPERTY(QString walletLocation READ getWalletLocation CONSTANT)
     Q_PROPERTY(bool isLocalNodeRunning READ isLocalNodeRunning NOTIFY localNodeRunningChanged)
     Q_PROPERTY(bool isPasswordReqiredToSpendMoney READ isPasswordReqiredToSpendMoney WRITE setPasswordReqiredToSpendMoney NOTIFY passwordReqiredToSpendMoneyChanged)
-    Q_PROPERTY(bool isAllowedBeamMWLinks READ isAllowedBeamMWLinks WRITE allowBeamMWLinks NOTIFY beamMWLinksAllowed)
+    Q_PROPERTY(bool isAllowedgrimmLinks READ isAllowedgrimmLinks WRITE allowgrimmLinks NOTIFY grimmLinksAllowed)
     Q_PROPERTY(QStringList supportedLanguages READ getSupportedLanguages NOTIFY currentLanguageIndexChanged)
     Q_PROPERTY(int currentLanguageIndex READ getCurrentLanguageIndex NOTIFY currentLanguageIndexChanged)
     Q_PROPERTY(QString currentLanguage READ getCurrentLanguage WRITE setCurrentLanguage)
@@ -55,8 +55,8 @@ public:
     void setLockTimeout(int value);
     bool isPasswordReqiredToSpendMoney() const;
     void setPasswordReqiredToSpendMoney(bool value);
-    bool isAllowedBeamMWLinks() const;
-    void allowBeamMWLinks(bool value);
+    bool isAllowedgrimmLinks() const;
+    void allowgrimmLinks(bool value);
     QStringList getSupportedLanguages() const;
     int getCurrentLanguageIndex() const;
     void setCurrentLanguageIndex(int value);
@@ -100,7 +100,7 @@ signals:
     void passwordReqiredToSpendMoneyChanged();
     void validNodeAddressChanged();
     void currentLanguageIndexChanged();
-    void beamMWLinksAllowed();
+    void grimmLinksAllowed();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -114,7 +114,7 @@ private:
     QStringList m_localNodePeers;
     int m_lockTimeout;
     bool m_isPasswordReqiredToSpendMoney;
-    bool m_isAllowedBeamMWLinks;
+    bool m_isAllowedgrimmLinks;
     bool m_isValidNodeAddress;
     bool m_isNeedToCheckAddress;
     bool m_isNeedToApplyChanges;

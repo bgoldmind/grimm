@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 #else
 #include <sys/uio.h>
 #endif
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 /// IOVec casts to iovec, just holds const uint8_t* instead of void*
 struct IOVec {

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 /// Error codes from libuv + custom error codes
 enum ErrorCode {
@@ -53,7 +53,7 @@ const char* error_descr(ErrorCode errorCode);
 /// Formats error code to be shown by exception::what()
 std::string format_io_error(const char* _function, const char* _file, int _line, ErrorCode _code);
 
-/// Exception from beam::io
+/// Exception from grimm::io
 struct Exception : public std::runtime_error {
 #ifdef SHOW_CODE_LOCATION
     std::string function;

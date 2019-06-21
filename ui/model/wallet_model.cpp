@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,24 +19,24 @@
 #include "utility/io/asyncevent.h"
 #include "utility/helpers.h"
 
-using namespace beam;
-using namespace beam::wallet;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::wallet;
+using namespace grimm::io;
 using namespace std;
 
-WalletModel::WalletModel(IWalletDB::Ptr walletDB, const std::string& nodeAddr, beam::io::Reactor::Ptr reactor)
+WalletModel::WalletModel(IWalletDB::Ptr walletDB, const std::string& nodeAddr, grimm::io::Reactor::Ptr reactor)
     : WalletClient(walletDB, nodeAddr, reactor)
 {
-    qRegisterMetaType<beam::wallet::WalletStatus>("beam::wallet::WalletStatus");
-    qRegisterMetaType<beam::wallet::ChangeAction>("beam::wallet::ChangeAction");
-    qRegisterMetaType<vector<beam::wallet::TxDescription>>("std::vector<beam::wallet::TxDescription>");
-    qRegisterMetaType<beam::Amount>("beam::Amount");
-    qRegisterMetaType<vector<beam::wallet::Coin>>("std::vector<beam::wallet::Coin>");
-    qRegisterMetaType<vector<beam::wallet::WalletAddress>>("std::vector<beam::wallet::WalletAddress>");
-    qRegisterMetaType<beam::wallet::WalletID>("beam::wallet::WalletID");
-    qRegisterMetaType<beam::wallet::WalletAddress>("beam::wallet::WalletAddress");
-    qRegisterMetaType<beam::wallet::ErrorType>("beam::wallet::ErrorType");
-    qRegisterMetaType<beam::wallet::TxID>("beam::wallet::TxID");
+    qRegisterMetaType<grimm::wallet::WalletStatus>("grimm::wallet::WalletStatus");
+    qRegisterMetaType<grimm::wallet::ChangeAction>("grimm::wallet::ChangeAction");
+    qRegisterMetaType<vector<grimm::wallet::TxDescription>>("std::vector<grimm::wallet::TxDescription>");
+    qRegisterMetaType<grimm::Amount>("grimm::Amount");
+    qRegisterMetaType<vector<grimm::wallet::Coin>>("std::vector<grimm::wallet::Coin>");
+    qRegisterMetaType<vector<grimm::wallet::WalletAddress>>("std::vector<grimm::wallet::WalletAddress>");
+    qRegisterMetaType<grimm::wallet::WalletID>("grimm::wallet::WalletID");
+    qRegisterMetaType<grimm::wallet::WalletAddress>("grimm::wallet::WalletAddress");
+    qRegisterMetaType<grimm::wallet::ErrorType>("grimm::wallet::ErrorType");
+    qRegisterMetaType<grimm::wallet::TxID>("grimm::wallet::TxID");
 }
 
 WalletModel::~WalletModel()
@@ -44,7 +44,7 @@ WalletModel::~WalletModel()
 
 }
 
-QString WalletModel::GetErrorString(beam::wallet::ErrorType type)
+QString WalletModel::GetErrorString(grimm::wallet::ErrorType type)
 {
     // TODO: add more detailed error description
     switch (type)
@@ -100,12 +100,12 @@ bool WalletModel::isAddressWithCommentExist(const std::string& comment) const
     return false;
 }
 
-void WalletModel::onStatus(const beam::wallet::WalletStatus& status)
+void WalletModel::onStatus(const grimm::wallet::WalletStatus& status)
 {
     emit walletStatus(status);
 }
 
-void WalletModel::onTxStatus(beam::wallet::ChangeAction action, const std::vector<beam::wallet::TxDescription>& items)
+void WalletModel::onTxStatus(grimm::wallet::ChangeAction action, const std::vector<grimm::wallet::TxDescription>& items)
 {
     emit txStatus(action, items);
 }
@@ -115,17 +115,17 @@ void WalletModel::onSyncProgressUpdated(int done, int total)
     emit syncProgressUpdated(done, total);
 }
 
-void WalletModel::onChangeCalculated(beam::Amount change)
+void WalletModel::onChangeCalculated(grimm::Amount change)
 {
     emit changeCalculated(change);
 }
 
-void WalletModel::onAllUtxoChanged(const std::vector<beam::wallet::Coin>& utxos)
+void WalletModel::onAllUtxoChanged(const std::vector<grimm::wallet::Coin>& utxos)
 {
     emit allUtxoChanged(utxos);
 }
 
-void WalletModel::onAddresses(bool own, const std::vector<beam::wallet::WalletAddress>& addrs)
+void WalletModel::onAddresses(bool own, const std::vector<grimm::wallet::WalletAddress>& addrs)
 {
     if (own)
     {
@@ -134,7 +134,7 @@ void WalletModel::onAddresses(bool own, const std::vector<beam::wallet::WalletAd
     emit addressesChanged(own, addrs);
 }
 
-void WalletModel::onCoinsByTx(const std::vector<beam::wallet::Coin>& coins)
+void WalletModel::onCoinsByTx(const std::vector<grimm::wallet::Coin>& coins)
 {
 
 }
@@ -144,7 +144,7 @@ void WalletModel::onAddressChecked(const std::string& addr, bool isValid)
     emit addressChecked(QString::fromStdString(addr), isValid);
 }
 
-void WalletModel::onGeneratedNewAddress(const beam::wallet::WalletAddress& walletAddr)
+void WalletModel::onGeneratedNewAddress(const grimm::wallet::WalletAddress& walletAddr)
 {
     emit generatedNewAddress(walletAddr);
 }
@@ -154,7 +154,7 @@ void WalletModel::onNewAddressFailed()
     emit newAddressFailed();
 }
 
-void WalletModel::onChangeCurrentWalletIDs(beam::wallet::WalletID senderID, beam::wallet::WalletID receiverID)
+void WalletModel::onChangeCurrentWalletIDs(grimm::wallet::WalletID senderID, grimm::wallet::WalletID receiverID)
 {
     emit changeCurrentWalletIDs(senderID, receiverID);
 }
@@ -164,7 +164,7 @@ void WalletModel::onNodeConnectionChanged(bool isNodeConnected)
     emit nodeConnectionChanged(isNodeConnected);
 }
 
-void WalletModel::onWalletError(beam::wallet::ErrorType error)
+void WalletModel::onWalletError(grimm::wallet::ErrorType error)
 {
     emit walletError(error);
 }
@@ -185,11 +185,11 @@ void WalletModel::onCantSendToExpired()
     emit cantSendToExpired();
 }
 
-void WalletModel::onPaymentProofExported(const beam::wallet::TxID& txID, const beam::ByteBuffer& proof)
+void WalletModel::onPaymentProofExported(const grimm::wallet::TxID& txID, const grimm::ByteBuffer& proof)
 {
     string str;
     str.resize(proof.size() * 2);
 
-    beam::to_hex(str.data(), proof.data(), proof.size());
+    grimm::to_hex(str.data(), proof.data(), proof.size());
     emit paymentProofExported(txID, QString::fromStdString(str));
 }

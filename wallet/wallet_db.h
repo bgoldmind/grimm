@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
 
 struct sqlite3;
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     const uint32_t EmptyCoinSession = 0;
 
@@ -75,7 +75,7 @@ namespace beam::wallet
         boost::optional<TxID> m_createTxId;  // id of the transaction which created the UTXO
         boost::optional<TxID> m_spentTxId;   // id of the transaction which spernt the UTXO
 
-        uint64_t m_sessionId;   // Used in the API to lock coins for specific session (see https://github.com/BeamMW/beam/wiki/Beam-wallet-protocol-API#tx_split)
+        uint64_t m_sessionId;   // Used in the API to lock coins for specific session
 
         bool IsMaturityValid() const; // is/was the UTXO confirmed?
         Height get_Maturity() const; // would return MaxHeight unless the UTXO was confirmed
@@ -167,10 +167,10 @@ namespace beam::wallet
         virtual ~IWalletDB() {}
 
         // Returns the Master Key Derivative Function (operates on secret keys)
-        virtual beam::Key::IKdf::Ptr get_MasterKdf() const = 0;
+        virtual grimm::Key::IKdf::Ptr get_MasterKdf() const = 0;
 
         // Returns the Child Key Derivative Function (operates on secret keys)
-        beam::Key::IKdf::Ptr get_ChildKdf(Key::Index) const;
+        grimm::Key::IKdf::Ptr get_ChildKdf(Key::Index) const;
 
         // Calculates blinding factor and commitment of specifc Coin::ID
         void calcCommitment(ECC::Scalar::Native& sk, ECC::Point& comm, const Coin::ID&);
@@ -300,7 +300,7 @@ namespace beam::wallet
         WalletDB(sqlite3* db, const ECC::NoLeak<ECC::uintBig>& secretKey, io::Reactor::Ptr reactor, sqlite3* sdb);
         ~WalletDB();
 
-        beam::Key::IKdf::Ptr get_MasterKdf() const override;
+        grimm::Key::IKdf::Ptr get_MasterKdf() const override;
         uint64_t AllocateKidRange(uint64_t nCount) override;
         std::vector<Coin> selectCoins(Amount amount) override;
         std::vector<Coin> getCoinsCreatedByTx(const TxID& txId) override;

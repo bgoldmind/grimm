@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ void QR::update()
     }
     
     QUrl url;
-    url.setScheme("beam");
+    url.setScheme("grimm");
     url.setPath(m_addr);
     url.setQuery(query);
 

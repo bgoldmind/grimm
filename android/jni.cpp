@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,9 +34,9 @@
 #define WALLET_FILENAME "wallet.db"
 #define BBS_FILENAME "keys.bbs"
 
-using namespace beam;
-using namespace beam::wallet;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::wallet;
+using namespace grimm::io;
 using namespace std;
 
 namespace fs = boost::filesystem;
@@ -77,7 +77,7 @@ namespace
         static auto logger = Logger::create(LOG_LEVEL_DEBUG, LOG_LEVEL_DEBUG, LOG_LEVEL_DEBUG, "wallet_", (fs::path(appData) / fs::path("logs")).string());
 
         Rules::get().UpdateChecksum();
-        LOG_INFO() << "Beam Mobile Wallet " << appVersion << " (" << BRANCH_NAME << ") library: " << PROJECT_VERSION;
+        LOG_INFO() << "Grimm Mobile Wallet " << appVersion << " (" << BRANCH_NAME << ") library: " << PROJECT_VERSION;
         LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
     }
 }
@@ -87,7 +87,7 @@ namespace
 extern "C" {
 #endif
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(createWallet)(JNIEnv *env, jobject thiz, 
+JNIEXPORT jobject JNICALL GRIMM_JAVA_API_INTERFACE(createWallet)(JNIEnv *env, jobject thiz, 
     jstring appVersion, jstring nodeAddrStr, jstring appDataStr, jstring passStr, jstring phrasesStr, jboolean restore)
 {
     auto appData = JString(env, appDataStr).value();
@@ -168,7 +168,7 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(createWallet)(JNIEnv *env, job
     return nullptr;
 }
 
-JNIEXPORT jboolean JNICALL BEAM_JAVA_API_INTERFACE(isWalletInitialized)(JNIEnv *env, jobject thiz, 
+JNIEXPORT jboolean JNICALL GRIMM_JAVA_API_INTERFACE(isWalletInitialized)(JNIEnv *env, jobject thiz, 
     jstring appData)
 {
     LOG_DEBUG() << "checking if wallet exists...";
@@ -176,7 +176,7 @@ JNIEXPORT jboolean JNICALL BEAM_JAVA_API_INTERFACE(isWalletInitialized)(JNIEnv *
     return WalletDB::isInitialized(JString(env, appData).value() + "/" WALLET_FILENAME) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_API_INTERFACE(closeWallet)(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL GRIMM_JAVA_API_INTERFACE(closeWallet)(JNIEnv *env, jobject thiz)
 {
     LOG_DEBUG() << "close wallet if it exists";
 
@@ -191,12 +191,12 @@ JNIEXPORT void JNICALL BEAM_JAVA_API_INTERFACE(closeWallet)(JNIEnv *env, jobject
     }
 }
 
-JNIEXPORT jboolean JNICALL BEAM_JAVA_API_INTERFACE(isWalletRunning)(JNIEnv *env, jobject thiz)
+JNIEXPORT jboolean JNICALL GRIMM_JAVA_API_INTERFACE(isWalletRunning)(JNIEnv *env, jobject thiz)
 {
     return walletModel != nullptr;
 }
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(openWallet)(JNIEnv *env, jobject thiz, 
+JNIEXPORT jobject JNICALL GRIMM_JAVA_API_INTERFACE(openWallet)(JNIEnv *env, jobject thiz, 
     jstring appVersion, jstring nodeAddrStr, jstring appDataStr, jstring passStr)
 {
     auto appData = JString(env, appDataStr).value();
@@ -229,7 +229,7 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(openWallet)(JNIEnv *env, jobje
     return nullptr;
 }
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(createMnemonic)(JNIEnv *env, jobject thiz)
+JNIEXPORT jobject JNICALL GRIMM_JAVA_API_INTERFACE(createMnemonic)(JNIEnv *env, jobject thiz)
 {
     auto phrases = createMnemonic(getEntropy(), language::en);
 
@@ -246,9 +246,9 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(createMnemonic)(JNIEnv *env, j
     return phrasesArray;
 }
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(getDictionary)(JNIEnv *env, jobject thiz)
+JNIEXPORT jobject JNICALL GRIMM_JAVA_API_INTERFACE(getDictionary)(JNIEnv *env, jobject thiz)
 {
-    //auto phrases = beam::createMnemonic(beam::getEntropy(), beam::language::en);
+    //auto phrases = grimm::createMnemonic(grimm::getEntropy(), grimm::language::en);
 
     jobjectArray dictionary = env->NewObjectArray(static_cast<jsize>(language::en.size()), env->FindClass("java/lang/String"), 0);
 
@@ -263,7 +263,7 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(getDictionary)(JNIEnv *env, jo
     return dictionary;
 }
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(getDefaultPeers)(JNIEnv *env, jobject thiz)
+JNIEXPORT jobject JNICALL GRIMM_JAVA_API_INTERFACE(getDefaultPeers)(JNIEnv *env, jobject thiz)
 {
     auto peers = getDefaultPeers();
 
@@ -280,35 +280,35 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_API_INTERFACE(getDefaultPeers)(JNIEnv *env, 
     return peersArray;
 }
 
-JNIEXPORT jboolean JNICALL BEAM_JAVA_API_INTERFACE(checkReceiverAddress)(JNIEnv *env, jobject thiz, jstring address)
+JNIEXPORT jboolean JNICALL GRIMM_JAVA_API_INTERFACE(checkReceiverAddress)(JNIEnv *env, jobject thiz, jstring address)
 {
     auto str = JString(env, address).value();
 
     return check_receiver_address(str);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getWalletStatus)(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(getWalletStatus)(JNIEnv *env, jobject thiz)
 {
     LOG_DEBUG() << "getWalletStatus()";
 
     walletModel->getAsync()->getWalletStatus();
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getUtxosStatus)(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(getUtxosStatus)(JNIEnv *env, jobject thiz)
 {
     LOG_DEBUG() << "getUtxosStatus()";
 
     walletModel->getAsync()->getUtxosStatus();
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(syncWithNode)(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(syncWithNode)(JNIEnv *env, jobject thiz)
 {
     LOG_DEBUG() << "syncWithNode()";
 
     walletModel->getAsync()->syncWithNode();
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(sendMoney)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(sendMoney)(JNIEnv *env, jobject thiz,
     jstring senderAddr, jstring receiverAddr, jstring comment, jlong amount, jlong fee)
 {
     LOG_DEBUG() << "sendMoney(" << JString(env, senderAddr).value() << ", " << JString(env, receiverAddr).value() << ", " << JString(env, comment).value() << ", " << amount << ", " << fee << ")";
@@ -337,7 +337,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(sendMoney)(JNIEnv *env, jobjec
     }
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(calcChange)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(calcChange)(JNIEnv *env, jobject thiz,
     jlong amount)
 {
     LOG_DEBUG() << "calcChange(" << amount << ")";
@@ -345,7 +345,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(calcChange)(JNIEnv *env, jobje
     walletModel->getAsync()->calcChange(Amount(amount));
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getAddresses)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(getAddresses)(JNIEnv *env, jobject thiz,
     jboolean own)
 {
     LOG_DEBUG() << "getAddresses(" << own << ")";
@@ -353,14 +353,14 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getAddresses)(JNIEnv *env, job
     walletModel->getAsync()->getAddresses(own);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(generateNewAddress)(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(generateNewAddress)(JNIEnv *env, jobject thiz)
 {
     LOG_DEBUG() << "generateNewAddress()";
 
     walletModel->getAsync()->generateNewAddress();
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(saveAddress)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(saveAddress)(JNIEnv *env, jobject thiz,
     jobject walletAddrObj, jboolean own)
 {
     LOG_DEBUG() << "saveAddress()";
@@ -377,7 +377,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(saveAddress)(JNIEnv *env, jobj
     walletModel->getAsync()->saveAddress(addr, own);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(saveAddressChanges)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(saveAddressChanges)(JNIEnv *env, jobject thiz,
     jstring addr, jstring name, jboolean isNever, jboolean makeActive, jboolean makeExpired)
 {
     WalletID walletID(Zero);
@@ -392,7 +392,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(saveAddressChanges)(JNIEnv *en
 }
 
 // don't use it. i don't check it
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(cancelTx)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(cancelTx)(JNIEnv *env, jobject thiz,
     jstring txId)
 {
     LOG_DEBUG() << "cancelTx()";
@@ -404,7 +404,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(cancelTx)(JNIEnv *env, jobject
     walletModel->getAsync()->cancelTx(id);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(deleteTx)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(deleteTx)(JNIEnv *env, jobject thiz,
     jstring txId)
 {
     LOG_DEBUG() << "deleteTx()";
@@ -416,7 +416,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(deleteTx)(JNIEnv *env, jobject
     walletModel->getAsync()->deleteTx(id);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(deleteAddress)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(deleteAddress)(JNIEnv *env, jobject thiz,
     jstring walletID)
 {
     WalletID id(Zero);
@@ -430,7 +430,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(deleteAddress)(JNIEnv *env, jo
     walletModel->getAsync()->deleteAddress(id);
 }
 
-JNIEXPORT jboolean JNICALL BEAM_JAVA_WALLET_INTERFACE(checkWalletPassword)(JNIEnv *env, jobject thiz,
+JNIEXPORT jboolean JNICALL GRIMM_JAVA_WALLET_INTERFACE(checkWalletPassword)(JNIEnv *env, jobject thiz,
     jstring password)
 {
     auto pass = JString(env, password).value();
@@ -439,7 +439,7 @@ JNIEXPORT jboolean JNICALL BEAM_JAVA_WALLET_INTERFACE(checkWalletPassword)(JNIEn
     return passwordHash.V == hash.V;
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(changeWalletPassword)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(changeWalletPassword)(JNIEnv *env, jobject thiz,
     jstring password)
 {
     auto pass = JString(env, password).value();
@@ -448,7 +448,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(changeWalletPassword)(JNIEnv *
     walletModel->getAsync()->changeWalletPassword(pass);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getPaymentInfo)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(getPaymentInfo)(JNIEnv *env, jobject thiz,
     jstring txID)
 {
     auto buffer = from_hex(JString(env, txID).value());
@@ -459,7 +459,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getPaymentInfo)(JNIEnv *env, j
     walletModel->getAsync()->exportPaymentProof(id);
 }
 
-JNIEXPORT jobject JNICALL BEAM_JAVA_WALLET_INTERFACE(verifyPaymentInfo)(JNIEnv *env, jobject thiz,
+JNIEXPORT jobject JNICALL GRIMM_JAVA_WALLET_INTERFACE(verifyPaymentInfo)(JNIEnv *env, jobject thiz,
     jstring rawPaymentInfo)
 {
     string str = JString(env, rawPaymentInfo).value();
@@ -487,7 +487,7 @@ JNIEXPORT jobject JNICALL BEAM_JAVA_WALLET_INTERFACE(verifyPaymentInfo)(JNIEnv *
     return jPaymentInfo;
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getCoinsByTx)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(getCoinsByTx)(JNIEnv *env, jobject thiz,
     jstring txID)
 {
     auto buffer = from_hex(JString(env, txID).value());
@@ -498,7 +498,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(getCoinsByTx)(JNIEnv *env, job
     walletModel->getAsync()->getCoinsByTx(id);
 }
 
-JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(changeNodeAddress)(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL GRIMM_JAVA_WALLET_INTERFACE(changeNodeAddress)(JNIEnv *env, jobject thiz,
     jstring address)
 {
     auto addr = JString(env, address).value();
@@ -506,7 +506,7 @@ JNIEXPORT void JNICALL BEAM_JAVA_WALLET_INTERFACE(changeNodeAddress)(JNIEnv *env
     walletModel->getAsync()->setNodeAddress(addr);
 }
 
-JNIEXPORT jstring JNICALL BEAM_JAVA_WALLET_INTERFACE(exportOwnerKey)(JNIEnv *env, jobject thiz,
+JNIEXPORT jstring JNICALL GRIMM_JAVA_WALLET_INTERFACE(exportOwnerKey)(JNIEnv *env, jobject thiz,
     jstring pass)
 {
     std::string ownerKey = walletModel->exportOwnerKey(JString(env, pass).value());
@@ -523,49 +523,49 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     Android_JNI_getEnv();
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/listeners/WalletListener");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/listeners/WalletListener");
         WalletListenerClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/Wallet");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/Wallet");
         WalletClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/WalletStatusDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/WalletStatusDTO");
         WalletStatusClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/SystemStateDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/SystemStateDTO");
         SystemStateClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/TxDescriptionDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/TxDescriptionDTO");
         TxDescriptionClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/UtxoDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/UtxoDTO");
         UtxoClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/WalletAddressDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/WalletAddressDTO");
         WalletAddressClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }
 
     {
-        jclass cls = env->FindClass(BEAM_JAVA_PATH "/entities/dto/PaymentInfoDTO");
+        jclass cls = env->FindClass(GRIMM_JAVA_PATH "/entities/dto/PaymentInfoDTO");
         PaymentInfoClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
         env->DeleteLocalRef(cls);
     }

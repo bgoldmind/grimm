@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@
 #include <jni.h>
 #include "common.h"
 
-using namespace beam;
-using namespace beam::wallet;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::wallet;
+using namespace grimm::io;
 using namespace std;
 
 namespace
@@ -89,7 +89,7 @@ void WalletModel::onStatus(const WalletStatus& status)
         setLongField(env, SystemStateClass, systemState, "height", status.stateID.m_Height);
         setStringField(env, SystemStateClass, systemState, "hash", to_hex(status.stateID.m_Hash.m_pData, status.stateID.m_Hash.nBytes));
 
-        jfieldID systemStateID = env->GetFieldID(WalletStatusClass, "system", "L" BEAM_JAVA_PATH "/entities/dto/SystemStateDTO;");
+        jfieldID systemStateID = env->GetFieldID(WalletStatusClass, "system", "L" GRIMM_JAVA_PATH "/entities/dto/SystemStateDTO;");
         env->SetObjectField(walletStatus, systemStateID, systemState);
 
         env->DeleteLocalRef(systemState);
@@ -97,7 +97,7 @@ void WalletModel::onStatus(const WalletStatus& status)
 
     ////////////////
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onStatus", "(L" BEAM_JAVA_PATH "/entities/dto/WalletStatusDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onStatus", "(L" GRIMM_JAVA_PATH "/entities/dto/WalletStatusDTO;)V");
     env->CallStaticVoidMethod(WalletListenerClass, callback, walletStatus);
 
     env->DeleteLocalRef(walletStatus);
@@ -109,7 +109,7 @@ void WalletModel::onTxStatus(ChangeAction action, const std::vector<TxDescriptio
 
     JNIEnv* env = Android_JNI_getEnv();
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onTxStatus", "(I[L" BEAM_JAVA_PATH "/entities/dto/TxDescriptionDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onTxStatus", "(I[L" GRIMM_JAVA_PATH "/entities/dto/TxDescriptionDTO;)V");
 
     jobjectArray txItems = 0;
 
@@ -182,7 +182,7 @@ void WalletModel::onAllUtxoChanged(const std::vector<Coin>& utxosVec)
 
     jobjectArray utxos = convertCoinsToJObject(env, utxosVec);
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onAllUtxoChanged", "([L" BEAM_JAVA_PATH "/entities/dto/UtxoDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onAllUtxoChanged", "([L" GRIMM_JAVA_PATH "/entities/dto/UtxoDTO;)V");
     env->CallStaticVoidMethod(WalletListenerClass, callback, utxos);
 
     env->DeleteLocalRef(utxos);
@@ -221,7 +221,7 @@ void WalletModel::onAddresses(bool own, const std::vector<WalletAddress>& addres
         }
     }
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onAddresses", "(Z[L" BEAM_JAVA_PATH "/entities/dto/WalletAddressDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onAddresses", "(Z[L" GRIMM_JAVA_PATH "/entities/dto/WalletAddressDTO;)V");
     env->CallStaticVoidMethod(WalletListenerClass, callback, own, addrArray);
 
     env->DeleteLocalRef(addrArray);
@@ -244,7 +244,7 @@ void WalletModel::onGeneratedNewAddress(const WalletAddress& address)
         setLongField(env, WalletAddressClass, addr, "own", address.m_OwnID);
     }
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onGeneratedNewAddress", "(L" BEAM_JAVA_PATH "/entities/dto/WalletAddressDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onGeneratedNewAddress", "(L" GRIMM_JAVA_PATH "/entities/dto/WalletAddressDTO;)V");
     env->CallStaticVoidMethod(WalletListenerClass, callback, addr);
 
     env->DeleteLocalRef(addr);
@@ -323,7 +323,7 @@ void WalletModel::onPaymentProofExported(const TxID& txID, const ByteBuffer& pro
 
     jstring jStrTxId = env->NewStringUTF(to_hex(txID.data(), txID.size()).c_str());
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onPaymentProofExported", "(Ljava/lang/String;L" BEAM_JAVA_PATH "/entities/dto/PaymentInfoDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onPaymentProofExported", "(Ljava/lang/String;L" GRIMM_JAVA_PATH "/entities/dto/PaymentInfoDTO;)V");
 
     
     //jstring jStrProof = env->NewStringUTF(str.c_str());
@@ -339,7 +339,7 @@ void WalletModel::onCoinsByTx(const std::vector<Coin>& coins)
 
     jobjectArray utxos = convertCoinsToJObject(env, coins);
 
-    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onCoinsByTx", "([L" BEAM_JAVA_PATH "/entities/dto/UtxoDTO;)V");
+    jmethodID callback = env->GetStaticMethodID(WalletListenerClass, "onCoinsByTx", "([L" GRIMM_JAVA_PATH "/entities/dto/UtxoDTO;)V");
     env->CallStaticVoidMethod(WalletListenerClass, callback, utxos);
 
     env->DeleteLocalRef(utxos);

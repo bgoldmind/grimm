@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "lightning.h"
 
-namespace beam {
+namespace grimm {
 namespace Lightning {
 
 struct Channel::Codes
@@ -1168,4 +1168,4 @@ void Channel::SendPeerInternal(Storage::Map& dataOut)
 }
 
 } // namespace Lightning
-} // namespace beam
+} // namespace grimm

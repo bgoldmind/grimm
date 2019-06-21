@@ -1,6 +1,6 @@
 // Copyright (c) 2016 Jack Grigg
 // Copyright (c) 2016 The Zcash developers
-// Copyright (c) 2018 The Beam Team	
+// Copyright (c) 2018 The Grimm Team	
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -55,7 +55,7 @@ int Equihash<N,K>::InitialiseState(eh_HashState& base_state)
     uint32_t le_K = htole32(K);
 
     unsigned char personalization[BLAKE2B_PERSONALBYTES] = {};
-    memcpy(personalization, "Beam-PoW", 8);
+    memcpy(personalization, "Grimm-PoW", 8);
     memcpy(personalization+8,  &le_N, 4);
     memcpy(personalization+12, &le_K, 4);
 
@@ -866,16 +866,16 @@ template bool Equihash<48,5>::OptimisedSolve(const eh_HashState& base_state,
 #endif
 template bool Equihash<48,5>::IsValidSolution(const eh_HashState& base_state, std::vector<unsigned char> soln);
 
-// Explicit instantiations with beam parameters
-const int N_Beam = 150;
-const int K_Beam = 5;
-template int Equihash<N_Beam, K_Beam>::InitialiseState(eh_HashState& base_state);
+// Explicit instantiations with grimm parameters
+const int N_Grimm = 150;
+const int K_Grimm = 5;
+template int Equihash<N_Grimm, K_Grimm>::InitialiseState(eh_HashState& base_state);
 #ifdef ENABLE_MINING
-template bool Equihash<N_Beam, K_Beam>::BasicSolve(const eh_HashState& base_state,
+template bool Equihash<N_Grimm, K_Grimm>::BasicSolve(const eh_HashState& base_state,
                                          const std::function<bool(const std::vector<unsigned char>&)> validBlock,
                                          const std::function<bool(EhSolverCancelCheck)> cancelled);
-template bool Equihash<N_Beam, K_Beam>::OptimisedSolve(const eh_HashState& base_state,
+template bool Equihash<N_Grimm, K_Grimm>::OptimisedSolve(const eh_HashState& base_state,
                                              const std::function<bool(const std::vector<unsigned char>&)> validBlock,
                                              const std::function<bool(EhSolverCancelCheck)> cancelled);
 #endif
-template bool Equihash<N_Beam, K_Beam>::IsValidSolution(const eh_HashState& base_state, std::vector<unsigned char> soln);
+template bool Equihash<N_Grimm, K_Grimm>::IsValidSolution(const eh_HashState& base_state, std::vector<unsigned char> soln);

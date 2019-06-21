@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Grimm Wallet@GRIMM_DISPLAY_SUFFIX@
+Comment=Scalable confidential cryptocurrency
+Exec=/usr/bin/GrimmWallet@GRIMM_SUFFIX_UPPER_CASE@ %U
+Icon=grimm
+Terminal=false
+Type=Application
+Categories=Network
+MimeType=application/x-grimm-item;
+GenericName=Grimm Wallet@GRIMM_DISPLAY_SUFFIX@

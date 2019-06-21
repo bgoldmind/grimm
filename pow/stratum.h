@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "utility/io/fragment_writer.h"
 #include <string>
 
-namespace beam::stratum {
+namespace grimm::stratum {
 
 #define STRATUM_METHODS(macro) \
     macro(0, null_method, Dummy) \

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 #include <thread>
 #include <atomic>
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     struct WalletStatus
     {
@@ -54,7 +54,7 @@ namespace beam::wallet
 
         IWalletModelAsync::Ptr getAsync();
         std::string getNodeAddress() const;
-        std::string exportOwnerKey(const beam::SecString& pass) const;
+        std::string exportOwnerKey(const grimm::SecString& pass) const;
         bool isRunning() const;
 
     protected:

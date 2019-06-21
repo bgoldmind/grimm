@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,8 +32,8 @@ StatusbarViewModel::StatusbarViewModel()
     connect(&m_model, SIGNAL(nodeConnectionChanged(bool)),
         SLOT(onNodeConnectionChanged(bool)));
 
-    connect(&m_model, SIGNAL(walletError(beam::wallet::ErrorType)),
-        SLOT(onGetWalletError(beam::wallet::ErrorType)));
+    connect(&m_model, SIGNAL(walletError(grimm::wallet::ErrorType)),
+        SLOT(onGetWalletError(grimm::wallet::ErrorType)));
 
     connect(&m_model, SIGNAL(syncProgressUpdated(int, int)),
         SLOT(onSyncProgressUpdated(int, int)));
@@ -41,8 +41,8 @@ StatusbarViewModel::StatusbarViewModel()
     connect(&AppModel::getInstance()->getNode(), SIGNAL(syncProgressUpdated(int, int)),
             SLOT(onNodeSyncProgressUpdated(int, int)));
     
-    connect(&AppModel::getInstance()->getNode(), SIGNAL(failedToSyncNode(beam::wallet::ErrorType)),
-            SLOT(onGetWalletError(beam::wallet::ErrorType)));
+    connect(&AppModel::getInstance()->getNode(), SIGNAL(failedToSyncNode(grimm::wallet::ErrorType)),
+            SLOT(onGetWalletError(grimm::wallet::ErrorType)));
 
     m_model.getAsync()->getNetworkStatus();
 }
@@ -69,7 +69,7 @@ int StatusbarViewModel::getNodeSyncProgress() const
 
 QString StatusbarViewModel::getBranchName() const
 {
-#ifdef BEAM_MAINNET
+#ifdef GRIMM_MAINNET
     return QString();
 #else
     if (BRANCH_NAME.empty())
@@ -154,7 +154,7 @@ void StatusbarViewModel::onNodeConnectionChanged(bool isNodeConnected)
     }
 }
 
-void StatusbarViewModel::onGetWalletError(beam::wallet::ErrorType error)
+void StatusbarViewModel::onGetWalletError(grimm::wallet::ErrorType error)
 {
     setIsOnline(false);
     setWalletStatusErrorMsg(m_model.GetErrorString(error));

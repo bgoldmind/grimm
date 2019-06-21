@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ namespace
     const char* kLocaleName = "locale";
     const char* kLockTimeoutName = "lock_timeout";
     const char* kRequirePasswordToSpendMoney = "require_password_to_spend_money";
-    const char* kIsAlowedBeamMWLink = "beam_mw_links_allowed";
+    const char* kIsAlowedgrimmLink = "grimm_mw_links_allowed";
 
     const char* kLocalNodeRun = "localnode/run";
     const char* kLocalNodePort = "localnode/port";
@@ -48,7 +48,7 @@ namespace
     };
 }
 
-const char* WalletSettings::WalletCfg = "beam-wallet.cfg";
+const char* WalletSettings::WalletCfg = "grimm-wallet.cfg";
 const char* WalletSettings::LogsFolder = "logs";
 const char* WalletSettings::SettingsFile = "settings.ini";
 const char* WalletSettings::WalletDBFile = "wallet.db";
@@ -135,16 +135,16 @@ void WalletSettings::setPasswordReqiredToSpendMoney(bool value)
     m_data.setValue(kRequirePasswordToSpendMoney, value);
 }
 
-bool WalletSettings::isAllowedBeamMWLinks() const
+bool WalletSettings::isAllowedgrimmLinks() const
 {
     Lock lock(m_mutex);
-    return m_data.value(kIsAlowedBeamMWLink, false).toBool();
+    return m_data.value(kIsAlowedgrimmLink, false).toBool();
 }
 
-void WalletSettings::setAllowedBeamMWLinks(bool value)
+void WalletSettings::setAllowedgrimmLinks(bool value)
 {
     Lock lock(m_mutex);
-    m_data.setValue(kIsAlowedBeamMWLink, value);
+    m_data.setValue(kIsAlowedgrimmLink, value);
 }
 
 bool WalletSettings::getRunLocalNode() const
@@ -165,11 +165,11 @@ void WalletSettings::setRunLocalNode(bool value)
 uint WalletSettings::getLocalNodePort() const
 {
     Lock lock(m_mutex);
-#ifdef BEAM_TESTNET
+#ifdef GRIMM_TESTNET
     return m_data.value(kLocalNodePort, 11005).toUInt();
 #else
     return m_data.value(kLocalNodePort, 10005).toUInt();
-#endif // BEAM_TESTNET
+#endif // GRIMM_TESTNET
 }
 
 void WalletSettings::setLocalNodePort(uint port)
@@ -283,7 +283,7 @@ void WalletSettings::reportProblem()
 {
     auto logsFolder = QString::fromStdString(LogsFolder) + "/";
 
-    QFile zipFile = m_appDataDir.filePath("beam v" + QString::fromStdString(PROJECT_VERSION) 
+    QFile zipFile = m_appDataDir.filePath("grimm v" + QString::fromStdString(PROJECT_VERSION) 
         + " " + QSysInfo::productType().toLower() + " report.zip");
 
     QuaZip zip(zipFile.fileName());

@@ -2,7 +2,7 @@
 #include "core/ecc_native.h"
 #include <string_view>
 
-namespace beam {
+namespace grimm {
 
 class SecString {
 public:

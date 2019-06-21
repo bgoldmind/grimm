@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 class CoinsChecker : public BaseNodeConnection
 {
 public:
-	using Inputs = std::vector<beam::Input>;
-	using Callback = std::function<void(bool, beam::Height)>;
+	using Inputs = std::vector<grimm::Input>;
+	using Callback = std::function<void(bool, grimm::Height)>;
 public:
 	CoinsChecker(int argc, char* argv[]);
 	void InitChecker();
@@ -29,10 +29,10 @@ public:
 
 protected:
 	void OnConnectedSecure() override;
-    void OnMsg(beam::proto::Authentication&&) override;
+    void OnMsg(grimm::proto::Authentication&&) override;
 	void OnDisconnect(const DisconnectReason&) override;
-	void OnMsg(beam::proto::NewTip&&) override;
-	void OnMsg(beam::proto::ProofUtxo&&) override;
+	void OnMsg(grimm::proto::NewTip&&) override;
+	void OnMsg(grimm::proto::ProofUtxo&&) override;
 
 	void StartChecking();
 	
@@ -41,8 +41,8 @@ protected:
 
 	bool m_IsInitChecker;
 	bool m_IsOk;
-	beam::Height m_Maturity;
-	beam::Block::SystemState::Full m_Hdr;
+	grimm::Height m_Maturity;
+	grimm::Block::SystemState::Full m_Hdr;
 	Inputs::const_iterator m_Current;
 	std::deque<std::pair<Inputs, Callback>> m_Queue;
 };

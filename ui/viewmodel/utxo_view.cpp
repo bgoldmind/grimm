@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
 #include "utxo_view.h"
 #include "ui_helpers.h"
 #include "model/app_model.h"
-using namespace beam;
-using namespace beam::wallet;
+using namespace grimm;
+using namespace grimm::wallet;
 using namespace std;
-using namespace beamui;
+using namespace grimmui;
 
 namespace
 {
@@ -31,7 +31,7 @@ bool compareUtxo(const T& lf, const T& rt, Qt::SortOrder sortOrder)
 }
 }
 
-UtxoItem::UtxoItem(const beam::wallet::Coin& coin)
+UtxoItem::UtxoItem(const grimm::wallet::Coin& coin)
     : _coin{ coin }
 {
 
@@ -44,7 +44,7 @@ UtxoItem::~UtxoItem()
 
 QString UtxoItem::amount() const
 {
-    return BeamToString(_coin.m_ID.m_Value) + " BEAM";
+    return GrimmToString(_coin.m_ID.m_Value) + " GRIMM";
 }
 
 QString UtxoItem::maturity() const
@@ -91,17 +91,17 @@ UtxoViewType::EnType UtxoItem::type() const
     return UtxoViewType::Undefined;
 }
 
-beam::Amount UtxoItem::rawAmount() const
+grimm::Amount UtxoItem::rawAmount() const
 {
     return _coin.m_ID.m_Value;
 }
 
-const beam::wallet::Coin::ID& UtxoItem::get_ID() const
+const grimm::wallet::Coin::ID& UtxoItem::get_ID() const
 {
 	return _coin.m_ID;
 }
 
-beam::Height UtxoItem::rawMaturity() const
+grimm::Height UtxoItem::rawMaturity() const
 {
     return _coin.get_Maturity();
 }
@@ -111,9 +111,9 @@ UtxoViewModel::UtxoViewModel()
     : _model{*AppModel::getInstance()->getWallet()}
     , _sortOrder(Qt::DescendingOrder)
 {
-    connect(&_model, SIGNAL(allUtxoChanged(const std::vector<beam::wallet::Coin>&)),
-        SLOT(onAllUtxoChanged(const std::vector<beam::wallet::Coin>&)));
-    connect(&_model, SIGNAL(walletStatus(const beam::wallet::WalletStatus&)), SLOT(onStatus(const beam::wallet::WalletStatus&)));
+    connect(&_model, SIGNAL(allUtxoChanged(const std::vector<grimm::wallet::Coin>&)),
+        SLOT(onAllUtxoChanged(const std::vector<grimm::wallet::Coin>&)));
+    connect(&_model, SIGNAL(walletStatus(const grimm::wallet::WalletStatus&)), SLOT(onStatus(const grimm::wallet::WalletStatus&)));
 
     _model.getAsync()->getUtxosStatus();
 }
@@ -160,7 +160,7 @@ void UtxoViewModel::setSortOrder(Qt::SortOrder value)
     sortUtxos();
 }
 
-void UtxoViewModel::onAllUtxoChanged(const std::vector<beam::wallet::Coin>& utxos)
+void UtxoViewModel::onAllUtxoChanged(const std::vector<grimm::wallet::Coin>& utxos)
 {
     // TODO: It's dirty hack. Should use QAbstractListModel instead of QQmlListProperty
     auto tmpList = _allUtxos;
@@ -182,7 +182,7 @@ void UtxoViewModel::onAllUtxoChanged(const std::vector<beam::wallet::Coin>& utxo
 void UtxoViewModel::onStatus(const WalletStatus& status)
 {
     _currentHeight = QString::fromStdString(to_string(status.stateID.m_Height));
-    _currentStateHash = QString(beam::to_hex(status.stateID.m_Hash.m_pData, 10).c_str());
+    _currentStateHash = QString(grimm::to_hex(status.stateID.m_Hash.m_pData, 10).c_str());
     emit stateChanged();
 }
 

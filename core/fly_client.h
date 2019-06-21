@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 #include <boost/intrusive/list.hpp>
 #include <boost/intrusive_ptr.hpp>
 
-namespace beam {
+namespace grimm {
 namespace proto {
 
 	struct FlyClient
@@ -239,4 +239,4 @@ namespace proto {
 	};
 
 } // namespace proto
-} // namespace beam
+} // namespace grimm

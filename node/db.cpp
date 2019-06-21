@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "db.h"
 
-namespace beam {
+namespace grimm {
 
 
 // Literal constants
@@ -134,7 +134,7 @@ void NodeDB::Close()
 		for (size_t i = 0; i < _countof(m_pPrep); i++)
 			m_pPrep[i].Close();
 
-        BEAM_VERIFY(SQLITE_OK == sqlite3_close(m_pDb));
+        GRIMM_VERIFY(SQLITE_OK == sqlite3_close(m_pDb));
 		m_pDb = NULL;
 	}
 }
@@ -676,7 +676,7 @@ uint64_t NodeDB::InsertState(const Block::SystemState::Full& s)
 	rs.put(1, hash);
 	rs.put(2, StateFlags::Functional);
 
-    BEAM_VERIFY(rs.Step());
+    GRIMM_VERIFY(rs.Step());
 	rs.get(0, nCountNextF);
 
 	// Insert row
@@ -2091,4 +2091,4 @@ void NodeDB::TxoGetValue(WalkerTxo& wlk, TxoID id0)
 	wlk.m_Rs.get(0, wlk.m_Value);
 }
 
-} // namespace beam
+} // namespace grimm

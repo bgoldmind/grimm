@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,21 +13,21 @@
 
 #include "default_peers.h"
 
-namespace beam
+namespace grimm
 {
     std::vector<std::string> getDefaultPeers()
     {
         std::vector<std::string> result
         {
-#ifdef BEAM_TESTNET
-            "us-nodes.testnet.beam.mw:8100",
-            "eu-nodes.testnet.beam.mw:8100",
-            "ap-nodes.testnet.beam.mw:8100"
+#ifdef GRIMM_TESTNET
+            "us-nodes.testnet.grimmw.com:8100",
+            "eu-nodes.testnet.grimmw.com:8100",
+            "ap-nodes.testnet.grimmw.com:8100"
 #else
-            "eu-node01.masternet.beam.mw:8100",
-            "eu-node02.masternet.beam.mw:8100",
-            "eu-node03.masternet.beam.mw:8100",
-            "eu-node04.masternet.beam.mw:8100"
+            "eu-node01.masternet.grimmw.com:8100",
+            "eu-node02.masternet.grimmw.com:8100",
+            "eu-node03.masternet.grimmw.com:8100",
+            "eu-node04.masternet.grimmw.com:8100"
 #endif
         };
 

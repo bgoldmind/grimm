@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@
 #include <mutex>
 #include <algorithm>
 
-namespace beam {
+namespace grimm {
 
 using namespace std;
 

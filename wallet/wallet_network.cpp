@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@ namespace
     const char* BBS_TIMESTAMPS = "BbsTimestamps";
     const unsigned AddressUpdateInterval_ms = 60 * 1000; // check addresses every minute
 
-    beam::BbsChannel channel_from_wallet_id(const beam::wallet::WalletID& walletID)
+    grimm::BbsChannel channel_from_wallet_id(const grimm::wallet::WalletID& walletID)
     {
-        beam::BbsChannel ret;
+        grimm::BbsChannel ret;
         walletID.m_Channel.Export(ret);
         return ret;
     }
 }
 
 
-namespace beam::wallet {
+namespace grimm::wallet {
 
     ///////////////////////////
 

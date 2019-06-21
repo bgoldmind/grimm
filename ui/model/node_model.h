@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@
 
 class NodeModel 
     : public QObject
-    , private beam::INodeClientObserver
+    , private grimm::INodeClientObserver
 {
     Q_OBJECT
 public:
 
     NodeModel();
 
-    void setKdf(beam::Key::IKdf::Ptr);
-    void setOwnerKey(beam::Key::IPKdf::Ptr);
+    void setKdf(grimm::Key::IKdf::Ptr);
+    void setOwnerKey(grimm::Key::IPKdf::Ptr);
     void startNode();
     void stopNode();
 
@@ -47,15 +47,15 @@ signals:
     void syncProgressUpdated(int done, int total);
     void startedNode();
     void stoppedNode();
-    void failedToStartNode(beam::wallet::ErrorType errorType);
-    void failedToSyncNode(beam::wallet::ErrorType errorType);
+    void failedToStartNode(grimm::wallet::ErrorType errorType);
+    void failedToSyncNode(grimm::wallet::ErrorType errorType);
 
 protected:
     void onSyncProgressUpdated(int done, int total) override;
     void onStartedNode() override;
     void onStoppedNode() override;
-    void onFailedToStartNode(beam::io::ErrorCode errorCode) override;
-    void onSyncError(beam::Node::IObserver::Error error) override;
+    void onFailedToStartNode(grimm::io::ErrorCode errorCode) override;
+    void onSyncError(grimm::Node::IObserver::Error error) override;
 
     uint16_t getLocalNodePort() override;
     std::string getLocalNodeStorage() override;
@@ -65,5 +65,5 @@ protected:
     void onNodeThreadFinished() override;
 
 private:
-    beam::NodeClient m_nodeClient;
+    grimm::NodeClient m_nodeClient;
 };

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,9 +113,9 @@
 namespace std
 {
     template<>
-    struct hash<pair<beam::Amount, beam::Amount>>
+    struct hash<pair<grimm::Amount, grimm::Amount>>
     {
-        typedef pair<beam::Amount, beam::Amount> argument_type;
+        typedef pair<grimm::Amount, grimm::Amount> argument_type;
         typedef std::size_t result_type;
 
         result_type operator()(const argument_type& a) const noexcept
@@ -125,7 +125,7 @@ namespace std
     };
 }
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     using namespace std;
 
@@ -1160,10 +1160,10 @@ namespace beam::wallet
                 }
                 m_DbTransaction.reset();
             }
-            BEAM_VERIFY(SQLITE_OK == sqlite3_close(_db));
+            GRIMM_VERIFY(SQLITE_OK == sqlite3_close(_db));
             if (m_PrivateDB && _db != m_PrivateDB)
             {
-                BEAM_VERIFY(SQLITE_OK == sqlite3_close(m_PrivateDB));
+                GRIMM_VERIFY(SQLITE_OK == sqlite3_close(m_PrivateDB));
                 m_PrivateDB = nullptr;
             }
             _db = nullptr;
@@ -1194,15 +1194,15 @@ namespace beam::wallet
 	void IWalletDB::ImportRecovery(const std::string& path)
   {
 		IRecoveryProgress prog;
-		BEAM_VERIFY(ImportRecovery(path, prog));
+		GRIMM_VERIFY(ImportRecovery(path, prog));
 	}
 
 	bool IWalletDB::ImportRecovery(const std::string& path, IRecoveryProgress& prog)
   {
-		beam::RecoveryInfo::Reader rp;
+		grimm::RecoveryInfo::Reader rp;
 		rp.Open(path.c_str());
     uint64_t nTotal = rp.m_Stream.get_Remaining();
-		beam::Key::IPKdf::Ptr pOwner = get_MasterKdf();
+		grimm::Key::IPKdf::Ptr pOwner = get_MasterKdf();
 
 		while (true)
 		{
@@ -2610,7 +2610,7 @@ namespace beam::wallet
         WalletAddress createAddress(IWalletDB& walletDB)
         {
             WalletAddress newAddress;
-            newAddress.m_createTime = beam::getTimestamp();
+            newAddress.m_createTime = grimm::getTimestamp();
             newAddress.m_OwnID = walletDB.AllocateKidRange(1);
             newAddress.m_walletID = generateWalletIDFromIndex(walletDB, newAddress.m_OwnID);
 

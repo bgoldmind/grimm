@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "../bitcoin/bitcoind016.h"
 #include "options.h"
 
-namespace beam
+namespace grimm
 {
     class Litecoind016 : public Bitcoind016
     {

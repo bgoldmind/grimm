@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 #define UNKNOWN_API_KEY -32002
 #define INVALID_ADDRESS -32003
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     using json = nlohmann::json;
 
@@ -148,7 +148,7 @@ namespace beam::wallet
         Amount fee;
         Amount swapAmount;
         wallet::AtomicSwapCoin swapCoin;
-        bool beamSide;
+        bool grimmSide;
         wallet::WalletID address;
 
         struct Response
@@ -162,7 +162,7 @@ namespace beam::wallet
         Amount amount;
         Amount swapAmount;
         wallet::AtomicSwapCoin swapCoin;
-        bool beamSide;
+        bool grimmSide;
 
         struct Response {};
     };
@@ -266,7 +266,7 @@ namespace beam::wallet
     {
         struct Response
         {
-            beam::Height currentHeight = 0;
+            grimm::Height currentHeight = 0;
             Merkle::Hash currentStateHash;
             Merkle::Hash prevStateHash;
             Amount available = 0;

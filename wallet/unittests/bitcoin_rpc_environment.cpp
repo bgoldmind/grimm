@@ -1,4 +1,4 @@
-// Copyright 2019 The Beam Team
+// Copyright 2019 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ const uint16_t PORT = 13300;
 const std::string btcUserName = "Alice";
 const std::string btcPass = "123";
 
-using namespace beam;
+using namespace grimm;
 using json = nlohmann::json;
 
 namespace

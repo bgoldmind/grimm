@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -165,31 +165,31 @@ namespace detail
 
         /// ECC::uintBig serialization
         template<typename Archive, uint32_t nBytes_>
-        static Archive& save(Archive& ar, const beam::uintBig_t<nBytes_>& val)
+        static Archive& save(Archive& ar, const grimm::uintBig_t<nBytes_>& val)
         {
             ar & val.m_pData;
             return ar;
         }
 
         template<typename Archive, uint32_t nBytes_>
-        static Archive& load(Archive& ar, beam::uintBig_t<nBytes_>& val)
+        static Archive& load(Archive& ar, grimm::uintBig_t<nBytes_>& val)
         {
             ar & val.m_pData;
             return ar;
         }
 
-		/// beam::FourCC serialization
+		/// grimm::FourCC serialization
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::FourCC& val)
+		static Archive& save(Archive& ar, const grimm::FourCC& val)
 		{
-			ar & beam::uintBigFrom(val.V);
+			ar & grimm::uintBigFrom(val.V);
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::FourCC& val)
+		static Archive& load(Archive& ar, grimm::FourCC& val)
 		{
-			beam::uintBigFor<uint32_t>::Type x;
+			grimm::uintBigFor<uint32_t>::Type x;
 			ar & x;
 			x.Export(val.V);
 			return ar;
@@ -516,12 +516,12 @@ namespace detail
         }
 
         ///////////////////////////////////////////////////////////
-        /// Common Beam serialization adapters
+        /// Common Grimm serialization adapters
         ///////////////////////////////////////////////////////////
 
-        /// beam::Input serialization
+        /// grimm::Input serialization
         template<typename Archive>
-        static Archive& save(Archive& ar, const beam::Input& input)
+        static Archive& save(Archive& ar, const grimm::Input& input)
         {
 			uint8_t nFlags =
 				(input.m_Commitment.m_Y ? 1 : 0);
@@ -534,7 +534,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::Input& input)
+        static Archive& load(Archive& ar, grimm::Input& input)
         {
 			uint8_t nFlags;
 			ar
@@ -546,9 +546,9 @@ namespace detail
             return ar;
         }
 
-        /// beam::Output serialization
+        /// grimm::Output serialization
         template<typename Archive>
-        static Archive& save(Archive& ar, const beam::Output& output)
+        static Archive& save(Archive& ar, const grimm::Output& output)
         {
 			uint8_t nFlags =
 				(output.m_Commitment.m_Y ? 1 : 0) |
@@ -556,7 +556,7 @@ namespace detail
 				(output.m_pConfidential ? 4 : 0) |
 				(output.m_pPublic ? 8 : 0) |
 				(output.m_Incubation ? 0x10 : 0) |
-				((output.m_AssetID == beam::Zero) ? 0 : 0x20) |
+				((output.m_AssetID == grimm::Zero) ? 0 : 0x20) |
 				(output.m_RecoveryOnly ? 0x40 : 0);
 
 			ar
@@ -579,7 +579,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::Output& output)
+        static Archive& load(Archive& ar, grimm::Output& output)
         {
 			uint8_t nFlags;
 			ar
@@ -608,14 +608,14 @@ namespace detail
 			if (0x20 & nFlags)
 				ar & output.m_AssetID;
 			else
-				output.m_AssetID = beam::Zero;
+				output.m_AssetID = grimm::Zero;
 
             return ar;
         }
 
-		/// beam::TxKernel::HashLock serialization
+		/// grimm::TxKernel::HashLock serialization
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::TxKernel::HashLock& val)
+		static Archive& save(Archive& ar, const grimm::TxKernel::HashLock& val)
 		{
 			ar
 				& val.m_Preimage
@@ -625,7 +625,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::TxKernel::HashLock& val)
+		static Archive& load(Archive& ar, grimm::TxKernel::HashLock& val)
 		{
 			ar
 				& val.m_Preimage
@@ -634,9 +634,9 @@ namespace detail
 			return ar;
 		}
 
-		/// beam::TxKernel::RelativeLock serialization
+		/// grimm::TxKernel::RelativeLock serialization
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::TxKernel::RelativeLock& val)
+		static Archive& save(Archive& ar, const grimm::TxKernel::RelativeLock& val)
 		{
 			ar
 				& val.m_ID
@@ -647,7 +647,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::TxKernel::RelativeLock& val)
+		static Archive& load(Archive& ar, grimm::TxKernel::RelativeLock& val)
 		{
 			ar
 				& val.m_ID
@@ -657,9 +657,9 @@ namespace detail
 			return ar;
 		}
 
-        /// beam::TxKernel serialization
+        /// grimm::TxKernel serialization
         template<typename Archive>
-        static Archive& save(Archive& ar, const beam::TxKernel& val)
+        static Archive& save(Archive& ar, const grimm::TxKernel& val)
         {
 			uint8_t nFlags2 =
 				(val.m_AssetEmission ? 1 : 0) |
@@ -670,7 +670,7 @@ namespace detail
 				(val.m_Commitment.m_Y ? 1 : 0) |
 				(val.m_Fee ? 2 : 0) |
 				(val.m_Height.m_Min ? 4 : 0) |
-				((val.m_Height.m_Max != beam::Height(-1)) ? 8 : 0) |
+				((val.m_Height.m_Max != grimm::Height(-1)) ? 8 : 0) |
 				(val.m_Signature.m_NoncePub.m_Y ? 0x10 : 0) |
 				(val.m_pHashLock ? 0x20 : 0) |
 				(val.m_vNested.empty() ? 0 : 0x40) |
@@ -688,7 +688,7 @@ namespace detail
 				ar & val.m_Height.m_Min;
 			if (8 & nFlags)
 			{
-				beam::Height dh = val.m_Height.m_Max - val.m_Height.m_Min;
+				grimm::Height dh = val.m_Height.m_Max - val.m_Height.m_Min;
 				ar & dh;
 			}
 			if (0x20 & nFlags)
@@ -717,7 +717,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load_Recursive(Archive& ar, beam::TxKernel& val, uint32_t nRecusion)
+        static Archive& load_Recursive(Archive& ar, grimm::TxKernel& val, uint32_t nRecusion)
         {
 			uint8_t nFlags;
 			ar
@@ -740,24 +740,24 @@ namespace detail
 
 			if (8 & nFlags)
 			{
-				beam::Height dh;
+				grimm::Height dh;
 				ar & dh;
 				val.m_Height.m_Max = val.m_Height.m_Min + dh;
 			}
 			else
-				val.m_Height.m_Max = beam::Height(-1);
+				val.m_Height.m_Max = grimm::Height(-1);
 
 			val.m_Signature.m_NoncePub.m_Y = ((0x10 & nFlags) != 0);
 
 			if (0x20 & nFlags)
 			{
-				val.m_pHashLock.reset(new beam::TxKernel::HashLock);
+				val.m_pHashLock.reset(new grimm::TxKernel::HashLock);
 				ar & *val.m_pHashLock;
 			}
 
 			if (0x40 & nFlags)
 			{
-				beam::TxKernel::TestRecursion(++nRecusion);
+				grimm::TxKernel::TestRecursion(++nRecusion);
 
 				uint32_t nCount;
 				ar & nCount;
@@ -765,8 +765,8 @@ namespace detail
 
 				for (uint32_t i = 0; i < nCount; i++)
 				{
-					std::unique_ptr<beam::TxKernel>& v = val.m_vNested[i];
-					v = std::make_unique<beam::TxKernel>();
+					std::unique_ptr<grimm::TxKernel>& v = val.m_vNested[i];
+					v = std::make_unique<grimm::TxKernel>();
 					load_Recursive(ar, *v, nRecusion);
 				}
 			}
@@ -783,7 +783,7 @@ namespace detail
 
 				if (2 & nFlags2)
 				{
-					val.m_pRelativeLock.reset(new beam::TxKernel::RelativeLock);
+					val.m_pRelativeLock.reset(new grimm::TxKernel::RelativeLock);
 					ar & *val.m_pRelativeLock;
 				}
 
@@ -795,14 +795,14 @@ namespace detail
         }
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::TxKernel& val)
+		static Archive& load(Archive& ar, grimm::TxKernel& val)
 		{
 			return load_Recursive(ar, val, 0);
 		}
 
-        /// beam::Transaction serialization
+        /// grimm::Transaction serialization
         template<typename Archive>
-        static Archive& save(Archive& ar, const beam::TxBase& txb)
+        static Archive& save(Archive& ar, const grimm::TxBase& txb)
         {
             ar
 				& txb.m_Offset;
@@ -811,7 +811,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::TxBase& txb)
+        static Archive& load(Archive& ar, grimm::TxBase& txb)
         {
             ar
 				& txb.m_Offset;
@@ -823,7 +823,7 @@ namespace detail
 		static void save_VecPtr(Archive& ar, const std::vector<TPtr>& v)
 		{
 			uint32_t nSize = static_cast<uint32_t>(v.size());
-			ar & beam::uintBigFrom(nSize);
+			ar & grimm::uintBigFrom(nSize);
 
 			for (uint32_t i = 0; i < nSize; i++)
 				ar & *v[i];
@@ -832,7 +832,7 @@ namespace detail
 		template <typename Archive, typename TPtr>
 		static void load_VecPtr(Archive& ar, std::vector<TPtr>& v)
 		{
-			beam::uintBigFor<uint32_t>::Type x;
+			grimm::uintBigFor<uint32_t>::Type x;
 			ar & x;
 			
 			uint32_t nSize;
@@ -847,7 +847,7 @@ namespace detail
 		}
 
         template<typename Archive>
-        static Archive& save(Archive& ar, const beam::TxVectors::Perishable& txv)
+        static Archive& save(Archive& ar, const grimm::TxVectors::Perishable& txv)
         {
 			save_VecPtr(ar, txv.m_vInputs);
 			save_VecPtr(ar, txv.m_vOutputs);
@@ -855,7 +855,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::TxVectors::Perishable& txv)
+        static Archive& load(Archive& ar, grimm::TxVectors::Perishable& txv)
         {
 			load_VecPtr(ar, txv.m_vInputs);
 			load_VecPtr(ar, txv.m_vOutputs);
@@ -863,43 +863,43 @@ namespace detail
         }
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::TxVectors::Eternal& txv)
+		static Archive& save(Archive& ar, const grimm::TxVectors::Eternal& txv)
 		{
 			save_VecPtr(ar, txv.m_vKernels);
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::TxVectors::Eternal& txv)
+		static Archive& load(Archive& ar, grimm::TxVectors::Eternal& txv)
 		{
 			load_VecPtr(ar, txv.m_vKernels);
 			return ar;
 		}
 
 		template<typename Archive>
-        static Archive& save(Archive& ar, const beam::Transaction& tx)
+        static Archive& save(Archive& ar, const grimm::Transaction& tx)
         {
 			ar
-				& Cast::Down<beam::TxVectors::Perishable>(tx)
-				& Cast::Down<beam::TxVectors::Eternal>(tx)
-				& Cast::Down<beam::TxBase>(tx);
+				& Cast::Down<grimm::TxVectors::Perishable>(tx)
+				& Cast::Down<grimm::TxVectors::Eternal>(tx)
+				& Cast::Down<grimm::TxBase>(tx);
 
             return ar;
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::Transaction& tx)
+        static Archive& load(Archive& ar, grimm::Transaction& tx)
         {
 			ar
-				& Cast::Down<beam::TxVectors::Perishable>(tx)
-				& Cast::Down<beam::TxVectors::Eternal>(tx)
-				& Cast::Down<beam::TxBase>(tx);
+				& Cast::Down<grimm::TxVectors::Perishable>(tx)
+				& Cast::Down<grimm::TxVectors::Eternal>(tx)
+				& Cast::Down<grimm::TxBase>(tx);
 
             return ar;
         }
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::PoW& pow)
+		static Archive& save(Archive& ar, const grimm::Block::PoW& pow)
 		{
 			ar
 				& pow.m_Indices
@@ -910,7 +910,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::PoW& pow)
+		static Archive& load(Archive& ar, grimm::Block::PoW& pow)
 		{
 			ar
 				& pow.m_Indices
@@ -921,7 +921,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-        static Archive& save(Archive& ar, const beam::Block::SystemState::ID& v)
+        static Archive& save(Archive& ar, const grimm::Block::SystemState::ID& v)
         {
             ar
 				& v.m_Height
@@ -931,7 +931,7 @@ namespace detail
         }
 
         template<typename Archive>
-        static Archive& load(Archive& ar, beam::Block::SystemState::ID& v)
+        static Archive& load(Archive& ar, grimm::Block::SystemState::ID& v)
         {
 			ar
 				& v.m_Height
@@ -941,7 +941,7 @@ namespace detail
         }
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::SystemState::Sequence::Prefix& v)
+		static Archive& save(Archive& ar, const grimm::Block::SystemState::Sequence::Prefix& v)
 		{
 			ar
 				& v.m_Height
@@ -952,7 +952,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::SystemState::Sequence::Prefix& v)
+		static Archive& load(Archive& ar, grimm::Block::SystemState::Sequence::Prefix& v)
 		{
 			ar
 				& v.m_Height
@@ -963,7 +963,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::SystemState::Sequence::Element& v)
+		static Archive& save(Archive& ar, const grimm::Block::SystemState::Sequence::Element& v)
 		{
 			ar
 				& v.m_Kernels
@@ -975,7 +975,7 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::SystemState::Sequence::Element& v)
+		static Archive& load(Archive& ar, grimm::Block::SystemState::Sequence::Element& v)
 		{
 			ar
 				& v.m_Kernels
@@ -987,53 +987,53 @@ namespace detail
 		}
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::SystemState::Full& v)
+		static Archive& save(Archive& ar, const grimm::Block::SystemState::Full& v)
 		{
-			save(ar, Cast::Down<beam::Block::SystemState::Sequence::Prefix>(v));
-			save(ar, Cast::Down<beam::Block::SystemState::Sequence::Element>(v));
+			save(ar, Cast::Down<grimm::Block::SystemState::Sequence::Prefix>(v));
+			save(ar, Cast::Down<grimm::Block::SystemState::Sequence::Element>(v));
 
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::SystemState::Full& v)
+		static Archive& load(Archive& ar, grimm::Block::SystemState::Full& v)
 		{
-			load(ar, Cast::Down<beam::Block::SystemState::Sequence::Prefix>(v));
-			load(ar, Cast::Down<beam::Block::SystemState::Sequence::Element>(v));
+			load(ar, Cast::Down<grimm::Block::SystemState::Sequence::Prefix>(v));
+			load(ar, Cast::Down<grimm::Block::SystemState::Sequence::Element>(v));
 
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::BodyBase& bb)
+		static Archive& save(Archive& ar, const grimm::Block::BodyBase& bb)
 		{
-			ar & Cast::Down<beam::TxBase>(bb);
+			ar & Cast::Down<grimm::TxBase>(bb);
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::BodyBase& bb)
+		static Archive& load(Archive& ar, grimm::Block::BodyBase& bb)
 		{
-			ar & Cast::Down<beam::TxBase>(bb);
+			ar & Cast::Down<grimm::TxBase>(bb);
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& save(Archive& ar, const beam::Block::Body& bb)
+		static Archive& save(Archive& ar, const grimm::Block::Body& bb)
 		{
-			ar & Cast::Down<beam::Block::BodyBase>(bb);
-			ar & Cast::Down<beam::TxVectors::Perishable>(bb);
-			ar & Cast::Down<beam::TxVectors::Eternal>(bb);
+			ar & Cast::Down<grimm::Block::BodyBase>(bb);
+			ar & Cast::Down<grimm::TxVectors::Perishable>(bb);
+			ar & Cast::Down<grimm::TxVectors::Eternal>(bb);
 
 			return ar;
 		}
 
 		template<typename Archive>
-		static Archive& load(Archive& ar, beam::Block::Body& bb)
+		static Archive& load(Archive& ar, grimm::Block::Body& bb)
 		{
-			ar & Cast::Down<beam::Block::BodyBase>(bb);
-			ar & Cast::Down<beam::TxVectors::Perishable>(bb);
-			ar & Cast::Down<beam::TxVectors::Eternal>(bb);
+			ar & Cast::Down<grimm::Block::BodyBase>(bb);
+			ar & Cast::Down<grimm::TxVectors::Perishable>(bb);
+			ar & Cast::Down<grimm::TxVectors::Eternal>(bb);
 
 			return ar;
 		}

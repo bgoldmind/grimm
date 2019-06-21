@@ -1,28 +1,28 @@
-// BEAM OpenCL Miner
+// GRIMM OpenCL Miner
 // Stratum interface class
-// Copyright 2018 The Beam Team	
+// Copyright 2018 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
 
-#include "beamStratum.h"
+#include "grimmStratum.h"
 #include "crypto/sha256.c"
 
-namespace beamMiner {
+namespace grimmMiner {
 
 // This one ensures that the calling thread can work on immediately
-void beamStratum::queueDataSend(string data) {
-	io_service.post(boost::bind(&beamStratum::syncSend,this, data)); 
+void grimmStratum::queueDataSend(string data) {
+	io_service.post(boost::bind(&grimmStratum::syncSend,this, data)); 
 }
 
 // Function to add a string into the socket write queue
-void beamStratum::syncSend(string data) {
+void grimmStratum::syncSend(string data) {
 	writeRequests.push_back(data);
 	activateWrite();
 }
 
 
 // Got granted we can write to our connection, lets do so	
-void beamStratum::activateWrite() {
+void grimmStratum::activateWrite() {
 	if (!activeWrite && writeRequests.size() > 0) {
 		activeWrite = true;
 
@@ -33,13 +33,13 @@ void beamStratum::activateWrite() {
 		os << json;
 		if (debug) cout << "Write to connection: " << json;
 
-		boost::asio::async_write(*socket, requestBuffer, boost::bind(&beamStratum::writeHandler,this, boost::asio::placeholders::error)); 		
+		boost::asio::async_write(*socket, requestBuffer, boost::bind(&grimmStratum::writeHandler,this, boost::asio::placeholders::error)); 		
 	}
 }
 	
 
 // Once written check if there is more to write
-void beamStratum::writeHandler(const boost::system::error_code& err) {
+void grimmStratum::writeHandler(const boost::system::error_code& err) {
 	activeWrite = false;
 	activateWrite(); 
 	if (err) {
@@ -49,12 +49,12 @@ void beamStratum::writeHandler(const boost::system::error_code& err) {
 
 
 // Called by main() function, starts the stratum client thread
-void beamStratum::startWorking(){
-	std::thread (&beamStratum::connect,this).detach();
+void grimmStratum::startWorking(){
+	std::thread (&grimmStratum::connect,this).detach();
 }
 
 // This function will be used to establish a connection to the API server
-void beamStratum::connect() {	
+void grimmStratum::connect() {	
 	while (true) {
 		tcp::resolver::query q(host, port); 
 
@@ -65,10 +65,10 @@ void beamStratum::connect() {
 			socket.reset(new boost::asio::ssl::stream<tcp::socket>(io_service, context));
 
 			socket->set_verify_mode(boost::asio::ssl::verify_none);
-    			socket->set_verify_callback(boost::bind(&beamStratum::verifyCertificate, this, _1, _2));
+    			socket->set_verify_callback(boost::bind(&grimmStratum::verifyCertificate, this, _1, _2));
 
 			socket->lowest_layer().async_connect(endpoint,
-			boost::bind(&beamStratum::handleConnect, this, boost::asio::placeholders::error, ++endpoint_iterator));	
+			boost::bind(&grimmStratum::handleConnect, this, boost::asio::placeholders::error, ++endpoint_iterator));	
 
 			io_service.run();
 		} catch (std::exception const& _e) {
@@ -88,12 +88,12 @@ void beamStratum::connect() {
 
 
 // Once the physical connection is there start a TLS handshake
-void beamStratum::handleConnect(const boost::system::error_code& err, tcp::resolver::iterator endpoint_iterator) {
+void grimmStratum::handleConnect(const boost::system::error_code& err, tcp::resolver::iterator endpoint_iterator) {
 	if (!err) {
 	cout << "Connected to node. Starting TLS handshake." << endl;
 
       	// The connection was successful. Do the TLS handshake
-	socket->async_handshake(boost::asio::ssl::stream_base::client,boost::bind(&beamStratum::handleHandshake, this, boost::asio::placeholders::error));
+	socket->async_handshake(boost::asio::ssl::stream_base::client,boost::bind(&grimmStratum::handleHandshake, this, boost::asio::placeholders::error));
 	
     	} else if (err != boost::asio::error::operation_aborted) {
 		if (endpoint_iterator != tcp::resolver::iterator()) {
@@ -101,7 +101,7 @@ void beamStratum::handleConnect(const boost::system::error_code& err, tcp::resol
 			tcp::endpoint endpoint = *endpoint_iterator;
 
 			socket->lowest_layer().async_connect(endpoint,
-			boost::bind(&beamStratum::handleConnect, this, boost::asio::placeholders::error, ++endpoint_iterator));
+			boost::bind(&grimmStratum::handleConnect, this, boost::asio::placeholders::error, ++endpoint_iterator));
 		} 
 	} 	
 }
@@ -109,16 +109,16 @@ void beamStratum::handleConnect(const boost::system::error_code& err, tcp::resol
 
 // Dummy function: we will not verify if the endpoint is verified at the moment,
 // still there is a TLS handshake, so connection is encrypted
-bool beamStratum::verifyCertificate(bool preverified, boost::asio::ssl::verify_context& ctx){
+bool grimmStratum::verifyCertificate(bool preverified, boost::asio::ssl::verify_context& ctx){
 	return true;
 }
 
 
-void beamStratum::handleHandshake(const boost::system::error_code& error) {
+void grimmStratum::handleHandshake(const boost::system::error_code& error) {
 	if (!error) {
 		// Listen to receive stratum input
 		boost::asio::async_read_until(*socket, responseBuffer, "\n",
-		boost::bind(&beamStratum::readStratum, this, boost::asio::placeholders::error));
+		boost::bind(&grimmStratum::readStratum, this, boost::asio::placeholders::error));
 
 		cout << "TLS Handshake sucess" << endl;
 		
@@ -147,7 +147,7 @@ vector<uint8_t> parseHex (string input) {
 
 
 // Main stratum read function, will be called on every received data
-void beamStratum::readStratum(const boost::system::error_code& err) {
+void grimmStratum::readStratum(const boost::system::error_code& err) {
 	if (!err) {
 		// We just read something without problem.
 		std::istream is(&responseBuffer);
@@ -199,7 +199,7 @@ void beamStratum::readStratum(const boost::system::error_code& err) {
 					
 					// Get the target difficulty
 					uint32_t stratDiff =  jsonTree.get<uint32_t>("difficulty");
-					powDiff = beam::Difficulty(stratDiff);
+					powDiff = grimm::Difficulty(stratDiff);
 					updateMutex.unlock();	
 
 					cout << "New work received with id " << workId << " at difficulty " << powDiff.ToFloat() << endl;	
@@ -224,19 +224,19 @@ void beamStratum::readStratum(const boost::system::error_code& err) {
 
 		// Prepare to continue reading
 		boost::asio::async_read_until(*socket, responseBuffer, "\n",
-        	boost::bind(&beamStratum::readStratum, this, boost::asio::placeholders::error));
+        	boost::bind(&grimmStratum::readStratum, this, boost::asio::placeholders::error));
 	}
 }
 
 
 // Checking if we have valid work, else the GPUs will pause
-bool beamStratum::hasWork() {
+bool grimmStratum::hasWork() {
 	return (workId >= 0);
 }
 
 
 // function the clHost class uses to fetch new work
-void beamStratum::getWork(int64_t* workOut, uint64_t* nonceOut, uint8_t* dataOut, uint32_t*) {
+void grimmStratum::getWork(int64_t* workOut, uint64_t* nonceOut, uint8_t* dataOut, uint32_t*) {
 	*workOut = workId;
 
 	// nonce is atomic, so every time we call this will get a nonce increased by one
@@ -325,7 +325,7 @@ std::vector<unsigned char> GetMinimalFromIndices(std::vector<uint32_t> indices, 
 }
 
 
-void beamStratum::testAndSubmit(int64_t wId, uint64_t nonceIn, vector<uint32_t> indices) {
+void grimmStratum::testAndSubmit(int64_t wId, uint64_t nonceIn, vector<uint32_t> indices) {
 	// First check if the work fits the current work
 
 	if (wId == workId) {	
@@ -334,7 +334,7 @@ void beamStratum::testAndSubmit(int64_t wId, uint64_t nonceIn, vector<uint32_t> 
 		vector<uint8_t> compressed;
 		compressed = GetMinimalFromIndices(indices,25);
 
-		beam::uintBig_t<32> hv;
+		grimm::uintBig_t<32> hv;
 		Sha256_Onestep(compressed.data(), compressed.size(), hv.m_pData);
 
 		if (powDiff.IsTargetReached(hv)) {	
@@ -370,12 +370,12 @@ void beamStratum::testAndSubmit(int64_t wId, uint64_t nonceIn, vector<uint32_t> 
 
 
 // Will be called by clHost class for check & submit
-void beamStratum::handleSolution(int64_t &workIdVar, uint64_t &nonceVar, vector<uint32_t> &indices, uint32_t) {
-	std::thread (&beamStratum::testAndSubmit,this, workIdVar, nonceVar,indices).detach();
+void grimmStratum::handleSolution(int64_t &workIdVar, uint64_t &nonceVar, vector<uint32_t> &indices, uint32_t) {
+	std::thread (&grimmStratum::testAndSubmit,this, workIdVar, nonceVar,indices).detach();
 }
 
 
-beamStratum::beamStratum(string hostIn, string portIn, string apiKeyIn, bool debugIn) : res(io_service), context(boost::asio::ssl::context::sslv23)  {
+grimmStratum::grimmStratum(string hostIn, string portIn, string apiKeyIn, bool debugIn) : res(io_service), context(boost::asio::ssl::context::sslv23)  {
 	host = hostIn;
 	port = portIn;
 	apiKey = apiKeyIn;
@@ -395,5 +395,5 @@ beamStratum::beamStratum(string hostIn, string portIn, string apiKeyIn, bool deb
 	workId = -1;
 }
 
-} // End namespace beamMiner
+} // End namespace grimmMiner
 

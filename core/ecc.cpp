@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -343,7 +343,7 @@ namespace ECC {
 		m_bInitialized = false;
 	}
 
-	void Hash::Processor::Write(const beam::Blob& v)
+	void Hash::Processor::Write(const grimm::Blob& v)
 	{
 		Write(v.p, v.n);
 	}
@@ -1380,7 +1380,7 @@ namespace ECC {
 		m_Counter = Zero;
 	}
 
-	void NonceGenerator::WriteIkm(const beam::Blob& b)
+	void NonceGenerator::WriteIkm(const grimm::Blob& b)
 	{
 		assert(m_bFirstTime);
 		m_HMac.Write(b.p, b.n);
@@ -1436,7 +1436,7 @@ namespace ECC {
 
 	void HKdf::Generator::Generate(Scalar::Native& out, const Hash::Value& hv) const
 	{
-		NonceGenerator("beam-Key")
+		NonceGenerator("grimm-Key")
 			<< m_Secret.V
 			<< hv
 			>> out;
@@ -1453,7 +1453,7 @@ namespace ECC {
 
 	void HKdf::Generate(const Hash::Value& hv)
 	{
-		NonceGenerator nonceGen1("beam-HKdf");
+		NonceGenerator nonceGen1("grimm-HKdf");
 		nonceGen1 << hv;
 		NonceGenerator nonceGen2 = nonceGen1;
 
@@ -1611,7 +1611,7 @@ namespace ECC {
 
 	void Signature::Sign(const Hash::Value& msg, const Scalar::Native& sk)
 	{
-		NonceGenerator nonceGen("beam-Schnorr");
+		NonceGenerator nonceGen("grimm-Schnorr");
 
 		NoLeak<Scalar> s_;
 		s_.V = sk;
@@ -1757,7 +1757,7 @@ namespace ECC {
 
 		void Public::XCryptKid(Key::ID::Packed& kid, const CreatorParams& cp, Hash::Value& hvChecksum)
 		{
-			NonceGenerator nonceGen("beam-psig");
+			NonceGenerator nonceGen("grimm-psig");
 			nonceGen << cp.m_Seed.V;
 
 			const Hash::Value& okm = nonceGen.get_Okm();
@@ -1771,7 +1771,7 @@ namespace ECC {
 		{
 			oracle
 				<< m_Value
-				<< beam::Blob(&m_Recovery, sizeof(m_Recovery))
+				<< grimm::Blob(&m_Recovery, sizeof(m_Recovery))
 				>> hv;
 		}
 

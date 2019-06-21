@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
     #include <netinet/ip.h>
 #endif // WIN32
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 // IPv4 + port peer address
 struct Address {
@@ -120,8 +120,8 @@ std::ostream& operator<<(std::ostream& os, const Address& a);
 }} //namespaces
 
 namespace std {
-    template<> struct hash<beam::io::Address> {
-        typedef beam::io::Address argument_type;
+    template<> struct hash<grimm::io::Address> {
+        typedef grimm::io::Address argument_type;
         typedef std::size_t result_type;
 
         result_type operator()(const argument_type& a) const noexcept {

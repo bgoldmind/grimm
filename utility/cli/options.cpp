@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 using namespace std;
 using namespace ECC;
 
-namespace beam
+namespace grimm
 {
     namespace cli
     {
@@ -121,7 +121,7 @@ namespace beam
         const char* SWAP_AMOUNT = "swap_amount";
         const char* SWAP_FEERATE = "swap_feerate";
         const char* SWAP_COIN = "swap_coin";
-        const char* SWAP_BEAM_SIDE = "swap_beam_side";
+        const char* SWAP_GRIMM_SIDE = "swap_grimm_side";
         const char* SWAP_TX_HISTORY = "swap_tx_history";
         const char* BTC_CONFIRMATIONS = "btc_confiramtions";
         const char* LTC_CONFIRMATIONS = "ltc_confiramtions";
@@ -211,8 +211,8 @@ namespace beam
             (cli::BTC_USER_NAME, po::value<string>(), "user name for the bitcoin node")
             (cli::LTC_PASS, po::value<string>(), "password for the litecoin node")
             (cli::LTC_USER_NAME, po::value<string>(), "user name for the litecoin node")
-            (cli::AMOUNT_FULL, po::value<Positive<double>>(), "amount to send (in Beams, 1 Beam = 100,000,000 groth)")
-            (cli::FEE_FULL, po::value<Nonnegative<Amount>>()->default_value(Nonnegative<Amount>(0)), "fee (in Groth, 100,000,000 groth = 1 Beam)")
+            (cli::AMOUNT_FULL, po::value<Positive<double>>(), "amount to send (in Grimms, 1 Grimm = 100,000,000 groth)")
+            (cli::FEE_FULL, po::value<Nonnegative<Amount>>()->default_value(Nonnegative<Amount>(0)), "fee (in Groth, 100,000,000 groth = 1 Grimm)")
             (cli::RECEIVER_ADDR_FULL, po::value<string>(), "address of receiver")
             (cli::NODE_ADDR_FULL, po::value<string>(), "address of node")
             (cli::BTC_NODE_ADDR, po::value<string>(), "address of bitcoin node")
@@ -235,7 +235,7 @@ namespace beam
             (cli::SWAP_AMOUNT, po::value<Positive<Amount>>(), "swap amount in the smallest unit of the coin")
             (cli::SWAP_FEERATE, po::value<Positive<Amount>>()->default_value(Positive<Amount>(20000)), "The specific feerate you are willing to pay(satoshis(or photons) per KB)")
             (cli::SWAP_COIN, po::value<string>(), "swap coin(btc, ltc)")
-            (cli::SWAP_BEAM_SIDE, "Should be set by Beam owner")
+            (cli::SWAP_GRIMM_SIDE, "Should be set by Grimm owner")
             (cli::SWAP_TX_HISTORY, "show swap transactions history in info command")
             (cli::BTC_CONFIRMATIONS, po::value<Positive<uint16_t>>(), "confirmations count in bitcoin chain")
             (cli::LTC_CONFIRMATIONS, po::value<Positive<uint16_t>>(), "confirmations count in litecoin chain")

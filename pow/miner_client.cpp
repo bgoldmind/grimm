@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 
 namespace po = boost::program_options;
 
-namespace beam {
+namespace grimm {
 
 static const unsigned RECONNECT_TIMEOUT = 1000;
 
@@ -230,7 +230,7 @@ struct Options {
 static bool parse_cmdline(int argc, char* argv[], Options& o);
 
 int main(int argc, char* argv[]) {
-    using namespace beam;
+    using namespace grimm;
 
     Options options;
     if (!parse_cmdline(argc, argv, options)) {

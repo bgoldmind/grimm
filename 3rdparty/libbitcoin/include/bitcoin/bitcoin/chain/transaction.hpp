@@ -107,7 +107,7 @@ public:
     bool from_data(std::istream& stream, bool wire=true, bool witness=false);
     bool from_data(reader& source, bool wire=true, bool witness=false);
 
-    // for beam
+    // for grimm
     bool from_data_without_inputs(const data_chunk& data);
 
     bool is_valid() const;

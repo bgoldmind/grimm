@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include "merkle.h"
 #include "difficulty.h"
 
-namespace beam
+namespace grimm
 {
 	class IExternalPOW;
 
@@ -126,7 +126,7 @@ namespace beam
 
 		struct {
 			bool Enabled = false;
-			bool Deposit = true; // CA emission in exchage for beams. If not specified - the emission is free
+			bool Deposit = true; // CA emission in exchage for grimms. If not specified - the emission is free
 		} CA;
 
 		struct {

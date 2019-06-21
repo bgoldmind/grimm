@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 
-namespace beam
+namespace grimm
 {
     typedef std::array<std::string, 2048> Dictionary;
 

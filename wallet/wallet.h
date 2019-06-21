@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 #include "bitcoin/options.h"
 #include "litecoin/options.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     class AddressExpiredException : public std::runtime_error
     {
@@ -102,13 +102,13 @@ namespace beam::wallet
         // TODO: Refactor
         void initBitcoin(io::Reactor& reactor, const BitcoinOptions& options);
         void initLitecoin(io::Reactor& reactor, const LitecoinOptions& options);
-        void initSwapConditions(Amount beamAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isBeamSide);
+        void initSwapConditions(Amount grimmAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isGrimmSide);
 
         TxID transfer_money(const WalletID& from, const WalletID& to, Amount amount, Amount fee = 0, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID transfer_money(const WalletID& from, const WalletID& to, Amount amount, Amount fee = 0, const CoinIDList& coins = {}, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID transfer_money(const WalletID& from, const WalletID& to, const AmountList& amountList, Amount fee = 0, const CoinIDList& coins = {}, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID split_coins(const WalletID& from, const AmountList& amountList, Amount fee = 0, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {});
-        TxID swap_coins(const WalletID& from, const WalletID& to, Amount amount, Amount fee, AtomicSwapCoin swapCoin, Amount swapAmount, bool isBeamSide = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime);
+        TxID swap_coins(const WalletID& from, const WalletID& to, Amount amount, Amount fee, AtomicSwapCoin swapCoin, Amount swapAmount, bool isGrimmSide = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime);
 
 
         // Resets wallet state and rescans the blockchain from scratch
@@ -181,17 +181,17 @@ namespace beam::wallet
 
         struct SwapConditions
         {
-            Amount beamAmount = 0;
+            Amount grimmAmount = 0;
             Amount swapAmount = 0;
             AtomicSwapCoin swapCoin;
-            bool isBeamSide = 0;
+            bool isGrimmSide = 0;
 
             bool operator== (const SwapConditions& other)
             {
-                return beamAmount == other.beamAmount &&
+                return grimmAmount == other.grimmAmount &&
                     swapAmount == other.swapAmount &&
                     swapCoin == other.swapCoin &&
-                    isBeamSide == other.isBeamSide;
+                    isGrimmSide == other.isGrimmSide;
             }
         };
 

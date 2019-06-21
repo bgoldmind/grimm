@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #include <future>
 #include <boost/filesystem.hpp>
 
-using namespace beam;
+using namespace grimm;
 
 std::unique_ptr<IExternalPOW> server;
 int idInt = 0;

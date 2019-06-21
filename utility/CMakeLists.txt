@@ -35,7 +35,7 @@ set(IO_SRC
 # ~etc
 )
 
-if (BEAM_USE_AVX)
+if (GRIMM_USE_AVX)
     if (MSVC)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     elseif(ANDROID)
@@ -51,7 +51,7 @@ endif()
 
 add_library(utility STATIC ${UTILITY_SRC} ${IO_SRC})
 
-if(ANDROID OR NOT BEAM_USE_AVX)
+if(ANDROID OR NOT GRIMM_USE_AVX)
     add_library(crypto STATIC ${PROJECT_SOURCE_DIR}/3rdparty/crypto/blake/ref/blake2b-ref.c)
 else()
     add_library(crypto STATIC ${PROJECT_SOURCE_DIR}/3rdparty/crypto/blake/sse/blake2b.cpp)

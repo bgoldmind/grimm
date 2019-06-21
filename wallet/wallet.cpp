@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
 #include "litecoin/litecoind016.h"
 #include "litecoin/litecoin_side.h"
 
-namespace beam::wallet
+namespace grimm::wallet
 {
     using namespace std;
     using namespace ECC;
@@ -167,9 +167,9 @@ namespace beam::wallet
         m_litecoinBridge = make_shared<Litecoind016>(reactor, options);
     }
 
-    void Wallet::initSwapConditions(Amount beamAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isBeamSide)
+    void Wallet::initSwapConditions(Amount grimmAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isGrimmSide)
     {
-        m_swapConditions.push_back(SwapConditions{ beamAmount, swapAmount, swapCoin, isBeamSide });
+        m_swapConditions.push_back(SwapConditions{ grimmAmount, swapAmount, swapCoin, isGrimmSide });
     }
 
     Wallet::~Wallet()
@@ -262,7 +262,7 @@ namespace beam::wallet
     }
 
     TxID Wallet::swap_coins(const WalletID& from, const WalletID& to, Amount amount, Amount fee, AtomicSwapCoin swapCoin,
-        Amount swapAmount, bool isBeamSide/*=true*/, Height lifetime/* = kDefaultTxLifetime*/, Height responseTime/* = kDefaultTxResponseTime*/)
+        Amount swapAmount, bool isGrimmSide/*=true*/, Height lifetime/* = kDefaultTxLifetime*/, Height responseTime/* = kDefaultTxResponseTime*/)
     {
         auto receiverAddr = m_WalletDB->getAddress(to);
 
@@ -285,13 +285,13 @@ namespace beam::wallet
         // Must be reset on first Update when we already have correct current height.
         tx->SetParameter(TxParameterID::PeerResponseHeight, responseTime);
         tx->SetParameter(TxParameterID::MyID, from, false);
-        tx->SetParameter(TxParameterID::IsSender, isBeamSide, false);
+        tx->SetParameter(TxParameterID::IsSender, isGrimmSide, false);
         tx->SetParameter(TxParameterID::IsInitiator, true, false);
         tx->SetParameter(TxParameterID::Status, TxStatus::Pending, true);
 
         tx->SetParameter(TxParameterID::AtomicSwapCoin, swapCoin, false);
         tx->SetParameter(TxParameterID::AtomicSwapAmount, swapAmount, false);
-        tx->SetParameter(TxParameterID::AtomicSwapIsBeamSide, isBeamSide, false);
+        tx->SetParameter(TxParameterID::AtomicSwapIsGrimmSide, isGrimmSide, false);
 
         m_ActiveTransactions.emplace(txID, tx);
 
@@ -563,8 +563,8 @@ namespace beam::wallet
                     return nullptr;
                 }
 
-                bool isBeamSide = it->second->GetMandatoryParameter<bool>(TxParameterID::AtomicSwapIsBeamSide);
-                return std::make_shared<BitcoinSide>(*it->second, m_bitcoinBridge, isBeamSide);
+                bool isGrimmSide = it->second->GetMandatoryParameter<bool>(TxParameterID::AtomicSwapIsGrimmSide);
+                return std::make_shared<BitcoinSide>(*it->second, m_bitcoinBridge, isGrimmSide);
             }
 
             if (swapCoin == AtomicSwapCoin::Litecoin)
@@ -575,8 +575,8 @@ namespace beam::wallet
                     return nullptr;
                 }
 
-                bool isBeamSide = it->second->GetMandatoryParameter<bool>(TxParameterID::AtomicSwapIsBeamSide);
-                return std::make_shared<LitecoinSide>(*it->second, m_litecoinBridge, isBeamSide);
+                bool isGrimmSide = it->second->GetMandatoryParameter<bool>(TxParameterID::AtomicSwapIsGrimmSide);
+                return std::make_shared<LitecoinSide>(*it->second, m_litecoinBridge, isGrimmSide);
             }
         }
 
@@ -1112,14 +1112,14 @@ namespace beam::wallet
             Amount amount = 0;
             Amount swapAmount = 0;
             AtomicSwapCoin swapCoin = AtomicSwapCoin::Bitcoin;
-            bool isBeamSide = 0;
+            bool isGrimmSide = 0;
 
             bool result = msg.GetParameter(TxParameterID::Amount, amount) &&
                 msg.GetParameter(TxParameterID::AtomicSwapAmount, swapAmount) &&
                 msg.GetParameter(TxParameterID::AtomicSwapCoin, swapCoin) &&
-                msg.GetParameter(TxParameterID::AtomicSwapIsBeamSide, isBeamSide);
+                msg.GetParameter(TxParameterID::AtomicSwapIsGrimmSide, isGrimmSide);
 
-            auto idx = std::find(m_swapConditions.begin(), m_swapConditions.end(), SwapConditions{ amount, swapAmount, swapCoin, isBeamSide });
+            auto idx = std::find(m_swapConditions.begin(), m_swapConditions.end(), SwapConditions{ amount, swapAmount, swapCoin, isGrimmSide });
 
             if (!result || idx == m_swapConditions.end())
             {

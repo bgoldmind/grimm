@@ -1,6 +1,6 @@
-set (TARGET_NAME "beam-wallet-ui")
+set (TARGET_NAME "grimm-wallet-ui")
 
-function(BEAM_TRANSLATIONS_UPDATE_TS supported_langs out_ts_files)
+function(GRIMM_TRANSLATIONS_UPDATE_TS supported_langs out_ts_files)
     find_package(Qt5LinguistTools)
     foreach(SUPPORTED_LANG ${supported_langs})
         set(TS_FILE "${CMAKE_CURRENT_SOURCE_DIR}/i18n/${SUPPORTED_LANG}.ts")
@@ -11,7 +11,7 @@ function(BEAM_TRANSLATIONS_UPDATE_TS supported_langs out_ts_files)
     set(${out_ts_files} ${TS_FILES} PARENT_SCOPE)
 endfunction()
 
-function(BEAM_TRANSLATIONS_COMPILE_QM ts_files out_qm_files)
+function(GRIMM_TRANSLATIONS_COMPILE_QM ts_files out_qm_files)
     find_package(Qt5LinguistTools)
     foreach(TS_FILE ${ts_files})
         message("compile: ${TS_FILE}")
@@ -24,11 +24,11 @@ function(BEAM_TRANSLATIONS_COMPILE_QM ts_files out_qm_files)
     set(${out_qm_files} ${QM_FILES} PARENT_SCOPE)
 endfunction()
 
-set(APP_NAME "Beam Wallet${BEAM_DISPLAY_SUFFIX}")
+set(APP_NAME "Grimm Wallet${GRIMM_DISPLAY_SUFFIX}")
 if(LINUX)
-    set (OUTPUT_NAME "BeamWallet${BEAM_SUFFIX_UPPER_CASE}")
+    set (OUTPUT_NAME "GrimmWallet${GRIMM_SUFFIX_UPPER_CASE}")
 else()
-    set (OUTPUT_NAME "Beam Wallet${BEAM_DISPLAY_SUFFIX}")
+    set (OUTPUT_NAME "Grimm Wallet${GRIMM_DISPLAY_SUFFIX}")
 endif()
 set (CMAKE_PREFIX_PATH $ENV{QT5_ROOT_DIR})
 
@@ -106,8 +106,8 @@ set(UI_SRC
     model/qr.cpp
 )
 
-beam_translations_update_ts("${SUPPORTED_LANGS}" TS_FILES)
-beam_translations_compile_qm("${TS_FILES}" QM_FILES)
+grimm_translations_update_ts("${SUPPORTED_LANGS}" TS_FILES)
+grimm_translations_compile_qm("${TS_FILES}" QM_FILES)
 
 set(TRANSLATIONS_QRC_FILE_NAME "translations.qrc")
 set(TRANSLATIONS_QRC_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${TRANSLATIONS_QRC_FILE_NAME}")
@@ -130,26 +130,26 @@ if(WIN32)
     add_definitions(-DWIN32_LEAN_AND_MEAN)
 endif()
 
-set(BEAM_ICON_SUFFIX "masternet")
-if(BEAM_TESTNET)
-    set(BEAM_ICON_SUFFIX "testnet")
-elseif(BEAM_MAINNET)
-    set(BEAM_ICON_SUFFIX "mainnet")
+set(GRIMM_ICON_SUFFIX "masternet")
+if(GRIMM_TESTNET)
+    set(GRIMM_ICON_SUFFIX "testnet")
+elseif(GRIMM_MAINNET)
+    set(GRIMM_ICON_SUFFIX "mainnet")
 endif()
 
 add_definitions(-DAPP_NAME=\"${APP_NAME}\")
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/icons/icon_${BEAM_ICON_SUFFIX}.ico
-          ${CMAKE_CURRENT_SOURCE_DIR}/icons/beam_${BEAM_ICON_SUFFIX}.png
-          ${CMAKE_CURRENT_SOURCE_DIR}/icons/beam_${BEAM_ICON_SUFFIX}.icns
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/icons/icon_${GRIMM_ICON_SUFFIX}.ico
+          ${CMAKE_CURRENT_SOURCE_DIR}/icons/grimm_${GRIMM_ICON_SUFFIX}.png
+          ${CMAKE_CURRENT_SOURCE_DIR}/icons/grimm_${GRIMM_ICON_SUFFIX}.icns
      DESTINATION  ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/icon_${BEAM_ICON_SUFFIX}.ico ${CMAKE_CURRENT_SOURCE_DIR}/icon.ico)
-file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/beam_${BEAM_ICON_SUFFIX}.png ${CMAKE_CURRENT_SOURCE_DIR}/beam.png)
-file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/beam_${BEAM_ICON_SUFFIX}.icns ${CMAKE_CURRENT_SOURCE_DIR}/beam.icns)
+file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/icon_${GRIMM_ICON_SUFFIX}.ico ${CMAKE_CURRENT_SOURCE_DIR}/icon.ico)
+file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/grimm_${GRIMM_ICON_SUFFIX}.png ${CMAKE_CURRENT_SOURCE_DIR}/grimm.png)
+file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/grimm_${GRIMM_ICON_SUFFIX}.icns ${CMAKE_CURRENT_SOURCE_DIR}/grimm.icns)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/beam.rc.in ${CMAKE_CURRENT_SOURCE_DIR}/beam.rc)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/beam.desktop.in ${CMAKE_CURRENT_SOURCE_DIR}/beam.desktop)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/grimm.rc.in ${CMAKE_CURRENT_SOURCE_DIR}/grimm.rc)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/grimm.desktop.in ${CMAKE_CURRENT_SOURCE_DIR}/grimm.desktop)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 if (APPLE)
     find_library(CARBON_LIBRARY Carbon)
@@ -157,7 +157,7 @@ if (APPLE)
         message(FATAL_ERROR "Carbon framework not found")
     endif()
 endif()
-add_executable(${TARGET_NAME} ${SYSTEM_TYPE} ${UI_SRC} ${QT_RESOURCES} beam.rc ${MACOSX_BUNDLE_ICON_FILE})
+add_executable(${TARGET_NAME} ${SYSTEM_TYPE} ${UI_SRC} ${QT_RESOURCES} grimm.rc ${MACOSX_BUNDLE_ICON_FILE})
 set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 
 
@@ -183,22 +183,22 @@ add_definitions(-DQUAZIP_STATIC)
 add_dependencies(${TARGET_NAME} quazip_static)
 target_link_libraries(${TARGET_NAME} quazip_static)
 
-#if (BEAM_WALLET_WITH_NODE)
-    add_definitions(-DBEAM_WALLET_WITH_NODE)
+#if (GRIMM_WALLET_WITH_NODE)
+    add_definitions(-DGRIMM_WALLET_WITH_NODE)
     add_dependencies(${TARGET_NAME} node external_pow)
     target_link_libraries(${TARGET_NAME} node external_pow)
 #endif()
 
 target_link_libraries(${TARGET_NAME} wallet mnemonic Qt5::Qml Qt5::Quick Qt5::Svg Qt5::PrintSupport)
 
-if (BEAM_SIGN_PACKAGE AND WIN32)
+if (GRIMM_SIGN_PACKAGE AND WIN32)
     add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} "${CMAKE_CURRENT_BINARY_DIR}\\${OUTPUT_NAME}.exe"
     )
 endif()
 
-if(BEAM_USE_STATIC)
+if(GRIMM_USE_STATIC)
 
     if(WIN32)
 
@@ -324,29 +324,29 @@ endif()
 
 if(LINUX)
     install(TARGETS ${TARGET_NAME}	DESTINATION bin)
-    install(FILES beam-wallet.cfg DESTINATION bin)
+    install(FILES grimm-wallet.cfg DESTINATION bin)
 
-    SET(BEAM_DESKTOP_DIR     "/usr/share/applications/")
-    SET(BEAM_PIXMAPS_DIR     "/usr/share/icons/")
+    SET(GRIMM_DESKTOP_DIR     "/usr/share/applications/")
+    SET(GRIMM_PIXMAPS_DIR     "/usr/share/icons/")
 
-    install (FILES beam.desktop DESTINATION ${BEAM_DESKTOP_DIR})
-    install (FILES beam.xml DESTINATION ${BEAM_DESKTOP_DIR})
-    install (FILES beam.png DESTINATION ${BEAM_PIXMAPS_DIR})
+    install (FILES grimm.desktop DESTINATION ${GRIMM_DESKTOP_DIR})
+    install (FILES grimm.xml DESTINATION ${GRIMM_DESKTOP_DIR})
+    install (FILES grimm.png DESTINATION ${GRIMM_PIXMAPS_DIR})
 
 else()
 
     if(WIN32)
         install(FILES ${CMAKE_PREFIX_PATH}\\\\bin\\\\opengl32sw.dll DESTINATION .)
-        install(FILES beam-wallet.cfg DESTINATION .)
+        install(FILES grimm-wallet.cfg DESTINATION .)
         install(TARGETS ${TARGET_NAME} DESTINATION .)
     endif()
 
     # Signing the installer
     #add_custom_target(signing-installer)
     #
-    #message(BEAM_INSTALLER_NAME = ${BEAM_INSTALLER_NAME})
+    #message(GRIMM_INSTALLER_NAME = ${GRIMM_INSTALLER_NAME})
     #add_custom_command(
     #    TARGET signing-installer
-    #    COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} ${CMAKE_CURRENT_BINARY_DIR}\\${BEAM_INSTALLER_NAME}
+    #    COMMAND ${SIGNTOOL_EXECUTABLE} sign ${SIGNTOOL_OPTIONS} ${CMAKE_CURRENT_BINARY_DIR}\\${GRIMM_INSTALLER_NAME}
     #  )
 endif()

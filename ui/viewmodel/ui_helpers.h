@@ -2,12 +2,12 @@
 #include <QObject>
 #include "wallet/common.h"
 
-namespace beamui
+namespace grimmui
 {
-    QString toString(const beam::wallet::WalletID&);
-    QString toString(const beam::Merkle::Hash&);
-    QString BeamToString(const beam::Amount& value);
-    QString toString(const beam::Timestamp& ts);
+    QString toString(const grimm::wallet::WalletID&);
+    QString toString(const grimm::Merkle::Hash&);
+    QString GrimmToString(const grimm::Amount& value);
+    QString toString(const grimm::Timestamp& ts);
 
     class Filter
     {

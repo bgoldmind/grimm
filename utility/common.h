@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,11 +44,11 @@
 #	include <winsock2.h>
 #endif // WIN32
 
-#ifndef BEAM_VERIFY
+#ifndef GRIMM_VERIFY
 #	ifdef  NDEBUG
-#		define BEAM_VERIFY(x) ((void)(x))
+#		define GRIMM_VERIFY(x) ((void)(x))
 #	else //  NDEBUG
-#		define BEAM_VERIFY(x) assert(x)
+#		define GRIMM_VERIFY(x) assert(x)
 #	endif //  NDEBUG
 #endif // verify
 
@@ -129,7 +129,7 @@ namespace Cast
 
 
 
-namespace beam
+namespace grimm
 {
 	typedef uint64_t Timestamp;
 	typedef uint64_t Height;

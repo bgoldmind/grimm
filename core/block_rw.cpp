@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include "pkcs5_pbkdf2.h"
 #include "radixtree.h"
 
-namespace beam
+namespace grimm
 {
 	/////////////
 	// RW
@@ -738,4 +738,4 @@ namespace beam
 			throw "UTXO hash mismatch";
 	}
 
-} // namespace beam
+} // namespace grimm

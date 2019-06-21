@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include "core/ecc.h"
 #include "utility/logger.h"
 
-namespace beam
+namespace grimm
 {
     namespace po = boost::program_options;
     namespace cli
@@ -118,7 +118,7 @@ namespace beam
         extern const char* SWAP_AMOUNT;
         extern const char* SWAP_FEERATE;
         extern const char* SWAP_COIN;
-        extern const char* SWAP_BEAM_SIDE;
+        extern const char* SWAP_GRIMM_SIDE;
         extern const char* SWAP_TX_HISTORY;
         extern const char* BTC_CONFIRMATIONS;
         extern const char* LTC_CONFIRMATIONS;

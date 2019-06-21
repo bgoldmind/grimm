@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public slots:
     void onSyncProgressUpdated(int done, int total);
     void onNodeSyncProgressUpdated(int done, int total);
     void onNodeConnectionChanged(bool isNodeConnected);
-    void onGetWalletError(beam::wallet::ErrorType error);
+    void onGetWalletError(grimm::wallet::ErrorType error);
 signals:
     void progressChanged();
     void progressMessageChanged();

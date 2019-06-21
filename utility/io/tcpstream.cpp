@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #define LOG_DEBUG_ENABLED 0
 #include "utility/logger.h"
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 TcpStream::TcpStream() :
     _onDataWritten(BIND_THIS_MEMFN(on_data_written))

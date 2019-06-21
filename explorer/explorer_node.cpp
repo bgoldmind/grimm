@@ -16,7 +16,7 @@
 
 #include "version.h"
 
-using namespace beam;
+using namespace grimm;
 using namespace std;
 
 #define LOG_FILES_DIR "logs"
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
         LOG_ERROR() << "EXCEPTION: " << e.what();
         retCode = 255;
 	}
-	catch (const beam::CorruptionException& e) {
+	catch (const grimm::CorruptionException& e) {
 		LOG_ERROR() << "Corruption: " << e.m_sErr;
 		retCode = 255;
     } catch (...) {
@@ -86,7 +86,7 @@ bool parse_cmdline(int argc, char* argv[], Options& o) {
     po::options_description cliOptions("Node explorer options");
     cliOptions.add_options()
         (cli::HELP_FULL, "list of all options")
-        (cli::NODE_PEER, po::value<string>()->default_value("eu-node03.masternet.beam.mw:8100"), "peer address")
+        (cli::NODE_PEER, po::value<string>()->default_value("eu-node03.masternet.grimmw.com:8100"), "peer address")
         (cli::PORT_FULL, po::value<uint16_t>()->default_value(10000), "port to start the local node on")
         (API_PORT_PARAMETER, po::value<uint16_t>()->default_value(8888), "port to start the local api server on")
         (cli::KEY_OWNER, po::value<string>()->default_value(""), "owner viewer key")
@@ -141,7 +141,7 @@ bool parse_cmdline(int argc, char* argv[], Options& o) {
         if (!keyOwner.empty())
         {
             SecString pass;
-            if (!beam::read_wallet_pass(pass, vm))
+            if (!grimm::read_wallet_pass(pass, vm))
                 throw std::runtime_error("Please, provide password for the keys.");
 
             KeyString ks;
@@ -200,7 +200,7 @@ bool parse_cmdline(int argc, char* argv[], Options& o) {
 
 void setup_node(Node& node, const Options& o) {
     Rules::get().UpdateChecksum();
-    LOG_INFO() << "Beam Node Explorer " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
+    LOG_INFO() << "Grimm Node Explorer " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
     LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
 
     node.m_Cfg.m_sPathLocal = o.nodeDbFilename;

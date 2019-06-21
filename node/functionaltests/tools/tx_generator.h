@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@
 class TxGenerator
 {
 public:
-	using Inputs = std::vector<beam::Input>;
+	using Inputs = std::vector<grimm::Input>;
 public:
-	TxGenerator(beam::Key::IKdf& kdf);
+	TxGenerator(grimm::Key::IKdf& kdf);
 
-	void GenerateInputInTx(beam::Height h, beam::Amount v, beam::Key::Type keyType = beam::Key::Type::Coinbase, uint32_t ind = 0);
-	void GenerateOutputInTx(beam::Height h, beam::Amount v, beam::Key::Type keyType = beam::Key::Type::Regular, bool isPublic = false, uint32_t ind = 0);
-	void GenerateKernel(beam::Height h, beam::Amount fee = 0, uint32_t ind = 0);
+	void GenerateInputInTx(grimm::Height h, grimm::Amount v, grimm::Key::Type keyType = grimm::Key::Type::Coinbase, uint32_t ind = 0);
+	void GenerateOutputInTx(grimm::Height h, grimm::Amount v, grimm::Key::Type keyType = grimm::Key::Type::Regular, bool isPublic = false, uint32_t ind = 0);
+	void GenerateKernel(grimm::Height h, grimm::Amount fee = 0, uint32_t ind = 0);
 	void GenerateKernel();
 
-	const beam::proto::NewTransaction& GetTransaction();
+	const grimm::proto::NewTransaction& GetTransaction();
 	bool IsValid() const;
 
 	void Sort();
@@ -41,7 +41,7 @@ public:
 	Inputs GenerateInputsFromOutputs();
 
 private:
-	beam::Key::IKdf& m_Kdf;
-	beam::proto::NewTransaction m_MsgTx;
+	grimm::Key::IKdf& m_Kdf;
+	grimm::proto::NewTransaction m_MsgTx;
 	ECC::Scalar::Native m_Offset;
 };

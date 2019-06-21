@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
     #include <netdb.h>
 #endif // WIN32
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 const Address Address::LOCALHOST = Address(0x7F000001, 0);
 

@@ -1,6 +1,6 @@
-// BEAM OpenCL Miner
+// GRIMM OpenCL Miner
 // OpenCL Host Interface
-// Copyright 2018 The Beam Team	
+// Copyright 2018 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
 #pragma once
@@ -35,7 +35,7 @@
 #include <cstdlib>
 #include <climits>
 
-namespace beamMiner {
+namespace grimmMiner {
 
 using std::vector;
 

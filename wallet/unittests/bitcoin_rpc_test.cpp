@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ WALLET_TEST_INIT
 
 #include "bitcoin_rpc_environment.cpp"
 
-using namespace beam;
+using namespace grimm;
 using json = nlohmann::json;
 
 void testSuccessResponse()
@@ -147,7 +147,7 @@ int main()
 #if LOG_VERBOSE_ENABLED
     logLevel = LOG_LEVEL_VERBOSE;
 #endif
-    auto logger = beam::Logger::create(logLevel, logLevel);
+    auto logger = grimm::Logger::create(logLevel, logLevel);
 
     testSuccessResponse();
     testWrongCredentials();

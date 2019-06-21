@@ -2,7 +2,7 @@
     import QtQuick.Controls 2.4
 
     import QtQuick.Layouts 1.11
-    import Beam.Wallet 1.0
+    import Grimm.Wallet 1.0
     import "."
 
     Dialog {
@@ -232,7 +232,7 @@
                     wrapMode: Text.Wrap
                     font.pixelSize: 14
                     color: Style.content_disabled
-                    text: model ? model.amount + " BEAM" : ""
+                    text: model ? model.amount + " GRIMM" : ""
                     visible: model? model.isValid : false
                 }
             
@@ -270,7 +270,7 @@
                 {
                     if (model)
                     {
-                        textCopied("Sender: " + model.sender + "\nReceiver: " + model.receiver + "\nAmount: " + model.amount + " BEAM" + "\nKernel ID: " + model.kernelID);
+                        textCopied("Sender: " + model.sender + "\nReceiver: " + model.receiver + "\nAmount: " + model.amount + " GRIMM" + "\nKernel ID: " + model.kernelID);
                     }
                 }
 

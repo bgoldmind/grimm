@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@
 #include <jni.h>
 #include "common.h"
 
-using namespace beam;
-using namespace beam::io;
+using namespace grimm;
+using namespace grimm::io;
 using namespace std;
 
 NodeModel::NodeModel(const std::string& appPath)
@@ -35,7 +35,7 @@ NodeModel::NodeModel(const std::string& appPath)
 {
 }
 
-void NodeModel::setKdf(beam::Key::IKdf::Ptr kdf)
+void NodeModel::setKdf(grimm::Key::IKdf::Ptr kdf)
 {
     m_nodeClient.setKdf(kdf);
 }
@@ -98,7 +98,7 @@ void NodeModel::onStoppedNode()
 //     env->CallStaticVoidMethod(WalletListenerClass, callback);
 // }
 
-void NodeModel::onSyncError(beam::Node::IObserver::Error error)
+void NodeModel::onSyncError(grimm::Node::IObserver::Error error)
 {
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2018 The Beam Team
+// Copyright 2018 The Grimm Team
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-namespace beam { namespace io {
+namespace grimm { namespace io {
 
 template <class T, size_t DATA_SIZE> class MemPool {
 public:
