@@ -25,7 +25,7 @@ namespace grimm::wallet
 {
     namespace
     {
-        constexpr Amount kMinFeeInGroth = 10;
+        constexpr Amount kMinFeeInCentum = 10;
     }
 
     AtomicSwapTransaction::WrapperSecondSide::WrapperSecondSide(INegotiatorGateway& gateway, const TxID& txID)
@@ -158,7 +158,7 @@ namespace grimm::wallet
     Amount AtomicSwapTransaction::GetWithdrawFee() const
     {
         // TODO(alex.starun): implement fee calculation
-        return kMinFeeInGroth;
+        return kMinFeeInCentum;
     }
 
     void AtomicSwapTransaction::UpdateImpl()

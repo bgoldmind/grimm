@@ -24,7 +24,7 @@ Component
             source: "qrc:/assets/start-logo.svg"
         }
 
-        SFText 
+        SFText
         {
             Layout.alignment: Qt.AlignHCenter
 
@@ -48,7 +48,7 @@ Component
         {
             Layout.alignment: Qt.AlignHCenter
 
-            //% "Scalable confidential cryptocurrency"
+            //% "No one will ever know"
             text: qsTrId("logo-description")
 
             color: Style.accent_incoming

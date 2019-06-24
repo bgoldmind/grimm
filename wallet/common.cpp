@@ -79,8 +79,8 @@ namespace grimm
 
         if (amount.m_showPoint)
         {
-            size_t maxGrothsLength = std::lround(std::log10(Rules::Coin));
-            ss << fixed << setprecision(maxGrothsLength) << double(amount.m_value) / Rules::Coin;
+            size_t maxCentumsLength = std::lround(std::log10(Rules::Coin));
+            ss << fixed << setprecision(maxCentumsLength) << double(amount.m_value) / Rules::Coin;
             string s = ss.str();
             boost::algorithm::trim_right_if(s, boost::is_any_of("0"));
             boost::algorithm::trim_right_if(s, boost::is_any_of(",."));
@@ -95,7 +95,7 @@ namespace grimm
             Amount c = amount.m_value % Rules::Coin;
             if (c > 0 || amount.m_value == 0)
             {
-                ss << c << " groth ";
+                ss << c << " centum ";
             }
             os << ss.str();
         }

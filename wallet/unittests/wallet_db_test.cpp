@@ -765,7 +765,7 @@ void TestSelect()
 vector<Coin> SelectCoins(IWalletDB::Ptr db, Amount amount, bool printCoins = true)
 {
     helpers::StopWatch sw;
-    cout << "Selecting " << amount << " Groths\n";
+    cout << "Selecting " << amount << " Centums\n";
     sw.start();
     auto selectedCoins = db->selectCoins(amount);
     sw.stop();

@@ -28,7 +28,7 @@ public class WalletListener
 
 	static void onStatus(WalletStatusDTO status)
 	{
-		System.out.println(">>>>>>>>>>>>>> async status in Java, available=" + status.available/1000000 + " GRIMM and " + status.available%1000000 + " GROTH, maturing=" + status.maturing);
+		System.out.println(">>>>>>>>>>>>>> async status in Java, available=" + status.available/1000000 + " GRIMM and " + status.available%1000000 + " CENTUM, maturing=" + status.maturing);
 		System.out.println("height is " + status.system.height);
 	}
 

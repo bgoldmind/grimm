@@ -3,7 +3,7 @@
  <mime-type type="application/x-grimm-item">
     <sub-class-of type="text/xml"/>
     <sub-class-of type="application/xml"/>
-    <comment>Grimm - scalable confidential cryptocurrency.</comment>
+    <comment>Grimm - No one will ever know.</comment>
     <icon>grimm</icon>
     <glob pattern=".dmx" weight="50" />
     <magic priority="90">

@@ -874,9 +874,9 @@ Item {
                                         font.styleName: "Light"; font.weight: Font.Light
                                         color: Style.accent_outgoing
 
-                                        text: viewModel.defaultFeeInGroth.toLocaleString(Qt.locale(), 'f', -128)
+                                        text: viewModel.defaultFeeInCentum.toLocaleString(Qt.locale(), 'f', -128)
 
-                                        property int amount: viewModel.defaultFeeInGroth
+                                        property int amount: viewModel.defaultFeeInCentum
 
                                         validator: IntValidator {bottom: 0}
                                         maximumLength: 15
@@ -900,14 +900,14 @@ Item {
                                 SFText {
                                     font.pixelSize: 24
                                     color: Style.content_main
-                                    //% "GROTH"
+                                    //% "CENTUM"
                                     text: qsTrId("send-curency-sub-name")
                                 }
                             }
 
                             Binding {
                                 target: viewModel
-                                property: "feeGrothes"
+                                property: "feeCentumes"
                                 //value: feeSlider.value
                                 value: fee_input.amount
                             }
@@ -1061,7 +1061,7 @@ Item {
                                 confirmationDialog.addressText = viewModel.receiverAddr;
                                 //% "GRIMM"
                                 confirmationDialog.amountText = amount_input.amount.toLocaleString(Qt.locale(), 'f', -128) + " " + qsTrId("send-curency-name");
-                                //% "GROTH"
+                                //% "CENTUM"
                                 confirmationDialog.feeText = fee_input.amount.toLocaleString(Qt.locale(), 'f', -128) + " " + qsTrId("send-curency-sub-name");
 
                                 confirmationDialog.open();

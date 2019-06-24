@@ -677,7 +677,7 @@ namespace
         cout << "  |"
             << left << setw(columnWidths[0]) << " ID" << " |"
             << right << setw(columnWidths[1]) << " grimm" << " |"
-            << setw(columnWidths[2]) << " groth" << " |"
+            << setw(columnWidths[2]) << " centum" << " |"
             << left << setw(columnWidths[3]) << " maturity" << " |"
             << setw(columnWidths[4]) << " status" << " |"
             << setw(columnWidths[5]) << " type" << endl;

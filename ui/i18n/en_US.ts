@@ -160,8 +160,8 @@
         <translation>GRIMM</translation>
     </message>
     <message id="logo-description">
-        <source>Scalable confidential cryptocurrency</source>
-        <translation>Scalable confidential cryptocurrency</translation>
+        <source>No one will ever know</source>
+        <translation>No one will ever know</translation>
     </message>
     <message id="change-pwd-old-empty">
         <source>Please, enter old password</source>
@@ -569,8 +569,8 @@
         <translation>Transaction fee</translation>
     </message>
     <message id="send-curency-sub-name">
-        <source>GROTH</source>
-        <translation>GROTH</translation>
+        <source>CENTUM</source>
+        <translation>CENTUM</translation>
     </message>
     <message id="send-remaining-label">
         <source>Remaining</source>
@@ -973,8 +973,8 @@
         <translation>grimms</translation>
     </message>
     <message id="tx-curency-sub-name">
-        <source>groths</source>
-        <translation>groths</translation>
+        <source>centums</source>
+        <translation>centums</translation>
     </message>
     <message id="utxo-utxo">
         <source>UTXO</source>

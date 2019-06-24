@@ -156,7 +156,7 @@ class WalletViewModel : public QObject
 
     Q_PROPERTY(double amountForReceive READ getAmountForReceive WRITE setAmountForReceive NOTIFY amountForReceiveChanged)
 
-    Q_PROPERTY(QString feeGrothes READ feeGrothes WRITE setFeeGrothes NOTIFY feeGrothesChanged)
+    Q_PROPERTY(QString feeCentumes READ feeCentumes WRITE setFeeCentumes NOTIFY feeCentumesChanged)
 
     Q_PROPERTY(QString receiverAddr READ getReceiverAddr WRITE setReceiverAddr NOTIFY receiverAddrChanged)
     Q_PROPERTY(QQmlListProperty<TxObject> transactions READ getTransactions NOTIFY transactionsChanged)
@@ -181,7 +181,7 @@ class WalletViewModel : public QObject
     Q_PROPERTY(QString amountRole READ getAmountRole CONSTANT)
     Q_PROPERTY(QString statusRole READ getStatusRole CONSTANT)
 
-    Q_PROPERTY(int defaultFeeInGroth READ getDefaultFeeInGroth CONSTANT)
+    Q_PROPERTY(int defaultFeeInCentum READ getDefaultFeeInCentum CONSTANT)
 
     Q_PROPERTY(int expires READ getExpires WRITE setExpires NOTIFY expiresChanged)
     Q_PROPERTY(bool isAllowedgrimmLinks READ isAllowedgrimmLinks WRITE allowgrimmLinks NOTIFY grimmLinksAllowed)
@@ -214,7 +214,7 @@ public:
     QString getAmountMissingToSend() const;
     double getAmountForReceive() const;
     void setAmountForReceive(double value);
-    QString feeGrothes() const;
+    QString feeCentumes() const;
     bool getIsOfflineStatus() const;
     bool getIsFailedStatus() const;
     QString getWalletStatusErrorMsg() const;
@@ -231,7 +231,7 @@ public:
     void setReceiverAddr(const QString& value);
 
     void setSendAmount(const QString& text);
-    void setFeeGrothes(const QString& text);
+    void setFeeCentumes(const QString& text);
     void setComment(const QString& value);
     QString getComment() const;
     QString sortRole() const;
@@ -245,7 +245,7 @@ public:
     QString getAmountRole() const;
     QString getStatusRole() const;
 
-    int getDefaultFeeInGroth() const;
+    int getDefaultFeeInCentum() const;
 
     void setExpires(int value);
     int getExpires() const;
@@ -272,7 +272,7 @@ signals:
 
     void sendAmountChanged();
     void amountForReceiveChanged();
-    void feeGrothesChanged();
+    void feeCentumesChanged();
     void transactionsChanged();
     void actualAvailableChanged();
     void changeChanged();
@@ -304,7 +304,7 @@ private:
 
     QString _sendAmount;
     double _amountForReceive;
-    QString _feeGrothes;
+    QString _feeCentumes;
 
     grimm::Amount _change;
 

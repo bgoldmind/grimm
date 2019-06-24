@@ -33,7 +33,7 @@ using namespace grimmui;
 
 namespace
 {
-    const int kDefaultFeeInGroth = 10;
+    const int kDefaultFeeInCentum = 10;
 
     template<typename T>
     bool compareTx(const T& lf, const T& rt, Qt::SortOrder sortOrder)
@@ -379,7 +379,7 @@ WalletViewModel::WalletViewModel()
     , _status{ 0, 0, 0, 0, {0, 0, 0}, {} }
     , _sendAmount("0")
     , _amountForReceive(0.0)
-    , _feeGrothes("0")
+    , _feeCentumes("0")
     , _change(0)
     , _expires(0)
     , _qr(std::make_unique<QR>())
@@ -614,7 +614,7 @@ QString WalletViewModel::getAmountMissingToSend() const
         //% "grimms"
         return GrimmToString(missed) + " " +qtTrId("tx-curency-name");
     }
-    //% "groths"
+    //% "centums"
     return QLocale().toString(static_cast<qulonglong>(missed)) + " " + qtTrId("tx-curency-sub-name");
 }
 
@@ -633,9 +633,9 @@ void WalletViewModel::setAmountForReceive(double value)
     }
 }
 
-QString WalletViewModel::feeGrothes() const
+QString WalletViewModel::feeCentumes() const
 {
-    return _feeGrothes;
+    return _feeCentumes;
 }
 
 QString WalletViewModel::getReceiverAddr() const
@@ -685,14 +685,14 @@ void WalletViewModel::setSendAmount(const QString& value)
     }
 }
 
-void WalletViewModel::setFeeGrothes(const QString& value)
+void WalletViewModel::setFeeCentumes(const QString& value)
 {
     auto trimmedValue = value.trimmed();
-    if (trimmedValue != _feeGrothes)
+    if (trimmedValue != _feeCentumes)
     {
-        _feeGrothes = trimmedValue;
+        _feeCentumes = trimmedValue;
         _model.getAsync()->calcChange(calcTotalAmount());
-        emit feeGrothesChanged();
+        emit feeCentumesChanged();
     }
 }
 
@@ -766,9 +766,9 @@ QString WalletViewModel::getStatusRole() const
     return "status";
 }
 
-int WalletViewModel::getDefaultFeeInGroth() const
+int WalletViewModel::getDefaultFeeInCentum() const
 {
-    return kDefaultFeeInGroth;
+    return kDefaultFeeInCentum;
 }
 
 void WalletViewModel::setExpires(int value)
@@ -807,7 +807,7 @@ grimm::Amount WalletViewModel::calcSendAmount() const
 
 grimm::Amount WalletViewModel::calcFeeAmount() const
 {
-    return _feeGrothes.toULongLong();
+    return _feeCentumes.toULongLong();
 }
 
 grimm::Amount WalletViewModel::calcTotalAmount() const
