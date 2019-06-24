@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(VERSION_MAJOR 2)
+set(VERSION_MAJOR 10)
 set(VERSION_MINOR 1)
 set(VERSION_REVISION 0)
 set(GIT_COMMIT_HASH "unknown")
