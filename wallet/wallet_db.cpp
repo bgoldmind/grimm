@@ -1902,6 +1902,29 @@ namespace grimm::wallet
         notifyCoinsChanged();
     }
 
+    boost::optional<WalletAddress> WalletDB::getAddress(const WalletID& id) const
+    {
+        if (auto it = m_AddressesCache.find(id); it != m_AddressesCache.end())
+        {
+            return it->second;
+        }
+        const char* req = "SELECT * FROM " ADDRESSES_NAME " WHERE walletID=?1;";
+        sqlite::Statement stm(this, req);
+
+        stm.bind(1, id);
+
+        if (stm.step())
+        {
+            WalletAddress address = {};
+            int colIdx = 0;
+            ENUM_ADDRESS_FIELDS(STM_GET_LIST, NOSEP, address);
+            insertAddressToCache(id, address);
+            return address;
+        }
+        insertAddressToCache(id, boost::optional<WalletAddress>());
+        return boost::optional<WalletAddress>();
+    }
+
     std::vector<WalletAddress> WalletDB::getAddresses(bool own) const
     {
         vector<WalletAddress> res;
@@ -1956,51 +1979,18 @@ namespace grimm::wallet
         notifyAddressChanged(action, { address });
     }
 
-    void WalletDB::setExpirationForAllAddresses(uint64_t expiration)
+    void WalletDB::deleteAddress(const WalletID& id)
     {
-        vector<WalletAddress> changedItems;
+      auto address = getAddress(id);
+      if (address)
         {
-            const char* req = "SELECT * FROM " ADDRESSES_NAME " WHERE OwnID != 0;";
+            const char* req = "DELETE FROM " ADDRESSES_NAME " WHERE walletID=?1;";
             sqlite::Statement stm(this, req);
-            while (stm.step())
-            {
-                auto& a = changedItems.emplace_back();
-                int colIdx = 0;
-                ENUM_ADDRESS_FIELDS(STM_GET_LIST, NOSEP, a);
-            }
-        }
-        {
-            const char* updateReq = "UPDATE " ADDRESSES_NAME " SET duration = ?1 WHERE OwnID != 0;";
-            sqlite::Statement stm(this, updateReq);
-
-            stm.bind(1, expiration);
-
+            stm.bind(1, id);
             stm.step();
+            deleteAddressFromCache(id);
+            notifyAddressChanged(ChangeAction::Removed, {*address});
         }
-        notifyAddressChanged(ChangeAction::Updated, changedItems);
-    }
-
-    boost::optional<WalletAddress> WalletDB::getAddress(const WalletID& id) const
-    {
-        if (auto it = m_AddressesCache.find(id); it != m_AddressesCache.end())
-        {
-            return it->second;
-        }
-        const char* req = "SELECT * FROM " ADDRESSES_NAME " WHERE walletID=?1;";
-        sqlite::Statement stm(this, req);
-
-        stm.bind(1, id);
-
-        if (stm.step())
-        {
-            WalletAddress address = {};
-            int colIdx = 0;
-            ENUM_ADDRESS_FIELDS(STM_GET_LIST, NOSEP, address);
-            insertAddressToCache(id, address);
-            return address;
-        }
-        insertAddressToCache(id, boost::optional<WalletAddress>());
-        return boost::optional<WalletAddress>();
     }
 
     void WalletDB::insertAddressToCache(const WalletID& id, const boost::optional<WalletAddress>& address) const
@@ -2012,25 +2002,6 @@ namespace grimm::wallet
     {
         m_AddressesCache.erase(id);
     }
-
-    void WalletDB::deleteAddress(const WalletID& id)
-    {
-        auto address = getAddress(id);
-        if (address)
-        {
-            const char* req = "DELETE FROM " ADDRESSES_NAME " WHERE walletID=?1;";
-            sqlite::Statement stm(this, req);
-
-            stm.bind(1, id);
-
-            stm.step();
-
-            deleteAddressFromCache(id);
-
-            notifyAddressChanged(ChangeAction::Removed, {*address});
-        }
-    }
-
 
     void WalletDB::subscribe(IWalletDbObserver* observer)
     {
@@ -2552,10 +2523,24 @@ namespace grimm::wallet
 
                 walletDB.saveAddress(*walletAddress);
 
-                return true;
+
             }
 
-            walletDB.setExpirationForAllAddresses(expiration);
+            else
+            {
+                for (auto& address : walletDB.getAddresses(true))
+                {
+                    if (expiration == 0)
+                    {
+                        address.makeEternal();
+                    }
+                    else
+                    {
+                        address.makeActive(expiration);
+                    }
+                    walletDB.saveAddress(address);
+                }
+            }
             return true;
         }
 

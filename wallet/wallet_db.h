@@ -251,10 +251,9 @@ namespace grimm::wallet
 
         // ////////////////////////////////////////////
         // Address management
+        virtual boost::optional<WalletAddress> getAddress(const WalletID&) const = 0;
         virtual std::vector<WalletAddress> getAddresses(bool own) const = 0;
         virtual void saveAddress(const WalletAddress&) = 0;
-        virtual void setExpirationForAllAddresses(uint64_t expiration) = 0;
-        virtual boost::optional<WalletAddress> getAddress(const WalletID&) const = 0;
         virtual void deleteAddress(const WalletID&) = 0;
 
         //
