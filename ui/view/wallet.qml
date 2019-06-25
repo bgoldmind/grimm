@@ -42,7 +42,7 @@ Item {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         visible: false
-        
+
         background: Rectangle {
             radius: 10
             color: Style.background_second
@@ -85,7 +85,7 @@ Item {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         visible: false
-        
+
         background: Rectangle {
             radius: 10
             color: Style.background_second
@@ -324,7 +324,7 @@ Item {
 
     OpenExternalLinkConfirmation {
         id: exchangesList
-    }   
+    }
 
     PaymentInfoDialog {
         id: paymentInfoDialog
@@ -340,13 +340,13 @@ Item {
     PaymentInfoDialog {
         id: paymentInfoVerifyDialog
         shouldVerify: true
-        
-        model:verifyInfo 
+
+        model:verifyInfo
         onTextCopied: function(text){
             viewModel.copyToClipboard(text);
         }
     }
-    
+
     SFText {
         font.pixelSize: 36
         color: Style.content_main
@@ -366,7 +366,7 @@ Item {
     Component {
         id: receive_layout
         Item {
-            
+
             property Item defaultFocusItem: myAddressName
             property bool isAddressCommentDuplicated: false
 
@@ -476,7 +476,7 @@ Item {
 
                                         validator: RegExpValidator { regExp: /^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\.[0-9]{0,7}[1-9])?$/ }
                                         selectByMouse: true
-                                    
+
                                         onTextChanged: {
                                             if (focus) {
                                                 amount = text ? text : 0;
@@ -524,7 +524,7 @@ Item {
                                 text: viewModel.newReceiverName
                                 onTextEdited: {
                                     isAddressCommentDuplicated = viewModel.isAddressWithCommentExist(myAddressName.text);
-                                    if (isAddressCommentDuplicated) {
+                                    if (!isAddressCommentDuplicated) {
                                         viewModel.newReceiverName = myAddressName.text;
                                     }
                                 }
@@ -550,7 +550,7 @@ Item {
                             Image {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 fillMode: Image.Pad
-                        
+
                                 source: viewModel.newReceiverAddrQR
                             }
                             SFText {
@@ -752,7 +752,7 @@ Item {
 
                                     validator: RegExpValidator { regExp: /^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\.[0-9]{0,7}[1-9])?$/ }
                                     selectByMouse: true
-                                    
+
                                     onTextChanged: {
                                         if (focus) {
                                             amount = text ? text : 0;
@@ -881,7 +881,7 @@ Item {
                                         validator: IntValidator {bottom: 0}
                                         maximumLength: 15
                                         selectByMouse: true
-                                    
+
                                         onTextChanged: {
                                             if (focus) {
                                                 amount = text ? text : 0;
@@ -1084,8 +1084,8 @@ Item {
 
     Component {
         id: wallet_layout
-        Item {            
-            
+        Item {
+
             Row{
                 anchors.top: parent.top
                 anchors.right: parent.right
@@ -1252,7 +1252,7 @@ Item {
                             SvgImage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
-                                anchors.leftMargin: 26 
+                                anchors.leftMargin: 26
                                 source: "qrc:/assets/grimm-circle.svg"
                             }
                         }
@@ -1594,7 +1594,7 @@ Item {
 
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: {
-                            if (styleData.row === undefined 
+                            if (styleData.row === undefined
                              || styleData.row < 0
                              || styleData.row >= viewModel.transactions.length)
                             {
@@ -1611,7 +1611,7 @@ Item {
                                 {
                                     expand.start()
                                 }
-                                else 
+                                else
                                 {
                                     collapse.start()
                                 }
@@ -1711,5 +1711,5 @@ Item {
             walletView.push(send_layout);
             root.toSend = false;
         }
-    }    
+    }
 }
