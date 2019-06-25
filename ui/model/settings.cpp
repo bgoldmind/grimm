@@ -42,9 +42,9 @@ namespace
 
     const char* kDefaultLocale = "en_US";
 
-    const std::map<QString, QString> kSupportedLangs { 
-        { "en_US", "English" }, 
-        { "ru_RU", "Русский" } 
+    const std::map<QString, QString> kSupportedLangs {
+        { "en_US", "English" },
+        { "ru_RU", "Русский" }
     };
 }
 
@@ -70,7 +70,7 @@ string WalletSettings::getWalletStorage() const
     {
         m_appDataDir.mkdir(version);
     }
-    
+
     return m_appDataDir.filePath(version + "/" + WalletDBFile).toStdString();
 }
 
@@ -99,10 +99,10 @@ void WalletSettings::setNodeAddress(const QString& addr)
             Lock lock(m_mutex);
             m_data.setValue(kNodeAddressName, addr);
         }
-        
+
         emit nodeAddressChanged();
     }
-    
+
 }
 
 int WalletSettings::getLockTimeout() const
@@ -255,7 +255,7 @@ void WalletSettings::setLocaleByLanguageName(const QString& language)
             {
                 return mapedObject.second == language;
             });
-    auto locale = 
+    auto locale =
             it != kSupportedLangs.end()
                 ? it->first
                 : QString::fromUtf8(kDefaultLocale);
@@ -279,11 +279,20 @@ QStringList WalletSettings::getSupportedLanguages()
     return languagesNames;
 }
 
+// static
+void WalletSettings::openFolder(const QString& path)
+{
+    QFileInfo fileInfo(path);
+    QDesktopServices::openUrl(
+        QUrl::fromLocalFile(
+            fileInfo.isFile() ? fileInfo.absolutePath() : path));
+}
+
 void WalletSettings::reportProblem()
 {
     auto logsFolder = QString::fromStdString(LogsFolder) + "/";
 
-    QFile zipFile = m_appDataDir.filePath("grimm v" + QString::fromStdString(PROJECT_VERSION) 
+    QFile zipFile = m_appDataDir.filePath("grimm v" + QString::fromStdString(PROJECT_VERSION)
         + " " + QSysInfo::productType().toLower() + " report.zip");
 
     QuaZip zip(zipFile.fileName());
@@ -326,7 +335,7 @@ void WalletSettings::reportProblem()
 
     zip.close();
 
-    QString path = QFileDialog::getSaveFileName(nullptr, "Save problem report", 
+    QString path = QFileDialog::getSaveFileName(nullptr, "Save problem report",
         QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).filePath(QFileInfo(zipFile).fileName()),
         "Archives (*.zip)");
 

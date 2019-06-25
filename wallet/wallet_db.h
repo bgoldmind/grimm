@@ -335,7 +335,6 @@ namespace grimm::wallet
 
         std::vector<WalletAddress> getAddresses(bool own) const override;
         void saveAddress(const WalletAddress&) override;
-        void setExpirationForAllAddresses(uint64_t expiration) override;
         boost::optional<WalletAddress> getAddress(const WalletID&) const override;
         void deleteAddress(const WalletID&) override;
 
