@@ -1,6 +1,6 @@
 // Copyright (c) 2016 Jack Grigg
 // Copyright (c) 2016 The Zcash developers
-// Copyright (c) 2018 The Grimm Team	
+// Copyright (c) 2018 The Grimm Team
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -55,7 +55,7 @@ int Equihash<N,K>::InitialiseState(eh_HashState& base_state)
     uint32_t le_K = htole32(K);
 
     unsigned char personalization[BLAKE2B_PERSONALBYTES] = {};
-    memcpy(personalization, "Grimm-PoW", 8);
+    memcpy(personalization, "GrimmPOW", 8);
     memcpy(personalization+8,  &le_N, 4);
     memcpy(personalization+12, &le_K, 4);
 
@@ -83,13 +83,13 @@ void GenerateHash(const eh_HashState& base_state, eh_index g,
 
     for (uint32_t g2 = startIndex; g2 <= g; g2++) {
 	    uint32_t tmpHash[16] = {0};
-	 
-	    eh_HashState state;	
+
+	    eh_HashState state;
 	    state = base_state;
 	    eh_index lei = htole32(g2);
 	    blake2b_update(&state, (const unsigned char*) &lei,
 		                              sizeof(eh_index));
-	    
+
 	    blake2b_final(&state, (unsigned char*)&tmpHash[0], static_cast<uint8_t>(hLen));
 
 	    for (uint32_t idx = 0; idx < 16; idx++) myHash[idx] += tmpHash[idx];

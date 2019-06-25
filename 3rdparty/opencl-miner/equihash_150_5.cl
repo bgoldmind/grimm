@@ -1,6 +1,6 @@
 // GRIMM OpenCL Miner
 // OpenCL Mining Sources for Equihash 150/5
-// Copyright 2018 The Grimm Team	
+// Copyright 2018 The Grimm Team
 // Copyright 2018 Wilke Trei
 
 __kernel void clearCounter (
@@ -11,13 +11,13 @@ __kernel void clearCounter (
 	counters[gId] = (uint4) 0;
 
 	if (gId == 0) {
-		res[0] = (uint4) 0; 
+		res[0] = (uint4) 0;
 	}
 }
 
 /*
 	This function swaps the order of bits in each byte from low to high endian.
-	This is required for having the xor bits in right order 
+	This is required for having the xor bits in right order
 */
 inline uint swapBitOrder(uint input) {
 	uint tmp0 = input & 0x0F0F0F0F;
@@ -27,7 +27,7 @@ inline uint swapBitOrder(uint input) {
 	tmp1 = tmp1 >> 4;
 
 	uint tmpIn = tmp0 | tmp1;
-	
+
 	tmp0 = tmpIn & 0x33333333;
 	tmp1 = tmpIn & 0xCCCCCCCC;
 
@@ -100,7 +100,7 @@ vc = (vc + vd); \
 */
 ulong8 initBlake() {
 	ulong8 result;
-	
+
 	result.s0 = blake_iv[0] ^ (0x01010000 | 57);	// We want to read 57 bytes from each blake call
 
 	result.s1 = blake_iv[1];
@@ -109,8 +109,8 @@ ulong8 initBlake() {
 	result.s4 = blake_iv[4];
 	result.s5 = blake_iv[5];
 
-	result.s6 = blake_iv[6] ^ 0x576F502D6D616542;   // Equals personalization string "Grimm-PoW"
-	
+	result.s6 = blake_iv[6] ^ 0x576F502D6D616542;   // Equals personalization string "GrimmPOW"
+
 	ulong value = 5;				// k
 	value = value << 32;
 	value |= 150;					// n
@@ -145,14 +145,14 @@ __kernel void round0(
 	m[9] = 0;
 	m[10] = 0;
 	m[11] = 0;
-	
+
 	m[12] = 0;
 	m[13] = 0;
 	m[14] = 0;
 	m[15] = 0;
 
 	ulong8 blake_state = initBlake();
-	
+
 	// init vector v
 	v[0] = blake_state.s0;
 	v[1] = blake_state.s1;
@@ -171,7 +171,7 @@ __kernel void round0(
 	v[14] = blake_iv[6];
 	v[15] = blake_iv[7];
 	// length of data - 32 byte work + 8 byte nonce + 4 byte index
-	v[12] ^= 44; 
+	v[12] ^= 44;
 	v[14] ^= (ulong)-1;
 
 	// round 1
@@ -184,7 +184,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[12], m[13]);
 	gFunc(v[3], v[4], v[9],  v[14], m[14], m[15]);
 	// round 2
-	gFunc(v[0], v[4], v[8],  v[12], m[14], m[10]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[14], m[10]);
 	gFunc(v[1], v[5], v[9],  v[13], m[4], m[8]);
 	gFunc(v[2], v[6], v[10], v[14],	m[9], m[15]);
 	gFunc(v[3], v[7], v[11], v[15], m[13], m[6]);
@@ -193,7 +193,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[11], m[7]);
 	gFunc(v[3], v[4], v[9],  v[14], m[5], m[3]);
 	// round 3
-	gFunc(v[0], v[4], v[8],  v[12], m[11], m[8]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[11], m[8]);
 	gFunc(v[1], v[5], v[9],  v[13], m[12], m[0]);
 	gFunc(v[2], v[6], v[10], v[14], m[5], m[2]);
 	gFunc(v[3], v[7], v[11], v[15], m[15], m[13]);
@@ -211,7 +211,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[4], m[0]);
 	gFunc(v[3], v[4], v[9],  v[14], m[15], m[8]);
 	// round 5
-	gFunc(v[0], v[4], v[8],  v[12], m[9], m[0]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[9], m[0]);
 	gFunc(v[1], v[5], v[9],  v[13], m[5], m[7]);
 	gFunc(v[2], v[6], v[10], v[14], m[2], m[4]);
 	gFunc(v[3], v[7], v[11], v[15], m[10], m[15]);
@@ -220,7 +220,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[6], m[8]);
 	gFunc(v[3], v[4], v[9],  v[14], m[3], m[13]);
 	// round 6
-	gFunc(v[0], v[4], v[8],  v[12], m[2], m[12]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[2], m[12]);
 	gFunc(v[1], v[5], v[9],  v[13], m[6], m[10]);
 	gFunc(v[2], v[6], v[10], v[14], m[0], m[11]);
 	gFunc(v[3], v[7], v[11], v[15], m[8], m[3]);
@@ -229,7 +229,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[15], m[14]);
 	gFunc(v[3], v[4], v[9],  v[14], m[1], m[9]);
 	// round 7
-	gFunc(v[0], v[4], v[8],  v[12], m[12], m[5]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[12], m[5]);
 	gFunc(v[1], v[5], v[9],  v[13], m[1], m[15]);
 	gFunc(v[2], v[6], v[10], v[14], m[14], m[13]);
 	gFunc(v[3], v[7], v[11], v[15], m[4], m[10]);
@@ -238,7 +238,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[9], m[2]);
 	gFunc(v[3], v[4], v[9],  v[14], m[8], m[11]);
 	// round 8
-	gFunc(v[0], v[4], v[8],  v[12], m[13], m[11]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[13], m[11]);
 	gFunc(v[1], v[5], v[9],  v[13], m[7], m[14]);
 	gFunc(v[2], v[6], v[10], v[14], m[12], m[1]);
 	gFunc(v[3], v[7], v[11], v[15], m[3], m[9]);
@@ -247,7 +247,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[8], m[6]);
 	gFunc(v[3], v[4], v[9],  v[14], m[2], m[10]);
 	// round 9
-	gFunc(v[0], v[4], v[8],  v[12], m[6], m[15]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[6], m[15]);
 	gFunc(v[1], v[5], v[9],  v[13], m[14], m[9]);
 	gFunc(v[2], v[6], v[10], v[14], m[11], m[3]);
 	gFunc(v[3], v[7], v[11], v[15], m[0], m[8]);
@@ -256,7 +256,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[1], m[4]);
 	gFunc(v[3], v[4], v[9],  v[14], m[10], m[5]);
 	// round 10
-	gFunc(v[0], v[4], v[8],  v[12], m[10], m[2]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[10], m[2]);
 	gFunc(v[1], v[5], v[9],  v[13], m[8], m[4]);
 	gFunc(v[2], v[6], v[10], v[14], m[7], m[6]);
 	gFunc(v[3], v[7], v[11], v[15], m[1], m[5]);
@@ -274,7 +274,7 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], m[12], m[13]);
 	gFunc(v[3], v[4], v[9],  v[14], m[14], m[15]);
 	// round 12
-	gFunc(v[0], v[4], v[8],  v[12], m[14], m[10]);		
+	gFunc(v[0], v[4], v[8],  v[12], m[14], m[10]);
 	gFunc(v[1], v[5], v[9],  v[13], m[4], m[8]);
 	gFunc(v[2], v[6], v[10], v[14],	m[9], m[15]);
 	gFunc(v[3], v[7], v[11], v[15], m[13], m[6]);
@@ -290,7 +290,7 @@ __kernel void round0(
         v[4] = v[4] ^ blake_state.s4 ^ v[12];
         v[5] = v[5] ^ blake_state.s5 ^ v[13];
         v[6] = v[6] ^ blake_state.s6 ^ v[14];
-	v[7] = v[7] ^ blake_state.s7 ^ v[15]; 
+	v[7] = v[7] ^ blake_state.s7 ^ v[15];
 
 	uint8 output;
 	uint pos;
@@ -301,12 +301,12 @@ __kernel void round0(
 	uint lId = get_local_id(0);
 
 	for (uint i=0; i<8; i++) {
-		dataShare[16*lId+2*i+0] = v[i] ; 
-		dataShare[16*lId+2*i+1] = v[i] >> 32; 		
+		dataShare[16*lId+2*i+0] = v[i] ;
+		dataShare[16*lId+2*i+1] = v[i] >> 32;
 	}									// Now all data of the block is shared
-	
+
 	barrier(CLK_LOCAL_MEM_FENCE); 						// Barrier is only needed for CPU mining, can be removed on modern GPUs
-		
+
 	uint v2[15];								// Only need first 15 words
 	uint start = lId & 0xF0; 						// Get rid of lower 4 bit
 
@@ -314,38 +314,38 @@ __kernel void round0(
 		v2[i] = 0;
 		for (uint j = start; j<=lId; j++) v2[i] += dataShare[16*j + i];
 		v2[i] = swapBitOrder(v2[i]);
-	}				
+	}
 
-	output.s0 = v2[0]; 							// First element are bytes 0 to 18 
+	output.s0 = v2[0]; 							// First element are bytes 0 to 18
 	output.s1 = v2[1];
-	output.s2 = v2[2]; 
+	output.s2 = v2[2];
 	output.s3 = v2[3];
-	output.s4 = v2[4] & 0x3FFFFF;  	  					// Only lower 22 bits  
-	output.s5 = (tId << 1) + tId; 
+	output.s4 = v2[4] & 0x3FFFFF;  	  					// Only lower 22 bits
+	output.s5 = (tId << 1) + tId;
 	/*
-	  	We will sort the element into 2^13 
+	  	We will sort the element into 2^13
 		buckets of maximal size 8672
 	*/
-	bucket = output.s0 & 0x1FFF;				
+	bucket = output.s0 & 0x1FFF;
 	pos = atomic_inc(&counters[bucket]);
 	output = shr_5(output,13);
-	
+
 	outputLo[bucket*8672+pos] = output.lo;
 	outputHi[bucket*8672+pos] = output.s45;
 
-		
-		
-	output.s0 = (v2[4] >> 24) | (v2[5] << 8); 				// Second element are bytes 19 to 37 
+
+
+	output.s0 = (v2[4] >> 24) | (v2[5] << 8); 				// Second element are bytes 19 to 37
 	output.s1 = (v2[5] >> 24) | (v2[6] << 8);
 	output.s2 = (v2[6] >> 24) | (v2[7] << 8);
 	output.s3 = (v2[7] >> 24) | (v2[8] << 8);
-	output.s4 = ((v2[8] >> 24) | (v2[9] << 8)) & 0x3FFFFF;			// Only lower 22 bits 
-	output.s5++; 
+	output.s4 = ((v2[8] >> 24) | (v2[9] << 8)) & 0x3FFFFF;			// Only lower 22 bits
+	output.s5++;
 
-	bucket = output.s0 & 0x1FFF;				
+	bucket = output.s0 & 0x1FFF;
 	pos = atomic_inc(&counters[bucket]);
 	output = shr_5(output,13);
-	
+
 	outputLo[bucket*8672+pos] = output.lo;
 	outputHi[bucket*8672+pos] = output.s45;
 
@@ -355,13 +355,13 @@ __kernel void round0(
 	output.s1 = (v2[10] >> 16) | (v2[11] << 16);
 	output.s2 = (v2[11] >> 16) | (v2[12] << 16);
 	output.s3 = (v2[12] >> 16) | (v2[13] << 16);
-	output.s4 = ((v2[13] >> 16) | (v2[14] << 16)) & 0x3FFFFF;		// Only lower 22 bits 
-	output.s5++; 
+	output.s4 = ((v2[13] >> 16) | (v2[14] << 16)) & 0x3FFFFF;		// Only lower 22 bits
+	output.s5++;
 
-	bucket = output.s0 & 0x1FFF;				
+	bucket = output.s0 & 0x1FFF;
 	pos = atomic_inc(&counters[bucket]);
 	output = shr_5(output,13);
-	
+
 	outputLo[bucket*8672+pos] = output.lo;
 	outputHi[bucket*8672+pos] = output.s45;
 }
@@ -371,8 +371,8 @@ void masking6(uint4 input0, uint2 input1, __local uint* scratch, __local uint* t
 	if ((input0.s0 & 0x7) == mask) {
 		uint pos = atomic_inc(&cnt[0]);
 		if (pos < 1216) {
-			uint value  = atomic_xchg(&tab[(input0.s0 >> 3) & 0x1FF], pos); 
-			scratch[pos]      = input0.s0;	
+			uint value  = atomic_xchg(&tab[(input0.s0 >> 3) & 0x1FF], pos);
+			scratch[pos]      = input0.s0;
 			scratch[1216+pos] = input0.s1;
 			scratch[2432+pos] = input0.s2;
 			scratch[3648+pos] = input0.s3;
@@ -387,12 +387,12 @@ void masking4(uint4 input0, uint id, __local uint* scratch, __local uint* tab , 
 	if ((input0.s0 & 0x7) == mask) {
 		uint pos = atomic_inc(&cnt[0]);
 		if (pos < 1216) {
-			uint value  = atomic_xchg(&tab[(input0.s0 >> 3) & 0x1FF], pos); 
-			scratch[pos]      = input0.s0;	
+			uint value  = atomic_xchg(&tab[(input0.s0 >> 3) & 0x1FF], pos);
+			scratch[pos]      = input0.s0;
 			scratch[1216+pos] = input0.s1;
 			scratch[2432+pos] = input0.s2;
 			scratch[3648+pos] = input0.s3;
-			scratch[4864+pos] = value; 					
+			scratch[4864+pos] = value;
 			scratch[6080+pos] = id;
 		}
 	}
@@ -407,13 +407,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 		__global uint * counters) {
 
 	uint lId = get_local_id(0);
-	uint grp = get_group_id(0); 
+	uint grp = get_group_id(0);
 
 	uint bucket = grp >> 3;
 	uint mask = (grp & 7);
 
 	__local uint scratch[7296];
-	
+
 	__local uint * scratch0 = &scratch[0];
 	__local uint * scratch1 = &scratch[1216];
 	__local uint * scratch2 = &scratch[2432];
@@ -430,14 +430,14 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 	if (lId == 0) {
 		iCNT[1] = 0;
 		iCNT[0] = min(inCounter[bucket],(uint) 8672);
-	} 
+	}
 
 	tab[lId] = 0xFFF;
 	tab[lId+256] = 0xFFF;
 
 	barrier(CLK_LOCAL_MEM_FENCE);
 
-	uint ofs = bucket*8672;	
+	uint ofs = bucket*8672;
 
 	masking6(input0[ofs+lId], input1[ofs+lId], &scratch[0], &tab[0], &iCNT[1], mask);
 	masking6(input0[ofs+256+lId], input1[ofs+256+lId], &scratch[0], &tab[0], &iCNT[1], mask);
@@ -481,8 +481,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 
 	if ((lId + 8192) < iCNT[0]) masking6(input0[ofs+8192+lId], input1[ofs+8192+lId], &scratch[0], &tab[0], &iCNT[1], mask);
 	if ((lId + 8448) < iCNT[0]) masking6(input0[ofs+8448+lId], input1[ofs+8448+lId], &scratch[0], &tab[0], &iCNT[1], mask);
-		
-	barrier(CLK_LOCAL_MEM_FENCE);	
+
+	barrier(CLK_LOCAL_MEM_FENCE);
 
 	uint inLim = min(iCNT[1], (uint) 1216);
 
@@ -495,19 +495,19 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 	uint cnt=0;
 
 	uint8 outputEl;
-	
+
 	while (ownPos < inLim) {
 		uint addr = (othPos < inLim) ? othPos : ownPos+256;
 		uint elem = scratch4[addr];
-		
+
 		if (othPos < inLim) {
-			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];	
+			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];
 
 			buck = (outputEl.s0 >> 12) & 0x1FFF;
 			pos = atomic_inc(&outCounter[buck]);
 
-			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];	
-			outputEl.s2 = scratch2[ownPos] ^ scratch2[othPos];	
+			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];
+			outputEl.s2 = scratch2[ownPos] ^ scratch2[othPos];
 			outputEl.s3 = scratch3[ownPos] ^ scratch3[othPos];
 			outputEl.s4 = (own^elem) & 0x1FF;
 
@@ -518,8 +518,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 			pos += buck*8672;
 
 			output0[pos] = outputEl.lo;
-			output1[pos] = outputEl.s45; 
-		} else { 
+			output1[pos] = outputEl.s45;
+		} else {
 			own = elem;
 			ownPos += 256;
 		}
@@ -527,9 +527,9 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round1 (				// Ro
 		othPos = (elem >> 16);
 		ownPos = (cnt<40) ? ownPos : inLim;
 		cnt++;
-	} 
+	}
 
-}  
+}
 
 
 __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Round 2
@@ -537,13 +537,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Ro
 		__global uint4 * output0,
 		__global uint * counters) {
 	uint lId = get_local_id(0);
-	uint grp = get_group_id(0); 
+	uint grp = get_group_id(0);
 
 	uint bucket = grp >> 3;
 	uint mask = (grp & 7);
 
 	__local uint scratch[7296];
-	
+
 	__local uint * scratch0 = &scratch[0];
 	__local uint * scratch1 = &scratch[1216];
 	__local uint * scratch2 = &scratch[2432];
@@ -560,14 +560,14 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Ro
 	if (lId == 0) {
 		iCNT[1] = 0;
 		iCNT[0] = min(inCounter[bucket],(uint) 8672);
-	} 
+	}
 
 	tab[lId] = 0xFFF;
 	tab[lId+256] = 0xFFF;
 
 	barrier(CLK_LOCAL_MEM_FENCE);
 
-	uint ofs = bucket*8672;	
+	uint ofs = bucket*8672;
 
 	masking4(input0[ofs+lId], lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	masking4(input0[ofs+256+lId], 256+lId, &scratch[0], &tab[0], &iCNT[1], mask);
@@ -611,8 +611,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Ro
 
 	if ((lId + 8192) < iCNT[0]) masking4(input0[ofs+8192+lId], 8192+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	if ((lId + 8448) < iCNT[0]) masking4(input0[ofs+8448+lId], 8448+lId, &scratch[0], &tab[0], &iCNT[1], mask);
-		
-	barrier(CLK_LOCAL_MEM_FENCE);	
+
+	barrier(CLK_LOCAL_MEM_FENCE);
 
 	uint inLim = min(iCNT[1], (uint) 1216);
 
@@ -625,45 +625,45 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Ro
 	uint cnt=0;
 
 	uint8 outputEl;
-	
+
 	while (ownPos < inLim) {
 		uint addr = (othPos < inLim) ? othPos : ownPos+256;
 		uint elem = scratch4[addr];
-		
+
 		if (othPos < inLim) {
-			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];	
+			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];
 			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];
 			if (outputEl.s1 != 0) {
 				buck = (outputEl.s0 >> 12) & 0x1FFF;
 				pos = atomic_inc(&outCounter[buck]);
 
-				outputEl.s2 = scratch2[ownPos] ^ scratch2[othPos];	
+				outputEl.s2 = scratch2[ownPos] ^ scratch2[othPos];
 				outputEl.s3 = scratch3[ownPos] ^ scratch3[othPos];
 
 				outputEl.lo = shr_4(outputEl.lo,25); 			// Shift away 25 bits
 
-				/* 
+				/*
 					Remaining bits: 150-2*25-13 = 87
 					Each element index has at most 14 bits
 					Bucket index has 13 bits
-				
+
 					87 + 2*14 + 13 = 128
 					Fits into uint4
-					
+
 				*/
 
 				outputEl.s3 = scratch5[ownPos];
 				outputEl.s3 |= (scratch5[othPos] << 14);
 				outputEl.s3 |= (bucket << 28);
 
-				outputEl.s2 |= (bucket >> 4) << 23; 
+				outputEl.s2 |= (bucket >> 4) << 23;
 
 				if (pos < 8672) {
 					pos += buck*8672;
 					output0[pos] = outputEl.lo;
 				}
 			}
-		} else { 
+		} else {
 			own = elem;
 			ownPos += 256;
 		}
@@ -671,7 +671,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round2 (				// Ro
 		othPos = elem;
 		ownPos = (cnt<40) ? ownPos : inLim;
 		cnt++;
-	} 
+	}
 }
 
 
@@ -680,13 +680,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 		__global uint4 * output0,
 		__global uint * counters) {
 	uint lId = get_local_id(0);
-	uint grp = get_group_id(0); 
+	uint grp = get_group_id(0);
 
 	uint bucket = grp >> 3;
 	uint mask = (grp & 7);
 
 	__local uint scratch[7296];
-	
+
 	__local uint * scratch0 = &scratch[0];
 	__local uint * scratch1 = &scratch[1216];
 	__local uint * scratch2 = &scratch[2432];
@@ -703,14 +703,14 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 	if (lId == 0) {
 		iCNT[1] = 0;
 		iCNT[0] = min(inCounter[bucket],(uint) 8672);
-	} 
+	}
 
 	tab[lId] = 0xFFF;
 	tab[lId+256] = 0xFFF;
 
 	barrier(CLK_LOCAL_MEM_FENCE);
 
-	uint ofs = bucket*8672;	
+	uint ofs = bucket*8672;
 
 	masking4(input0[ofs+lId], ofs+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	masking4(input0[ofs+256+lId], ofs+256+lId, &scratch[0], &tab[0], &iCNT[1], mask);
@@ -754,8 +754,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 
 	if ((lId + 8192) < iCNT[0]) masking4(input0[ofs+8192+lId], ofs+8192+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	if ((lId + 8448) < iCNT[0]) masking4(input0[ofs+8448+lId], ofs+8448+lId, &scratch[0], &tab[0], &iCNT[1], mask);
-		
-	barrier(CLK_LOCAL_MEM_FENCE);	
+
+	barrier(CLK_LOCAL_MEM_FENCE);
 
 	uint inLim = min(iCNT[1], (uint) 1216);
 
@@ -768,27 +768,27 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 	uint cnt=0;
 
 	uint8 outputEl;
-	
+
 	while (ownPos < inLim) {
 		uint addr = (othPos < inLim) ? othPos : ownPos+256;
 		uint elem = scratch4[addr];
-		
+
 		if (othPos < inLim) {
-			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];	
+			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];
 			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];
 			if (outputEl.s1 != 0) {
 				buck = (outputEl.s0 >> 12) & 0x1FFF;
 				pos = atomic_inc(&outCounter[buck]);
 
-				outputEl.s2 = (scratch2[ownPos] ^ scratch2[othPos]) & 0x7FFFFF;	
+				outputEl.s2 = (scratch2[ownPos] ^ scratch2[othPos]) & 0x7FFFFF;
 				outputEl.s3 = 0;
 
 				outputEl.lo = shr_4(outputEl.lo,25); 			// Shift away 25 bits
 
-				/* 
+				/*
 					Remaining bits: 150-3*25-13 = 62
 					Addresses of inputs will be stored in 3rd and 4th component
-					
+
 				*/
 
 				outputEl.s2 = scratch5[ownPos];
@@ -799,7 +799,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 					output0[pos] = outputEl.lo;
 				}
 			}
-		} else { 
+		} else {
 			own = elem;
 			ownPos += 256;
 		}
@@ -807,7 +807,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round3 (				// Ro
 		othPos = elem;
 		ownPos = (cnt<40) ? ownPos : inLim;
 		cnt++;
-	} 
+	}
 }
 
 
@@ -816,13 +816,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round4 (				// Ro
 		__global uint4 * output0,
 		__global uint * counters) {
 	uint lId = get_local_id(0);
-	uint grp = get_group_id(0); 
+	uint grp = get_group_id(0);
 
 	uint bucket = grp >> 3;
 	uint mask = (grp & 7);
 
 	__local uint scratch[7296];
-	
+
 	__local uint * scratch0 = &scratch[0];
 	__local uint * scratch1 = &scratch[1216];
 	__local uint * scratch2 = &scratch[2432];
@@ -839,14 +839,14 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round4 (				// Ro
 	if (lId == 0) {
 		iCNT[1] = 0;
 		iCNT[0] = min(inCounter[bucket],(uint) 8672);
-	} 
+	}
 
 	tab[lId] = 0xFFF;
 	tab[lId+256] = 0xFFF;
 
 	barrier(CLK_LOCAL_MEM_FENCE);
 
-	uint ofs = bucket*8672;	
+	uint ofs = bucket*8672;
 
 	masking4(input0[ofs+lId], ofs+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	masking4(input0[ofs+256+lId], ofs+256+lId, &scratch[0], &tab[0], &iCNT[1], mask);
@@ -890,8 +890,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round4 (				// Ro
 
 	if ((lId + 8192) < iCNT[0]) masking4(input0[ofs+8192+lId], ofs+8192+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	if ((lId + 8448) < iCNT[0]) masking4(input0[ofs+8448+lId], ofs+8448+lId, &scratch[0], &tab[0], &iCNT[1], mask);
-		
-	barrier(CLK_LOCAL_MEM_FENCE);	
+
+	barrier(CLK_LOCAL_MEM_FENCE);
 
 	uint inLim = min(iCNT[1], (uint) 1216);
 
@@ -904,38 +904,38 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round4 (				// Ro
 	uint cnt=0;
 
 	uint8 outputEl;
-	
+
 	while (ownPos < inLim) {
 		uint addr = (othPos < inLim) ? othPos : ownPos+256;
 		uint elem = scratch4[addr];
-		
+
 		if (othPos < inLim) {
-			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];	
+			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];
 			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];
 			if (outputEl.s1 != 0) {
 				buck = (outputEl.s0 >> 12) & 0x1FFF;
 				pos = atomic_inc(&outCounter[buck]);
 
-				outputEl.s2 = 0; 	
+				outputEl.s2 = 0;
 				outputEl.s3 = 0;
 
 				outputEl.lo = shr_4(outputEl.lo,25); 			// Shift away 25 bits
 
-				/* 
+				/*
 					Remaining bits: 150-4*25-13 = 37
 					Addresses of inputs will be stored in 3rd and 4th component
-					
+
 				*/
 
-				outputEl.s2 = scratch5[ownPos]; 
-				outputEl.s3 = scratch5[othPos]; 
+				outputEl.s2 = scratch5[ownPos];
+				outputEl.s3 = scratch5[othPos];
 
 				if (pos < 8672) {
 					pos += buck*8672;
 					output0[pos] = outputEl.lo;
 				}
 			}
-		} else { 
+		} else {
 			own = elem;
 			ownPos += 256;
 		}
@@ -943,7 +943,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round4 (				// Ro
 		othPos = elem;
 		ownPos = (cnt<40) ? ownPos : inLim;
 		cnt++;
-	} 
+	}
 }
 
 
@@ -952,13 +952,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 		__global uint4 * output0,
 		__global uint * counters) {
 	uint lId = get_local_id(0);
-	uint grp = get_group_id(0); 
+	uint grp = get_group_id(0);
 
 	uint bucket = grp >> 3;
 	uint mask = (grp & 7);
 
 	__local uint scratch[7296];
-	
+
 	__local uint * scratch0 = &scratch[0];
 	__local uint * scratch1 = &scratch[1216];
 	__local uint * scratch2 = &scratch[2432];
@@ -975,14 +975,14 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 	if (lId == 0) {
 		iCNT[1] = 0;
 		iCNT[0] = min(inCounter[bucket],(uint) 8672);
-	} 
+	}
 
 	tab[lId] = 0xFFF;
 	tab[lId+256] = 0xFFF;
 
 	barrier(CLK_LOCAL_MEM_FENCE);
 
-	uint ofs = bucket*8672;	
+	uint ofs = bucket*8672;
 
 	masking4(input0[ofs+lId], ofs+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	masking4(input0[ofs+256+lId], ofs+256+lId, &scratch[0], &tab[0], &iCNT[1], mask);
@@ -1026,8 +1026,8 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 
 	if ((lId + 8192) < iCNT[0]) masking4(input0[ofs+8192+lId], ofs+8192+lId, &scratch[0], &tab[0], &iCNT[1], mask);
 	if ((lId + 8448) < iCNT[0]) masking4(input0[ofs+8448+lId], ofs+8448+lId, &scratch[0], &tab[0], &iCNT[1], mask);
-		
-	barrier(CLK_LOCAL_MEM_FENCE);	
+
+	barrier(CLK_LOCAL_MEM_FENCE);
 
 	uint inLim = min(iCNT[1], (uint) 1216);
 
@@ -1040,13 +1040,13 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 	uint cnt=0;
 
 	uint2 outputEl;
-	
+
 	while (ownPos < inLim) {
 		uint addr = (othPos < inLim) ? othPos : ownPos+256;
 		uint elem = scratch4[addr];
-		
+
 		if (othPos < inLim) {
-			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];	
+			outputEl.s0 = scratch0[ownPos] ^ scratch0[othPos];
 			outputEl.s1 = scratch1[ownPos] ^ scratch1[othPos];
 			if ((outputEl.s0 == 0) && (outputEl.s1 == 0)) {			// Last round we want all bits to vanish
 				uint4 index;
@@ -1057,7 +1057,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 
 				bool ok = true;
 				ok = ok && (index.s0 != index.s1) && (index.s0 != index.s2) && (index.s0 != index.s3);
-				ok = ok && (index.s1 != index.s2) && (index.s1 != index.s3) && (index.s2 != index.s3);	
+				ok = ok && (index.s1 != index.s2) && (index.s1 != index.s3) && (index.s2 != index.s3);
 
 				if (ok) {
 					pos = atomic_inc(&outCounter[0]);
@@ -1066,7 +1066,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 					}
 				}
 			}
-		} else { 
+		} else {
 			own = elem;
 			ownPos += 256;
 		}
@@ -1074,7 +1074,7 @@ __kernel __attribute__((reqd_work_group_size(256, 1, 1))) void round5 (				// Ro
 		othPos = elem;
 		ownPos = (cnt<40) ? ownPos : inLim;
 		cnt++;
-	} 
+	}
 }
 
 
@@ -1082,7 +1082,7 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 		__global uint4 * inputR2,
 		__global uint4 * inputR3,
 		__global uint4 * inputR4,
-		__global uint2 * inputR1,		
+		__global uint2 * inputR1,
 		__global uint4 * inputR5,
 		__global uint * counters,
 		__global uint4 * results) {
@@ -1103,26 +1103,26 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 
 			uint4 tmp;
 			tmp = inputR5[gId];
-			
+
 			scratch1[4*lId+0] = tmp.s0;
 			scratch1[4*lId+1] = tmp.s1;
 			scratch1[4*lId+2] = tmp.s2;
 			scratch1[4*lId+3] = tmp.s3;
 		}
 
-		barrier(CLK_LOCAL_MEM_FENCE); 
+		barrier(CLK_LOCAL_MEM_FENCE);
 
 		if (lId < 4) {								// Read the output of Round 3
 			uint addr = scratch1[lId];
 			if (addr < 71041024) {
 				uint4 tmp = inputR3[addr];
-				
-				scratch0[2*lId] = tmp.s2;	
-				scratch0[2*lId+1] = tmp.s3;	
+
+				scratch0[2*lId] = tmp.s2;
+				scratch0[2*lId+1] = tmp.s3;
 			}
 		}
 
-		barrier(CLK_LOCAL_MEM_FENCE); 
+		barrier(CLK_LOCAL_MEM_FENCE);
 
 		if (lId < 8) {								// Read the output of Round 2
 			uint addr = scratch0[lId];
@@ -1137,22 +1137,22 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 
 				tmp.s3 |= (tmp.s2 << 4);
 				tmp.s3 *= 8672;
-				
-				scratch1[2*lId]   = tmp.s0 + tmp.s3;	
-				scratch1[2*lId+1] = tmp.s1 + tmp.s3;	
-			} 
+
+				scratch1[2*lId]   = tmp.s0 + tmp.s3;
+				scratch1[2*lId+1] = tmp.s1 + tmp.s3;
+			}
 		}
 
-		barrier(CLK_LOCAL_MEM_FENCE); 	
+		barrier(CLK_LOCAL_MEM_FENCE);
 
 		if (lId < 16) {								// Read the output of Round 1
 			uint addr = scratch1[lId];
 			if (addr < 71041024) {
 				uint2 tmp = inputR1[addr];
-				
-				scratch0[2*lId]   = tmp.s0;	
-				scratch0[2*lId+1] = tmp.s1;	
-			} 
+
+				scratch0[2*lId]   = tmp.s0;
+				scratch0[2*lId+1] = tmp.s1;
+			}
 		}
 
 		barrier(CLK_LOCAL_MEM_FENCE); 					// Check for doublicate entries
@@ -1161,12 +1161,12 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 			if (scratch0[2*lId]   == scratch0[i])   atomic_inc(&ok[0]);
 			if (scratch0[2*lId+1] == scratch0[i]) atomic_inc(&ok[0]);
 		}
-		
+
 		barrier(CLK_LOCAL_MEM_FENCE);
 
 		if (ok[0] == 32) {						// Only entry to itself may be equal
 			uint addr;
-			if (lId == 0) addr = atomic_inc(&outCounters[0]);	
+			if (lId == 0) addr = atomic_inc(&outCounters[0]);
 
 			uint2 elem;
 			elem.s0 = scratch0[2*lId];
@@ -1180,7 +1180,7 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 			barrier(CLK_LOCAL_MEM_FENCE);				// Do the Equihash element sorting
 
 			uint2 tmp2;
-		
+
 			tmp2.s0 = lId >> 1;
 			tmp2.s1 = (scratch1[4*tmp2.s0+0] > scratch1[4*tmp2.s0+2]) ? (lId ^ 0x1) : lId;
 
@@ -1188,13 +1188,13 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 			scratch0[2*lId+1] = scratch1[2*tmp2.s1+1];		// Elements sorted by 4 Elem
 
 			barrier(CLK_LOCAL_MEM_FENCE);
-			
+
 			tmp2.s0 = lId >> 2;
 			tmp2.s1 = (scratch0[8*tmp2.s0+0] > scratch0[8*tmp2.s0+4]) ? (lId ^ 0x2) : lId;
 
 			scratch1[2*lId+0] = scratch0[2*tmp2.s1+0];		// Elements sorted by 8 Elem
 			scratch1[2*lId+1] = scratch0[2*tmp2.s1+1];
-		
+
 			barrier(CLK_LOCAL_MEM_FENCE);
 
 			tmp2.s0 = lId >> 3;
@@ -1202,7 +1202,7 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 
 			scratch0[2*lId+0] = scratch1[2*tmp2.s1+0];		// Elements sorted by 16 Elem
 			scratch0[2*lId+1] = scratch1[2*tmp2.s1+1];
-		
+
 			barrier(CLK_LOCAL_MEM_FENCE);
 
 			tmp2.s0 = lId >> 4;
@@ -1210,9 +1210,9 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 
 			scratch1[2*lId+0] = scratch0[2*tmp2.s1+0];		// Elements sorted by 32 Elem
 			scratch1[2*lId+1] = scratch0[2*tmp2.s1+1];
-		
-			barrier(CLK_LOCAL_MEM_FENCE);					// All Elements sorted	
-			
+
+			barrier(CLK_LOCAL_MEM_FENCE);					// All Elements sorted
+
 			if (lId == 0) scratch0[0] = addr;
 
 			barrier(CLK_LOCAL_MEM_FENCE);
@@ -1228,7 +1228,7 @@ __kernel __attribute__((reqd_work_group_size(16, 1, 1))) void combine (				// Co
 
 				results[1 + 8*addr + lId] = tmp;
 			}
-			
-		} 
-	}  
+
+		}
+	}
 }
