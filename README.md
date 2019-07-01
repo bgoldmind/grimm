@@ -4,17 +4,17 @@
 ### Welcome to Grimm
 
 
-GRIMM is a next generation scalable, confidential cryptocurrency based on an elegant and innovative [Mimblewimble protocol](https://docs.grimmw.com/Mimblewimble.pdf).
+GRIMM is a next generation scalable, confidential cryptocurrency based on an elegant and innovative
 
 ### ANNOUNCEMENTS
 
 
 
-[Download latest version](http://grimmw.com/downloads)
+[Download latest version](http://grimmw.com)
 **Bright Boson 2.0 with ultra fast sync, payment proof and lots of improvements**
 
 
-**Grimm released Mobile Wallet for iOS**. [Download](https://www.grimmw.com/downloads/mainnet-ios)
+**Grimm released Mobile Wallet for iOS**. [Download](https://www.grimmw.com)
 
 
 ### JOIN OUR COMMUNITIES ON TELEGRAM
@@ -35,13 +35,13 @@ If you build from source please use 'mainnet' branch\
 
 Peers:
 
-eu-nodes.mainnet.grimmw.com:8100
+usmainnet.grimmw.com:8385
 
-us-nodes.mainnet.grimmw.com:8100
+amsmainnet.grimmw.com:8385
 
-ap-nodes.mainnet.grimmw.com:8100
+bangmainnet.grimmw.com:8385
 
-Latest documentation is here: https://documentation.grimmw.com
+
 
 Things that make GRIMM special include:
 
@@ -60,7 +60,7 @@ transactions, atomic swaps and more.
 years.
 * Implemented from scratch in C++.
 
-[Read our position paper](https://docs.grimmw.com/GRIMM_Position_Paper_v0.2.2.pdf)
+
 
 ### Roadmap
 

@@ -20,14 +20,12 @@ namespace grimm
         std::vector<std::string> result
         {
 #ifdef GRIMM_TESTNET
-            "us-nodes.testnet.grimmw.com:8100",
-            "eu-nodes.testnet.grimmw.com:8100",
-            "ap-nodes.testnet.grimmw.com:8100"
+
 #else
-            "eu-node01.masternet.grimmw.com:8100",
-            "eu-node02.masternet.grimmw.com:8100",
-            "eu-node03.masternet.grimmw.com:8100",
-            "eu-node04.masternet.grimmw.com:8100"
+            "usmainnet.grimmw.com:8385",
+            "amsmainnet.grimmw.com:8385",
+            "bangmainnet.grimmw.com:8385",
+            "eumainnet.grimmw.com:8385"
 #endif
         };
 

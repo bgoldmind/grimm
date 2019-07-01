@@ -18,7 +18,7 @@ Rectangle {
     }
 
     ChangePasswordDialog {
-        id: changePasswordDialog        
+        id: changePasswordDialog
     }
 
     ConfirmationDialog {
@@ -38,7 +38,7 @@ Rectangle {
             Column {
                 anchors.fill: parent
                 spacing: 30
-                
+
                 SFText {
                     width: parent.width
                     topPadding: 20
@@ -142,8 +142,8 @@ Rectangle {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: 14          
-            
+            Layout.preferredHeight: 14
+
             StatusBar {
                 Layout.preferredHeight: 14
                 id: status_bar
@@ -154,7 +154,7 @@ Rectangle {
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            
+
             ScrollView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -193,7 +193,7 @@ Rectangle {
                                 RowLayout {
                                     Layout.preferredHeight: 16
                                     Layout.topMargin: 15
-                                    
+
                                     CustomSwitch {
                                         id: localNodeRun
                                         Layout.fillWidth: true
@@ -350,7 +350,7 @@ Rectangle {
                                                 }
                                             }
                                         }
-                                    }                               
+                                    }
                                 }
 
                                 ListView {
@@ -406,7 +406,7 @@ Rectangle {
                                         text: qsTrId("settings-undo")
                                         icon.source: "qrc:/assets/icon-cancel-white.svg"
                                         enabled: {
-                                            viewModel.isChanged 
+                                            viewModel.isChanged
                                             && nodeAddress.acceptableInput
                                             && localNodePort.acceptableInput
                                         }
@@ -424,10 +424,10 @@ Rectangle {
                                         leftPadding: 25
                                         rightPadding: 25
                                         spacing: 12
-                                        //: settings tab, node section, apply button    
+                                        //: settings tab, node section, apply button
                                         //% "apply"
                                         text: qsTrId("settings-apply")
-                                        icon.source: "qrc:/assets/icon-done.svg"  
+                                        icon.source: "qrc:/assets/icon-done.svg"
                                         enabled: {
                                             viewModel.isChanged
                                             && nodeAddress.acceptableInput
@@ -699,8 +699,8 @@ Rectangle {
                                 Layout.preferredWidth: 250
                                 Layout.preferredHeight: 38
                                 Layout.alignment: Qt.AlignRight
-                                Layout.rightMargin: 5    
-                                //: settings tab, rescan button                            
+                                Layout.rightMargin: 5
+                                //: settings tab, rescan button
                                 //% "rescan"
                                 text: qsTrId("settings-rescan-button")
                                 palette.button: Style.background_second
@@ -738,7 +738,7 @@ Rectangle {
                                     Layout.topMargin: 7
                                     Layout.preferredWidth: 419
                                     //: settings tab, report problem section, message
-                                    //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>To report a problem:<br />1. Click “Save wallet logs” and choose a destination folder for log archive<br />2. Send email to <a href='mailto:support@grimmw.com'>support@grimmw.com</a> or open a ticket in <a href='https://github.com/freenetcoder'>Github</a><br />3. Don’t forget to attach logs archive"
+                                    //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>To report a problem:<br />1. Click “Save wallet logs” and choose a destination folder for log archive<br />2. Send email to <a href='mailto:admin@grimmw.com'>admin@grimmw.com</a> or open a ticket in <a href='https://github.com/freenetcoder'>Github</a><br />3. Don’t forget to attach logs archive"
                                     text: qsTrId("settings-report-problem-message")
                                     textFormat: Text.RichText
                                     color: Style.content_main

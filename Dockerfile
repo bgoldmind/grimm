@@ -1,7 +1,7 @@
 FROM ubuntu:19.10
 
 # Define arguments
-ARG grimm=grimm-node-masternet.tar.gz 
+ARG grimm=grimm-node-masternet.tar.gz
 
 # Install.
 RUN \
@@ -16,5 +16,5 @@ WORKDIR /home/grimm/node/
 VOLUME /home/grimm/node/
 
 # Define default command.
-EXPOSE 8100
-CMD ["/home/grimm/node/grimm-node-masternet", "--peer=eu-node01.masternet.grimmw.com:8100,eu-node02.masternet.grimmw.com:8100,eu-node04.masternet.grimmw.com:8100,eu-node04.masternet.grimmw.com:8100"]
+EXPOSE 8385
+CMD ["/home/grimm/node/grimm-node-masternet", "--peer=usmainnet.grimmw.com:8385,amsmainnet.grimmw.com:8385,bangmainnet.grimmw.com:8385,eumainnet.grimmw.com:8385"]

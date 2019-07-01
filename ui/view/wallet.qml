@@ -1143,7 +1143,7 @@ Item {
                         value: viewModel.available
                         onCopyValueText: viewModel.copyToClipboard(value)
                         onOpenExternal : function() {
-                            var externalLink = "https://www.grimmw.com/#exchanges";
+                            var externalLink = "https://www.grimmw.com";
                             if (viewModel.isAllowedgrimmLinks) {
                                 Qt.openUrlExternally(externalLink);
                             } else {
