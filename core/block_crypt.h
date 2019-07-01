@@ -98,7 +98,7 @@ namespace grimm
 
 		struct {
 			// emission parameters
-			Amount Value0	= Coin * 80; // Initial emission. Each drop it will be halved. In case of odd num it's rounded to the lower value.
+			Amount Value0	= Coin * 100; // Initial emission. Each drop it will be halved. In case of odd num it's rounded to the lower value.
 			Height Drop0	= 1440 * 365; // 1 year roughly. This is the height of the last block that still has the initial emission, the drop is starting from the next block
 			Height Drop1	= 1440 * 365 * 4; // 4 years roughly. Each such a cycle there's a new drop
 		} Emission;
@@ -134,7 +134,7 @@ namespace grimm
 			uint32_t Granularity = 720; // i.e. should be created for heights that are multiples of this. This should make it more likely for different nodes to have the same macroblocks
 		} Macroblock;
 
-		size_t MaxBodySize = 0x100000; // 1MB
+		size_t MaxBodySize = 0x200000; // 2MB
 
 		bool AllowPublicUtxos = false;
 		bool FakePoW = false;
@@ -471,7 +471,7 @@ namespace grimm
 
 		struct PoW
 		{
-			// equihash parameters. 
+			// equihash parameters.
 			// Parameters recommended by BTG are 144/5, to make it asic-resistant (~1GB average, spikes about 1.5GB). On CPU solve time about 1 minutes
 			// The following are the parameters for testnet, to make it of similar size, and much faster solve time, to test concurrency and difficulty adjustment
 			static const uint32_t N = 150;
