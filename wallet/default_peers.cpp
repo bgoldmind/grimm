@@ -22,10 +22,10 @@ namespace grimm
 #ifdef GRIMM_TESTNET
 
 #else
-            "usmainnet.grimmw.com:8385",
-            "amsmainnet.grimmw.com:8385",
-            "bangmainnet.grimmw.com:8385",
-            "eumainnet.grimmw.com:8385"
+            "67.205.185.92:8385",
+            "165.22.197.90:8385",
+            "134.209.157.140:8385",
+            "104.248.242.82:8385"
 #endif
         };
 
