@@ -104,7 +104,7 @@ namespace grimm
 		} Emission;
 
 		struct {
-			Height Coinbase	= 240; // 4 hours
+			Height Coinbase	= 15; // 15 min for testing
 			Height Std		= 0; // not restricted. Can spend even in the block of creation (i.e. spend it before it becomes visible)
 		} Maturity;
 
@@ -115,7 +115,7 @@ namespace grimm
 			uint32_t MaxAhead_s		= 60 * 15; // 15 minutes. Timestamps ahead by more than 15 minutes won't be accepted
 			uint32_t WindowMedian0	= 25; // Timestamp for a block must be (strictly) higher than the median of preceding window
 			uint32_t WindowMedian1	= 7; // Num of blocks taken at both endings of WindowWork, to pick medians.
-			Difficulty Difficulty0	= Difficulty(2 << Difficulty::s_MantissaBits); // 2^2 = 4
+			Difficulty Difficulty0	= Difficulty(1 << Difficulty::s_MantissaBits); // 2^1 = 2 for cpu start
 
 			struct {
 				// damp factor. Adjustment of actual dt toward expected, effectively dampens
