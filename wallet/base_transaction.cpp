@@ -122,7 +122,7 @@ namespace grimm::wallet
                 }
                 futureHolder.reset();
             });
-        
+
     }
 
     size_t LocalPrivateKeyKeeper::AllocateNonceSlot()
@@ -235,7 +235,7 @@ namespace grimm::wallet
         multiSig.m_NoncePub = publicNonce;
         multiSig.m_Nonce = GetNonce(nonceSlot);
         multiSig.SignPartial(partialSignature, message, excess);
-    
+
         return Scalar(partialSignature);
     }
 
@@ -355,7 +355,7 @@ namespace grimm::wallet
         if (!m_EventToUpdate)
         {
             m_EventToUpdate = io::AsyncEvent::create(io::Reactor::get_Current(), [this, weak = this->weak_from_this()]()
-            { 
+            {
                 if (auto l = weak.lock())
                 {
                     Update();
@@ -432,8 +432,8 @@ namespace grimm::wallet
         if (GetParameter(TxParameterID::KernelProofHeight, proofHeight) && (proofHeight > height))
         {
             SetParameter(TxParameterID::Status, TxStatus::Registering);
-            SetParameter(TxParameterID::KernelProofHeight, 0);
-            SetParameter(TxParameterID::KernelUnconfirmedHeight, 0);
+            SetParameter(TxParameterID::KernelProofHeight, Height(0));
+            SetParameter(TxParameterID::KernelUnconfirmedHeight, Height(0));
             return true;
         }
         return false;

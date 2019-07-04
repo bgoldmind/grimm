@@ -237,7 +237,7 @@ namespace grimm::wallet
             m_NonceSlot = m_Tx.GetKeyKeeper()->AllocateNonceSlot();
             m_Tx.SetParameter(TxParameterID::NonceSlot, m_NonceSlot, false, m_SubTxID);
         }
-        
+
         if (!m_Tx.GetParameter(TxParameterID::PublicNonce, m_PublicNonce, m_SubTxID))
         {
             auto pt = m_Tx.GetKeyKeeper()->GenerateNonceSync(m_NonceSlot);
