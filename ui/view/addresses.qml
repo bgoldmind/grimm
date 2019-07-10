@@ -53,7 +53,7 @@ ColumnLayout {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         visible: false
-        
+
         background: Rectangle {
             radius: 10
             color: Style.background_second
@@ -82,7 +82,7 @@ ColumnLayout {
                 Image {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    fillMode: Image.Pad     
+                    fillMode: Image.Pad
                     source: "qrc:/assets/icon-cancel-16.svg"
                     MouseArea {
                         anchors.fill: parent
@@ -132,7 +132,7 @@ ColumnLayout {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 45
                 Layout.maximumHeight: 45
-            
+
                 SFLabel {
                     height: 48
                     width: 392
@@ -278,7 +278,7 @@ ColumnLayout {
                 value: expiredAddressesView.sortIndicatorOrder
             }
         }
-        
+
         CustomTableView {
             id: contactsView
 
@@ -396,6 +396,7 @@ ColumnLayout {
                 modal: true
                 dim: false
                 property string address
+                font.capitalization: Font.AllLowercase
                 Action {
                     //% "delete contact"
                     text: qsTrId("addresses-contextmenu-delete")

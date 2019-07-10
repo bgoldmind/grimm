@@ -16,7 +16,7 @@ CustomTableView {
     anchors.fill: parent
     frameVisible: false
     selectionMode: SelectionMode.NoSelection
-    backgroundVisible: false    
+    backgroundVisible: false
 
     TableViewColumn {
         role: parentModel.nameRole
@@ -191,6 +191,7 @@ CustomTableView {
         dim: false
         property string address
         property var addressItem
+        font.capitalization: Font.AllLowercase
         Action {
             id: showQRAction
             //: Entry in adress table context menu to show QR
@@ -222,7 +223,7 @@ CustomTableView {
                 viewModel.deleteAddress(contextMenu.address);
             }
         }
-    
+
         Component.onCompleted: {
             if (isExpired) {
                 contextMenu.removeAction(showQRAction);
