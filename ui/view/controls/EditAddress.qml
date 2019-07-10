@@ -126,6 +126,7 @@ Dialog {
 			SFLabel {
 				id: addressID
 				Layout.preferredWidth: parent.width
+				enabled: true
 				font.pixelSize: 14
 				color: Style.content_secondary
                 text: addressItem ? addressItem.address : ""
