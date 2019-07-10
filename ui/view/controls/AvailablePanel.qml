@@ -28,7 +28,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 30
         anchors.leftMargin: 30
-        
+
         color: Style.content_main
         //% "Available"
         text: qsTrId("available-panel-available")
@@ -47,10 +47,10 @@ Rectangle {
             anchors.right: whereToBuyIcon.left
             anchors.top: parent.top
             anchors.rightMargin: 10
-            
+
             color: Style.active
             opacity: 0.5
-            //% "Where to buy GRIMM?"
+            //% "Get GRIMM?"
             text: qsTrId("available-panel-where-to-buy")
         }
         SvgImage {

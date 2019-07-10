@@ -625,7 +625,7 @@ Rectangle {
 
                                     SFText {
                                         //: general settings, label for alow open external links
-                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.grimmw.com/'>grimmw.com</a> and <a href='https://explorer.grimmw.com/'>blockchain explorer</a> (to fetch exchanges and transaction data)"
+                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.grimmw.com/'>grimmw.com</a> and <a href='https://explorer.grimmw.com/'>blockchain explorer</a>"
                                         text: qsTrId("settings-general-allow-grimm-label")
                                         textFormat: Text.RichText
                                         font.pixelSize: 14

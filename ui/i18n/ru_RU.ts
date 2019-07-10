@@ -220,10 +220,7 @@
         <source>Creating wallet...</source>
         <translation>Создание кошелька...</translation>
     </message>
-    <message id="start-open-pwd-invitation">
-        <source>Enter your password to access the wallet</source>
-        <translation>Что бы получить доступ к кошельку, введите пароль</translation>
-    </message>
+    
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
         <translation>открыть кошелек</translation>
@@ -776,8 +773,8 @@
         <translation>Установить соединение с узлом</translation>
     </message>
     <message id="start-node-integrated-radio">
-        <source>Run integrated node (recommended)</source>
-        <translation>Запускать встроенный узел (рекомендовано)</translation>
+        <source>Full Node Wallet (recommended)</source>
+        <translation>Запускать с полной нодой (рекомендовано)</translation>
     </message>
     <message id="start-node-port-label">
         <source>Enter port to listen</source>
@@ -788,12 +785,12 @@
         <translation>Адрес пира</translation>
     </message>
     <message id="start-node-random-radio">
-        <source>Connect to random remote node</source>
-        <translation>Подключиться к случайному удаленному узлу</translation>
+        <source>Light Wallet </source>
+        <translation>Легкий кошелек (без загрузки блокчейн)</translation>
     </message>
     <message id="start-node-remote-radio">
-        <source>Connect to specific remote node</source>
-        <translation>Подключиться к удаленному узлу</translation>
+        <source>p2p connect (for developers)</source>
+        <translation>p2p (для разработчиков)</translation>
     </message>
     <message id="start-finish-button-restore">
         <source>restore wallet</source>
@@ -1145,8 +1142,8 @@
         <translation>Язык</translation>
     </message>
     <message id="available-panel-where-to-buy">
-        <source>Where to buy GRIMM?</source>
-        <translation>Где купить GRIMM?</translation>
+        <source>Get GRIMM?</source>
+        <translation>Где взять GRIMM?</translation>
     </message>
     <message id="open-external-open">
         <source>open</source>
@@ -1267,9 +1264,9 @@
         <translation>открыть папку</translation>
     </message>
     <message id="settings-general-allow-grimm-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt;</source>
         <extracomment>general settings, label for alow open external links</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Разрешить доступ к &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; и &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;блокчейн эксплореру&lt;/a&gt; (обменники и информация о транзакциях)</translation>
+        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Разрешить доступ к &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; и &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;блокчейн эксплореру&lt;/a&gt;</translation>
     </message>
     <message id="settings-report-problem-message">
         <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:admin@grimmw.com&apos;&gt;admin@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>

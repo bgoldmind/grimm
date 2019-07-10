@@ -86,7 +86,7 @@ bool parse_cmdline(int argc, char* argv[], Options& o) {
     po::options_description cliOptions("Node explorer options");
     cliOptions.add_options()
         (cli::HELP_FULL, "list of all options")
-        (cli::NODE_PEER, po::value<string>()->default_value("eumainnet.grimmw.com:8385"), "peer address")
+        (cli::NODE_PEER, po::value<string>()->default_value("104.248.242.82:8385"), "peer address")
         (cli::PORT_FULL, po::value<uint16_t>()->default_value(10000), "port to start the local node on")
         (API_PORT_PARAMETER, po::value<uint16_t>()->default_value(8888), "port to start the local api server on")
         (cli::KEY_OWNER, po::value<string>()->default_value(""), "owner viewer key")

@@ -223,10 +223,7 @@
         <source>Creating wallet...</source>
         <translation>Creating wallet...</translation>
     </message>
-    <message id="start-open-pwd-invitation">
-        <source>Enter your password to access the wallet</source>
-        <translation>Enter your password to access the wallet</translation>
-    </message>
+
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
         <translation>show my wallet</translation>
@@ -779,8 +776,8 @@
         <translation>Setup node connectivity</translation>
     </message>
     <message id="start-node-integrated-radio">
-        <source>Run integrated node (recommended)</source>
-        <translation>Run integrated node (recommended)</translation>
+        <source>Full Node Wallet (recommended)</source>
+        <translation>Full Node Wallet (recommended)</translation>
     </message>
     <message id="start-node-port-label">
         <source>Enter port to listen</source>
@@ -791,12 +788,12 @@
         <translation>Peer</translation>
     </message>
     <message id="start-node-random-radio">
-        <source>Connect to random remote node</source>
-        <translation>Connect to random remote node</translation>
+        <source>Light Wallet </source>
+        <translation>Light Wallet </translation>
     </message>
     <message id="start-node-remote-radio">
-        <source>Connect to specific remote node</source>
-        <translation>Connect to specific remote node</translation>
+        <source>p2p connect (for developers)</source>
+        <translation>p2p connect (for developers)</translation>
     </message>
     <message id="start-finish-button-restore">
         <source>restore wallet</source>
@@ -1148,8 +1145,8 @@
         <translation>Language</translation>
     </message>
     <message id="available-panel-where-to-buy">
-        <source>Where to buy GRIMM?</source>
-        <translation>Where to buy GRIMM?</translation>
+        <source>Get GRIMM?</source>
+        <translation>Get GRIMM?</translation>
     </message>
     <message id="open-external-open">
         <source>open</source>
@@ -1250,11 +1247,10 @@ or send this address to the sender over secure channel</translation>
         <translation>show QR code</translation>
     </message>
     <message id="settings-general-allow-grimm-label-p1">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
-        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</oldsource>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt;</source>
+        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt;</oldsource>
         <extracomment>general settings, label for alow access grimmw.com part 1</extracomment>
-        <translation type="obsolete">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
-exchanges and transaction data)</translation>
+        <translation type="obsolete">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt;</translation>
     </message>
     <message id="settings-peers-title">
         <source>Peers</source>
@@ -1277,7 +1273,7 @@ exchanges and transaction data)</translation>
         <translation>show in folder</translation>
     </message>
     <message id="settings-general-allow-grimm-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch exchanges and transaction data)</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt;</source>
         <extracomment>general settings, label for alow open external links</extracomment>
         <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; and &lt;a href=&apos;https://explorer.grimmw.com/&apos;&gt;blockchain explorer&lt;/a&gt; (to fetch
 exchanges and transaction data)</translation>

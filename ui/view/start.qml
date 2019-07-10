@@ -1465,7 +1465,7 @@ Item
 
                         CustomRadioButton {
                             id: localNodeButton
-                            //% "Run integrated node (recommended)"
+                            //% "Full Node Wallet (recommended)"
                             text: qsTrId("start-node-integrated-radio")
                             ButtonGroup.group: nodePreferencesGroup
                             font.pixelSize: 14
@@ -1535,7 +1535,7 @@ Item
 
                         CustomRadioButton {
                             id: randomNodeButton
-                            //% "Connect to random remote node"
+                            //% "Light Wallet "
                             text: qsTrId("start-node-random-radio")
                             ButtonGroup.group: nodePreferencesGroup
                             font.pixelSize: 14
@@ -1546,7 +1546,7 @@ Item
                             spacing: 10
                             CustomRadioButton {
                                 id: remoteNodeButton
-                                //% "Connect to specific remote node"
+                                //% "p2p connect (for developers)"
                                 text: qsTrId("start-node-remote-radio")
                                 ButtonGroup.group: nodePreferencesGroup
                                 font.pixelSize: 14
@@ -1737,14 +1737,6 @@ Item
                         Layout.fillHeight: true
                         Layout.minimumHeight: 30
                         Layout.maximumHeight: 89
-                    }
-
-                    SFText {
-                        Layout.alignment: Qt.AlignHCenter
-                        //% "Enter your password to access the wallet"
-                        text: qsTrId("start-open-pwd-invitation")
-                        color: Style.content_main
-                        font.pixelSize: 14
                     }
 
                     Column {
