@@ -220,7 +220,7 @@
         <source>Creating wallet...</source>
         <translation>Создание кошелька...</translation>
     </message>
-    
+
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
         <translation>открыть кошелек</translation>
@@ -1116,10 +1116,7 @@
         <source>1 hour</source>
         <translation>1 час</translation>
     </message>
-    <message id="receive-amount-label">
-        <source>Receive amount (optional)</source>
-        <translation>Сумма (опционально)</translation>
-    </message>
+  
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>Идентификатор транзакции:</translation>
