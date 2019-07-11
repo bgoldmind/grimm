@@ -158,7 +158,7 @@
     </message>
     <message id="logo-description">
         <source>No one will ever know</source>
-        <translation>Масштабируемая, приватная криптовалюта</translation>
+        <translation>Никто не узнает</translation>
     </message>
     <message id="change-pwd-old-empty">
         <source>Please, enter old password</source>
@@ -1116,7 +1116,7 @@
         <source>1 hour</source>
         <translation>1 час</translation>
     </message>
-  
+
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>Идентификатор транзакции:</translation>
