@@ -44,16 +44,16 @@ namespace grimm::wallet
 
     };
 
-    // Interface for walelt observer. 
+    // Interface for walelt observer.
     struct IWalletObserver : IWalletDbObserver
     {
-        // Callback for wallet sync progress. 
+        // Callback for wallet sync progress.
         // @param done - number of done tasks
         // @param total - number of total tasks
         virtual void onSyncProgress(int done, int total) = 0;
     };
 
-    // Wallet base class. 
+    // Wallet base class.
     // Extends FlyClient protocol for communication with own or remote node
     struct IWallet : public proto::FlyClient
     {
@@ -94,6 +94,7 @@ namespace grimm::wallet
 
         Wallet(IWalletDB::Ptr walletDB, TxCompletedAction&& action = TxCompletedAction(), UpdateCompletedAction&& updateCompleted = UpdateCompletedAction());
         virtual ~Wallet();
+        void CleanupNetwork();
 
         void SetNodeEndpoint(std::shared_ptr<proto::FlyClient::INetwork> nodeEndpoint);
         void AddMessageEndpoint(IWalletMessageEndpoint::Ptr endpoint);
@@ -119,7 +120,7 @@ namespace grimm::wallet
         void unsubscribe(IWalletObserver* observer) override;
         void cancel_tx(const TxID& txId) override;
         void delete_tx(const TxID& txId) override;
-        
+
     private:
         void RefreshTransactions();
         void ResumeTransaction(const TxDescription& tx);
@@ -279,7 +280,7 @@ namespace grimm::wallet
 #undef THE_MACRO
 
 
-        IWalletDB::Ptr m_WalletDB; 
+        IWalletDB::Ptr m_WalletDB;
         IPrivateKeyKeeper::Ptr m_KeyKeeper;
         std::shared_ptr<proto::FlyClient::INetwork> m_NodeEndpoint;
 
