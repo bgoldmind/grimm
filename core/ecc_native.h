@@ -410,7 +410,7 @@ namespace ECC
 		//	NOTE: Schnorr's multisig should be used carefully. If done naively it has the following potential weaknesses:
 		//	1. Key cancellation. (The attacker may exclude you and actually create a signature for its private key).
 		//		This isn't a problem for our case, but should be taken into consideration if used in other schemes.
-		// 2. Private Key leak. If the same message signed with the same key but co-signers use different nonces (altering the challenge) - there's a potential for key leak. 
+		// 2. Private Key leak. If the same message signed with the same key but co-signers use different nonces (altering the challenge) - there's a potential for key leak.
 		//		This is indeed the case if the nonce is generated from the secret key and the message only.
 		//		In order to prevent this the signer **MUST**  use an additional source of randomness, and make sure it's different for every ritual.
 
@@ -669,25 +669,21 @@ namespace ECC
 		} m_Bufs;
 
 
-		void Reset();
-		void Calculate(Point::Native& res);
+		void Calculate();
 
 		const uint32_t m_CasualTotal;
-		bool m_bEnableBatch;
+
 		bool m_bDirty;
 		Scalar::Native m_Multiplier; // must be initialized in a non-trivial way
 
-#ifndef NDEBUG
-        int m_CasualAtEndExpected;
-#endif // NDEBUG
+    Point::Native m_Sum; // intermediate result, sum of Casuals
 
 		bool AddCasual(const Point& p, const Scalar::Native& k);
 		void AddCasual(const Point::Native& pt, const Scalar::Native& k);
 		void AddPrepared(uint32_t i, const Scalar::Native& k);
 
-		bool EquationBegin(uint32_t nCasualNeeded);
-		bool EquationEnd();
-
+		void EquationBegin();
+    void Reset();
 		bool Flush();
 
 	protected:

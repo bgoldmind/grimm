@@ -339,7 +339,7 @@ namespace ECC {
 	{
 		assert(m_bInitialized);
 		secp256k1_sha256_finalize(this, v.m_pData);
-		
+
 		m_bInitialized = false;
 	}
 
@@ -577,7 +577,7 @@ namespace ECC {
             secp256k1_ge_to_storage(&s, &ge.V);
             memcpy(&pubkey.data[0], &s, dataSize);
         }
-        else 
+        else
         {
             assert(false && "Unsupported case");
         }
@@ -1641,14 +1641,13 @@ namespace ECC {
 		InnerProduct::BatchContext* pBc = InnerProduct::BatchContext::s_pInstance;
 		if (pBc)
 		{
-			if (!pBc->EquationBegin(2))
-				return false;
+			pBc->EquationBegin();
 
 			pBc->AddPrepared(InnerProduct::BatchContext::s_Idx_G, m_k);
 			pBc->AddCasual(pk, e);
 			pBc->AddCasual(pubNonce, 1U);
 
-			return pBc->EquationEnd();
+			return true;
 		}
 
 		Point::Native pt = Context::get().G * m_k;

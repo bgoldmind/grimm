@@ -743,7 +743,6 @@ void Node::Processor::TaskProcessor::Stop()
 void Node::Processor::TaskProcessor::Thread(uint32_t)
 {
 	std::unique_ptr<MyBatch> p(new MyBatch);
-	p->m_bEnableBatch = true;
 	MyBatch::Scope scopeBatch(*p);
 
 	while (true)
@@ -2184,13 +2183,13 @@ void Node::OnTransactionAggregated(TxPool::Stem::Element& x)
     {
         auto thr = uintBigFrom(m_Cfg.m_Dandelion.m_FluffProbability);
 
-        // Compare two bytes of threshold with random nonce 
+        // Compare two bytes of threshold with random nonce
         if (memcmp(thr.m_pData, NextNonce().m_pData, thr.nBytes) < 0)
         {
             // broadcast to random peer
             assert(nStemPeers);
 
-            // Choose random peer index between 0 and nStemPeers - 1 
+            // Choose random peer index between 0 and nStemPeers - 1
             uint32_t nRandomPeerIdx = RandomUInt32(nStemPeers);
 
             for (PeerList::iterator it = m_lstPeers.begin(); ; it++)
