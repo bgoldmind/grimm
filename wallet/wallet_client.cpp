@@ -364,9 +364,10 @@ namespace grimm::wallet
 
                     nodeNetwork->tryToConnect();
 
-                    m_reactor->run();
-                    wallet->CleanupNetwork();
-                    nodeNetwork->Disconnect();
+                    m_reactor->run_ex([&wallet, &nodeNetwork](){
+                       wallet->CleanupNetwork();
+                       nodeNetwork->Disconnect();
+                    });
 
                     assert(walletNetwork.use_count() == 1);
                     walletNetwork.reset();

@@ -45,6 +45,8 @@ public:
     virtual ~Reactor();
 
     /// Runs the reactor. This function blocks.
+    using StopCallback = std::function<void()>;
+    void run_ex(StopCallback&& scb);
     void run();
 
     /// Stops the running reactor.
@@ -169,6 +171,7 @@ private:
     std::unique_ptr<PendingWrites> _pendingWrites;
     std::unique_ptr<TcpConnectors> _tcpConnectors;
     std::unique_ptr<TcpShutdowns> _tcpShutdowns;
+    StopCallback _stopCB;
 
     friend class TcpConnectors;
     friend class TcpShutdowns;
