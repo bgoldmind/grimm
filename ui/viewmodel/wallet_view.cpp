@@ -875,12 +875,6 @@ void WalletViewModel::sendMoney()
     }
 }
 
-void WalletViewModel::syncWithNode()
-{
-    //setIsSyncInProgress(true);
-    _model.getAsync()->syncWithNode();
-}
-
 QString WalletViewModel::actualAvailable() const
 {
     return GrimmToString(_status.available - calcTotalAmount() - _change);

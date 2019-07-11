@@ -257,7 +257,6 @@ public slots:
     void onStatus(const grimm::wallet::WalletStatus& amount);
     void onTxStatus(grimm::wallet::ChangeAction action, const std::vector<grimm::wallet::TxDescription>& items);
     void sendMoney();
-    void syncWithNode();
     void onChangeCalculated(grimm::Amount change);
     void onChangeCurrentWalletIDs(grimm::wallet::WalletID senderID, grimm::wallet::WalletID receiverID);
     void onAddresses(bool own, const std::vector<grimm::wallet::WalletAddress>& addresses);
