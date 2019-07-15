@@ -35,6 +35,7 @@ namespace
     const char* kLockTimeoutName = "lock_timeout";
     const char* kRequirePasswordToSpendMoney = "require_password_to_spend_money";
     const char* kIsAlowedgrimmLink = "grimm_mw_links_allowed";
+    const char* LocalNodeMiningThreads = "localnode/mining_threads";
 
     const char* kLocalNodeRun = "localnode/run";
     const char* kLocalNodePort = "localnode/port";
@@ -179,6 +180,21 @@ void WalletSettings::setLocalNodePort(uint port)
         m_data.setValue(kLocalNodePort, port);
     }
     emit localNodePortChanged();
+}
+
+uint WalletSettings::getLocalNodeMiningThreads() const
+{
+    Lock lock(m_mutex);
+    return m_data.value(LocalNodeMiningThreads, 1).toUInt();
+}
+
+void WalletSettings::setLocalNodeMiningThreads(uint n)
+{
+    {
+        Lock lock(m_mutex);
+        m_data.setValue(LocalNodeMiningThreads, n);
+    }
+    emit localNodeMiningThreadsChanged();
 }
 
 string WalletSettings::getLocalNodeStorage() const

@@ -102,6 +102,7 @@ class StartViewModel : public QObject
     Q_PROPERTY(QChar phrasesSeparator READ getPhrasesSeparator CONSTANT)
 
     Q_PROPERTY(int localPort READ getLocalPort CONSTANT)
+     Q_PROPERTY(int localMiningThreads READ getLocalMiningThreads CONSTANT)
     Q_PROPERTY(QString remoteNodeAddress READ getRemoteNodeAddress CONSTANT)
     Q_PROPERTY(QString localNodePeer READ getLocalNodePeer CONSTANT)
     Q_PROPERTY(QQmlListProperty<WalletDBPathItem> walletDBpaths READ getWalletDBpaths CONSTANT)
@@ -121,12 +122,13 @@ public:
     const QList<QObject*>& getCheckPhrases();
     QChar getPhrasesSeparator();
     int getLocalPort() const;
+    int getLocalMiningThreads() const;
     QString getRemoteNodeAddress() const;
     QString getLocalNodePeer() const;
     QQmlListProperty<WalletDBPathItem> getWalletDBpaths();
     bool isCapsLockOn() const;
 
-    Q_INVOKABLE void setupLocalNode(int port, const QString& localNodePeer);
+    Q_INVOKABLE void setupLocalNode(int port, int miningThreads, const QString& localNodePeer);
     Q_INVOKABLE void setupRemoteNode(const QString& nodeAddress);
     Q_INVOKABLE void setupRandomNode();
     Q_INVOKABLE uint coreAmount() const;

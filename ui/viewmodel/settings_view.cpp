@@ -147,6 +147,21 @@ void SettingsViewModel::setLocalNodePort(uint value)
     }
 }
 
+uint SettingsViewModel::getLocalNodeMiningThreads() const
+{
+    return m_localNodeMiningThreads;
+}
+
+void SettingsViewModel::setLocalNodeMiningThreads(uint value)
+{
+    if (value != m_localNodeMiningThreads)
+    {
+        m_localNodeMiningThreads = value;
+        emit localNodeMiningThreadsChanged();
+        emit propertiesChanged();
+    }
+}
+
 int SettingsViewModel::getLockTimeout() const
 {
     return m_lockTimeout;
@@ -268,6 +283,7 @@ bool SettingsViewModel::isChanged() const
     return m_nodeAddress != m_settings.getNodeAddress()
         || m_localNodeRun != m_settings.getRunLocalNode()
         || m_localNodePort != m_settings.getLocalNodePort()
+        || m_localNodeMiningThreads != m_settings.getLocalNodeMiningThreads()
         || m_localNodePeers != m_settings.getLocalNodePeers();
 }
 
@@ -282,6 +298,7 @@ void SettingsViewModel::applyChanges()
     m_settings.setNodeAddress(m_nodeAddress);
     m_settings.setRunLocalNode(m_localNodeRun);
     m_settings.setLocalNodePort(m_localNodePort);
+    m_settings.setLocalNodeMiningThreads(m_localNodeMiningThreads);
     m_settings.setLocalNodePeers(m_localNodePeers);
     m_settings.applyChanges();
     emit propertiesChanged();
@@ -309,6 +326,7 @@ void SettingsViewModel::undoChanges()
     setNodeAddress(m_settings.getNodeAddress());
     setLocalNodeRun(m_settings.getRunLocalNode());
     setLocalNodePort(m_settings.getLocalNodePort());
+    setLocalNodeMiningThreads(m_settings.getLocalNodeMiningThreads());
     setLockTimeout(m_settings.getLockTimeout());
     setLocalNodePeers(m_settings.getLocalNodePeers());
     setPasswordReqiredToSpendMoney(m_settings.isPasswordReqiredToSpendMoney());

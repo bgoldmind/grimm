@@ -33,6 +33,7 @@ public:
     virtual void onStoppedNode() = 0;
     virtual void onFailedToStartNode(io::ErrorCode errorCode) = 0;
     virtual void onSyncError(Node::IObserver::Error error) = 0;
+    virtual unsigned int getLocalNodeMiningThreads() = 0;
 
     virtual uint16_t getLocalNodePort() = 0;
     virtual std::string getLocalNodeStorage() = 0;

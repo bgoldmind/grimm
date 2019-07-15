@@ -87,7 +87,7 @@ void NodeModel::onSyncError(grimm::Node::IObserver::Error error)
     switch(error)
     {
         case Node::IObserver::Error::TimeDiffToLarge:
-        {   
+        {
             emit failedToSyncNode(
                 wallet::getWalletError(
                     proto::NodeProcessingException::Type::TimeOutOfSync));
@@ -113,6 +113,11 @@ uint16_t NodeModel::getLocalNodePort()
 std::string NodeModel::getLocalNodeStorage()
 {
     return AppModel::getInstance()->getSettings().getLocalNodeStorage();
+}
+
+unsigned int NodeModel::getLocalNodeMiningThreads()
+{
+    return AppModel::getInstance()->getSettings().getLocalNodeMiningThreads();
 }
 
 std::string NodeModel::getTempDir()

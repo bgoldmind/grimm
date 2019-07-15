@@ -25,7 +25,7 @@
 #include "utility/io/reactor.h"
 #include "wallet/common.h"
 
-class NodeModel 
+class NodeModel
     : public QObject
     , private grimm::INodeClientObserver
 {
@@ -59,6 +59,7 @@ protected:
 
     uint16_t getLocalNodePort() override;
     std::string getLocalNodeStorage() override;
+    unsigned int getLocalNodeMiningThreads() override;
     std::string getTempDir() override;
     std::vector<std::string> getLocalNodePeers() override;
 

@@ -166,7 +166,7 @@ void NodeClient::runLocalNode()
     node.m_Cfg.m_Listen.port(m_observer->getLocalNodePort());
     node.m_Cfg.m_Listen.ip(INADDR_ANY);
     node.m_Cfg.m_sPathLocal = m_observer->getLocalNodeStorage();
-    node.m_Cfg.m_MiningThreads = 0;
+    node.m_Cfg.m_MiningThreads = m_observer->getLocalNodeMiningThreads();
     node.m_Cfg.m_VerificationThreads = kVerificationThreadsMaxAvailable;
 
     if(m_ownerKey)

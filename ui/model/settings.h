@@ -43,6 +43,8 @@ public:
     std::string getWalletStorage() const;
     std::string getAppDataPath() const;
     void reportProblem();
+    uint getLocalNodeMiningThreads() const;
+    void setLocalNodeMiningThreads(uint n);
 
     bool getRunLocalNode() const;
     void setRunLocalNode(bool value);
@@ -78,6 +80,7 @@ signals:
     void localNodePeersChanged();
     void localNodeSynchronizedChanged();
     void localeChanged();
+    void localNodeMiningThreadsChanged();
 
 private:
     QSettings m_data;

@@ -1423,6 +1423,7 @@ Item
                         localNodeButton.checked = true;
 
                         portInput.text = viewModel.localPort;
+                        miningInput.value = viewModel.localMiningThreads;
                         localNodePeer.text = viewModel.localNodePeer;
                     } else {
                         nodeSetupRectangle.defaultFocusItem = remoteNodeButton;
@@ -1502,6 +1503,24 @@ Item
                                 color: Style.validator_error
                                 font.pixelSize: 14
                             }
+
+                            SFText {
+                               text: qsTr("Enter mining threads (0 - no mining)")
+                               color: !useGpu.checked ? Style.white : Style.disable_text_color
+                               font.pixelSize: 14
+                               font.styleName: "Bold"; font.weight: Font.Bold
+                           }
+
+                           FeeSlider {
+                               id: miningInput
+                               precision: 0
+                               showTicks: true
+                               width: parent.width
+                               enabled: !useGpu.checked
+                               value: 0
+                               to: {viewModel.coreAmount()}
+                               stepSize: 1
+                           }
 
                             RowLayout {
                                 width: parent.width
@@ -1628,7 +1647,7 @@ Item
                                         return;
                                     }
 
-                                    viewModel.setupLocalNode(parseInt(portInput.text), localNodePeer.text);
+                                    viewModel.setupLocalNode(parseInt(portInput.text), parseInt(miningInput.value), localNodePeer.text);
                                 }
                                 else if (remoteNodeButton.checked) {
                                     if (remoteNodeAddrInput.text.trim().length === 0) {

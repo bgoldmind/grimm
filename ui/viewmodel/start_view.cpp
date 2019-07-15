@@ -355,6 +355,11 @@ int StartViewModel::getLocalPort() const
     return AppModel::getInstance()->getSettings().getLocalNodePort();
 }
 
+int StartViewModel::getLocalMiningThreads() const
+{
+    return AppModel::getInstance()->getSettings().getLocalNodeMiningThreads();
+}
+
 QString StartViewModel::getRemoteNodeAddress() const
 {
     return AppModel::getInstance()->getSettings().getNodeAddress();
@@ -376,9 +381,10 @@ bool StartViewModel::isCapsLockOn() const
     return keyboard::isCapsLockOn();
 }
 
-void StartViewModel::setupLocalNode(int port, const QString& localNodePeer)
+void StartViewModel::setupLocalNode(int port, int miningThreads, const QString& localNodePeer)
 {
     auto& settings = AppModel::getInstance()->getSettings();
+    settings.setLocalNodeMiningThreads(miningThreads);
     auto localAddress = QString::asprintf("127.0.0.1:%d", port);
     settings.setNodeAddress(localAddress);
     settings.setLocalNodePort(port);
