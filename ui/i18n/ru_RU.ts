@@ -88,9 +88,14 @@
         <translation>ip адрес:порт</translation>
     </message>
     <message id="settings-local-node-run-checkbox">
-        <source>Run local node</source>
+        <source>Run full node</source>
         <extracomment>settings tab, node section, run node label</extracomment>
         <translation>Запускать локальный узел</translation>
+    </message>
+    <message id="settings-mining-cpu-threads">
+        <source>CPU threads</source>
+        <extracomment>settings tab, mining section, run cpu mining</extracomment>
+        <translation>Кол-во ядер CPU</translation>
     </message>
     <message id="settings-local-node-port">
         <source>Port</source>
@@ -833,8 +838,8 @@
         <translation>Несовместимый пир</translation>
     </message>
     <message id="wallet-model-connection-base-error">
-        <source>Connection error.</source>
-        <translation>Ошибка подключения.</translation>
+        <source>No connection</source>
+        <translation>Нет связи</translation>
     </message>
     <message id="wallet-model-connection-time-out-error">
         <source>Connection timed out.</source>
@@ -1245,10 +1250,10 @@
         <extracomment>settings tab, node section, peers label</extracomment>
         <translation>Пиры</translation>
     </message>
-    <message id="settings-node-title">
-        <source>Node</source>
-        <extracomment>settings tab, node section, title</extracomment>
-        <translation>Узел</translation>
+    <message id="settings-mining-title">
+        <source>Mining</source>
+        <extracomment>settings tab, mining section, title</extracomment>
+        <translation>Майнинг</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>

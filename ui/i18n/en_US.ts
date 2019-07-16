@@ -88,9 +88,14 @@
         <translation>ip:port</translation>
     </message>
     <message id="settings-local-node-run-checkbox">
-        <source>Run local node</source>
+        <source>Run full node</source>
         <extracomment>settings tab, node section, run node label</extracomment>
-        <translation>Run local node</translation>
+        <translation>Run full node</translation>
+    </message>
+    <message id="settings-mining-cpu-threads">
+        <source>CPU threads</source>
+        <extracomment>settings tab, mining section, run cpu mining</extracomment>
+        <translation>CPU threads</translation>
     </message>
     <message id="settings-local-node-port">
         <source>Port</source>
@@ -836,8 +841,8 @@
         <translation>You are trying to connect to incompatible peer.</translation>
     </message>
     <message id="wallet-model-connection-base-error">
-        <source>Connection error.</source>
-        <translation>Connection error.</translation>
+        <source>No connection</source>
+        <translation>No connection</translation>
     </message>
     <message id="wallet-model-connection-time-out-error">
         <source>Connection timed out.</source>
@@ -1119,7 +1124,7 @@
         <source>1 hour</source>
         <translation>1 hour</translation>
     </message>
-  
+
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>Transaction ID:</translation>
@@ -1254,10 +1259,10 @@ or send this address to the sender over secure channel</translation>
         <extracomment>settings tab, node section, peers label</extracomment>
         <translation>Peers</translation>
     </message>
-    <message id="settings-node-title">
-        <source>Node</source>
-        <extracomment>settings tab, node section, title</extracomment>
-        <translation>Node</translation>
+    <message id="settings-mining-title">
+        <source>Mining</source>
+        <extracomment>settings tab, mining section, title</extracomment>
+        <translation>Mining</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>

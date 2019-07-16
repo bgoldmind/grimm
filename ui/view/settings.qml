@@ -173,22 +173,12 @@ Rectangle {
                             Layout.fillWidth: true
                             radius: 10
                             color: Style.background_second
-                            Layout.preferredHeight: viewModel.localNodeRun ? 460 : (nodeAddressError.visible ? 285 : 240)
+                            Layout.preferredHeight: viewModel.localNodeRun ? 560 : (nodeAddressError.visible ? 385 : 340)
 
                             ColumnLayout {
                                 anchors.fill: parent
                                 anchors.margins: 30
                                 spacing: 10
-
-                                SFText {
-                                    Layout.preferredHeight: 21
-                                    //: settings tab, node section, title
-                                    //% "Node"
-                                    text: qsTrId("settings-node-title")
-                                    color: Style.content_main
-                                    font.pixelSize: 18
-                                    font.styleName: "Bold"; font.weight: Font.Bold
-                                }
 
                                 RowLayout {
                                     Layout.preferredHeight: 16
@@ -198,7 +188,7 @@ Rectangle {
                                         id: localNodeRun
                                         Layout.fillWidth: true
                                         //: settings tab, node section, run node label
-                                        //% "Run local node"
+                                        //% "Run full node"
                                         text: qsTrId("settings-local-node-run-checkbox")
                                         font.pixelSize: 14
                                         width: parent.width
@@ -209,37 +199,6 @@ Rectangle {
                                             value: localNodeRun.checked
                                         }
                                     }
-                                }
-
-                                RowLayout {
-                                    Layout.preferredHeight: 16
-
-                                SFText {
-                                   text: qsTr("Mining threads (CPU)")
-                                   color: localNodeRun.checked ? Style.white : Style.disable_text_color
-                                   font.pixelSize: 12
-                                   font.styleName: "Bold"; font.weight: Font.Bold
-                                }
-
-                                FeeSlider {
-                                   id: localNodeMiningThreads
-                                   precision: 0
-                                   showTicks: true
-                                   Layout.fillWidth: true
-                                   value: viewModel.localNodeMiningThreads
-                                   to: {viewModel.coreAmount()}
-                                   stepSize: 1
-                                   enabled: localNodeRun.checked
-                                   Binding {
-                                       target: viewModel
-                                       property: "localNodeMiningThreads"
-                                       value: localNodeMiningThreads.value
-                                   }
-                                }
-                                }
-
-                                Item {
-                                    Layout.preferredHeight: 12
                                 }
 
                                 RowLayout {
@@ -329,6 +288,67 @@ Rectangle {
                                         text: qsTrId("settings-remote-node-ip-port-error")
                                     }
                                 }
+
+                                Item {
+                                    Layout.preferredHeight: 12
+                                }
+
+                                SFText {
+                                    Layout.preferredHeight: 21
+                                    //: settings tab, node section, title
+                                    //% "Mining"
+                                    text: qsTrId("settings-mining-title")
+                                    color: Style.content_main
+                                    font.pixelSize: 18
+                                    font.styleName: "Bold"; font.weight: Font.Bold
+                                }
+
+                                RowLayout {
+                                    Layout.preferredHeight: 16
+
+                                SFText {
+                                   text: qsTrId("settings-mining-cpu-threads")
+                                   color: localNodeRun.checked ? Style.white : Style.disable_text_color
+                                   font.pixelSize: 14
+                                }
+
+                                FeeSlider {
+                                   id: localNodeMiningThreads
+                                   precision: 0
+                                   showTicks: true
+                                   Layout.fillWidth: true
+                                   value: viewModel.localNodeMiningThreads
+                                   to: {viewModel.coreAmount()}
+                                   stepSize: 1
+                                   enabled: localNodeRun.checked
+                                   Binding {
+                                       target: viewModel
+                                       property: "localNodeMiningThreads"
+                                       value: localNodeMiningThreads.value
+                                   }
+                                }
+                                }
+
+                                PrimaryButton {
+                                    Layout.preferredHeight: 38
+                                    Layout.preferredWidth: 125
+                                    Layout.alignment: Qt.AlignRight
+                                    leftPadding: 25
+                                    rightPadding: 25
+                                    spacing: 12
+                                    //: settings tab, node section, apply button
+                                    //% "apply"
+                                    text: qsTrId("settings-apply")
+                                    icon.source: "qrc:/assets/icon-done.svg"
+                                    enabled: {
+                                        viewModel.isChanged
+                                        && nodeAddress.acceptableInput
+                                        && localNodePort.acceptableInput
+                                        && (localNodeRun.checked ? (viewModel.localNodePeers.length > 0) : viewModel.isValidNodeAddress)
+                                    }
+                                    onClicked: viewModel.applyChanges()
+                                }
+                            
 
                                 SFText {
                                     Layout.topMargin: 15
