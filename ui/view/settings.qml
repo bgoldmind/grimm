@@ -311,9 +311,11 @@ Rectangle {
 
 
                                 SFText {
+                                   //: settings tab, mining section, run cpu mining
+                                   //% "CPU threads"
                                    text: qsTrId("settings-mining-cpu-threads")
                                    color: Style.white
-                                   
+
                                    font.pixelSize: 14
 
                                 }
