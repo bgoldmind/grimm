@@ -111,6 +111,24 @@ namespace grimm::wallet
         ResumeAllTransactions();
     }
 
+    Wallet::~Wallet()
+   {
+       CleanupNetwork();
+   }
+
+   void Wallet::CleanupNetwork()
+   {
+       // clear all requests
+#define THE_MACRO(type, msgOut, msgIn) \
+               while (!m_Pending##type.empty()) \
+                   DeleteReq(*m_Pending##type.begin());
+
+       REQUEST_TYPES_All(THE_MACRO)
+#undef THE_MACRO
+
+       m_MessageEndpoints.clear();
+       m_NodeEndpoint = nullptr;
+   }
 
     // Fly client implementation
 
@@ -132,7 +150,7 @@ namespace grimm::wallet
         else
         {
             assert(m_OwnedNodesOnline); // check that m_OwnedNodesOnline is positive number
-            if (!--m_OwnedNodesOnline)  
+            if (!--m_OwnedNodesOnline)
                 AbortUtxoEvents();
         }
     }
@@ -141,8 +159,6 @@ namespace grimm::wallet
     {
         return m_WalletDB->get_History();
     }
-
-    // 
 
     void Wallet::SetNodeEndpoint(std::shared_ptr<proto::FlyClient::INetwork> nodeEndpoint)
     {
@@ -170,17 +186,6 @@ namespace grimm::wallet
     void Wallet::initSwapConditions(Amount grimmAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isGrimmSide)
     {
         m_swapConditions.push_back(SwapConditions{ grimmAmount, swapAmount, swapCoin, isGrimmSide });
-    }
-
-    Wallet::~Wallet()
-    {
-        // clear all requests
-#define THE_MACRO(type, msgOut, msgIn) \
-        while (!m_Pending##type.empty()) \
-            DeleteReq(*m_Pending##type.begin());
-
-        REQUEST_TYPES_All(THE_MACRO)
-#undef THE_MACRO
     }
 
     TxID Wallet::transfer_money(const WalletID& from, const WalletID& to, Amount amount, Amount fee, bool sender, Height lifetime, Height responseTime, ByteBuffer&& message, bool saveReceiver)
@@ -230,7 +235,7 @@ namespace grimm::wallet
 
         tx->SetParameter(TxParameterID::TransactionType, TxType::Simple, false);
         tx->SetParameter(TxParameterID::Lifetime, lifetime, false);
-        tx->SetParameter(TxParameterID::PeerResponseHeight, responseTime); 
+        tx->SetParameter(TxParameterID::PeerResponseHeight, responseTime);
         tx->SetParameter(TxParameterID::IsInitiator, true, false);
         tx->SetParameter(TxParameterID::AmountList, amountList, false);
         tx->SetParameter(TxParameterID::PreselectedCoins, coins, false);
@@ -396,7 +401,7 @@ namespace grimm::wallet
 
     void Wallet::on_tx_completed(const TxID& txID)
     {
-		// Note: the passed TxID is (most probably) the member of the transaction, 
+		// Note: the passed TxID is (most probably) the member of the transaction,
         // which we, most probably, are going to erase from the map, which can potentially delete it.
 		// Make sure we either copy the txID, or prolong the lifetime of the tx.
 
@@ -408,7 +413,7 @@ namespace grimm::wallet
 			pGuard.swap(it->second);
             m_ActiveTransactions.erase(it);
         }
- 
+
         if (m_TxCompletedAction)
         {
             m_TxCompletedAction(txID);
@@ -624,7 +629,7 @@ namespace grimm::wallet
     void Wallet::OnRequestComplete(MyRequestTransaction& r)
     {
         LOG_DEBUG() << r.m_TxID << "[" << r.m_SubTxID << "]" << " register status " << static_cast<uint32_t>(r.m_Res.m_Value);
-        
+
         auto it = m_ActiveTransactions.find(r.m_TxID);
         if (it != m_ActiveTransactions.end())
         {

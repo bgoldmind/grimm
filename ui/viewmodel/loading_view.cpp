@@ -25,9 +25,7 @@ LoadingViewModel::LoadingViewModel()
     , m_nodeDone{0}
     , m_total{0}
     , m_done{0}
-    , m_walletConnected{false}
     , m_hasLocalNode{ AppModel::getInstance()->getSettings().getRunLocalNode() }
-    , m_skipProgress{false}
     , m_isCreating{false}
 {
     connect(&m_walletModel, SIGNAL(syncProgressUpdated(int, int)),
@@ -45,10 +43,6 @@ LoadingViewModel::LoadingViewModel()
     connect(&m_walletModel, SIGNAL(walletError(grimm::wallet::ErrorType)),
         SLOT(onGetWalletError(grimm::wallet::ErrorType)));
 
-    if (!m_hasLocalNode)
-    {
-        syncWithNode();
-    }
 
 }
 
@@ -96,9 +90,6 @@ void LoadingViewModel::updateProgress()
         if (m_total > 0)
             walletSyncProgress = std::min(1., static_cast<double>(m_done) / static_cast<double>(m_total));
 
-		if (!m_walletConnected)
-			syncWithNode();
-
 		if (m_done < m_total)
         {
             //% "Scanning UTXO %d/%d"
@@ -120,10 +111,7 @@ void LoadingViewModel::updateProgress()
     setProgressMessage(progressMessage);
     setProgress(p);
 
-    if (m_skipProgress)
-    {
-        emit syncCompleted();
-    }
+
 }
 
 double LoadingViewModel::getProgress() const
@@ -167,14 +155,9 @@ bool LoadingViewModel::getIsCreating() const
     return m_isCreating;
 }
 
-void LoadingViewModel::syncWithNode()
-{
-    m_walletModel.getAsync()->syncWithNode();
-}
-
 void LoadingViewModel::onNodeConnectionChanged(bool isNodeConnected)
 {
-    m_walletConnected = isNodeConnected;
+
 }
 
 void LoadingViewModel::onGetWalletError(grimm::wallet::ErrorType error)
@@ -201,6 +184,6 @@ void LoadingViewModel::onGetWalletError(grimm::wallet::ErrorType error)
         }
     }
 
-    m_skipProgress = true;
     updateProgress();
+    emit syncCompleted();
 }
