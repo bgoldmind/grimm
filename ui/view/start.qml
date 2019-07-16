@@ -1504,19 +1504,12 @@ Item
                                 font.pixelSize: 14
                             }
 
-                            SFText {
-                               text: qsTr("Enter mining threads (0 - no mining)")
-                               color: !useGpu.checked ? Style.white : Style.disable_text_color
-                               font.pixelSize: 14
-                               font.styleName: "Bold"; font.weight: Font.Bold
-                           }
-
                            FeeSlider {
                                id: miningInput
                                precision: 0
                                showTicks: true
                                width: parent.width
-                               enabled: !useGpu.checked
+                               visible: false
                                value: 0
                                to: {viewModel.coreAmount()}
                                stepSize: 1
