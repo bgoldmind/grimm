@@ -576,7 +576,7 @@ namespace ECC {
 	{
 		NoLeak<uintBig> seedSk;
         GenerateSeed(seedSk.V, sk, cp.m_Kidv.m_Value, oracle);
-        BEAM_VERIFY(CoSign(seedSk.V, sk, cp, oracle, Phase::SinglePass, pHGen));
+        GRIMM_VERIFY(CoSign(seedSk.V, sk, cp, oracle, Phase::SinglePass, pHGen));
 	}
 
     void RangeProof::Confidential::GenerateSeed(uintBig& seedSk, const Scalar::Native& sk, Amount amount, Oracle& oracle)
@@ -650,7 +650,7 @@ namespace ECC {
 		ZeroObject(pad.V.m_Padding);
 		pad.V.V = cp.m_Kidv;
 
-        BEAM_VERIFY(!ro.Import((Scalar&) pad.V)); // if overflow - the params won't be recovered properly, there may be ambiguity
+        GRIMM_VERIFY(!ro.Import((Scalar&) pad.V)); // if overflow - the params won't be recovered properly, there may be ambiguity
 
 		alpha += ro;
 
