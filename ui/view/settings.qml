@@ -291,6 +291,7 @@ Rectangle {
 
                                 Item {
                                     Layout.preferredHeight: 12
+                                    visible: viewModel.localNodeRun
                                 }
 
                                 SFText {
@@ -301,21 +302,27 @@ Rectangle {
                                     color: Style.content_main
                                     font.pixelSize: 18
                                     font.styleName: "Bold"; font.weight: Font.Bold
+                                    visible: viewModel.localNodeRun
                                 }
 
                                 RowLayout {
                                     Layout.preferredHeight: 16
+                                    visible: viewModel.localNodeRun
+
 
                                 SFText {
                                    text: qsTrId("settings-mining-cpu-threads")
-                                   color: localNodeRun.checked ? Style.white : Style.disable_text_color
+                                   color: Style.white
+                                   
                                    font.pixelSize: 14
+
                                 }
 
                                 FeeSlider {
                                    id: localNodeMiningThreads
                                    precision: 0
                                    showTicks: true
+
                                    Layout.fillWidth: true
                                    value: viewModel.localNodeMiningThreads
                                    to: {viewModel.coreAmount()}
@@ -336,6 +343,7 @@ Rectangle {
                                     leftPadding: 25
                                     rightPadding: 25
                                     spacing: 12
+                                    visible: viewModel.localNodeRun
                                     //: settings tab, node section, apply button
                                     //% "apply"
                                     text: qsTrId("settings-apply")
@@ -348,7 +356,7 @@ Rectangle {
                                     }
                                     onClicked: viewModel.applyChanges()
                                 }
-                            
+
 
                                 SFText {
                                     Layout.topMargin: 15
