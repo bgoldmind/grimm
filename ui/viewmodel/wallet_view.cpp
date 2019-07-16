@@ -33,7 +33,7 @@ using namespace grimmui;
 
 namespace
 {
-    const int kDefaultFeeInCentum = 10;
+    const int kDefaultFeeInCentum = 0;
 
     template<typename T>
     bool compareTx(const T& lf, const T& rt, Qt::SortOrder sortOrder)
