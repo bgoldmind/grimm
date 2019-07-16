@@ -311,7 +311,7 @@ bool NotCalled_VerifyNoDuplicatedIDs(uint32_t id)
 /////////////////////////
 // NodeConnection
 NodeConnection::NodeConnection()
-    :m_Protocol('B', 'm', 10, sizeof(HighestMsgCode), *this, 20000)
+    :m_Protocol('G', 'm', 10, sizeof(HighestMsgCode), *this, 20000)
     ,m_ConnectPending(false)
 	,m_RulesCfgSent(false)
 	,m_PeerSupportsLogin1(false)
