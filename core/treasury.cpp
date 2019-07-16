@@ -103,7 +103,6 @@ namespace grimm
 				typedef InnerProduct::BatchContextEx<4> MyBatch;
 
 				std::unique_ptr<MyBatch> p(new MyBatch);
-				p->m_bEnableBatch = true;
 				MyBatch::Scope scope(*p);
 
 				if (!Verify(iTask) || !p->Flush())
