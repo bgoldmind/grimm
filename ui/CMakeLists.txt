@@ -166,6 +166,12 @@ configure_file("${PROJECT_SOURCE_DIR}/version.h.in" "${CMAKE_CURRENT_BINARY_DIR}
 
 add_dependencies(${TARGET_NAME} wallet mnemonic qrcode cli)
 target_link_libraries(${TARGET_NAME} qrcode cli)
+
+if(GRIMM_USE_GPU)
+    add_dependencies(${TARGET_NAME} gpu_tools)
+    target_link_libraries(${TARGET_NAME} gpu_tools)
+endif()
+
 if (LINUX)
     target_link_libraries(${TARGET_NAME} X11)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
