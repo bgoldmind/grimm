@@ -56,13 +56,13 @@ QString WalletModel::GetErrorString(grimm::wallet::ErrorType type)
         //% "You are trying to connect to incompatible peer."
         return qtTrId("wallet-model-incompatible-peer-error");
     case wallet::ErrorType::ConnectionBase:
-        //% "No connection"
+        //% "Wait for connection"
         return qtTrId("wallet-model-connection-base-error");
     case wallet::ErrorType::ConnectionTimedOut:
         //% "Connection timed out."
         return qtTrId("wallet-model-connection-time-out-error");
     case wallet::ErrorType::ConnectionRefused:
-        //% "Cannot connect to node:"
+        //% "Reconnect to node:"
         return qtTrId("wallet-model-connection-refused-error") + " " +  getNodeAddress().c_str();
     case wallet::ErrorType::ConnectionHostUnreach:
         //% "Node is unreachable:"

@@ -841,16 +841,16 @@
         <translation>You are trying to connect to incompatible peer.</translation>
     </message>
     <message id="wallet-model-connection-base-error">
-        <source>No connection</source>
-        <translation>No connection</translation>
+        <source>Wait for connection</source>
+        <translation>Wait for connection...</translation>
     </message>
     <message id="wallet-model-connection-time-out-error">
         <source>Connection timed out.</source>
         <translation>Connection timed out.</translation>
     </message>
     <message id="wallet-model-connection-refused-error">
-        <source>Cannot connect to node:</source>
-        <translation>Cannot connect to node:</translation>
+        <source>Reconnect to node:</source>
+        <translation>Reconnect to node:</translation>
     </message>
     <message id="wallet-model-connection-host-unreach-error">
         <source>Node is unreachable:</source>

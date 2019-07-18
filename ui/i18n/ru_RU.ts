@@ -838,16 +838,16 @@
         <translation>Несовместимый пир</translation>
     </message>
     <message id="wallet-model-connection-base-error">
-        <source>No connection</source>
-        <translation>Нет связи</translation>
+        <source>Wait for connection</source>
+        <translation>Подключение...</translation>
     </message>
     <message id="wallet-model-connection-time-out-error">
         <source>Connection timed out.</source>
         <translation>Превышено время ожидания.</translation>
     </message>
     <message id="wallet-model-connection-refused-error">
-        <source>Cannot connect to node:</source>
-        <translation>Невозможно подключиться к узлу:</translation>
+        <source>Reconnect to node:</source>
+        <translation>Переподключение к узлу:</translation>
     </message>
     <message id="wallet-model-connection-host-unreach-error">
         <source>Node is unreachable:</source>

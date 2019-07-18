@@ -282,7 +282,7 @@ namespace grimm
 
 		// Mandatory
 		ECC::Signature	m_Signature;	// For the whole body, including nested kernels
-		Amount			m_Fee;			// can be 0 (for instance for coinbase transactions)
+		Amount			m_Fee;			// can be 0
 		HeightRange		m_Height;
 		AmountSigned	m_AssetEmission; // in case it's non-zero - the kernel commitment is the AssetID
 		bool			m_CanEmbed;
@@ -472,23 +472,23 @@ namespace grimm
 		struct PoW
 		{
 			// equihash parameters.
-			// Parameters recommended by BTG are 144/5, to make it asic-resistant (~1GB average, spikes about 1.5GB). On CPU solve time about 1 minutes
-			// The following are the parameters for testnet, to make it of similar size, and much faster solve time, to test concurrency and difficulty adjustment
-			static const uint32_t N = 150;
-			static const uint32_t K = 5;
+			// Parameters recommended by Grimm are 161/6, to make it asic-resistant (~1GB average, spikes about 1.5GB). On CPU solve time less than a 1 minute
 
-			static const uint32_t nNumIndices		= 1 << K; // 32
-			static const uint32_t nBitsPerIndex		= N / (K + 1) + 1; // 26
+			static const uint32_t N = 161;
+			static const uint32_t K = 6;
 
-			static const uint32_t nSolutionBits		= nNumIndices * nBitsPerIndex; // 832 bits
+			static const uint32_t nNumIndices		= 1 << K; // 64
+			static const uint32_t nBitsPerIndex		= N / (K + 1) + 1; // 24
+
+			static const uint32_t nSolutionBits		= nNumIndices * nBitsPerIndex; // 1536 bits
 
 			static_assert(!(nSolutionBits & 7), "PoW solution should be byte-aligned");
-			static const uint32_t nSolutionBytes	= nSolutionBits >> 3; // 104 bytes
+			static const uint32_t nSolutionBytes	= nSolutionBits >> 3; // 192 bytes
 
 			std::array<uint8_t, nSolutionBytes>	m_Indices;
 
 			typedef uintBig_t<8> NonceType;
-			NonceType m_Nonce; // 8 bytes. The overall solution size is 96 bytes.
+			NonceType m_Nonce; // 8 bytes. The overall solution size is 200 bytes.
 			Difficulty m_Difficulty;
 
 			bool IsValid(const void* pInput, uint32_t nSizeInput) const;
