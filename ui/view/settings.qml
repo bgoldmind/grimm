@@ -173,7 +173,7 @@ Rectangle {
                             Layout.fillWidth: true
                             radius: 10
                             color: Style.background_second
-                            Layout.preferredHeight: viewModel.localNodeRun ? 560 : (nodeAddressError.visible ? 385 : 340)
+                            Layout.preferredHeight: viewModel.localNodeRun ? 660 : (nodeAddressError.visible ? 485 : 440)
 
                             ColumnLayout {
                                 anchors.fill: parent
@@ -358,6 +358,60 @@ Rectangle {
                                     }
                                     onClicked: viewModel.applyChanges()
                                 }
+
+                                  CustomSwitch {
+                                       id: useGpu
+                                       text: qsTr("Use GPU")
+                                       Layout.topMargin: 5
+                                       font.pixelSize: 12
+                                       width: parent.width
+                                       checked: viewModel.useGpu
+                                       enabled: localNodeRun.checked && viewModel.hasSupportedGpu()
+                                       Binding {
+                                           target: viewModel
+                                           property: "useGpu"
+                                           value: useGpu.checked
+                                       }
+                                   }
+                                   SFText {
+                                       id: gpuError
+                                       color: Style.white
+                                       font.pixelSize: 14
+                                       visible: !viewModel.hasSupportedGpu()
+                                       text: qsTr("You have unsupported videocard")
+                                   }
+
+                                   ListView {
+                                       Layout.fillWidth: true
+                                       Layout.fillHeight: true
+                                       Layout.minimumWidth: 140
+                                       visible: viewModel.hasSupportedGpu()
+                                       enabled: useGpu.checked
+                                       model: viewModel.supportedDevices
+                                       clip: true
+                                       delegate: RowLayout {
+                                           width: parent.width
+                                           height: 22
+
+                                           CustomCheckBox {
+                                               id: device_id
+                                               font.pixelSize: 12
+                                               enabled: localNodeRun.checked
+                                               palette.windowText: enabled ? Style.white : Style.disable_text_color
+                                               checked: modelData.enabled
+                                               text: modelData.name
+                                               onToggled: {
+                                                   viewModel.propertiesChanged();
+                                               }
+                                               Binding {
+                                                   target: modelData
+                                                   property: "enabled"
+                                                   value: device_id.checked
+                                               }
+                                           }
+                                       }
+                                   }
+
 
 
                                 SFText {

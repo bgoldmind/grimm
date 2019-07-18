@@ -1,6 +1,6 @@
 // GRIMM OpenCL Miner
 // OpenCL Host Interface
-// Copyright 2018 The Grimm Team	
+// Copyright 2018 The Grimm Team
 // Copyright 2018 Wilke Trei
 
 #include "clHost.h"
@@ -42,7 +42,7 @@ inline bool hasExtension(cl::Device &device, string extension) {
 
 	for (uint32_t i=0; i<extens.size(); i++) {
 		if (extens[i].compare(extension) == 0) 	return true;
-	} 
+	}
 	return false;
 }
 
@@ -63,13 +63,13 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
 	// reading the kernel file
 	cl_int err;
 
-    static const char equihash_150_5_cl[] =
+    static const char equihash_161_6_cl[] =
     {
-        #include "equihash_150_5.dat"
+        #include "equihash_161_6.dat"
         , '\0'
     };
 
-	cl::Program::Sources source(1,std::make_pair(equihash_150_5_cl, sizeof(equihash_150_5_cl)));
+	cl::Program::Sources source(1,std::make_pair(equihash_161_6_cl, sizeof(equihash_161_6_cl)));
 
 	// Create a program object and build it
 	vector<cl::Device> devicesTMP;
@@ -83,9 +83,9 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
 		LOG_INFO() << "Build sucessfull. ";
 
 		// Store the device and create a queue for it
-		cl_command_queue_properties queue_prop = 0;  
+		cl_command_queue_properties queue_prop = 0;
 		devices.push_back(device);
-		queues.push_back(cl::CommandQueue(contexts[pl], devices[devices.size()-1], queue_prop, NULL)); 
+		queues.push_back(cl::CommandQueue(contexts[pl], devices[devices.size()-1], queue_prop, NULL));
 
 		// Reserve events, space for storing results and so on
 		events.push_back(cl::Event());
@@ -95,7 +95,7 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
 		solutionCnt.push_back(0);
 
 		// Create the kernels
-		vector<cl::Kernel> newKernels;	
+		vector<cl::Kernel> newKernels;
 		newKernels.push_back(cl::Kernel(program, "clearCounter", &err));
 		newKernels.push_back(cl::Kernel(program, "round0", &err));
 		newKernels.push_back(cl::Kernel(program, "round1", &err));
@@ -107,16 +107,16 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
 		kernels.push_back(newKernels);
 
 		// Create the buffers
-		vector<cl::Buffer> newBuffers;	
+		vector<cl::Buffer> newBuffers;
 		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 71303168, NULL, &err));
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 71303168, NULL, &err)); 
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 71303168, NULL, &err)); 
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint2) * 71303168, NULL, &err)); 
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 256, NULL, &err));   
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint) * 49152, NULL, &err));  
-		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint) * 324, NULL, &err));  
-		buffers.push_back(newBuffers);		
-			
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 71303168, NULL, &err));
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 71303168, NULL, &err));
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint2) * 71303168, NULL, &err));
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint4) * 256, NULL, &err));
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint) * 49152, NULL, &err));
+		newBuffers.push_back(cl::Buffer(contexts[pl], CL_MEM_READ_WRITE,  sizeof(cl_uint) * 324, NULL, &err));
+		buffers.push_back(newBuffers);
+
 	} else {
 		LOG_INFO() << "Program build error, device will not be used. ";
 		// Print error msg so we can debug the kernel source
@@ -128,17 +128,17 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl) {
 // Detect the OpenCL hardware on this system
 void clHost::detectPlatFormDevices(vector<int32_t> selDev, bool allowCPU) {
 	// read the OpenCL platforms on this system
-	cl::Platform::get(&platforms);  
+	cl::Platform::get(&platforms);
 
 	// this is for enumerating the devices
 	int32_t curDiv = 0;
 	uint32_t selNum = 0;
-	
+
 	for (uint32_t pl=0; pl<platforms.size(); pl++) {
 		// Create the OpenCL contexts, one for each platform
-		cl_context_properties properties[] = { CL_CONTEXT_PLATFORM, (cl_context_properties)platforms[pl](), 0};  
+		cl_context_properties properties[] = { CL_CONTEXT_PLATFORM, (cl_context_properties)platforms[pl](), 0};
 		cl::Context context;
-		if (allowCPU) { 
+		if (allowCPU) {
 			context = cl::Context(CL_DEVICE_TYPE_ALL, properties);
 		} else {
 			context = cl::Context(CL_DEVICE_TYPE_GPU, properties);
@@ -146,9 +146,9 @@ void clHost::detectPlatFormDevices(vector<int32_t> selDev, bool allowCPU) {
 		contexts.push_back(context);
 
 		// Read the devices of this platform
-		vector< cl::Device > nDev = context.getInfo<CL_CONTEXT_DEVICES>();  
+		vector< cl::Device > nDev = context.getInfo<CL_CONTEXT_DEVICES>();
 		for (uint32_t di=0; di<nDev.size(); di++) {
-			
+
 			// Print the device name
 			string name;
 			if ( hasExtension(nDev[di], "cl_amd_device_attribute_query") ) {
@@ -160,8 +160,8 @@ void clHost::detectPlatFormDevices(vector<int32_t> selDev, bool allowCPU) {
 			// Get rid of strange characters at the end of device name
 			if (isalnum((int) name.back()) == 0) {
 				name.pop_back();
-			} 
-			
+			}
+
 			LOG_INFO() << "Found device " << curDiv << ": " << name;
 
 			// Check if the device should be selected
@@ -171,9 +171,9 @@ void clHost::detectPlatFormDevices(vector<int32_t> selDev, bool allowCPU) {
 				if (curDiv == selDev[selNum]) {
 					pick = true;
 					selNum++;
-				}				
+				}
 			}
-			
+
 
 			if (pick) {
 				// Check if the CPU / GPU has enough memory
@@ -191,7 +191,7 @@ void clHost::detectPlatFormDevices(vector<int32_t> selDev, bool allowCPU) {
 				LOG_INFO() << "Device will not be used, it was not included in --devices parameter.";
 			}
 
-			curDiv++; 
+			curDiv++;
 		}
 	}
 }
@@ -208,7 +208,7 @@ void clHost::setup(minerBridge* br, vector<int32_t> devSel,  bool allowCPU) {
 void clHost::queueKernels(uint32_t gpuIndex, clCallbackData* workData) {
 	int64_t id;
     uint32_t difficulty;
-	cl_ulong4 work;	
+	cl_ulong4 work;
 	cl_ulong nonce;
 
 	// Get a new set of work from the stratum interface
@@ -220,50 +220,50 @@ void clHost::queueKernels(uint32_t gpuIndex, clCallbackData* workData) {
 
 
 	// Kernel arguments for cleanCounter
-	kernels[gpuIndex][0].setArg(0, buffers[gpuIndex][5]); 
+	kernels[gpuIndex][0].setArg(0, buffers[gpuIndex][5]);
 	kernels[gpuIndex][0].setArg(1, buffers[gpuIndex][6]);
 
 	// Kernel arguments for round0
-	kernels[gpuIndex][1].setArg(0, buffers[gpuIndex][0]); 
-	kernels[gpuIndex][1].setArg(1, buffers[gpuIndex][2]); 
-	kernels[gpuIndex][1].setArg(2, buffers[gpuIndex][5]); 
-	kernels[gpuIndex][1].setArg(3, work); 
-	kernels[gpuIndex][1].setArg(4, nonce); 
+	kernels[gpuIndex][1].setArg(0, buffers[gpuIndex][0]);
+	kernels[gpuIndex][1].setArg(1, buffers[gpuIndex][2]);
+	kernels[gpuIndex][1].setArg(2, buffers[gpuIndex][5]);
+	kernels[gpuIndex][1].setArg(3, work);
+	kernels[gpuIndex][1].setArg(4, nonce);
 
 	// Kernel arguments for round1
-	kernels[gpuIndex][2].setArg(0, buffers[gpuIndex][0]); 
-	kernels[gpuIndex][2].setArg(1, buffers[gpuIndex][2]); 
-	kernels[gpuIndex][2].setArg(2, buffers[gpuIndex][1]); 
+	kernels[gpuIndex][2].setArg(0, buffers[gpuIndex][0]);
+	kernels[gpuIndex][2].setArg(1, buffers[gpuIndex][2]);
+	kernels[gpuIndex][2].setArg(2, buffers[gpuIndex][1]);
 	kernels[gpuIndex][2].setArg(3, buffers[gpuIndex][3]); 	// Index tree will be stored here
-	kernels[gpuIndex][2].setArg(4, buffers[gpuIndex][5]); 
+	kernels[gpuIndex][2].setArg(4, buffers[gpuIndex][5]);
 
 	// Kernel arguments for round2
-	kernels[gpuIndex][3].setArg(0, buffers[gpuIndex][1]); 
-	kernels[gpuIndex][3].setArg(1, buffers[gpuIndex][0]);	// Index tree will be stored here 
-	kernels[gpuIndex][3].setArg(2, buffers[gpuIndex][5]); 
+	kernels[gpuIndex][3].setArg(0, buffers[gpuIndex][1]);
+	kernels[gpuIndex][3].setArg(1, buffers[gpuIndex][0]);	// Index tree will be stored here
+	kernels[gpuIndex][3].setArg(2, buffers[gpuIndex][5]);
 
 	// Kernel arguments for round3
-	kernels[gpuIndex][4].setArg(0, buffers[gpuIndex][0]); 
-	kernels[gpuIndex][4].setArg(1, buffers[gpuIndex][1]); 	// Index tree will be stored here 
-	kernels[gpuIndex][4].setArg(2, buffers[gpuIndex][5]); 
+	kernels[gpuIndex][4].setArg(0, buffers[gpuIndex][0]);
+	kernels[gpuIndex][4].setArg(1, buffers[gpuIndex][1]); 	// Index tree will be stored here
+	kernels[gpuIndex][4].setArg(2, buffers[gpuIndex][5]);
 
 	// Kernel arguments for round4
-	kernels[gpuIndex][5].setArg(0, buffers[gpuIndex][1]); 
-	kernels[gpuIndex][5].setArg(1, buffers[gpuIndex][2]); 	// Index tree will be stored here 
-	kernels[gpuIndex][5].setArg(2, buffers[gpuIndex][5]);  
+	kernels[gpuIndex][5].setArg(0, buffers[gpuIndex][1]);
+	kernels[gpuIndex][5].setArg(1, buffers[gpuIndex][2]); 	// Index tree will be stored here
+	kernels[gpuIndex][5].setArg(2, buffers[gpuIndex][5]);
 
 	// Kernel arguments for round5
-	kernels[gpuIndex][6].setArg(0, buffers[gpuIndex][2]); 
-	kernels[gpuIndex][6].setArg(1, buffers[gpuIndex][4]); 	// Index tree will be stored here 
-	kernels[gpuIndex][6].setArg(2, buffers[gpuIndex][5]);  
+	kernels[gpuIndex][6].setArg(0, buffers[gpuIndex][2]);
+	kernels[gpuIndex][6].setArg(1, buffers[gpuIndex][4]); 	// Index tree will be stored here
+	kernels[gpuIndex][6].setArg(2, buffers[gpuIndex][5]);
 
 	// Kernel arguments for Combine
-	kernels[gpuIndex][7].setArg(0, buffers[gpuIndex][0]); 
-	kernels[gpuIndex][7].setArg(1, buffers[gpuIndex][1]); 	
-	kernels[gpuIndex][7].setArg(2, buffers[gpuIndex][2]); 
-	kernels[gpuIndex][7].setArg(3, buffers[gpuIndex][3]); 	
-	kernels[gpuIndex][7].setArg(4, buffers[gpuIndex][4]); 
-	kernels[gpuIndex][7].setArg(5, buffers[gpuIndex][5]); 	
+	kernels[gpuIndex][7].setArg(0, buffers[gpuIndex][0]);
+	kernels[gpuIndex][7].setArg(1, buffers[gpuIndex][1]);
+	kernels[gpuIndex][7].setArg(2, buffers[gpuIndex][2]);
+	kernels[gpuIndex][7].setArg(3, buffers[gpuIndex][3]);
+	kernels[gpuIndex][7].setArg(4, buffers[gpuIndex][4]);
+	kernels[gpuIndex][7].setArg(5, buffers[gpuIndex][5]);
 	kernels[gpuIndex][7].setArg(6, buffers[gpuIndex][6]);
 
 	// Queue the kernels
@@ -336,7 +336,7 @@ void clHost::startMining()
 
 		// Print performance stats (roughly)
         stringstream ss;
-		
+
         for (uint32_t i = 0; i < devices.size(); i++) {
             uint32_t sol = solutionCnt[i];
             solutionCnt[i] = 0;
@@ -348,7 +348,7 @@ void clHost::startMining()
 		for (uint32_t i=0; i<devices.size(); i++) {
 			if (paused[i] && bridge->hasWork() && restart) {
 				paused[i] = false;
-				
+
 				// Same as above
 				queueKernels(i, &currentWork[i]);
 
@@ -370,6 +370,3 @@ clHost::~clHost()
 }
 
 } 	// end namespace
-
-
-

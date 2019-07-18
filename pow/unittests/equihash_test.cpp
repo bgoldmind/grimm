@@ -85,14 +85,14 @@ void TestArrayExpanding()
     TestArrayExpanding(156, 5);
     TestArrayExpanding(120, 5);
     TestArrayExpanding(144, 5);
-    TestArrayExpanding(150, 5);
+    TestArrayExpanding(161, 6);
     TestArrayExpanding(96, 5);
 }
 
 int main()
 {
     TestArrayExpanding();
-    
+
     // commented since it doesn't complete in 10 minutes and failes auto tests
 /*
     {
