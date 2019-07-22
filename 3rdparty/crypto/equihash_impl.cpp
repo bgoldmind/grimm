@@ -867,8 +867,8 @@ template bool Equihash<48,5>::OptimisedSolve(const eh_HashState& base_state,
 template bool Equihash<48,5>::IsValidSolution(const eh_HashState& base_state, std::vector<unsigned char> soln);
 
 // Explicit instantiations with grimm parameters
-const int N_Grimm = 161;
-const int K_Grimm = 6;
+const int N_Grimm = 144;
+const int K_Grimm = 5;
 template int Equihash<N_Grimm, K_Grimm>::InitialiseState(eh_HashState& base_state);
 #ifdef ENABLE_MINING
 template bool Equihash<N_Grimm, K_Grimm>::BasicSolve(const eh_HashState& base_state,

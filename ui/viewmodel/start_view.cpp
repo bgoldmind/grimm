@@ -337,7 +337,7 @@ QChar StartViewModel::getPhrasesSeparator()
 
 void StartViewModel::setUseGpu(bool value)
 {
-#ifdef BEAM_USE_GPU
+#ifdef GRIMM_USE_GPU
     if (value != AppModel::getInstance()->getSettings().getUseGpu())
     {
         AppModel::getInstance()->getSettings().setUseGpu(value);

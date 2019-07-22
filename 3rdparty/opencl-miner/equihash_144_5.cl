@@ -1,5 +1,5 @@
 // GRIMM OpenCL Miner
-// OpenCL Mining Sources for Equihash 161/6
+// OpenCL Mining Sources for Equihash 150/5
 // Copyright 2018 The Grimm Team
 // Copyright 2018 Wilke Trei
 
@@ -109,11 +109,11 @@ ulong8 initBlake() {
 	result.s4 = blake_iv[4];
 	result.s5 = blake_iv[5];
 
-	result.s6 = blake_iv[6] ^ 0x574f506d6d697247;   // Equals personalization string "GrimmPOW"
+	result.s6 = blake_iv[6] ^ 0x576F502D6D616542;   // Equals personalization string "GrimmPOW"
 
-	ulong value = 6;				// k
+	ulong value = 5;				// k
 	value = value << 32;
-	value |= 161;					// n
+	value |= 150;					// n
 
    	result.s7 = blake_iv[7] ^ value;
 

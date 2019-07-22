@@ -1,6 +1,6 @@
 // GRIMM OpenCL Miner
 // Main Function
-// Copyright 2018 The Grimm Team
+// Copyright 2018 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
 #include "grimmStratum.h"
@@ -24,7 +24,7 @@ inline vector<string> split(const string &s, char delim) {
 uint32_t cmdParser(vector<string> args, string &host, string &port, string &apiCred, bool &debug, bool &cpuMine, vector<int32_t> &devices ) {
 	bool hostSet = false;
 	bool apiSet = false;
-
+	
 	for (uint32_t i=0; i<args.size(); i++) {
 		if (args[i][0] == '-') {
 			if ((args[i].compare("-h")  == 0) || (args[i].compare("--help")  == 0)) {
@@ -37,7 +37,7 @@ uint32_t cmdParser(vector<string> args, string &host, string &port, string &apiC
 					if (tmp.size() == 2) {
 						host = tmp[0];
 						port = tmp[1];
-						hostSet = true;
+						hostSet = true;	
 						i++;
 						continue;
 					}
@@ -79,14 +79,14 @@ uint32_t cmdParser(vector<string> args, string &host, string &port, string &apiC
 
 	if (devices.size() == 0) devices.assign(1,-1);
 	sort(devices.begin(), devices.end());
-
+	
 	return result;
 }
 
 int main(int argc, char* argv[]) {
 
 	cout << "====================================" << endl;
-	cout << "  GRIMM Equihash 161/6 OpenCL miner  " << endl;
+	cout << "  GRIMM Equihash 150/5 OpenCL miner  " << endl;
 	cout << "====================================" << endl;
 
 	vector<string> cmdLineArgs(argv, argv+argc);
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
 		cout << " --help / -h 			Showing this message" << endl;
 		cout << " --server <server>:<port>	The GRIMM stratum server and port to connect to (required)" << endl;
 		cout << " --key <key>			The GRIMM stratum server API key (required)" << endl;
-		cout << " --devices <numbers>		A comma seperated list of devices that should be used for mining (default: all in system)" << endl;
+		cout << " --devices <numbers>		A comma seperated list of devices that should be used for mining (default: all in system)" << endl; 
 		cout << " --enable-cpu			Enable mining on OpenCL CPU devices" << endl;
 		exit(0);
 	}
@@ -121,11 +121,11 @@ int main(int argc, char* argv[]) {
 	grimmMiner::grimmStratum myStratum(host, port, apiCred, debug);
 
 	grimmMiner::clHost myClHost;
-
+	
 	cout << endl;
 	cout << "Setup OpenCL devices:" << endl;
 	cout << "=====================" << endl;
-
+	
 	myClHost.setup(&myStratum, devices, cpuMine);
 
 	cout << endl;

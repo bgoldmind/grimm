@@ -474,21 +474,21 @@ namespace grimm
 			// equihash parameters.
 			// Parameters recommended by Grimm are 161/6, to make it asic-resistant (~1GB average, spikes about 1.5GB). On CPU solve time less than a 1 minute
 
-			static const uint32_t N = 161;
-			static const uint32_t K = 6;
+			static const uint32_t N = 144;
+			static const uint32_t K = 5;
 
-			static const uint32_t nNumIndices		= 1 << K; // 64
-			static const uint32_t nBitsPerIndex		= N / (K + 1) + 1; // 24
+			static const uint32_t nNumIndices		= 1 << K; // 32
+			static const uint32_t nBitsPerIndex		= N / (K + 1) + 1; // 25
 
-			static const uint32_t nSolutionBits		= nNumIndices * nBitsPerIndex; // 1536 bits
+			static const uint32_t nSolutionBits		= nNumIndices * nBitsPerIndex; // 800 bits
 
 			static_assert(!(nSolutionBits & 7), "PoW solution should be byte-aligned");
-			static const uint32_t nSolutionBytes	= nSolutionBits >> 3; // 192 bytes
+			static const uint32_t nSolutionBytes	= nSolutionBits >> 3; // 100 bytes
 
 			std::array<uint8_t, nSolutionBytes>	m_Indices;
 
 			typedef uintBig_t<8> NonceType;
-			NonceType m_Nonce; // 8 bytes. The overall solution size is 200 bytes.
+			NonceType m_Nonce; // 8 bytes. The overall solution size is 108 bytes.
 			Difficulty m_Difficulty;
 
 			bool IsValid(const void* pInput, uint32_t nSizeInput) const;
