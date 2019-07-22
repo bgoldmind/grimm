@@ -32,7 +32,7 @@ if(GRIMM_USE_GPU)
 
     include(bin2h.cmake)
 
-    bin2h(SOURCE_FILE ${PROJECT_SOURCE_DIR}/3rdparty/opencl-miner/equihash_144_5.cl HEADER_FILE ${PROJECT_SOURCE_DIR}/3rdparty/opencl-miner/equihash_144_5.dat)
+    bin2h(SOURCE_FILE ${PROJECT_SOURCE_DIR}/3rdparty/opencl-miner/equihash_150_5.cl HEADER_FILE ${PROJECT_SOURCE_DIR}/3rdparty/opencl-miner/equihash_150_5.dat)
 
     set(POW_SRC ${POW_SRC}
         ${PROJECT_SOURCE_DIR}/pow/opencl_pow.cpp

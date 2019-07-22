@@ -97,7 +97,7 @@ CMakeSettings.json
 /utility/unittest/bridge_test
 /utility/unittest/config_test
 grimm/wallet.dat
-3rdparty/opencl-miner/equihash_144_5.dat
+3rdparty/opencl-miner/equihash_150_5.dat
 ui/grimm.rc
 ui/grimm.png
 ui/grimm.icns
