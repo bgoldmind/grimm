@@ -173,7 +173,7 @@ Rectangle {
                             Layout.fillWidth: true
                             radius: 10
                             color: Style.background_second
-                            Layout.preferredHeight: viewModel.localNodeRun ? 660 : (nodeAddressError.visible ? 485 : 440)
+                            Layout.preferredHeight: viewModel.localNodeRun ? 730 : (nodeAddressError.visible ? 485 : 440)
 
                             ColumnLayout {
                                 anchors.fill: parent
@@ -338,26 +338,7 @@ Rectangle {
                                 }
                                 }
 
-                                PrimaryButton {
-                                    Layout.preferredHeight: 38
-                                    Layout.preferredWidth: 125
-                                    Layout.alignment: Qt.AlignRight
-                                    leftPadding: 25
-                                    rightPadding: 25
-                                    spacing: 12
-                                    visible: viewModel.localNodeRun
-                                    //: settings tab, node section, apply button
-                                    //% "apply"
-                                    text: qsTrId("settings-apply")
-                                    icon.source: "qrc:/assets/icon-done.svg"
-                                    enabled: {
-                                        viewModel.isChanged
-                                        && nodeAddress.acceptableInput
-                                        && localNodePort.acceptableInput
-                                        && (localNodeRun.checked ? (viewModel.localNodePeers.length > 0) : viewModel.isValidNodeAddress)
-                                    }
-                                    onClicked: viewModel.applyChanges()
-                                }
+
 
                                   CustomSwitch {
                                        id: useGpu
@@ -373,6 +354,28 @@ Rectangle {
                                            value: useGpu.checked
                                        }
                                    }
+
+                                   PrimaryButton {
+                                       Layout.preferredHeight: 38
+                                       Layout.preferredWidth: 125
+                                       Layout.alignment: Qt.AlignRight
+                                       leftPadding: 25
+                                       rightPadding: 25
+                                       spacing: 12
+                                       visible: viewModel.localNodeRun
+                                       //: settings tab, node section, apply button
+                                       //% "apply"
+                                       text: qsTrId("settings-apply")
+                                       icon.source: "qrc:/assets/icon-done.svg"
+                                       enabled: {
+                                           viewModel.isChanged
+                                           && nodeAddress.acceptableInput
+                                           && localNodePort.acceptableInput
+                                           && (localNodeRun.checked ? (viewModel.localNodePeers.length > 0) : viewModel.isValidNodeAddress)
+                                       }
+                                       onClicked: viewModel.applyChanges()
+                                   }
+
                                    SFText {
                                        id: gpuError
                                        color: Style.white
