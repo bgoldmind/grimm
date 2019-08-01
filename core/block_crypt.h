@@ -104,7 +104,7 @@ namespace grimm
 		} Emission;
 
 		struct {
-			Height Coinbase	= 15; // 15 min for testing
+			Height Coinbase	= 90; // 90 min
 			Height Std		= 0; // not restricted. Can spend even in the block of creation (i.e. spend it before it becomes visible)
 		} Maturity;
 
@@ -488,7 +488,7 @@ namespace grimm
 			std::array<uint8_t, nSolutionBytes>	m_Indices;
 
 			typedef uintBig_t<8> NonceType;
-			NonceType m_Nonce; // 8 bytes. 
+			NonceType m_Nonce; // 8 bytes.
 			Difficulty m_Difficulty;
 
 			bool IsValid(const void* pInput, uint32_t nSizeInput) const;
