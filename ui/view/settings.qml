@@ -307,7 +307,7 @@ Rectangle {
 
                                 RowLayout {
                                     Layout.preferredHeight: 16
-                                    visible: viewModel.localNodeRun
+                                    visible: viewModel.localNodeRun && !viewModel.useGpu
 
 
                                 SFText {
@@ -342,6 +342,7 @@ Rectangle {
 
                                   CustomSwitch {
                                        id: useGpu
+                                       visible: viewModel.localNodeRun && !viewModel.localNodeMiningThreads
                                        text: qsTr("Use GPU")
                                        Layout.topMargin: 5
                                        font.pixelSize: 12
@@ -355,32 +356,13 @@ Rectangle {
                                        }
                                    }
 
-                                   PrimaryButton {
-                                       Layout.preferredHeight: 38
-                                       Layout.preferredWidth: 125
-                                       Layout.alignment: Qt.AlignRight
-                                       leftPadding: 25
-                                       rightPadding: 25
-                                       spacing: 12
-                                       visible: viewModel.localNodeRun
-                                       //: settings tab, node section, apply button
-                                       //% "apply"
-                                       text: qsTrId("settings-apply")
-                                       icon.source: "qrc:/assets/icon-done.svg"
-                                       enabled: {
-                                           viewModel.isChanged
-                                           && nodeAddress.acceptableInput
-                                           && localNodePort.acceptableInput
-                                           && (localNodeRun.checked ? (viewModel.localNodePeers.length > 0) : viewModel.isValidNodeAddress)
-                                       }
-                                       onClicked: viewModel.applyChanges()
-                                   }
+
 
                                    SFText {
                                        id: gpuError
                                        color: Style.white
                                        font.pixelSize: 14
-                                       visible: !viewModel.hasSupportedGpu()
+                                       visible: !viewModel.hasSupportedGpu() && viewModel.localNodeRun && !viewModel.localNodeMiningThreads
                                        text: qsTr("You have unsupported videocard")
                                    }
 
@@ -388,7 +370,7 @@ Rectangle {
                                        Layout.fillWidth: true
                                        Layout.fillHeight: true
                                        Layout.minimumWidth: 140
-                                       visible: viewModel.hasSupportedGpu()
+                                       visible: viewModel.hasSupportedGpu() && viewModel.localNodeRun && !viewModel.localNodeMiningThreads
                                        enabled: useGpu.checked
                                        model: viewModel.supportedDevices
                                        clip: true
@@ -398,6 +380,7 @@ Rectangle {
 
                                            CustomCheckBox {
                                                id: device_id
+                                               visible: viewModel.localNodeRun && !viewModel.localNodeMiningThreads
                                                font.pixelSize: 12
                                                enabled: localNodeRun.checked
                                                palette.windowText: enabled ? Style.white : Style.disable_text_color
@@ -415,6 +398,26 @@ Rectangle {
                                        }
                                    }
 
+                                   PrimaryButton {
+                                       Layout.preferredHeight: 38
+                                       Layout.preferredWidth: 125
+                                       Layout.alignment: Qt.AlignRight
+                                       leftPadding: 25
+                                       rightPadding: 25
+                                       spacing: 12
+                                       visible: viewModel.localNodeRun 
+                                       //: settings tab, node section, apply button
+                                       //% "apply"
+                                       text: qsTrId("settings-apply")
+                                       icon.source: "qrc:/assets/icon-done.svg"
+                                       enabled: {
+                                           viewModel.isChanged
+                                           && nodeAddress.acceptableInput
+                                           && localNodePort.acceptableInput
+                                           && (localNodeRun.checked ? (viewModel.localNodePeers.length > 0) : viewModel.isValidNodeAddress)
+                                       }
+                                       onClicked: viewModel.applyChanges()
+                                   }
 
 
                                 SFText {
