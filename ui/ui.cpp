@@ -84,7 +84,7 @@ using namespace ECC;
 #ifdef APP_NAME
 static const char* AppName = APP_NAME;
 #else
-static const char* AppName = "Grimm Wallet Masternet";
+static const char* AppName = "Grimm Wallet Mainnet";
 #endif
 
 int main (int argc, char* argv[])
