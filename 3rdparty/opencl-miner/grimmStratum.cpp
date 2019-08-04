@@ -1,6 +1,6 @@
 // GRIMM OpenCL Miner
 // Stratum interface class
-// Copyright 2018 The Grimm Team	
+// Copyright 2018 The Beam Team / Copyright 2019 The Grimm Team	
 // Copyright 2018 Wilke Trei
 
 
