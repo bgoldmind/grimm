@@ -1,6 +1,6 @@
 // GRIMM OpenCL Miner
 // OpenCL Mining Sources for Equihash 150/5
-// Copyright 2018 The Grimm Team
+// Copyright 2018 The Beam Team / Copyright 2019 The Grimm Team
 // Copyright 2018 Wilke Trei
 
 __kernel void clearCounter (
