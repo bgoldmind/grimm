@@ -79,7 +79,7 @@ Component
             if (themeName != "mainnet") {
                 stagingLabelAligner.visible = true;
                 stagingLabel.text = themeName.toUpperCase();
-                stagingLabel.visible = true;
+                stagingLabel.visible = false;
             }
         }
     }
