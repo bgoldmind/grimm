@@ -4,6 +4,9 @@
 - [Website grimmw.com](https://grimmw.com)
 ### Current status
 
+#### Mainnet online. First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
+
+
 
 - Financial freedom
 No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
