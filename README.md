@@ -7,11 +7,12 @@
 #### Mainnet online. First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
 
 
-
+- Key to your Privavy 
+Grimm does away with the need for known "who" and "how many". Temporary addresses are not stored in the Blockchain. Transactions offer the highest level of security.
 - Financial freedom
-No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
+No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. Community governance.
 - FULLY Anonymous
-Powered by Mimblewimble. Simple wallet.
+Powered by Magic Mimblewimble. Simple wallet.
 - Grimm wallet with built-in GPU and CPU mining.
 Easy-peasy, fresh and squeezy
 
@@ -32,8 +33,12 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Protocol / MimbleWimble
 - Language / C++
 - Consensus / PoW
-- PoW Algorithm / Equihash 150_5
-- Mining / Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
+- PoW Algorithm / GrimmPOW Equihash 150_5
+- Mining
+  - Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
+  - Official mining pool https://grimm.ravepool.com/
+  - Suntop griend pool https://grimm.sunpool.top/
+  - Supported by Gminer (AMD & NVIDIA) and MiniZ miner (Nvidia) 
 - Emission / Deflationary
 - Block Reward / 100 GRIMM, Rewards halving after 1 year and then halvings every 4 years 33 times in total. All mining
 - rewards go directly to the miners.
@@ -42,7 +47,7 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Blocktime / 60 sec
 - Block size / 2 Mb
 - Speed / 34 tps
-- Transaction fees / 0
+- Transaction fees / 0 at 1st release (min. fee from release "Gothic")
 - Smallest unit / CENTUM (0.00000001 GRIMM)
 
 ### GET STARTED
