@@ -37,7 +37,7 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Mining
   - Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
   - Official mining pool https://grimm.ravepool.com/
-  - Suntop griend pool https://grimm.sunpool.top/
+  - Sunpool friend pool https://grimm.sunpool.top/
   - Supported by Gminer (AMD & NVIDIA) and MiniZ miner (Nvidia) 
 - Emission / Deflationary
 - Block Reward / 100 GRIMM, Rewards halving after 1 year and then halvings every 4 years 33 times in total. All mining
