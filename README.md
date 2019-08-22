@@ -69,11 +69,14 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 - Go to CMake -> Cache -> Open Cache Folder -> grimm (you'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders).
 
 ### Linux
-### Ubuntu 14.04
+### Ubuntu
 - Install gcc7 boost ssl packages.
+  sudo apt-get install software-properties-common
   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-  sudo apt update
-  sudo apt install g++-7 libboost-all-dev libssl-dev -y
+  sudo apt-get update
+  sudo apt-get install g++-7 libboost-all-dev libssl-dev libdrm-dev -y
+  sudo apt-get install apt-utils ca-certificates git build-essential -y
+
 - Set it up so the symbolic links gcc, g++ point to the newer version:
   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 \
                            --slave /usr/bin/g++ g++ /usr/bin/g++-7
@@ -85,6 +88,7 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
   sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
 - Add proper QT 5.11 repository depending on your system https://launchpad.net/~beineri (for example, choose Qt 5.10.1 for /opt Trusty if you have Ubuntu 14.04), install sudo apt-get install qt510declarative qt510svg packages and add export PATH=/opt/qt511/bin:$PATH.
 Go to Grimm project folder and call cmake -DCMAKE_BUILD_TYPE=Release . && make -j4.
+Additional params cmake (-DGRIMM_USE_GPU=On - for GPU mining from wallet, -DGRIMM_NO_QT_UI_WALLET=On - build without GUI) 
 You'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders.
 
 ### Mac
