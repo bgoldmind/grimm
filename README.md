@@ -70,19 +70,19 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 
 ### Linux
 ### Ubuntu
-- Install gcc7 boost ssl packages.
-  sudo apt-get install software-properties-common
-  sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-  sudo apt-get update
-  sudo apt-get install g++-7 libboost-all-dev libssl-dev libdrm-dev -y
-  sudo apt-get install apt-utils ca-certificates git build-essential -y
+
+- sudo apt-get install software-properties-common
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+- sudo apt-get update
+- sudo apt-get install g++-7 libboost-all-dev libssl-dev libdrm-dev -y
+- sudo apt-get install apt-utils ca-certificates git build-essential -y
 
 - Set it up so the symbolic links gcc, g++ point to the newer version:
-  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 \
+- sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 \
                            --slave /usr/bin/g++ g++ /usr/bin/g++-7
-  sudo update-alternatives --config gcc
-  gcc --version
-  g++ --version
+- sudo update-alternatives --config gcc
+- gcc --version
+- g++ --version
 - Install latest CMake
   wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
   sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
