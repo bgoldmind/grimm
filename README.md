@@ -12,7 +12,7 @@
 No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
 - FULLY Anonymous
 Powered by Mimblewimble. Simple wallet.
-- Grimm wallet with built-in GPU and CPU mining.
+
 Easy-peasy, fresh and squeezy
 
 We designed Grimm so that it doesn’t depend on any one person. We don’t control it. Not financially. Not physically. How can decentralized work if only founders or entities controls the system? They accumulate taxes, head the richest lists in their projects, or play an unfair game with an unlimited extra coin emission. Grimm is a classic fork of Beam with other consensus rules, open source, without founders rewards, ico, sto, ieo, premine and other commercial shit. Privacy and scalability - two most prominent problems challenges bedeviling the existing Blockchain ecosystem today. So we chose the Mimblewimble protocol, which has fully addressed these problems initially. We are not in favour of mix decentralized projects with a commercial semblance of decentralization. Grimm's got a different, absolutely decentralized way.
@@ -33,7 +33,7 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Language / C++
 - Consensus / PoW
 - PoW Algorithm / Equihash 150_5
-- Mining / Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
+
 - Emission / Deflationary
 - Block Reward / 100 GRIMM, Rewards halving after 1 year and then halvings every 4 years 33 times in total. All mining
 - rewards go directly to the miners.

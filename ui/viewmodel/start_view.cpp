@@ -499,14 +499,6 @@ void StartViewModel::resetPhrases()
     emit recoveryPhrasesChanged();
 }
 
-bool StartViewModel::showUseGpu() const
-{
-#ifdef GRIMM_USE_GPU
-    return true;
-#else
-    return false;
-#endif
-}
 
 
 bool StartViewModel::createWallet()
