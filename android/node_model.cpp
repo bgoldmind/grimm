@@ -132,13 +132,6 @@ std::vector<std::string> NodeModel::getLocalNodePeers()
     return getDefaultPeers();
 }
 
-#ifdef GRIMM_USE_GPU
-std::unique_ptr<IExternalPOW> NodeModel::getStratumServer()
-{
-    return nullptr;
-}
-#endif //  GRIMM_USE_GPU
-
 void NodeModel::onNodeThreadFinished()
 {
     JNIEnv* env = Android_JNI_getEnv();
