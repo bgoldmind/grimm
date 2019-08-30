@@ -39,9 +39,7 @@ public:
     virtual std::string getLocalNodeStorage() = 0;
     virtual std::string getTempDir() = 0;
     virtual std::vector<std::string> getLocalNodePeers() = 0;
-    #ifdef GRIMM_USE_GPU
-    virtual std::unique_ptr<grimm::IExternalPOW> getStratumServer() = 0;
-    #endif //  GRIMM_USE_GPU
+
 
     virtual void onNodeThreadFinished() = 0;
 };
