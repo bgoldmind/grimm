@@ -131,11 +131,7 @@ if(WIN32)
 endif()
 
 set(GRIMM_ICON_SUFFIX "masternet")
-if(GRIMM_TESTNET)
-    set(GRIMM_ICON_SUFFIX "testnet")
-elseif(GRIMM_MAINNET)
-    set(GRIMM_ICON_SUFFIX "mainnet")
-endif()
+
 
 add_definitions(-DAPP_NAME=\"${APP_NAME}\")
 

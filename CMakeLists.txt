@@ -5,10 +5,24 @@ set(VERSION_MINOR 1)
 set(VERSION_REVISION 0)
 set(GIT_COMMIT_HASH "unknown")
 
-set(GRIMM_SUFFIX_LOWER_CASE "mainnet")
-set(GRIMM_SUFFIX_UPPER_CASE "Mainnet")
-set(GRIMM_TARGET_SUFFIX "-${GRIMM_SUFFIX_LOWER_CASE}")
-set(GRIMM_DISPLAY_SUFFIX " ${GRIMM_SUFFIX_UPPER_CASE}")
+# uncoment next line for testnet
+#set(GRIMM_TESTNET TRUE)
+
+if(GRIMM_TESTNET)
+    add_definitions(-DGRIMM_TESTNET)
+    set(GRIMM_SUFFIX_LOWER_CASE "testnet")
+    set(GRIMM_SUFFIX_UPPER_CASE "Testnet")
+    set(GRIMM_TARGET_SUFFIX "-${GRIMM_SUFFIX_LOWER_CASE}")
+    set(GRIMM_DISPLAY_SUFFIX " ${GRIMM_SUFFIX_UPPER_CASE}")
+else()
+    set(GRIMM_SUFFIX_LOWER_CASE "mainnet")
+    set(GRIMM_SUFFIX_UPPER_CASE "Mainnet")
+    set(GRIMM_TARGET_SUFFIX "-${GRIMM_SUFFIX_LOWER_CASE}")
+    set(GRIMM_DISPLAY_SUFFIX " ${GRIMM_SUFFIX_UPPER_CASE}")
+
+endif()
+
+
 
 if (GRIMM_SIGN_PACKAGE AND WIN32)
   #  add_custom_target(signing ALL DEPENDS grimm-wallet-ui COMMENT "Signing Package...")
@@ -138,28 +152,6 @@ endif()
 if(SHOW_CODE_LOCATION)
     add_definitions(-DSHOW_CODE_LOCATION=1)
 endif()
-
-# uncoment next line for testnet
-#set(GRIMM_TESTNET TRUE)
-# uncoment next line for mainnet
-#set(GRIMM_MAINNET TRUE)
-
-if(GRIMM_TESTNET)
-    add_definitions(-DGRIMM_TESTNET)
-    set(GRIMM_SUFFIX_LOWER_CASE "testnet")
-    set(GRIMM_SUFFIX_UPPER_CASE "Testnet")
-    set(GRIMM_TARGET_SUFFIX "-${GRIMM_SUFFIX_LOWER_CASE}")
-    set(GRIMM_DISPLAY_SUFFIX " ${GRIMM_SUFFIX_UPPER_CASE}")
-elseif(GRIMM_MAINNET)
-    add_definitions(-DGRIMM_MAINNET)
-    set(GRIMM_SUFFIX_LOWER_CASE "")
-    set(GRIMM_SUFFIX_UPPER_CASE "")
-    set(GRIMM_TARGET_SUFFIX "")
-    set(GRIMM_DISPLAY_SUFFIX "")
-endif()
-
-
-
 
 
 if(MSVC)

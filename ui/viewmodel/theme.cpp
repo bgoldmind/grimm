@@ -17,24 +17,15 @@
 // static
 QString Theme::name()
 {
-    // return "mainnet";
-#ifdef GRIMM_TESTNET
-    return "testnet";
-#elif GRIMM_MAINNET
-    return "mainnet";
-#else
+
     return "masternet";
-#endif
+
 }
 
 // static
-QString Theme::iconPath() 
+QString Theme::iconPath()
 {
-#ifdef GRIMM_TESTNET
-    return ":/assets/icon_testnet.png";
-#elif GRIMM_MAINNET
-    return ":/assets/icon.png";
-#else
+
     return ":/assets/icon_masternet.png";
-#endif
+
 }
