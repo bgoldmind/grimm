@@ -211,7 +211,7 @@ int main (int argc, char* argv[])
             qmlRegisterType<ContactItem>("Grimm.Wallet", 1, 0, "ContactItem");
             qmlRegisterType<TxObject>("Grimm.Wallet", 1, 0, "TxObject");
             qmlRegisterType<UtxoItem>("Grimm.Wallet", 1, 0, "UtxoItem");
-            qmlRegisterType<DeviceItem>("Grimm.Wallet", 1, 0, "DeviceItem");
+            
             qmlRegisterType<PaymentInfoItem>("Grimm.Wallet", 1, 0, "PaymentInfoItem");
             qmlRegisterType<WalletDBPathItem>("Grimm.Wallet", 1, 0, "WalletDBPathItem");
 

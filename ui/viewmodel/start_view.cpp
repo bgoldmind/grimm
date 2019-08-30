@@ -38,9 +38,7 @@
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <thread>
-#ifdef GRIMM_USE_GPU
-#include "utility/gpu/gpu_tools.h"
-#endif
+
 using namespace grimm;
 using namespace ECC;
 using namespace std;
@@ -335,25 +333,6 @@ QChar StartViewModel::getPhrasesSeparator()
     return PHRASES_SEPARATOR;
 }
 
-void StartViewModel::setUseGpu(bool value)
-{
-#ifdef GRIMM_USE_GPU
-    if (value != AppModel::getInstance()->getSettings().getUseGpu())
-    {
-        AppModel::getInstance()->getSettings().setUseGpu(value);
-        emit useGpuChanged();
-    }
-#endif
-}
-
-bool StartViewModel::getUseGpu() const
-{
-#ifdef GRIMM_USE_GPU
-    return AppModel::getInstance()->getSettings().getUseGpu();
-#else
-    return false;
-#endif
-}
 
 bool StartViewModel::getIsRunLocalNode() const
 {
@@ -529,19 +508,6 @@ bool StartViewModel::showUseGpu() const
 #endif
 }
 
-bool StartViewModel::hasSupportedGpu()
-{
-#ifdef GRIMM_USE_GPU
-    if (!HasSupportedCard())
-    {
-        setUseGpu(false);
-        return false;
-    }
-    return true;
-#else
-    return false;
-#endif
-}
 
 bool StartViewModel::createWallet()
 {

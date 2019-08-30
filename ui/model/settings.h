@@ -57,12 +57,7 @@ public:
     QStringList getLocalNodePeers() const;
     void setLocalNodePeers(const QStringList& qPeers);
 
-    #ifdef GRIMM_USE_GPU
-    bool getUseGpu() const;
-    void setUseGpu(bool value);
-    std::vector<int32_t> getMiningDevices() const;
-    void setMiningDevices(const std::vector<int32_t>& value);
-    #endif
+
 
     QString getLocale() const;
     QString getLanguageName() const;
@@ -88,10 +83,7 @@ signals:
     void localNodeSynchronizedChanged();
     void localeChanged();
     void localNodeMiningThreadsChanged();
-    #ifdef GRIMM_USE_GPU
-    void localNodeUseGpuChanged();
-    void localNodeMiningDevicesChanged();
-    #endif
+
 
 private:
     QSettings m_data;
