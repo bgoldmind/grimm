@@ -7,9 +7,10 @@
 #### Mainnet online. First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
 
 
-
+- Key to your Privavy 
+Grimm does away with the need for known "who" and "how many". Temporary addresses are not stored in the Blockchain. Transactions offer the highest level of security.
 - Financial freedom
-No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
+No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. Community governance.
 - FULLY Anonymous
 Powered by Mimblewimble. Simple wallet.
 
@@ -32,8 +33,13 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Protocol / MimbleWimble
 - Language / C++
 - Consensus / PoW
-- PoW Algorithm / Equihash 150_5
 
+- PoW Algorithm / GrimmPOW Equihash 150_5
+- Mining
+  - Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
+  - Official mining pool https://grimm.ravepool.com/
+  - Sunpool friend pool https://grimm.sunpool.top/
+  - Supported by Gminer (AMD & NVIDIA) and MiniZ miner (Nvidia) 
 - Emission / Deflationary
 - Block Reward / 100 GRIMM, Rewards halving after 1 year and then halvings every 4 years 33 times in total. All mining
 - rewards go directly to the miners.
@@ -42,7 +48,7 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 - Blocktime / 60 sec
 - Block size / 2 Mb
 - Speed / 34 tps
-- Transaction fees / 0
+- Transaction fees / 0 at 1st release (min. fee from release "Gothic")
 - Smallest unit / CENTUM (0.00000001 GRIMM)
 
 ### GET STARTED
@@ -64,22 +70,26 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 - Go to CMake -> Cache -> Open Cache Folder -> grimm (you'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders).
 
 ### Linux
-### Ubuntu 14.04
-- Install gcc7 boost ssl packages.
-  sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-  sudo apt update
-  sudo apt install g++-7 libboost-all-dev libssl-dev -y
+### Ubuntu
+
+- sudo apt-get install software-properties-common
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+- sudo apt-get update
+- sudo apt-get install g++-7 libboost-all-dev libssl-dev libdrm-dev -y
+- sudo apt-get install apt-utils ca-certificates git build-essential -y
+
 - Set it up so the symbolic links gcc, g++ point to the newer version:
-  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 \
+- sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 \
                            --slave /usr/bin/g++ g++ /usr/bin/g++-7
-  sudo update-alternatives --config gcc
-  gcc --version
-  g++ --version
+- sudo update-alternatives --config gcc
+- gcc --version
+- g++ --version
 - Install latest CMake
   wget "https://cmake.org/files/v3.12/cmake-3.12.0-Linux-x86_64.sh"
   sudo sh cmake-3.12.0-Linux-x86_64.sh --skip-license --prefix=/usr
 - Add proper QT 5.11 repository depending on your system https://launchpad.net/~beineri (for example, choose Qt 5.10.1 for /opt Trusty if you have Ubuntu 14.04), install sudo apt-get install qt510declarative qt510svg packages and add export PATH=/opt/qt511/bin:$PATH.
 Go to Grimm project folder and call cmake -DCMAKE_BUILD_TYPE=Release . && make -j4.
+Additional params cmake (-DGRIMM_USE_GPU=On - for GPU mining from wallet, -DGRIMM_NO_QT_UI_WALLET=On - build without GUI) 
 You'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders.
 
 ### Mac
