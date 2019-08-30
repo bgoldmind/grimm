@@ -133,10 +133,7 @@ namespace grimm
         extern const char* API_TLS_KEY;
         extern const char* API_USE_ACL;
         extern const char* API_ACL_PATH;
-        #if defined(GRIMM_USE_GPU)
-        extern const char* MINER_TYPE;
-        #endif
-
+        
         // treasury
         extern const char* TR_OPCODE;
         extern const char* TR_WID;

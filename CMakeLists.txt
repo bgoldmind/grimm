@@ -110,11 +110,6 @@ if (GRIMM_CPU_ARCH MATCHES "avx")
     set(GRIMM_USE_AVX TRUE)
 endif()
 
-if(GRIMM_USE_GPU)
-    add_definitions(-DGRIMM_USE_GPU)
-    set(GRIMM_USE_AVX TRUE)
-endif()
-
 if(GRIMM_USE_AVX)
     add_definitions(-DGRIMM_USE_AVX)
 endif()
