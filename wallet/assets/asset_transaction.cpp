@@ -326,7 +326,7 @@ namespace grimm::wallet
             }
         }
 
-        GetWalletDB()->saveCoins(modified);
+        GetWalletDB()->save(modified);
 
         CompleteTx();
     }

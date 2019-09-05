@@ -1463,8 +1463,8 @@ int main_impl(int argc, char* argv[])
 
                         if (command == cli::ASSET_ISSUE)
                      {
-                         WalletAddress senderAddress  = GenerateNewAddress(walletDB, "");
-                         WalletAddress receiverAddress = GenerateNewAddress(walletDB, "");
+                         WalletAddress senderAddress  = CreateNewAddress(walletDB, "");
+                         WalletAddress receiverAddress = CreateNewAddress(walletDB, "");
                          CoinIDList coinIDs = GetPreselectedCoinIDs(vm);
                          currentTxID = wallet.issue_asset(senderAddress.m_walletID, receiverAddress.m_walletID, Amount(500), Amount(100), coinIDs, true, kDefaultTxLifetime, kDefaultTxResponseTime, {}, true);
                      }

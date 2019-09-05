@@ -20,6 +20,7 @@
 #include "utility/logger.h"
 #include "utility/helpers.h"
 #include "swaps/swap_transaction.h"
+#include "assets/asset_transaction.h"
 #include <algorithm>
 #include <random>
 #include <iomanip>
@@ -284,7 +285,7 @@ namespace grimm::wallet
        }
 
        TxID txID = GenerateTxID();
-       auto tx = ConstructTransaction(txID, TxType::AssetIssue);
+       auto tx = constructTransaction(txID, TxType::AssetIssue);
 
        auto amountList = AmountList{amount};
        tx->SetParameter(TxParameterID::TransactionType, TxType::Simple, false);

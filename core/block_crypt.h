@@ -247,7 +247,7 @@ namespace grimm
 			:m_Coinbase(false)
 			,m_RecoveryOnly(false)
 			,m_Incubation(0)
-			,m_AssetID = Zero;
+			,m_AssetID(0)
 		{
 
 		}
