@@ -93,18 +93,18 @@ namespace grimm::wallet
         }
     }
 
-    void LocalPrivateKeyKeeper::GenerateOutputs(Height schemeHeight, const std::vector<Key::IDV>& ids, Callback<Outputs>&& resultCallback, ExceptionCallback&& exceptionCallback)
+    void LocalPrivateKeyKeeper::GenerateOutputs(Height schemeHeight, const std::vector<Key::IDV>& ids, grimm::AssetID assetId, Callback<Outputs>&& resultCallback, ExceptionCallback&& exceptionCallback)
     {
         auto thisHolder = shared_from_this();
         shared_ptr<Outputs> result = make_shared<Outputs>();
         shared_ptr<exception> storedException;
         shared_ptr<future<void>> futureHolder = make_shared<future<void>>();
         *futureHolder = do_thread_async(
-            [thisHolder, this, schemeHeight, ids, result, storedException]()
+            [thisHolder, this, schemeHeight, ids, assetId, result, storedException]()
             {
                 try
                 {
-                    *result = GenerateOutputsSync(schemeHeight, ids);
+                    *result = GenerateOutputsSync(schemeHeight, ids, assetId);
                 }
                 catch (const exception& ex)
                 {
@@ -188,7 +188,7 @@ namespace grimm::wallet
         return publicKey;
     }
 
-    IPrivateKeyKeeper::Outputs LocalPrivateKeyKeeper::GenerateOutputsSync(Height schemeHeigh, const std::vector<Key::IDV>& ids)
+    IPrivateKeyKeeper::Outputs LocalPrivateKeyKeeper::GenerateOutputsSync(Height schemeHeigh, const std::vector<Key::IDV>& ids, grimm::AssetID assetId)
     {
         Outputs result;
         Scalar::Native secretKey;
@@ -196,7 +196,12 @@ namespace grimm::wallet
         result.reserve(ids.size());
         for (const auto& coinID : ids)
         {
+            LOG_INFO() << "Generating out: " << coinID.m_Value;
             auto& output = result.emplace_back(make_unique<Output>());
+            if (coinID.m_Value == 500)
+            {
+                output->m_AssetID = assetId;
+            }
             output->Create(schemeHeigh, secretKey, *GetChildKdf(coinID.m_SubIdx), coinID, *m_MasterKdf);
         }
         return result;

@@ -29,6 +29,7 @@ namespace grimm::wallet
     {
         Simple,
         AtomicSwap,
+        AssetIssue,
         ALL
     };
 
@@ -71,14 +72,14 @@ namespace grimm::wallet
 
     struct PrintableAmount
     {
-        explicit PrintableAmount(const Amount& amount, bool showPoint = false) 
+        explicit PrintableAmount(const Amount& amount, bool showPoint = false)
             : m_value{ amount }
             , m_showPoint{showPoint}
         {}
         const Amount& m_value;
         bool m_showPoint;
     };
-    
+
     struct Coin;
 
     enum class TxStatus : uint32_t
@@ -116,7 +117,7 @@ namespace grimm::wallet
 
     enum TxFailureReason : int32_t
     {
-#define MACRO(name, code, _) name = code, 
+#define MACRO(name, code, _) name = code,
         GRIMM_TX_FAILURE_REASON_MAP(MACRO)
 #undef MACRO
     };
@@ -172,8 +173,8 @@ namespace grimm::wallet
 
         bool canResume() const
         {
-            return m_status == TxStatus::Pending 
-                || m_status == TxStatus::InProgress 
+            return m_status == TxStatus::Pending
+                || m_status == TxStatus::InProgress
                 || m_status == TxStatus::Registering;
         }
 
@@ -248,7 +249,7 @@ namespace grimm::wallet
         PeerPublicSharedBlindingFactor = 26,
 
         IsSelfTx = 27,
-       
+
         AtomicSwapIsGrimmSide = 30,
         AtomicSwapCoin = 31,
         AtomicSwapAmount = 32,
@@ -314,7 +315,7 @@ namespace grimm::wallet
 
         Inputs = 180,
         InputCoins = 183,
-        OutputCoins = 184,           
+        OutputCoins = 184,
         Outputs = 190,
 
         Kernel = 200,
@@ -323,7 +324,7 @@ namespace grimm::wallet
         AtomicSwapSecretPublicKey = 203,
 
         InternalFailureReason = 210,
-    
+
         State = 255
 
     };
@@ -358,7 +359,7 @@ namespace grimm::wallet
         }
 
         template <typename T>
-        bool GetParameter(TxParameterID paramID, T& value) const 
+        bool GetParameter(TxParameterID paramID, T& value) const
         {
             auto pit = std::find_if(m_Parameters.begin(), m_Parameters.end(), [paramID](const auto& p) { return p.first == paramID; });
             if (pit == m_Parameters.end())
@@ -366,7 +367,7 @@ namespace grimm::wallet
                 return false;
             }
             const ByteBuffer& b = pit->second;
-                
+
             if (!b.empty())
             {
                 Deserializer d;

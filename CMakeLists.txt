@@ -6,7 +6,7 @@ set(VERSION_REVISION 0)
 set(GIT_COMMIT_HASH "unknown")
 
 # uncoment next line for testnet
-#set(GRIMM_TESTNET TRUE)
+set(GRIMM_TESTNET TRUE)
 
 if(GRIMM_TESTNET)
     add_definitions(-DGRIMM_TESTNET)

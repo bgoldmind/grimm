@@ -125,7 +125,7 @@ namespace grimm
 		} DA;
 
 		struct {
-			bool Enabled = false;
+			bool Enabled = true;
 			bool Deposit = true; // CA emission in exchage for grimms. If not specified - the emission is free
 		} CA;
 
@@ -247,8 +247,9 @@ namespace grimm
 			:m_Coinbase(false)
 			,m_RecoveryOnly(false)
 			,m_Incubation(0)
+			,m_AssetID = Zero;
 		{
-			m_AssetID = Zero;
+
 		}
 
 		static const Amount s_MinimumValue = 1;

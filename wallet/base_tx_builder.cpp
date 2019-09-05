@@ -132,7 +132,7 @@ namespace grimm::wallet
 
         auto thisHolder = shared_from_this();
         m_Tx.GetAsyncAcontext().OnAsyncStarted();
-        m_Tx.GetKeyKeeper()->GenerateOutputs(m_MinHeight, m_OutputCoins,
+        m_Tx.GetKeyKeeper()->GenerateOutputs(m_MinHeight, m_OutputCoins, Zero,
             [thisHolder, this](auto&& result)
             {
                 m_Outputs = move(result);

@@ -918,6 +918,11 @@ namespace
 
         return true;
     }
+
+    int AssetIssue(const IWalletDB::Ptr& walletDB)
+    {
+        return 0;
+    }
 }
 
 io::Reactor::Ptr reactor;
@@ -1041,7 +1046,8 @@ int main_impl(int argc, char* argv[])
                             cli::IMPORT_ADDRESSES,
                             cli::EXPORT_ADDRESSES,
                             cli::SWAP_INIT,
-                            cli::SWAP_LISTEN
+                            cli::SWAP_LISTEN,
+                            cli::ASSET_ISSUE
                         };
 
                         if (find(begin(commands), end(commands), command) == end(commands))
@@ -1454,6 +1460,14 @@ int main_impl(int argc, char* argv[])
                                 wallet.initSwapConditions(amount, swapAmount, swapCoin, isGrimmSide);
                             }
                         }
+
+                        if (command == cli::ASSET_ISSUE)
+                     {
+                         WalletAddress senderAddress  = GenerateNewAddress(walletDB, "");
+                         WalletAddress receiverAddress = GenerateNewAddress(walletDB, "");
+                         CoinIDList coinIDs = GetPreselectedCoinIDs(vm);
+                         currentTxID = wallet.issue_asset(senderAddress.m_walletID, receiverAddress.m_walletID, Amount(500), Amount(100), coinIDs, true, kDefaultTxLifetime, kDefaultTxResponseTime, {}, true);
+                     }
 
                         if (isTxInitiator)
                         {

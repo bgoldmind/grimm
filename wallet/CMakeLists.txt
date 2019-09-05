@@ -23,6 +23,8 @@ set(WALLET_SRC
     litecoin/litecoind016.cpp
     secstring2.cpp
     unittests/util.cpp
+    assets/asset_transaction.cpp
+    assets/asset_issue_tx_builder.cpp
 )
 
 add_library(bitcoin_rpc STATIC bitcoin_rpc.cpp)
