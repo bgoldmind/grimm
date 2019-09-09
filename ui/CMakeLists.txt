@@ -56,6 +56,7 @@ endif()
 
 list(APPEND SUPPORTED_LANGS "en_US")
 list(APPEND SUPPORTED_LANGS "ru_RU")
+list(APPEND SUPPORTED_LANGS "zh_CN")
 
 set(UI_SRC
     ui.cpp
