@@ -1,15 +1,64 @@
 
+### Testnet
+
 ![alt text](https://i.ibb.co/vBHKqqV/logo200.png)
 ## Grimm. No one will ever know
 - [Website grimmw.com](https://grimmw.com)
+### Current status
 
-### Testnet
+#### Mainnet online (mainnet branch). First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
 
-Build-in peers:
+#### Testnet Online
+Testnet Build-in peers:
 - "159.65.53.233:10000"
 - "159.65.61.159:10000"
 
-## How to build (GRIMM_TESTNET TRUE set by default at testnet branch)
+
+- Financial freedom
+No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
+- FULLY Anonymous
+Powered by Mimblewimble. Simple wallet.
+- Grimm wallet with built-in GPU and CPU mining.
+Easy-peasy, fresh and squeezy
+
+We designed Grimm so that it doesn’t depend on any one person. We don’t control it. Not financially. Not physically. How can decentralized work if only founders or entities controls the system? They accumulate taxes, head the richest lists in their projects, or play an unfair game with an unlimited extra coin emission. Grimm is a classic fork of Beam with other consensus rules, open source, without founders rewards, ico, sto, ieo, premine and other commercial shit. Privacy and scalability - two most prominent problems challenges bedeviling the existing Blockchain ecosystem today. So we chose the Mimblewimble protocol, which has fully addressed these problems initially. We are not in favour of mix decentralized projects with a commercial semblance of decentralization. Grimm's got a different, absolutely decentralized way.
+
+- [Read our Manifesto](https://github.com/freenetcoder/Manifesto/blob/master/Manifesto.md)
+
+
+### ON TELEGRAM
+
+[English](https://t.me/grimmw) | [Русский](https://t.me/grimmwru)
+
+### EITHER HELP US, OR GET OUT OF OUR WAY
+
+[twitter](https://twitter.com/grimmwcom) | [medium](https://medium.com/grimmwcom) | [bitcointalk](https://bitcointalk.org)
+
+## Grimm spec.
+- Protocol / MimbleWimble
+- Language / C++
+- Consensus / PoW
+- PoW Algorithm / Equihash 150_5
+- Mining / Grimm wallet with built-in GPU and CPU mining (MacOS, Windows, Linux)
+- Emission / Deflationary
+- Block Reward / 100 GRIMM, Rewards halving after 1 year and then halvings every 4 years 33 times in total. All mining
+- rewards go directly to the miners.
+- Max Supply / 262.8M
+- Governance / Community
+- Blocktime / 60 sec
+- Block size / 2 Mb
+- Speed / 34 tps
+- Transaction fees / 0
+- Smallest unit / CENTUM (0.00000001 GRIMM)
+
+### GET STARTED
+
+
+Get Grimm binaries here: https://grimmw.com or Rleases https://github.com/freenetcoder/grimm/releases
+
+If you build from source you can use 'master' branch\
+
+## How to build
 
 ### Windows
 - Install Visual Studio >= 2017 with CMake support.
@@ -21,7 +70,7 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 - Go to CMake -> Cache -> Open Cache Folder -> grimm (you'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders).
 
 ### Linux
-### Ubuntu 18.04
+### Ubuntu 14.04
 - Install gcc7 boost ssl packages.
   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   sudo apt update
