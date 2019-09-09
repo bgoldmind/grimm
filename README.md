@@ -9,10 +9,6 @@
 #### Mainnet online (mainnet branch). First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
 
 #### Testnet Online
-Testnet Build-in peers:
-- "159.65.53.233:10000"
-- "159.65.61.159:10000"
-
 
 - Financial freedom
 No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
@@ -70,7 +66,7 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 - Go to CMake -> Cache -> Open Cache Folder -> grimm (you'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders).
 
 ### Linux
-### Ubuntu 14.04
+### Ubuntu 18.04
 - Install gcc7 boost ssl packages.
   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   sudo apt update
