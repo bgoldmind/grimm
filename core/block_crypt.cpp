@@ -989,8 +989,22 @@ namespace grimm
 		}
 	}
 
+	bool Rules::IsForkHeightsConsistent() const
+	{
+		if (pForks[0].m_Height != Rules::HeightGenesis - 1)
+			return false;
+
+		for (size_t i = 1; i < _countof(pForks); i++)
+			if (pForks[i].m_Height < pForks[i - 1].m_Height)
+				return false;
+
+		return true;
+	}
+
 	void Rules::UpdateChecksum()
 	{
+		if (!IsForkHeightsConsistent())
+			throw std::runtime_error("Inconsistent Forks");
 		// all parameters, including const (in case they'll be hardcoded to different values in later versions)
 		ECC::Oracle oracle;
 		oracle
@@ -1034,6 +1048,14 @@ namespace grimm
 			<< DA.Damp.N
 			// out
 			>> pForks[1].m_Hash;
+
+			oracle
+			<< "fork2"
+			<< pForks[2].m_Height
+			// TBD
+			// ...
+			// out
+			>> pForks[2].m_Hash;
 	}
 
 	const HeightHash* Rules::FindFork(const Merkle::Hash& hv) const
