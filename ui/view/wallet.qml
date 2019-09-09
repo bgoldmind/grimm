@@ -448,7 +448,7 @@ Item {
                                 }
                             }
 
-                      
+
                             // Comment
                             SFText {
                                 font.pixelSize: 14
@@ -823,7 +823,7 @@ Item {
 
                                         property int amount: viewModel.defaultFeeInCentum
 
-                                        validator: IntValidator {bottom: 0}
+                                        validator: IntValidator {bottom: viewModel.minimumFeeInCentum}
                                         maximumLength: 15
                                         selectByMouse: true
 
@@ -847,6 +847,24 @@ Item {
                                     color: Style.content_main
                                     //% "CENTUM"
                                     text: qsTrId("send-curency-sub-name")
+                                }
+                            }
+
+                            Item {
+                                Layout.topMargin: -12
+                                Layout.minimumHeight: 16
+                                Layout.fillWidth: true
+
+                                SFText {
+                                    //% "The minimum fee is %1 centum"
+                                    text: qsTrId("send-fee-fail").arg(viewModel.minimumFeeInCentum)
+                                    color: Style.validator_error
+                                    font.pixelSize: 14
+                                    fontSizeMode: Text.Fit
+                                    minimumPixelSize: 10
+                                    font.styleName: "Italic"
+                                    width: parent.width
+                                    visible: fee_input.amount < viewModel.minimumFeeInCentum
                                 }
                             }
 

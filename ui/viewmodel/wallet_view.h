@@ -182,6 +182,7 @@ class WalletViewModel : public QObject
     Q_PROPERTY(QString statusRole READ getStatusRole CONSTANT)
 
     Q_PROPERTY(int defaultFeeInCentum READ getDefaultFeeInCentum CONSTANT)
+    Q_PROPERTY(int minimumFeeInCentum READ getMinFeeInCentum CONSTANT)
 
     Q_PROPERTY(int expires READ getExpires WRITE setExpires NOTIFY expiresChanged)
     Q_PROPERTY(bool isAllowedgrimmLinks READ isAllowedgrimmLinks WRITE allowgrimmLinks NOTIFY grimmLinksAllowed)
@@ -246,6 +247,7 @@ public:
     QString getStatusRole() const;
 
     int getDefaultFeeInCentum() const;
+    int getMinFeeInCentum() const;
 
     void setExpires(int value);
     int getExpires() const;

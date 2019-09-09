@@ -559,6 +559,10 @@
         <source>Insufficient funds: you would need %1 to complete the transaction</source>
         <translation>Недостаточно средств: необходимо %1 для завершения транзакции</translation>
     </message>
+    <message id="send-fee-fail">
+        <source>The minimum fee is %1 centum</source>
+        <translation>Минимальная комиссия %1 centum</translation>
+    </message>
     <message id="send-comment-label">
         <source>Comment</source>
         <translation>Комментарий</translation>

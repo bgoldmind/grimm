@@ -34,6 +34,7 @@ using namespace grimmui;
 namespace
 {
     const int kDefaultFeeInCentum = 10;
+    const int kFeeInCentum_Fork1 = 100;
 
     template<typename T>
     bool compareTx(const T& lf, const T& rt, Qt::SortOrder sortOrder)
@@ -768,7 +769,12 @@ QString WalletViewModel::getStatusRole() const
 
 int WalletViewModel::getDefaultFeeInCentum() const
 {
-    return kDefaultFeeInCentum;
+  return _model.isFork1() ? kFeeInCentum_Fork1 : kDefaultFeeInCentum;
+}
+
+int WalletViewModel::getMinFeeInCentum() const
+{
+  return _model.isFork1() ? kFeeInCentum_Fork1 : 0;
 }
 
 void WalletViewModel::setExpires(int value)
