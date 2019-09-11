@@ -9,11 +9,11 @@
     </message>
     <message id="addresses-tab-active">
         <source>MY ACTIVE ADDRESSES</source>
-        <translation>有效地址</translation>
+        <translation>我的有效地址</translation>
     </message>
     <message id="addresses-tab-expired">
         <source>MY EXPIRED ADDRESSES</source>
-        <translation>失效地址</translation>
+        <translation>我的失效地址</translation>
     </message>
     <message id="addresses-tab-contacts">
         <source>CONTACTS</source>
@@ -21,7 +21,7 @@
     </message>
     <message id="addresses-head-comment">
         <source>Comment</source>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="addresses-head-contact">
         <source>Contact</source>
@@ -41,7 +41,7 @@
     </message>
     <message id="address-table-head-comment">
         <source>Comment</source>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="address-table-head-address">
         <source>Address</source>
@@ -90,7 +90,7 @@
     <message id="settings-local-node-run-checkbox">
         <source>Run full node</source>
         <extracomment>settings tab, node section, run node label</extracomment>
-        <translation>运行本地节点</translation>
+        <translation>运行全节点</translation>
     </message>
     <message id="settings-mining-cpu-threads">
         <source>CPU threads</source>
@@ -116,8 +116,7 @@
     <message id="settings-rescan-confirmation-message">
         <source>Rescan will sync transaction and UTXO data with the latest information on the blockchain. The process might take long time.</source>
         <extracomment>settings tab, confirm rescan dialog message</extracomment>
-        <translation>重新扫描会将交易和UTXO数据与区块链上的最新信息同步
-这个过程可能需要很长时间</translation>
+        <translation>重新扫描会将交易和UTXO数据与区块链上的最新信息同步这个过程可能需要很长时间</translation>
     </message>
     <message id="settings-general-title">
         <source>General settings</source>
@@ -159,7 +158,7 @@
         <source>apply</source>
         <oldsource>apply changes</oldsource>
         <extracomment>settings tab, node section, apply button</extracomment>
-        <translation>应用</translation>
+        <translation>申请</translation>
     </message>
     <message id="logo-name">
         <source>GRIMM</source>
@@ -167,7 +166,7 @@
     </message>
     <message id="logo-description">
         <source>No one will ever know</source>
-        <translation>No one will ever know</translation>
+        <translation>没有人会知道</translation>
     </message>
     <message id="change-pwd-old-empty">
         <source>Please, enter old password</source>
@@ -195,19 +194,19 @@
     </message>
     <message id="change-pwd-title">
         <source>Change wallet password</source>
-        <translation>修改密码</translation>
+        <translation>修改钱包密码</translation>
     </message>
     <message id="change-pwd-old-pwd-label">
         <source>Enter old password</source>
-        <translation>请输入旧密码</translation>
+        <translation>输入旧密码</translation>
     </message>
     <message id="change-pwd-new-pwd-label">
         <source>Enter new password</source>
-        <translation>请输入新密码</translation>
+        <translation>输入新密码</translation>
     </message>
     <message id="change-pwd-confirm-pwd-label">
         <source>Confirm new password</source>
-        <translation>请确认新密码</translation>
+        <translation>确认新密码</translation>
     </message>
     <message id="change-pwd-cancel">
         <source>cancel</source>
@@ -215,7 +214,7 @@
     </message>
     <message id="change-pwd-ok">
         <source>change password</source>
-        <translation>修改钱包密码</translation>
+        <translation>修改密码</translation>
     </message>
     <message id="loading-loading">
         <source>Loading wallet...</source>
@@ -263,7 +262,7 @@
     <message id="edit-addr-comment">
         <source>Comment</source>
         <extracomment>Edit addres dialog, comment label</extracomment>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="edit-addr-cancel-button">
         <source>cancel</source>
@@ -277,11 +276,11 @@
     </message>
     <message id="payment-info-proof-verification">
         <source>Payment proof verification</source>
-        <translation>Payment proof verification</translation>
+        <translation>支付凭证验证</translation>
     </message>
     <message id="payment-info-proof">
         <source>Payment proof</source>
-        <translation>付款证明验证</translation>
+        <translation>支付凭证</translation>
     </message>
     <message id="payment-info-close-button">
         <source>close</source>
@@ -289,12 +288,11 @@
     </message>
     <message id="payment-info-proof-label">
         <source>Paste your payment proof here</source>
-        <translation>请在此处粘贴付款证明</translation>
+        <translation>请在此处粘贴支付凭证</translation>
     </message>
     <message id="payment-info-proof-decode-fail">
         <source>Cannot decode a proof, illegal sequence.</source>
-        <translation>无法解码证明
-非法序列</translation>
+        <translation>无法解码凭证，非法序列</translation>
     </message>
     <message id="payment-info-proof-code-label">
         <source>Code:</source>
@@ -406,7 +404,7 @@
     </message>
     <message id="tx-details-comment-label">
         <source>Comment:</source>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="tx-details-kernel-id-label">
         <source>Kernel ID:</source>
@@ -418,7 +416,7 @@
     </message>
     <message id="tx-details-payment-proof-label">
         <source>Payment proof</source>
-        <translation>付款证明</translation>
+        <translation>支付凭证</translation>
     </message>
     <message id="tx-details-details-button">
         <source>details</source>
@@ -454,7 +452,7 @@
     </message>
     <message id="cant-send-to-expired-ok-button">
         <source>ok</source>
-        <translation>好</translation>
+        <translation>确认</translation>
     </message>
     <message id="send-confirmation-button">
         <source>send</source>
@@ -510,11 +508,11 @@
     </message>
     <message id="wallet-receive-comment-label">
         <source>Comment</source>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="wallet-receive-qr-label">
         <source>Scan to send</source>
-        <translation>扫描以付款</translation>
+        <translation>扫描支付</translation>
     </message>
     <message id="wallet-receive-propogate-addr-message">
         <source>Send this address to the sender over an external secure channel</source>
@@ -538,7 +536,7 @@
     </message>
     <message id="send-title">
         <source>Send Grimm</source>
-        <translation>付款Grimm</translation>
+        <translation>支付Grimm</translation>
     </message>
     <message id="send-send-to-label">
         <source>Send To:</source>
@@ -570,7 +568,7 @@
     </message>
     <message id="send-comment-label">
         <source>Comment</source>
-        <translation>备注</translation>
+        <translation>评论</translation>
     </message>
     <message id="send-fee-label">
         <source>Transaction fee</source>
@@ -594,7 +592,7 @@
     </message>
     <message id="send-send-button">
         <source>send</source>
-        <translation>付款</translation>
+        <translation>支付</translation>
     </message>
     <message id="send-send-fail">
         <source>Address %1 is invalid</source>
@@ -606,11 +604,11 @@
     </message>
     <message id="wallet-send-button">
         <source>send</source>
-        <translation>付款</translation>
+        <translation>支付</translation>
     </message>
     <message id="wallet-in-progress-title">
         <source>In progress</source>
-        <translation>交易中</translation>
+        <translation>处理中</translation>
     </message>
     <message id="wallet-transactions-title">
         <source>Transactions</source>
@@ -654,8 +652,7 @@
     </message>
     <message id="wallet-txs-delete-message">
         <source>The transaction will be deleted. This operation can not be undone</source>
-        <translation>交易将被删除
-此操作无法撤销</translation>
+        <translation>交易将被删除。此操作无法撤回。</translation>
     </message>
     <message id="start-restore-confirm-button">
         <source>I agree</source>
@@ -663,8 +660,7 @@
     </message>
     <message id="start-restore-message-line">
         <source>You are trying to restore an existing Grimm Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</source>
-        <translation>您正在尝试还原已存在的Grimm钱包
-请注意：如果您在其他设备上使用该钱包，您的余额将是最新的，但交易历史和地址将分别保存在每个设备上</translation>
+        <translation>您正在尝试还原已存在的Grimm钱包。请注意：如果您在其他设备上使用该钱包，您的余额将是最新的，但交易历史和地址将分别保存在每个设备上</translation>
     </message>
     <message id="start-create-button">
         <source>create new wallet</source>
@@ -722,7 +718,7 @@
     </message>
     <message id="start-create-new-message-line-2">
         <source>If you ever lose your device, you will need this phrase to recover your wallet!</source>
-        <translation>如果您丢失了设备或密码，您可以使用该助记词来回复您的钱包！</translation>
+        <translation>如果您丢失了设备或密码，您可以使用该助记词来恢复您的钱包！</translation>
     </message>
     <message id="start-create-new-securiry-note-1">
         <source>Do not let anyone see your seed phrase</source>
@@ -734,7 +730,7 @@
     </message>
     <message id="start-create-new-securiry-note-3">
         <source>Keep the copies of your seed phrase in a safe place</source>
-        <translation>请将助记词誊本保存在安全的地方</translation>
+        <translation>请将助记词保存在安全的地方</translation>
     </message>
     <message id="start-generate-seed-phrase-button">
         <source>generate seed phrase</source>
@@ -742,9 +738,7 @@
     </message>
     <message id="start-generate-seed-phrase-message">
         <source>Your seed phrase is the access key to all the cryptocurrencies in your wallet. Write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</source>
-        <translation>助记词是访问您账户资金的密钥
-必须打印或誊写助记词，并将其妥善保存在保险箱中
-如果您遗失或忘记助记词，您将无法找回或恢复钱包中的资金</translation>
+        <translation>助记词是访问您账户资金的密钥。抄写助记词并将其妥善保存在保险箱中。如果您遗失或忘记助记词，您将无法找回或恢复钱包中的资金</translation>
     </message>
     <message id="start-confirm-seed-phrase-button">
         <source>I understand</source>
@@ -752,12 +746,11 @@
     </message>
     <message id="start-confirm-seed-phrase-message">
         <source>It is strictly recommended to write down the seed phrase on a paper. Storing it in a file makes it prone to cyber attacks and, therefore, less secure.</source>
-        <translation>强烈建议将助记词写在纸张上保存
-使用电脑文件或照片等电子化保存非常容易因设备安全原因而泄露助记词，非常不安全</translation>
+        <translation>强烈建议将助记词写在纸张上保存。使用电脑文件或照片等电子化保存，非常容易因设备安全原因而泄露助记词，非常不安全</translation>
     </message>
     <message id="start-check-seed-phrase-message">
         <source>To ensure the seed phrase is written down, please fill-in the specific words below</source>
-        <translation>为验证助记词已被您被正确誊写并保存，请根据下面数字提示输入相应的助记词</translation>
+        <translation>为验证助记词已被您被正确誊写并保存，请输入下方相应的助记词</translation>
     </message>
     <message id="start-restore-title">
         <source>Restore wallet</source>
@@ -793,11 +786,11 @@
     </message>
     <message id="start-node-integrated-radio">
         <source>Full Node Wallet (recommended)</source>
-        <translation>Full Node Wallet (recommended)</translation>
+        <translation>全节点钱包 (推荐)</translation>
     </message>
     <message id="start-node-port-label">
         <source>Enter port to listen</source>
-        <translation>请输入监听端口号</translation>
+        <translation>输入监听端口</translation>
     </message>
     <message id="start-node-peer-label">
         <source>Peer</source>
@@ -805,11 +798,11 @@
     </message>
     <message id="start-node-random-radio">
         <source>Light Wallet </source>
-        <translation>Light Wallet </translation>
+        <translation>轻钱包</translation>
     </message>
     <message id="start-node-remote-radio">
         <source>p2p connect (for developers)</source>
-        <translation>p2p connect (for developers)</translation>
+        <translation>点对点连接 (针对开发者)</translation>
     </message>
     <message id="start-finish-button-restore">
         <source>restore wallet</source>
@@ -821,7 +814,7 @@
     </message>
     <message id="start-node-port-empty-error">
         <source>Please, specify port number to listen on</source>
-        <translation>请输入端口号</translation>
+        <translation>请输入监听端口</translation>
     </message>
     <message id="start-node-port-value-error">
         <source>Port must be a number between 1 and 65535</source>
@@ -833,7 +826,7 @@
     </message>
     <message id="start-node-peer-error">
         <source>Please, specify correct peer</source>
-        <translation>请指定节点</translation>
+        <translation>请指定正确节点</translation>
     </message>
     <message id="start-node-empty-error">
         <source>Please, specify address of the remote node</source>
@@ -841,8 +834,7 @@
     </message>
     <message id="appmodel-failed-start-node">
         <source>Failed to start node. Please check your node configuration</source>
-        <translation>启动节点失败
-请检查节点配置</translation>
+        <translation>启动节点失败。请检查节点配置</translation>
     </message>
     <message id="wallet-model-node-protocol-error">
         <source>Node protocol error!</source>
@@ -862,16 +854,15 @@
     </message>
     <message id="wallet-model-connection-refused-error">
         <source>Reconnect to node:</source>
-        <translation>无法连接到节点</translation>
+        <translation>重新连接到节点</translation>
     </message>
     <message id="wallet-model-connection-host-unreach-error">
         <source>Node is unreachable:</source>
-        <translation>节点无法被连接</translation>
+        <translation>节点无法连接</translation>
     </message>
     <message id="wallet-model-connection-addr-in-use-error">
         <source>The port %1 is already in use. Check if a wallet is already running on this machine or change the port settings.</source>
-        <translation>端口号%1已被占用
-请检查本机后台是否已启动了钱包程序或更改端口设置</translation>
+        <translation>端口%1已被占用。请检查本机后台是否已启动了钱包程序或更改端口设置</translation>
     </message>
     <message id="wallet-model-time-sync-error">
         <source>System time not synchronized.</source>
@@ -887,8 +878,7 @@
     </message>
     <message id="wallet-model-data-location-error">
         <source>Failed to start wallet. Please check your wallet data location</source>
-        <translation>启动钱包失败
-请检查您的钱包数据文件位置</translation>
+        <translation>启动钱包失败。请检查您的钱包数据文件位置</translation>
     </message>
     <message id="loading-view-download-blocks">
         <source>Downloading blocks</source>
@@ -900,7 +890,7 @@
     </message>
     <message id="loading-view-protocol-error">
         <source>Incompatible peer</source>
-        <translation>节点不兼容</translation>
+        <translation>不兼容节点</translation>
     </message>
     <message id="loading-view-connection-error">
         <source>Connection error</source>
@@ -908,13 +898,11 @@
     </message>
     <message id="start-view-printer-not-found-error">
         <source>Printer is not found. Please, check your printer preferences.</source>
-        <translation>找不到打印机
-请检查您的打印机设置</translation>
+        <translation>找不到打印机。请检查您的打印机设置</translation>
     </message>
     <message id="start-view-printer-error">
         <source>Failed to print seed phrase. Please, check your printer.</source>
-        <translation>打印助记词失败
-请检查您的打印机</translation>
+        <translation>打印助记词失败。请检查您的打印机</translation>
     </message>
     <message id="start-view-select-db">
         <source>Select the wallet database file</source>
@@ -978,7 +966,7 @@
     </message>
     <message id="tx-failture-max-height-to-high">
         <source>Kernel maximum height is too high</source>
-        <translation>内核最大高度太高</translation>
+        <translation>内核最大高度过高</translation>
     </message>
     <message id="tx-failture-invalid-state">
         <source>Transaction has invalid state</source>
@@ -1046,7 +1034,7 @@
     </message>
     <message id="utxo-status-spent">
         <source>spent</source>
-        <translation>已付</translation>
+        <translation>已花费</translation>
     </message>
     <message id="utxo-type-fee">
         <source>Transaction fee</source>
@@ -1066,7 +1054,7 @@
     </message>
     <message id="utxo-type-treasury">
         <source>Treasury</source>
-        <translation>Treasury</translation>
+        <translation>金库</translation>
     </message>
     <message id="wallet-txs-status-pending">
         <source>pending</source>
@@ -1151,12 +1139,11 @@
     </message>
     <message id="can-not-generate-new-address-message">
         <source>You cannot generate new address. Your wallet doesn&apos;t have a master key.</source>
-        <translation>无法生成新地址
-您的钱包无主密钥</translation>
+        <translation>无法生成新地址。您的钱包无主密钥。</translation>
     </message>
     <message id="can-not-generate-new-address-ok-button">
         <source>ok</source>
-        <translation>好</translation>
+        <translation>确认</translation>
     </message>
     <message id="settings-general-language">
         <source>Language</source>
@@ -1169,7 +1156,7 @@
     </message>
     <message id="open-external-open">
         <source>open</source>
-        <translation>打开钱包</translation>
+        <translation>打开</translation>
     </message>
     <message id="open-external-title">
         <source>External link</source>
@@ -1177,9 +1164,7 @@
     </message>
     <message id="open-external-message">
         <source>Grimm Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose -Cancel-. You can chage your choice in app setting anytime.</source>
-        <translation>Grimm钱包需要获取权限以在浏览器中打开外部链接
-
-在浏览器中打开外部外链会暴露您的IP地址；如不想暴露IP地址，请选择“取消”；您可以随时在设置中修改该选项</translation>
+        <translation>Grimm钱包需要获取权限以在浏览器中打开外部链接。在浏览器中打开外部外链会暴露您的IP地址；如不想暴露IP地址，请选择“取消”；您可以随时在设置中修改该选项</translation>
     </message>
     <message id="start-restore-message-title">
         <source>Restore wallet</source>
@@ -1215,8 +1200,7 @@
     </message>
     <message id="loading-restore-message-line2">
         <source>Only the wallet balance (UTXO) can be restored, transaction info and addresses are always private and never kept in the blockchain.</source>
-        <translation>仅可恢复钱包余额(UTXO)
-交易历史信息保存在本地，区块链上不保存交易历史</translation>
+        <translation>仅可恢复钱包余额(UTXO)，交易历史信息保存在本地，区块链上不保存交易历史</translation>
     </message>
     <message id="start-recovery-title">
         <source>Create new password</source>
@@ -1277,7 +1261,7 @@
     <message id="settings-mining-title">
         <source>Mining</source>
         <extracomment>settings tab, mining section, title</extracomment>
-        <translation>Mining</translation>
+        <translation>挖矿</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>
@@ -1302,7 +1286,7 @@
     <message id="edit-addr-24-option">
         <source>in 24 hours from now</source>
         <extracomment>Edit address dialog, expiration option, in 24 hours from now</extracomment>
-        <translation>24小时后</translation>
+        <translation>从现在起24小时后</translation>
     </message>
     <message id="edit-addr-never-option">
         <source>never</source>
@@ -1332,7 +1316,7 @@
     <message id="edit-addr-expiration-time-label">
         <source>Expired on </source>
         <extracomment>Edit addres dialog, expiration time label</extracomment>
-        <translation>失效时间</translation>
+        <translation>失效开启</translation>
     </message>
     <message id="edit-addr-activate-addr-switch">
         <source>Activate address</source>
@@ -1372,12 +1356,12 @@
     <message id="edit-addr-comment-error">
         <source>Address with same comment already exist</source>
         <extracomment>Edit address dialog, address with same comment already exist error</extracomment>
-        <translation>有地址已使用了相同备注</translation>
+        <translation>有地址已使用了相同评论</translation>
     </message>
     <message id="create-addr-comment-error">
         <source>Address with same comment already exist</source>
         <extracomment>Create address, address with same comment already exist error</extracomment>
-        <translation>Address with same comment already exist</translation>
+        <translation>有地址已使用了相同评论</translation>
     </message>
     <message id="start-migration-select-file-button">
         <source>select wallet database file manually</source>
