@@ -47,7 +47,7 @@ namespace
     const std::map<QString, QString> kSupportedLangs {
         { "en_US", "English" },
         { "ru_RU", "Русский" },
-        { "zh_CN", "Chinese Simplified"}
+        { "zh_CN", "简体中文"}
     };
 }
 
