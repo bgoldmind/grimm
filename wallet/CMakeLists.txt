@@ -14,6 +14,8 @@ set(WALLET_SRC
     wallet_db.cpp
     wallet_client.h
     wallet_client.cpp
+    assets/asset_transaction.cpp
+    assets/asset_issue_tx_builder.cpp
     swaps/swap_transaction.cpp
     swaps/lock_tx_builder.cpp
     swaps/shared_tx_builder.cpp
