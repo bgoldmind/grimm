@@ -146,6 +146,8 @@ namespace grimm
         extern const char* APPDATA_PATH;
         // Defaults that should be accessible outside
         extern const Amount kMinimumFee;
+        // confidential assets
+        extern const char* ASSET_ISSUE;
     }
 
     enum OptionsFlag : int

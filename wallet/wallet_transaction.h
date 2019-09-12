@@ -33,7 +33,7 @@ namespace grimm::wallet
             Initial,
             Invitation,
             PeerConfirmation,
-            
+
             InvitationConfirmation,
             Registration,
 
@@ -41,6 +41,11 @@ namespace grimm::wallet
             OutputsConfirmation
         };
     public:
+    static BaseTransaction::Ptr Create(INegotiatorGateway& gateway
+                                    , IWalletDB::Ptr walletDB
+                                    , IPrivateKeyKeeper::Ptr keyKeeper
+                                    , const TxID& txID);
+    private:
         SimpleTransaction(INegotiatorGateway& gateway
                         , IWalletDB::Ptr walletDB
                         , IPrivateKeyKeeper::Ptr keyKeeper

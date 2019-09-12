@@ -24,6 +24,15 @@ namespace grimm::wallet
     using namespace ECC;
     using namespace std;
 
+    BaseTransaction::Ptr SimpleTransaction::Create(INegotiatorGateway& gateway
+        , IWalletDB::Ptr walletDB
+        , IPrivateKeyKeeper::Ptr keyKeeper
+        , const TxID& txID)
+    {
+        
+        return BaseTransaction::Ptr(new SimpleTransaction(gateway, walletDB, keyKeeper, txID));
+    }
+
 
     SimpleTransaction::SimpleTransaction(INegotiatorGateway& gateway
                                         , IWalletDB::Ptr walletDB

@@ -105,6 +105,9 @@ namespace grimm::wallet
         void initLitecoin(io::Reactor& reactor, const LitecoinOptions& options);
         void initSwapConditions(Amount grimmAmount, Amount swapAmount, AtomicSwapCoin swapCoin, bool isGrimmSide);
 
+        // Confidential assets
+        TxID issue_asset(const WalletID& from, const WalletID& to, Amount amountList, Amount fee, const CoinIDList& coins, bool sender, Height lifetime, Height responseTime, ByteBuffer&& message, bool saveReceiver);
+
         TxID transfer_money(const WalletID& from, const WalletID& to, Amount amount, Amount fee = 0, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID transfer_money(const WalletID& from, const WalletID& to, Amount amount, Amount fee = 0, const CoinIDList& coins = {}, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID transfer_money(const WalletID& from, const WalletID& to, const AmountList& amountList, Amount fee = 0, const CoinIDList& coins = {}, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
@@ -120,6 +123,8 @@ namespace grimm::wallet
         void unsubscribe(IWalletObserver* observer) override;
         void cancel_tx(const TxID& txId) override;
         void delete_tx(const TxID& txId) override;
+        void ProcessTransaction(wallet::BaseTransaction::Ptr tx);
+        void RegisterTransactionType(wallet::TxType type, wallet::BaseTransaction::Creator creator);
 
     private:
         void RefreshTransactions();
@@ -292,6 +297,9 @@ namespace grimm::wallet
 
         // List of transactions that are waiting for the next tip (new block) to arrive
         std::unordered_set<BaseTransaction::Ptr> m_NextTipTransactionToUpdate;
+
+        // List of registered transaction creators
+        std::unordered_map<wallet::TxType, wallet::BaseTransaction::Creator> m_TxCreators;
 
         // Functor for callback when transaction completed
         TxCompletedAction m_TxCompletedAction;

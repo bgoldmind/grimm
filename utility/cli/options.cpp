@@ -149,6 +149,8 @@ namespace grimm
         const char* APPDATA_PATH = "appdata";
         // Defaults
         const Amount kMinimumFee = 100;
+        //CA
+        const char* ASSET_ISSUE = "issue";
     }
 
         template <typename T> struct TypeCvt {
@@ -262,6 +264,10 @@ namespace grimm
             (cli::WALLET_ADDR, po::value<vector<string>>()->multitoken())
             (cli::APPDATA_PATH, po::value<string>());
 
+            //po::options_description wallet_assets_options("Confidential assets options");
+            //wallet_assets_options.add_options()
+            //    (cli::ASSET_ISSUE, "issue new asset");
+
         po::options_description options{ "Allowed options" };
         po::options_description visible_options{ "Allowed options" };
         if (flags & GENERAL_OPTIONS)
@@ -279,7 +285,9 @@ namespace grimm
         {
             options.add(wallet_options);
             options.add(wallet_treasury_options);
+            //options.add(wallet_assets_options);
             visible_options.add(wallet_options);
+            //visible_options.add(wallet_assets_options);
         }
         if (flags & UI_OPTIONS)
         {
