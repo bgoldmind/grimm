@@ -1,14 +1,14 @@
 
-### Testnet
-
 ![alt text](https://i.ibb.co/vBHKqqV/logo200.png)
 ## Grimm. No one will ever know
 - [Website grimmw.com](https://grimmw.com)
 ### Current status
 
-#### Mainnet online (mainnet branch). First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
+#### Mainnet online. First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC) [mainnet branch](https://github.com/freenetcoder/grimm/tree/mainnet)
 
-#### Testnet Online
+#### Testnet online.[testnet branch](https://github.com/freenetcoder/grimm/tree/testnet)
+
+
 
 - Financial freedom
 No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
@@ -66,7 +66,7 @@ Add .../qt511/5.11.1/msvc2017_64/bin and .../boost_1_68_0/lib64-msvc-14.1 to the
 - Go to CMake -> Cache -> Open Cache Folder -> grimm (you'll find binaries in grimm/..., wallet/..., ui/..., explorer/... subfolders).
 
 ### Linux
-### Ubuntu 18.04
+### Ubuntu 14.04
 - Install gcc7 boost ssl packages.
   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   sudo apt update
