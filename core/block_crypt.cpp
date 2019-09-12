@@ -457,8 +457,8 @@ namespace grimm
 
 			if (m_AssetEmission)
 			{
-				if (!Rules::get().CA.Enabled)
-					return false;
+				//if (!Rules::get().CA.Enabled)
+				//	return false;
 
 				if (pParent || !m_vNested.empty())
 					return false; // Ban complex cases. Emission kernels must be simple
