@@ -264,9 +264,9 @@ namespace grimm
             (cli::WALLET_ADDR, po::value<vector<string>>()->multitoken())
             (cli::APPDATA_PATH, po::value<string>());
 
-            //po::options_description wallet_assets_options("Confidential assets options");
-            //wallet_assets_options.add_options()
-            //    (cli::ASSET_ISSUE, "issue new asset");
+        po::options_description wallet_assets_options("Confidential assets options");
+        wallet_assets_options.add_options()
+            (cli::ASSET_ISSUE, "issue new asset");
 
         po::options_description options{ "Allowed options" };
         po::options_description visible_options{ "Allowed options" };
@@ -285,9 +285,9 @@ namespace grimm
         {
             options.add(wallet_options);
             options.add(wallet_treasury_options);
-            //options.add(wallet_assets_options);
+            options.add(wallet_assets_options);
             visible_options.add(wallet_options);
-            //visible_options.add(wallet_assets_options);
+            visible_options.add(wallet_assets_options);
         }
         if (flags & UI_OPTIONS)
         {
