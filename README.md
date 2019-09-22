@@ -1,14 +1,14 @@
 
-### Testnet
-
 ![alt text](https://i.ibb.co/vBHKqqV/logo200.png)
 ## Grimm. No one will ever know
 - [Website grimmw.com](https://grimmw.com)
 ### Current status
 
-#### Mainnet online (mainnet branch). First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC)
+#### Mainnet online. First block "timestamp":1564997815 Aug. 5th, 2019 @ 9:36am (UTC) [mainnet branch](https://github.com/freenetcoder/grimm/tree/mainnet)
 
-#### Testnet Online
+#### Testnet online [testnet branch](https://github.com/freenetcoder/grimm/tree/testnet)
+
+
 
 - Financial freedom
 No founders TAX. All mining rewards go directly to the miners. No ICO, STO, IEO, Premine. No transaction fees.
@@ -25,6 +25,10 @@ We designed Grimm so that it doesn’t depend on any one person. We don’t cont
 ### ON TELEGRAM
 
 [English](https://t.me/grimmw) | [Русский](https://t.me/grimmwru)
+
+### DISCORD
+
+[invite link](https://discord.gg/XKgPPW2)
 
 ### EITHER HELP US, OR GET OUT OF OUR WAY
 
