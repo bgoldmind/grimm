@@ -41,20 +41,20 @@ Button {
         icon: control.icon
         text: control.text
         font: control.font
-        
+
         color: control.enabled ? control.palette.buttonText : Style.content_disabled
     }
-    
+
     Keys.onPressed: {
         if (event.key == Qt.Key_Return || event.key == Qt.Key_Enter) control.clicked();
     }
 
     background: Rectangle {
         id: rect
-        radius: 50
+        radius: 7
         color: control.enabled ? control.palette.button : Style.content_disabled
         opacity: control.enabled ? 1.0 : 0.6
-        
+
         width: control.width
         height: control.height
     }
