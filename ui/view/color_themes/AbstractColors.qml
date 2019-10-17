@@ -3,6 +3,7 @@ import QtQuick 2.11
 QtObject {
     property color content_main;
     property color accent_outgoing;
+    property color accent_outgoing2;
     property color accent_incoming;
     property color content_secondary;
     property color content_disabled;
@@ -21,7 +22,7 @@ QtObject {
 
     property color active;
     property color passive;
-        
+
     property color caps_warning;
 
 	property color white:            "#ffffff"

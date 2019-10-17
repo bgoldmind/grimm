@@ -5,7 +5,7 @@
     <name></name>
     <message id="addresses-tittle">
         <source>Addresses</source>
-        <translation>地址</translation>
+        <translation type="vanished">地址</translation>
     </message>
     <message id="addresses-tab-active">
         <source>MY ACTIVE ADDRESSES</source>
@@ -29,7 +29,7 @@
     </message>
     <message id="addresses-head-category">
         <source>Category</source>
-        <translation>类别</translation>
+        <translation type="vanished">类别</translation>
     </message>
     <message id="addresses-head-actions-tooltip">
         <source>Actions</source>
@@ -56,8 +56,9 @@
         <translation>失效日期</translation>
     </message>
     <message id="address-table-head-created">
-        <source>Created</source>
-        <translation>已创建</translation>
+        <source></source>
+        <oldsource>Created</oldsource>
+        <translation type="unfinished">已创建</translation>
     </message>
     <message id="address-table-head-tooltip-actions">
         <source>Actions</source>
@@ -95,7 +96,7 @@
     <message id="settings-mining-cpu-threads">
         <source>CPU threads</source>
         <extracomment>settings tab, mining section, run cpu mining</extracomment>
-        <translation>CPU threads</translation>
+        <translation type="vanished">CPU threads</translation>
     </message>
     <message id="settings-local-node-port">
         <source>Port</source>
@@ -228,10 +229,9 @@
         <source>Creating wallet...</source>
         <translation>正在创建钱包...</translation>
     </message>
-
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
-        <translation>显示我的钱包</translation>
+        <translation type="vanished">显示我的钱包</translation>
     </message>
     <message id="open-pwd-empty">
         <source>Please, enter password</source>
@@ -328,15 +328,15 @@
     </message>
     <message id="secondary-panel-receiving">
         <source>RECEIVING</source>
-        <translation>收款中</translation>
+        <translation type="vanished">收款中</translation>
     </message>
     <message id="secondary-panel-sending">
         <source>SENDING</source>
-        <translation>付款中</translation>
+        <translation type="vanished">付款中</translation>
     </message>
     <message id="secondary-panel-maturing">
         <source>MATURING</source>
-        <translation>成熟中</translation>
+        <translation type="vanished">成熟中</translation>
     </message>
     <message id="sf-label-cm-copy">
         <source>copy</source>
@@ -360,7 +360,7 @@
     </message>
     <message id="info-title">
         <source>Info view</source>
-        <translation>信息视图</translation>
+        <translation type="vanished">信息视图</translation>
     </message>
     <message id="loading-change-settings-button">
         <source>change settings</source>
@@ -372,7 +372,7 @@
     </message>
     <message id="notifications-title">
         <source>Notifications view</source>
-        <translation>通知视图</translation>
+        <translation type="vanished">通知视图</translation>
     </message>
     <message id="status-connecting">
         <source>connecting</source>
@@ -484,7 +484,7 @@
     </message>
     <message id="wallet-title">
         <source>Wallet</source>
-        <translation>钱包</translation>
+        <translation type="vanished">钱包</translation>
     </message>
     <message id="wallet-receive-title">
         <source>Receive Grimm</source>
@@ -600,23 +600,24 @@
     </message>
     <message id="wallet-receive-button">
         <source>receive</source>
-        <translation>收款</translation>
+        <translation type="vanished">收款</translation>
     </message>
     <message id="wallet-send-button">
         <source>send</source>
-        <translation>支付</translation>
+        <translation type="vanished">支付</translation>
     </message>
     <message id="wallet-in-progress-title">
         <source>In progress</source>
-        <translation>处理中</translation>
+        <translation type="vanished">处理中</translation>
     </message>
     <message id="wallet-transactions-title">
         <source>Transactions</source>
-        <translation>交易</translation>
+        <translation type="vanished">交易</translation>
     </message>
     <message id="wallet-verify-payment">
-        <source>Verify payment</source>
-        <translation>验证付款</translation>
+        <source></source>
+        <oldsource>Verify payment</oldsource>
+        <translation type="unfinished">验证付款</translation>
     </message>
     <message id="wallet-txs-date-time">
         <source>Date | time</source>
@@ -982,15 +983,15 @@
     </message>
     <message id="utxo-utxo">
         <source>UTXO</source>
-        <translation>UTXO</translation>
+        <translation type="vanished">UTXO</translation>
     </message>
     <message id="utxo-blockchain-height">
         <source>Blockchain Height</source>
-        <translation>区块高度</translation>
+        <translation type="vanished">区块高度</translation>
     </message>
     <message id="utxo-last-block-hash">
         <source>Last block hash</source>
-        <translation>最高区块哈希值</translation>
+        <translation type="vanished">最高区块哈希值</translation>
     </message>
     <message id="utxo-head-amount">
         <source>Amount</source>
@@ -1128,14 +1129,13 @@
         <source>1 hour</source>
         <translation>1小时</translation>
     </message>
-
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>交易ID</translation>
     </message>
     <message id="appmodel-failed-time-not-synced">
         <source>Failed to start the integrated node: the timezone settings of your machine are out of sync. Please fix them and restart the wallet.</source>
-          <translation>启动集成节点失败：您的设备时区设置未同步，请修正时区设置后重启钱包</translation>
+        <translation>启动集成节点失败：您的设备时区设置未同步，请修正时区设置后重启钱包</translation>
     </message>
     <message id="can-not-generate-new-address-message">
         <source>You cannot generate new address. Your wallet doesn&apos;t have a master key.</source>
@@ -1261,7 +1261,7 @@
     <message id="settings-mining-title">
         <source>Mining</source>
         <extracomment>settings tab, mining section, title</extracomment>
-        <translation>挖矿</translation>
+        <translation type="vanished">挖矿</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>
@@ -1274,9 +1274,10 @@
         <translation>在文件夹中显示</translation>
     </message>
     <message id="settings-general-allow-grimm-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; </source>
+        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</oldsource>
         <extracomment>general settings, label for alow open external links</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
+        <translation type="unfinished">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
     </message>
     <message id="settings-report-problem-message">
         <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:admin@grimmw.com&apos;&gt;admin@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>
@@ -1382,6 +1383,31 @@
         <source>show in folder</source>
         <extracomment>start screen, select db for migration, show in folder label</extracomment>
         <translation>在文件夹中显示</translation>
+    </message>
+    <message id="contribute">
+        <source>Send Grimm</source>
+        <oldsource>Contribute</oldsource>
+        <translation type="unfinished">Contribute</translation>
+    </message>
+    <message id="contribute_text">
+        <source>Send Grimm</source>
+        <oldsource>Grimm is nonprofit project. Fully decentralized. No pre-mine. No ICO.</oldsource>
+        <translation type="unfinished">Grimm is nonprofit project. Fully decentralized. No pre-mine. No ICO.</translation>
+    </message>
+    <message id="contribute_text_next">
+        <source>Send Grimm</source>
+        <oldsource>Donations help our developers pay the bills and listing fees, doing PR, enable new developers to join the project</oldsource>
+        <translation type="unfinished">Donations help our developers pay the bills and listing fees, doing PR, enable new developers to join the project</translation>
+    </message>
+    <message id="donation_amount">
+        <source>Transaction amount</source>
+        <oldsource>Donation amount</oldsource>
+        <translation type="unfinished">Donation Amount</translation>
+    </message>
+    <message id="donate">
+        <source>send</source>
+        <oldsource>Donate</oldsource>
+        <translation type="unfinished">Donate</translation>
     </message>
 </context>
 </TS>

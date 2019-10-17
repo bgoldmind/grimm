@@ -7,7 +7,7 @@ import "."
 Item {
     id: rootControl
 
-    y: 53
+
 
     property var model
 
@@ -122,7 +122,7 @@ Item {
         color: Style.content_secondary
         font.pixelSize: 14
         text: "(" + model.nodeSyncProgress + "%)"
-        visible: model.nodeSyncProgress > 0 && update_indicator.visible
+        visible: false
     }
 
     CustomProgressBar {
@@ -130,10 +130,9 @@ Item {
         anchors.top: update_indicator.bottom
         anchors.left: update_indicator.left
         anchors.topMargin: 6
-        backgroundImplicitWidth: 200
-        contentItemImplicitWidth: 200
 
-        visible: model.nodeSyncProgress > 0 && update_indicator.visible
+
+        visible: false
         value: model.nodeSyncProgress / 100
     }
 
@@ -144,7 +143,7 @@ Item {
             PropertyChanges {
                 target: status_text;
                 //% "connecting"
-                text: qsTrId("status-connecting") + model.branchName
+                text: "online"
             }
             StateChangeScript {
                 name: "connectingScript"
@@ -159,7 +158,7 @@ Item {
             PropertyChanges {
                 target: status_text;
                 //% "online"
-                text: qsTrId("status-online") + model.branchName
+                text: "online"
             }
             StateChangeScript {
                 name: "onlineScript"
@@ -175,7 +174,7 @@ Item {
             PropertyChanges {
                 target: status_text;
                 //% "updating"
-                text: qsTrId("status-updating") + "..." + model.branchName
+                text: "online"
             }
             StateChangeScript {
                 name: "updatingScript"
@@ -189,7 +188,7 @@ Item {
             when: (rootControl.status === "error")
             PropertyChanges {
                 target: status_text;
-                text: rootControl.error_msg + model.branchName
+                text: "online"
             }
             StateChangeScript {
                 name: "errorScript"

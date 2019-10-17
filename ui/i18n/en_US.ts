@@ -5,7 +5,7 @@
     <name></name>
     <message id="addresses-tittle">
         <source>Addresses</source>
-        <translation>Addresses</translation>
+        <translation type="vanished">Addresses</translation>
     </message>
     <message id="addresses-tab-active">
         <source>MY ACTIVE ADDRESSES</source>
@@ -29,7 +29,7 @@
     </message>
     <message id="addresses-head-category">
         <source>Category</source>
-        <translation>Category</translation>
+        <translation type="vanished">Category</translation>
     </message>
     <message id="addresses-head-actions-tooltip">
         <source>Actions</source>
@@ -56,8 +56,9 @@
         <translation>Expiration date</translation>
     </message>
     <message id="address-table-head-created">
-        <source>Created</source>
-        <translation>Created</translation>
+        <source></source>
+        <oldsource>Created</oldsource>
+        <translation type="unfinished">Created</translation>
     </message>
     <message id="address-table-head-tooltip-actions">
         <source>Actions</source>
@@ -95,7 +96,7 @@
     <message id="settings-mining-cpu-threads">
         <source>CPU threads</source>
         <extracomment>settings tab, mining section, run cpu mining</extracomment>
-        <translation>CPU threads</translation>
+        <translation type="vanished">CPU threads</translation>
     </message>
     <message id="settings-local-node-port">
         <source>Port</source>
@@ -228,10 +229,9 @@
         <source>Creating wallet...</source>
         <translation>Creating wallet...</translation>
     </message>
-
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
-        <translation>show my wallet</translation>
+        <translation type="vanished">show my wallet</translation>
     </message>
     <message id="open-pwd-empty">
         <source>Please, enter password</source>
@@ -328,15 +328,15 @@
     </message>
     <message id="secondary-panel-receiving">
         <source>RECEIVING</source>
-        <translation>RECEIVING</translation>
+        <translation type="vanished">RECEIVING</translation>
     </message>
     <message id="secondary-panel-sending">
         <source>SENDING</source>
-        <translation>SENDING</translation>
+        <translation type="vanished">SENDING</translation>
     </message>
     <message id="secondary-panel-maturing">
         <source>MATURING</source>
-        <translation>MATURING</translation>
+        <translation type="vanished">MATURING</translation>
     </message>
     <message id="sf-label-cm-copy">
         <source>copy</source>
@@ -360,7 +360,7 @@
     </message>
     <message id="info-title">
         <source>Info view</source>
-        <translation>Info view</translation>
+        <translation type="vanished">Info view</translation>
     </message>
     <message id="loading-change-settings-button">
         <source>change settings</source>
@@ -372,7 +372,7 @@
     </message>
     <message id="notifications-title">
         <source>Notifications view</source>
-        <translation>Notifications view</translation>
+        <translation type="vanished">Notifications view</translation>
     </message>
     <message id="status-connecting">
         <source>connecting</source>
@@ -484,7 +484,7 @@
     </message>
     <message id="wallet-title">
         <source>Wallet</source>
-        <translation>Wallet</translation>
+        <translation type="vanished">Wallet</translation>
     </message>
     <message id="wallet-receive-title">
         <source>Receive Grimm</source>
@@ -600,23 +600,24 @@
     </message>
     <message id="wallet-receive-button">
         <source>receive</source>
-        <translation>receive</translation>
+        <translation type="vanished">receive</translation>
     </message>
     <message id="wallet-send-button">
         <source>send</source>
-        <translation>send</translation>
+        <translation type="vanished">send</translation>
     </message>
     <message id="wallet-in-progress-title">
         <source>In progress</source>
-        <translation>In progress</translation>
+        <translation type="vanished">In progress</translation>
     </message>
     <message id="wallet-transactions-title">
         <source>Transactions</source>
-        <translation>Transactions</translation>
+        <translation type="vanished">Transactions</translation>
     </message>
     <message id="wallet-verify-payment">
-        <source>Verify payment</source>
-        <translation>Verify payment</translation>
+        <source></source>
+        <oldsource>Verify payment</oldsource>
+        <translation type="unfinished">Verify payment</translation>
     </message>
     <message id="wallet-txs-date-time">
         <source>Date | time</source>
@@ -982,15 +983,15 @@
     </message>
     <message id="utxo-utxo">
         <source>UTXO</source>
-        <translation>UTXO</translation>
+        <translation type="vanished">UTXO</translation>
     </message>
     <message id="utxo-blockchain-height">
         <source>Blockchain Height</source>
-        <translation>Blockchain Height</translation>
+        <translation type="vanished">Blockchain Height</translation>
     </message>
     <message id="utxo-last-block-hash">
         <source>Last block hash</source>
-        <translation>Last block hash</translation>
+        <translation type="vanished">Last block hash</translation>
     </message>
     <message id="utxo-head-amount">
         <source>Amount</source>
@@ -1128,7 +1129,6 @@
         <source>1 hour</source>
         <translation>1 hour</translation>
     </message>
-
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>Transaction ID:</translation>
@@ -1266,7 +1266,7 @@ or send this address to the sender over secure channel</translation>
     <message id="settings-mining-title">
         <source>Mining</source>
         <extracomment>settings tab, mining section, title</extracomment>
-        <translation>Mining</translation>
+        <translation type="vanished">Mining</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>
@@ -1279,9 +1279,10 @@ or send this address to the sender over secure channel</translation>
         <translation>show in folder</translation>
     </message>
     <message id="settings-general-allow-grimm-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; </source>
+        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</oldsource>
         <extracomment>general settings, label for alow open external links</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
+        <translation type="unfinished">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
     </message>
     <message id="settings-report-problem-message">
         <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:admin@grimmw.com&apos;&gt;admin@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>
@@ -1387,6 +1388,31 @@ or send this address to the sender over secure channel</translation>
         <source>show in folder</source>
         <extracomment>start screen, select db for migration, show in folder label</extracomment>
         <translation>show in folder</translation>
+    </message>
+    <message id="contribute">
+        <source>Send Grimm</source>
+        <oldsource>Contribute</oldsource>
+        <translation type="unfinished">Contribute</translation>
+    </message>
+    <message id="contribute_text">
+        <source>Send Grimm</source>
+        <oldsource>Grimm is nonprofit project. Fully decentralized. No pre-mine. No ICO.</oldsource>
+        <translation type="unfinished">Grimm is nonprofit project. Fully decentralized. No pre-mine. No ICO.</translation>
+    </message>
+    <message id="contribute_text_next">
+        <source>Send Grimm</source>
+        <oldsource>Donations help our developers pay the bills and listing fees, doing PR, enable new developers to join the project</oldsource>
+        <translation type="unfinished">Donations help our developers pay the bills and listing fees, doing PR, enable new developers to join the project</translation>
+    </message>
+    <message id="donation_amount">
+        <source>Transaction amount</source>
+        <oldsource>Donation amount</oldsource>
+        <translation type="unfinished">Donation Amount</translation>
+    </message>
+    <message id="donate">
+        <source>send</source>
+        <oldsource>Donate</oldsource>
+        <translation type="unfinished">Donate</translation>
     </message>
 </context>
 </TS>

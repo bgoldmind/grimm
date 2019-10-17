@@ -16,8 +16,12 @@ Rectangle {
     StatusbarViewModel {
         id: statusbarModel
     }
+    SettingsViewModel {id: sviewModel}
 
-    color: Style.background_main
+    gradient: Gradient {
+        GradientStop { position: 0.2; color: "#010202" }
+        GradientStop { position: 1.0; color: "#101615" }
+    }
 
     MouseArea {
         id: mainMouseArea
@@ -34,18 +38,19 @@ Rectangle {
     }
 
     property var contentItems : [
-		//"dashboard",
-		"wallet", 
-		"addresses", 
-		"utxo",
-		//"notification", 
-		//"info",
+		"dashboard",
+		"wallet",
+		"txs",
+    "addresses",
+    //"verify",
+		//"donate",
+    "utxo",
 		"settings"]
     property int selectedItem
 
     Rectangle {
         id: sidebar
-        width: 70
+        width: 230
         height: 0
         color: Style.navigation_background
         border.width: 0
@@ -55,53 +60,47 @@ Rectangle {
 
 
         Column {
-            width: 0
+            width:  0
             height: 0
             anchors.right: parent.right
             anchors.rightMargin: 0
             anchors.left: parent.left
             anchors.leftMargin: 0
             anchors.top: parent.top
-            anchors.topMargin: 125
+            anchors.topMargin: 150
 
             Repeater{
                 model: contentItems
 
-                Item {
+                Rectangle {
                     id: control
+                    color: Style.navigation_background
+                    border.width: 0
                     width: parent.width
-                    height: parent.width
+                    height: 50
                     activeFocusOnTab: true
-                    
+
                     SvgImage {
 						id: icon
-                        x: 21
-                        y: 16
-                        width: 28
-                        height: 28
+                        x: 31
+                        y: 4
+                        width: 162
+                        height: 42
                         source: "qrc:/assets/icon-" + modelData + (selectedItem == index ? "-active" : "") + ".svg"
-					}
-                    Item {
-                        Rectangle {
-                            id: indicator
-                            y: 6
-                            width: 4
-                            height: 48
-                            color: selectedItem == index ? Style.active : Style.passive
-                        }
 
-                        DropShadow {
-                            anchors.fill: indicator
-                            radius: 5
-                            samples: 9
-                            color: Style.active
-                            source: indicator
-                        }
+					}
+
+
+
+                    Item {
+
+
+
 
     					visible: control.activeFocus
                     }
                     Keys.onPressed: {
-                        if ((event.key == Qt.Key_Return || event.key == Qt.Key_Enter || event.key == Qt.Key_Space) && selectedItem != index) 
+                        if ((event.key == Qt.Key_Return || event.key == Qt.Key_Enter || event.key == Qt.Key_Space) && selectedItem != index)
                             updateItem(index);
                     }
 
@@ -116,26 +115,31 @@ Rectangle {
 						hoverEnabled: true
                     }
                 }
+
+
+
             }
         }
 
         Image {
             id: image
-            y: 50
+            y: 23
             anchors.horizontalCenter: parent.horizontalCenter
-            width: 40
-            height: 28
-            source: "qrc:/assets/logo.svg"
+
+            source: "qrc:/assets/logo110.svg"
+
         }
+
+
 
     }
 
     Loader {
         id: content
-        anchors.topMargin: 50
+        anchors.topMargin: 18
         anchors.bottomMargin: 0
         anchors.rightMargin: 30
-        anchors.leftMargin: 100
+        anchors.leftMargin: 250
         anchors.fill: parent
         focus: true
     }
@@ -150,7 +154,7 @@ Rectangle {
 	function openSendDialog() {
 		selectedItem = 0
 		content.setSource("qrc:/wallet.qml", {"toSend": true})
-        
+
 		viewModel.update(selectedItem)
 	}
 
@@ -160,7 +164,7 @@ Rectangle {
 
     Connections {
         target: viewModel
-        onGotoStartScreen: { 
+        onGotoStartScreen: {
             main.parent.setSource("qrc:/start.qml", {"isLockedMode": true});
         }
     }

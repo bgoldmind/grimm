@@ -9,7 +9,11 @@ import Grimm.Wallet 1.0
 Rectangle {
 
     anchors.fill: parent
-    color: Style.background_main
+    gradient: Gradient {
+        GradientStop { position: 0.2; color: "#010202" }
+        GradientStop { position: 1.0; color: "#101615" }
+    }
+
 
     SettingsViewModel {id: viewModel}
 
@@ -113,6 +117,7 @@ Rectangle {
         anchors.fill: parent
         spacing: 20
         anchors.bottomMargin: 30
+        anchors.topMargin: 25
 
         RowLayout {
             Layout.fillWidth: true
@@ -140,16 +145,6 @@ Rectangle {
             }
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 14
-
-            StatusBar {
-                Layout.preferredHeight: 14
-                id: status_bar
-                model: statusbarModel
-            }
-        }
 
         RowLayout {
             Layout.fillWidth: true
@@ -164,15 +159,242 @@ Rectangle {
                     width: mainColumn.width
                     spacing: 10
 
+
+
+
+
                     ColumnLayout {
-                        Layout.preferredWidth: mainColumn.width * 0.4
-                        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                        Layout.preferredWidth: mainColumn.width
+                        Layout.alignment: Qt.AlignTop | Qt.AlignRight
+
+                        Rectangle {
+                            id: generalBlock
+                            Layout.fillWidth: true
+                            Layout.rightMargin: 10
+                            radius: 10
+                            color: Style.navigation_background
+                            Layout.preferredHeight: 330
+
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 30
+                                spacing: 10
+                                SFText {
+                                    Layout.preferredHeight: 21
+                                    //: settings tab, general section, title
+                                    //% "General settings"
+                                    text: qsTrId("settings-general-title")
+                                    color: Style.content_main
+                                    font.pixelSize: 18
+                                    font.styleName: "Bold"; font.weight: Font.Bold
+                                }
+
+                                RowLayout {
+                                    Layout.preferredHeight: 16
+                                    Layout.topMargin: 15
+
+                                    ColumnLayout {
+                                        SFText {
+                                            Layout.fillWidth: true
+                                            //: settings tab, general section, lock screen label
+                                            //% "Lock screen"
+                                            text: qsTrId("settings-general-lock-screen")
+                                            color: Style.content_secondary
+                                            font.pixelSize: 14
+                                        }
+                                    }
+
+                                    Item {
+                                    }
+
+                                    ColumnLayout {
+                                        CustomComboBox {
+                                            id: lockTimeoutControl
+                                            fontPixelSize: 14
+                                            Layout.preferredWidth: generalBlock.width * 0.33
+
+                                            currentIndex: viewModel.lockTimeout
+
+                                            Binding {
+                                                target: viewModel
+                                                property: "lockTimeout"
+                                                value: lockTimeoutControl.currentIndex
+                                            }
+
+                                            model: [
+                                                //% "never"
+                                                qsTrId("settings-general-lock-screen-never"),
+                                                //% "1 minute"
+                                                qsTrId("settings-general-lock-screen-1m"),
+                                                //% "5 minutes"
+                                                qsTrId("settings-general-lock-screen-5m"),
+                                                //% "15 minutes"
+                                                qsTrId("settings-general-lock-screen-15m"),
+                                                //% "30 minutes"
+                                                qsTrId("settings-general-lock-screen-30m"),
+                                                //% "1 hour"
+                                                qsTrId("settings-general-lock-screen-1h"),
+                                            ]
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredHeight: 15
+                                }
+
+                                RowLayout {
+                                    Layout.preferredHeight: 16
+
+                                    ColumnLayout {
+                                        SFText {
+                                            Layout.fillWidth: true
+                                            //: settings tab, general section, language label
+                                            //% "Language"
+                                            text: qsTrId("settings-general-language")
+                                            color: Style.content_secondary
+                                            font.pixelSize: 14
+                                        }
+                                    }
+
+                                    Item {
+                                    }
+
+                                    ColumnLayout {
+                                        CustomComboBox {
+                                            id: language
+                                            Layout.preferredWidth: generalBlock.width * 0.33
+                                            fontPixelSize: 14
+
+                                            model: viewModel.supportedLanguages
+                                            currentIndex: viewModel.currentLanguageIndex
+                                            onActivated: {
+                                                viewModel.currentLanguage = currentText;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredHeight: 10
+                                }
+
+                                SFText {
+                                    //: settings tab, general section, wallet data folder location label
+                                    //% "Wallet folder location"
+                                    text: qsTrId("settings-wallet-location-label")
+                                    color: Style.content_main
+                                    font.pixelSize: 14
+                                    font.styleName: "Bold"; font.weight: Font.Bold
+                                }
+
+                                RowLayout {
+                                    SFText {
+                                        Layout.fillWidth: true
+                                        font.pixelSize: 14
+                                        color: Style.content_main
+                                        text: viewModel.walletLocation
+                                        elide: Text.ElideMiddle
+                                    }
+
+                                    SFText {
+                                        Layout.fillWidth: false
+                                        Layout.alignment: Qt.AlignRight
+                                        font.pixelSize: 14
+                                        color: Style.active
+                                        //: settings tab, general section, show data folder link
+                                        //% "show in folder"
+                                        text: qsTrId("settings-wallet-location-link")
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            acceptedButtons: Qt.LeftButton
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                viewModel.openFolder(viewModel.walletLocation);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredHeight: 10
+                                }
+
+                                RowLayout {
+                                    Layout.preferredHeight: 16
+
+                                    CustomSwitch {
+                                        id: isPasswordReqiredToSpendMoney
+                                        //: settings tab, general section, ask password label
+                                        //% "Ask password for every sending transaction"
+                                        text: qsTrId("settings-general-require-pwd-to-spend")
+                                        font.pixelSize: 14
+                                        Layout.fillWidth: true
+                                        checked: viewModel.isPasswordReqiredToSpendMoney
+                                        Binding {
+                                            target: viewModel
+                                            property: "isPasswordReqiredToSpendMoney"
+                                            value: isPasswordReqiredToSpendMoney.checked
+                                        }
+                                    }
+                                }
+
+                                RowLayout {
+                                    Layout.preferredHeight: 32
+
+                                    SFText {
+                                        //: general settings, label for alow open external links
+                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.grimmw.com/'>grimmw.com</a> "
+                                        text: qsTrId("settings-general-allow-grimm-label")
+                                        textFormat: Text.RichText
+                                        font.pixelSize: 14
+                                        color: allowgrimmLinks.palette.text
+                                        wrapMode: Text.WordWrap
+                                        Layout.preferredWidth: generalBlock.width - 95
+                                        Layout.preferredHeight: 32
+                                        MouseArea {
+                                            id: allowOpenExternalArea
+                                            anchors.fill: parent
+                                            acceptedButtons: Qt.LeftButton
+                                            onClicked: {
+                                                handleExternalLink(mouse, allowOpenExternalArea);
+                                            }
+                                            hoverEnabled: true
+                                            onPositionChanged : {
+                                                handleMousePointer(mouse, allowOpenExternalArea);
+                                            }
+                                        }
+                                    }
+
+                                    Item {
+                                        Layout.preferredWidth: 10
+                                    }
+
+                                    CustomSwitch {
+                                        id: allowgrimmLinks
+                                        Layout.preferredWidth: 30
+                                        checked: viewModel.isAllowedgrimmLinks
+                                        Binding {
+                                            target: viewModel
+                                            property: "isAllowedgrimmLinks"
+                                            value: allowgrimmLinks.checked
+                                        }
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                        Item {
+                            Layout.preferredHeight: 10
+                        }
 
                         Rectangle {
                             id: nodeBlock
                             Layout.fillWidth: true
                             radius: 10
-                            color: Style.background_second
+                            color: Style.navigation_background
                             Layout.preferredHeight: viewModel.localNodeRun ? 460 : (nodeAddressError.visible ? 285 : 240)
 
                             ColumnLayout {
@@ -430,235 +652,8 @@ Rectangle {
                                 }
                             }
                         }
-                    }
 
-                    Item {
-                        Layout.preferredWidth: 10
-                    }
 
-                    ColumnLayout {
-                        Layout.preferredWidth: mainColumn.width * 0.6
-                        Layout.alignment: Qt.AlignTop | Qt.AlignRight
-
-                        Rectangle {
-                            id: generalBlock
-                            Layout.fillWidth: true
-                            radius: 10
-                            color: Style.background_second
-                            Layout.preferredHeight: 330
-
-                            ColumnLayout {
-                                anchors.fill: parent
-                                anchors.margins: 30
-                                spacing: 10
-                                SFText {
-                                    Layout.preferredHeight: 21
-                                    //: settings tab, general section, title
-                                    //% "General settings"
-                                    text: qsTrId("settings-general-title")
-                                    color: Style.content_main
-                                    font.pixelSize: 18
-                                    font.styleName: "Bold"; font.weight: Font.Bold
-                                }
-
-                                RowLayout {
-                                    Layout.preferredHeight: 16
-                                    Layout.topMargin: 15
-
-                                    ColumnLayout {
-                                        SFText {
-                                            Layout.fillWidth: true
-                                            //: settings tab, general section, lock screen label
-                                            //% "Lock screen"
-                                            text: qsTrId("settings-general-lock-screen")
-                                            color: Style.content_secondary
-                                            font.pixelSize: 14
-                                        }
-                                    }
-
-                                    Item {
-                                    }
-
-                                    ColumnLayout {
-                                        CustomComboBox {
-                                            id: lockTimeoutControl
-                                            fontPixelSize: 14
-                                            Layout.preferredWidth: generalBlock.width * 0.33
-
-                                            currentIndex: viewModel.lockTimeout
-
-                                            Binding {
-                                                target: viewModel
-                                                property: "lockTimeout"
-                                                value: lockTimeoutControl.currentIndex
-                                            }
-
-                                            model: [
-                                                //% "never"
-                                                qsTrId("settings-general-lock-screen-never"),
-                                                //% "1 minute"
-                                                qsTrId("settings-general-lock-screen-1m"),
-                                                //% "5 minutes"
-                                                qsTrId("settings-general-lock-screen-5m"),
-                                                //% "15 minutes"
-                                                qsTrId("settings-general-lock-screen-15m"),
-                                                //% "30 minutes"
-                                                qsTrId("settings-general-lock-screen-30m"),
-                                                //% "1 hour"
-                                                qsTrId("settings-general-lock-screen-1h"),
-                                            ]
-                                        }
-                                    }
-                                }
-
-                                Item {
-                                    Layout.preferredHeight: 15
-                                }
-
-                                RowLayout {
-                                    Layout.preferredHeight: 16
-
-                                    ColumnLayout {
-                                        SFText {
-                                            Layout.fillWidth: true
-                                            //: settings tab, general section, language label
-                                            //% "Language"
-                                            text: qsTrId("settings-general-language")
-                                            color: Style.content_secondary
-                                            font.pixelSize: 14
-                                        }
-                                    }
-
-                                    Item {
-                                    }
-
-                                    ColumnLayout {
-                                        CustomComboBox {
-                                            id: language
-                                            Layout.preferredWidth: generalBlock.width * 0.33
-                                            fontPixelSize: 14
-
-                                            model: viewModel.supportedLanguages
-                                            currentIndex: viewModel.currentLanguageIndex
-                                            onActivated: {
-                                                viewModel.currentLanguage = currentText;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Item {
-                                    Layout.preferredHeight: 10
-                                }
-
-                                SFText {
-                                    //: settings tab, general section, wallet data folder location label
-                                    //% "Wallet folder location"
-                                    text: qsTrId("settings-wallet-location-label")
-                                    color: Style.content_main
-                                    font.pixelSize: 14
-                                    font.styleName: "Bold"; font.weight: Font.Bold
-                                }
-
-                                RowLayout {
-                                    SFText {
-                                        Layout.fillWidth: true
-                                        font.pixelSize: 14
-                                        color: Style.content_main
-                                        text: viewModel.walletLocation
-                                        elide: Text.ElideMiddle
-                                    }
-
-                                    SFText {
-                                        Layout.fillWidth: false
-                                        Layout.alignment: Qt.AlignRight
-                                        font.pixelSize: 14
-                                        color: Style.active
-                                        //: settings tab, general section, show data folder link
-                                        //% "show in folder"
-                                        text: qsTrId("settings-wallet-location-link")
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            acceptedButtons: Qt.LeftButton
-                                            cursorShape: Qt.PointingHandCursor
-                                            onClicked: {
-                                                viewModel.openFolder(viewModel.walletLocation);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Item {
-                                    Layout.preferredHeight: 10
-                                }
-
-                                RowLayout {
-                                    Layout.preferredHeight: 16
-
-                                    CustomSwitch {
-                                        id: isPasswordReqiredToSpendMoney
-                                        //: settings tab, general section, ask password label
-                                        //% "Ask password for every sending transaction"
-                                        text: qsTrId("settings-general-require-pwd-to-spend")
-                                        font.pixelSize: 14
-                                        Layout.fillWidth: true
-                                        checked: viewModel.isPasswordReqiredToSpendMoney
-                                        Binding {
-                                            target: viewModel
-                                            property: "isPasswordReqiredToSpendMoney"
-                                            value: isPasswordReqiredToSpendMoney.checked
-                                        }
-                                    }
-                                }
-
-                                RowLayout {
-                                    Layout.preferredHeight: 32
-
-                                    SFText {
-                                        //: general settings, label for alow open external links
-                                        //% "<style>a:link {color: '#00f6d2'; text-decoration: none;}</style>Allow access to <a href='https://www.grimmw.com/'>grimmw.com</a> "
-                                        text: qsTrId("settings-general-allow-grimm-label")
-                                        textFormat: Text.RichText
-                                        font.pixelSize: 14
-                                        color: allowgrimmLinks.palette.text
-                                        wrapMode: Text.WordWrap
-                                        Layout.preferredWidth: generalBlock.width - 95
-                                        Layout.preferredHeight: 32
-                                        MouseArea {
-                                            id: allowOpenExternalArea
-                                            anchors.fill: parent
-                                            acceptedButtons: Qt.LeftButton
-                                            onClicked: {
-                                                handleExternalLink(mouse, allowOpenExternalArea);
-                                            }
-                                            hoverEnabled: true
-                                            onPositionChanged : {
-                                                handleMousePointer(mouse, allowOpenExternalArea);
-                                            }
-                                        }
-                                    }
-
-                                    Item {
-                                        Layout.preferredWidth: 10
-                                    }
-
-                                    CustomSwitch {
-                                        id: allowgrimmLinks
-                                        Layout.preferredWidth: 30
-                                        checked: viewModel.isAllowedgrimmLinks
-                                        Binding {
-                                            target: viewModel
-                                            property: "isAllowedgrimmLinks"
-                                            value: allowgrimmLinks.checked
-                                        }
-                                    }
-                                }
-
-                                Item {
-                                    Layout.fillHeight: true
-                                }
-                            }
-                        }
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -709,7 +704,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.topMargin: 25
                             radius: 10
-                            color: Style.background_second
+                            color: Style.navigation_background
                             Layout.preferredHeight: 240
 
                             ColumnLayout {

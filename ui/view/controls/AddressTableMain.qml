@@ -21,6 +21,7 @@ CustomTableView {
 
     TableViewColumn {
         role: parentModel.nameRole
+
         //% "Comment"
         title: qsTrId("address-table-head-comment")
         width: 150 * rootControl.resizableWidth / 750
@@ -32,7 +33,7 @@ CustomTableView {
         role: parentModel.addressRole
         //% "Address"
         title: qsTrId("address-table-head-address")
-        width: 450 *  rootControl.resizableWidth / 750
+        width: 490 *  rootControl.resizableWidth / 750
         movable: false
         resizable: false
         delegate: Item {
@@ -96,11 +97,11 @@ CustomTableView {
     TableViewColumn {
         role:parentModel.createdRole
         //% "Created"
+        visible: false
         title: ""
         width: 150 *  rootControl.resizableWidth / 750
         resizable: false
         movable: false
-        visible: false
         delegate: Item {
             Item {
                 width: parent.width
@@ -122,6 +123,7 @@ CustomTableView {
 
     TableViewColumn {
         id: actions
+        visible: false
         title: ""
         width: 40
         movable: false
