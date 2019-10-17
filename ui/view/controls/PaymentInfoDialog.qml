@@ -8,7 +8,7 @@
     Dialog {
         property PaymentInfoItem model
         property bool shouldVerify: false
-    
+
         signal textCopied(string text);
 
         id: dialog
@@ -18,7 +18,7 @@
         y: (parent.height - height) / 2
 
         height: contentItem.implicitHeight
-    
+
         parent: Overlay.overlay
         padding: 0
 
@@ -61,7 +61,7 @@
                         font.styleName: "Bold"
                         font.weight: Font.Bold
                         color: Style.content_main
-                        text: shouldVerify ? 
+                        text: shouldVerify ?
                             //% "Payment proof verification"
                             qsTrId("payment-info-proof-verification") :
                             //% "Payment proof"
@@ -94,18 +94,18 @@
                         //% "Paste your payment proof here"
                         text: qsTrId("payment-info-proof-label")
                     }
-            
+
                     function isInvalidPaymentProof()
                     {
                         return model && !model.isValid && paymentProofInput.length > 0;
                     }
-            
+
                     ScrollView {
                         id: scrollView
                         clip: true
                         Layout.fillWidth: true
                         Layout.maximumHeight: 130
-                        
+
                         SFTextArea {
                             id: paymentProofInput
                             focus: true
@@ -128,7 +128,7 @@
                         Layout.preferredHeight: (paymentProofInput.activeFocus || paymentProofInput.hovered) ? 2 : 1
                         opacity: (paymentProofInput.activeFocus || paymentProofInput.hovered) ? 0.3 : 0.1
                     }
-                
+
                     SFText {
                         Layout.fillWidth: true
                         font.pixelSize: 14
@@ -150,7 +150,7 @@
                     text: qsTrId("payment-info-proof-code-label")
                     visible: !shouldVerify
                 }
-            
+
                 SFText {
                     Layout.fillWidth: true
                     wrapMode: Text.Wrap
@@ -172,7 +172,7 @@
                     text: qsTrId("payment-info-proof-details-label")
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.alignment: Qt.AlignTop
                     font.pixelSize: 14
@@ -183,7 +183,7 @@
                     text: qsTrId("payment-info-proof-sender-label")
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 28
@@ -194,7 +194,7 @@
                     verticalAlignment: Text.AlignBottom
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.alignment: Qt.AlignTop
                     font.pixelSize: 14
@@ -205,7 +205,7 @@
                     text: qsTrId("payment-info-proof-receiver-label")
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 28
@@ -215,7 +215,7 @@
                     text: model ? model.receiver : ""
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.alignment: Qt.AlignTop
                     font.pixelSize: 14
@@ -226,7 +226,7 @@
                     text: qsTrId("payment-info-proof-amount-label")
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.fillWidth: true
                     wrapMode: Text.Wrap
@@ -235,7 +235,7 @@
                     text: model ? model.amount + " GRIMM" : ""
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.alignment: Qt.AlignTop
                     font.pixelSize: 14
@@ -246,7 +246,7 @@
                     text: qsTrId("payment-info-proof-kernel-id-label")
                     visible: model? model.isValid : false
                 }
-            
+
                 SFText {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 28
@@ -283,7 +283,7 @@
                         parent.copyDetails();
                     }
                 }
-            
+
                 PrimaryButton {
                     icon.source: "qrc:/assets/icon-copy-blue.svg"
                     //% "copy code"

@@ -23,10 +23,7 @@ using namespace ECC;
 
 namespace grimm::wallet
 {
-    namespace
-    {
-        constexpr Amount kMinFeeInCentum = 10;
-    }
+
 
     AtomicSwapTransaction::WrapperSecondSide::WrapperSecondSide(INegotiatorGateway& gateway, const TxID& txID)
         : m_gateway(gateway)
@@ -116,7 +113,7 @@ namespace grimm::wallet
         }
         else
         {
-            if (GetParameter(TxParameterID::KernelProofHeight, proofHeight, SubTxIndex::GRIMM_REDEEM_TX) 
+            if (GetParameter(TxParameterID::KernelProofHeight, proofHeight, SubTxIndex::GRIMM_REDEEM_TX)
                 && proofHeight > height)
             {
                 SetParameter(TxParameterID::KernelProofHeight, Height(0), false, SubTxIndex::GRIMM_REDEEM_TX);
@@ -457,7 +454,7 @@ namespace grimm::wallet
         case State::HandlingContractTX:
         {
             RollbackTx();
-            
+
             break;
         }
         case State::SendingGrimmLockTX:
@@ -487,7 +484,7 @@ namespace grimm::wallet
             }
         }
         case State::SendingRedeemTX:
-        {            
+        {
             if (isGrimmSide)
             {
                 LOG_ERROR() << "";
@@ -735,6 +732,7 @@ namespace grimm::wallet
         if (!GetParameter(TxParameterID::Amount, withdrawAmount, subTxID) ||
             !GetParameter(TxParameterID::Fee, withdrawFee, subTxID))
         {
+            withdrawFee = GetWithdrawFee();
             withdrawAmount = GetAmount() - withdrawFee;
 
             SetParameter(TxParameterID::Amount, withdrawAmount, subTxID);
@@ -749,7 +747,7 @@ namespace grimm::wallet
             return subTxState;
         }
 
-        // send invite to get 
+        // send invite to get
         if (!builder.GetInitialTxParams() && subTxState == SubTxState::Initial)
         {
             builder.InitTx(isTxOwner);
@@ -1099,7 +1097,7 @@ namespace grimm::wallet
             .AddParameter(TxParameterID::MinHeight, builder.GetMinHeight())
             .AddParameter(TxParameterID::PeerPublicExcess, builder.GetPublicExcess())
             .AddParameter(TxParameterID::PeerPublicNonce, builder.GetPublicNonce());
-    
+
         if (!SendTxParameters(std::move(msg)))
         {
             OnFailed(TxFailureReason::FailedToSendParameters, false);

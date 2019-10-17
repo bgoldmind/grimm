@@ -247,7 +247,7 @@ namespace grimm::wallet
 
             send.fee = params["fee"];
         }
-        else send.fee = 0;
+        
 
         if (existsJsonParam(params, "comment"))
         {
@@ -355,7 +355,7 @@ namespace grimm::wallet
         checkJsonParam(params, "amount", id);
         checkJsonParam(params, "swapAmount", id);
         checkJsonParam(params, "grimmSide", id);
-        
+
         if (params["amount"] < 0)
             throwInvalidJsonRpc(id);
 
@@ -608,7 +608,7 @@ namespace grimm::wallet
         {
             {"jsonrpc", "2.0"},
             {"id", id},
-            {"result", 
+            {"result",
                 {
                     {"is_valid",  res.isValid},
                     {"is_mine",  res.isMine},
@@ -632,7 +632,7 @@ namespace grimm::wallet
             std::string spentTxId = utxo.m_spentTxId.is_initialized() ? txIDToString(*utxo.m_spentTxId) : "";
 
             msg["result"].push_back(
-            { 
+            {
                 {"id", utxo.toStringID()},
                 {"amount", utxo.m_ID.m_Value},
                 {"type", (const char*)FourCC::Text(utxo.m_ID.m_Type)},
@@ -652,7 +652,7 @@ namespace grimm::wallet
         {
             {"jsonrpc", "2.0"},
             {"id", id},
-            {"result", 
+            {"result",
                 {
                     {"txId", txIDToString(res.txId)}
                 }
@@ -716,7 +716,7 @@ namespace grimm::wallet
             {"fee", tx.m_fee},
             {"value", tx.m_amount},
             {"comment", std::string{ tx.m_message.begin(), tx.m_message.end() }},
-            {"create_time", tx.m_createTime},            
+            {"create_time", tx.m_createTime},
             {"income", !tx.m_sender}
         };
 
@@ -831,7 +831,7 @@ namespace grimm::wallet
             {"jsonrpc", "2.0"},
             {"id", id},
             {"result", res.result}
-        };        
+        };
     }
 
     void WalletApi::getResponse(int id, const Unlock::Response& res, json& msg)

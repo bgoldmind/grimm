@@ -6,7 +6,7 @@ import "."
 
 Item {
     id: rootControl
-    x: 5
+
     y: 53
 
     property var model
@@ -21,7 +21,7 @@ Item {
         else
             return "connecting";
     }
-    
+
     property string status: getStatus()
 
     state: "connecting"

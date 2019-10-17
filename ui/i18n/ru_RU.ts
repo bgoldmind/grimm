@@ -5,7 +5,7 @@
     <name></name>
     <message id="addresses-tittle">
         <source>Addresses</source>
-        <translation>Мои адреса</translation>
+        <translation type="vanished">Мои адреса</translation>
     </message>
     <message id="addresses-tab-active">
         <source>MY ACTIVE ADDRESSES</source>
@@ -29,7 +29,7 @@
     </message>
     <message id="addresses-head-category">
         <source>Category</source>
-        <translation>Категория</translation>
+        <translation type="vanished">Категория</translation>
     </message>
     <message id="addresses-head-actions-tooltip">
         <source>Actions</source>
@@ -56,8 +56,9 @@
         <translation>Действителен до</translation>
     </message>
     <message id="address-table-head-created">
-        <source>Created</source>
-        <translation>Создан</translation>
+        <source></source>
+        <oldsource>Created</oldsource>
+        <translation type="unfinished">Создан</translation>
     </message>
     <message id="address-table-head-tooltip-actions">
         <source>Actions</source>
@@ -95,7 +96,7 @@
     <message id="settings-mining-cpu-threads">
         <source>CPU threads</source>
         <extracomment>settings tab, mining section, run cpu mining</extracomment>
-        <translation>Кол-во ядер CPU</translation>
+        <translation type="vanished">Кол-во ядер CPU</translation>
     </message>
     <message id="settings-local-node-port">
         <source>Port</source>
@@ -225,10 +226,9 @@
         <source>Creating wallet...</source>
         <translation>Создание кошелька...</translation>
     </message>
-
     <message id="open-show-wallet-button">
         <source>show my wallet</source>
-        <translation>открыть кошелек</translation>
+        <translation type="vanished">открыть кошелек</translation>
     </message>
     <message id="open-pwd-empty">
         <source>Please, enter password</source>
@@ -325,15 +325,15 @@
     </message>
     <message id="secondary-panel-receiving">
         <source>RECEIVING</source>
-        <translation>ПОЛУЧЕНИЕ</translation>
+        <translation type="vanished">ПОЛУЧЕНИЕ</translation>
     </message>
     <message id="secondary-panel-sending">
         <source>SENDING</source>
-        <translation>ОТПРАВКА</translation>
+        <translation type="vanished">ОТПРАВКА</translation>
     </message>
     <message id="secondary-panel-maturing">
         <source>MATURING</source>
-        <translation>ПОДТВЕРЖДЕНИЕ</translation>
+        <translation type="vanished">ПОДТВЕРЖДЕНИЕ</translation>
     </message>
     <message id="sf-label-cm-copy">
         <source>copy</source>
@@ -357,7 +357,7 @@
     </message>
     <message id="info-title">
         <source>Info view</source>
-        <translation>Информация</translation>
+        <translation type="vanished">Информация</translation>
     </message>
     <message id="loading-change-settings-button">
         <source>change settings</source>
@@ -369,7 +369,7 @@
     </message>
     <message id="notifications-title">
         <source>Notifications view</source>
-        <translation>Оповещения</translation>
+        <translation type="vanished">Оповещения</translation>
     </message>
     <message id="status-connecting">
         <source>connecting</source>
@@ -481,7 +481,7 @@
     </message>
     <message id="wallet-title">
         <source>Wallet</source>
-        <translation>Кошелек</translation>
+        <translation type="vanished">Кошелек</translation>
     </message>
     <message id="wallet-receive-title">
         <source>Receive Grimm</source>
@@ -559,6 +559,10 @@
         <source>Insufficient funds: you would need %1 to complete the transaction</source>
         <translation>Недостаточно средств: необходимо %1 для завершения транзакции</translation>
     </message>
+    <message id="send-fee-fail">
+        <source>The minimum fee is %1 centum</source>
+        <translation>Минимальная комиссия %1 centum</translation>
+    </message>
     <message id="send-comment-label">
         <source>Comment</source>
         <translation>Комментарий</translation>
@@ -593,23 +597,24 @@
     </message>
     <message id="wallet-receive-button">
         <source>receive</source>
-        <translation>получить</translation>
+        <translation type="vanished">получить</translation>
     </message>
     <message id="wallet-send-button">
         <source>send</source>
-        <translation>отправить</translation>
+        <translation type="vanished">отправить</translation>
     </message>
     <message id="wallet-in-progress-title">
         <source>In progress</source>
-        <translation>В процессе</translation>
+        <translation type="vanished">В процессе</translation>
     </message>
     <message id="wallet-transactions-title">
         <source>Transactions</source>
-        <translation>Транзакции</translation>
+        <translation type="vanished">Транзакции</translation>
     </message>
     <message id="wallet-verify-payment">
-        <source>Verify payment</source>
-        <translation>Проверить платеж</translation>
+        <source></source>
+        <oldsource>Verify payment</oldsource>
+        <translation type="unfinished">Проверить платеж</translation>
     </message>
     <message id="wallet-txs-date-time">
         <source>Date | time</source>
@@ -975,15 +980,15 @@
     </message>
     <message id="utxo-utxo">
         <source>UTXO</source>
-        <translation>UTXO</translation>
+        <translation type="vanished">UTXO</translation>
     </message>
     <message id="utxo-blockchain-height">
         <source>Blockchain Height</source>
-        <translation>Высота цепочки блоков</translation>
+        <translation type="vanished">Высота цепочки блоков</translation>
     </message>
     <message id="utxo-last-block-hash">
         <source>Last block hash</source>
-        <translation>Хэш последнего блока</translation>
+        <translation type="vanished">Хэш последнего блока</translation>
     </message>
     <message id="utxo-head-amount">
         <source>Amount</source>
@@ -1121,7 +1126,6 @@
         <source>1 hour</source>
         <translation>1 час</translation>
     </message>
-
     <message id="tx-details-tx-id-label">
         <source>Transaction ID:</source>
         <translation>Идентификатор транзакции:</translation>
@@ -1253,7 +1257,7 @@
     <message id="settings-mining-title">
         <source>Mining</source>
         <extracomment>settings tab, mining section, title</extracomment>
-        <translation>Майнинг</translation>
+        <translation type="vanished">Майнинг</translation>
     </message>
     <message id="settings-remote-node-ip-port-error">
         <source>Invalid address</source>
@@ -1266,9 +1270,10 @@
         <translation>открыть папку</translation>
     </message>
     <message id="settings-general-allow-grimm-label">
-        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</source>
+        <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt; </source>
+        <oldsource>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Allow access to &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</oldsource>
         <extracomment>general settings, label for alow open external links</extracomment>
-        <translation>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Разрешить доступ к &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
+        <translation type="unfinished">&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;Разрешить доступ к &lt;a href=&apos;https://www.grimmw.com/&apos;&gt;grimmw.com&lt;/a&gt;</translation>
     </message>
     <message id="settings-report-problem-message">
         <source>&lt;style&gt;a:link {color: &apos;#00f6d2&apos;; text-decoration: none;}&lt;/style&gt;To report a problem:&lt;br /&gt;1. Click “Save wallet logs” and choose a destination folder for log archive&lt;br /&gt;2. Send email to &lt;a href=&apos;mailto:admin@grimmw.com&apos;&gt;admin@grimmw.com&lt;/a&gt; or open a ticket in &lt;a href=&apos;https://github.com/freenetcoder&apos;&gt;Github&lt;/a&gt;&lt;br /&gt;3. Don’t forget to attach logs archive</source>
@@ -1356,24 +1361,49 @@
         <translation>Адрес с таким коментарием уже существует</translation>
     </message>
     <message id="start-migration-select-file-button">
-       <source>select wallet database file manually</source>
-       <extracomment>migration screen, select db file button</extracomment>
-       <translation>выбрать файл базы данных</translation>
-   </message>
-   <message id="start-select-db-best-match-label">
-       <source>(best match)</source>
-       <extracomment>start screen, select db for migration, best match label</extracomment>
-       <translation>(предпочтительно)</translation>
-   </message>
-   <message id="start-select-db-thead-created">
-       <source>Date created</source>
-       <extracomment>start screen, select db for migration, Date created column title</extracomment>
-       <translation>Дата создания</translation>
-   </message>
-   <message id="start-select-db-show-in-folder-label">
-       <source>show in folder</source>
-       <extracomment>start screen, select db for migration, show in folder label</extracomment>
-       <translation>открыть папку</translation>
-   </message>
+        <source>select wallet database file manually</source>
+        <extracomment>migration screen, select db file button</extracomment>
+        <translation>выбрать файл базы данных</translation>
+    </message>
+    <message id="start-select-db-best-match-label">
+        <source>(best match)</source>
+        <extracomment>start screen, select db for migration, best match label</extracomment>
+        <translation>(предпочтительно)</translation>
+    </message>
+    <message id="start-select-db-thead-created">
+        <source>Date created</source>
+        <extracomment>start screen, select db for migration, Date created column title</extracomment>
+        <translation>Дата создания</translation>
+    </message>
+    <message id="start-select-db-show-in-folder-label">
+        <source>show in folder</source>
+        <extracomment>start screen, select db for migration, show in folder label</extracomment>
+        <translation>открыть папку</translation>
+    </message>
+    <message id="contribute">
+        <source>Send Grimm</source>
+        <oldsource>Contribute</oldsource>
+        <translation type="unfinished">Участие</translation>
+    </message>
+    <message id="contribute_text">
+        <source>Send Grimm</source>
+        <oldsource>Grimm is nonprofit project. Fully decentralized. No pre-mine. No ICO.</oldsource>
+        <translation type="unfinished">Grimm это некоммерческая организация. Полностью децентрализован. Без примайн, ICO.</translation>
+    </message>
+    <message id="contribute_text_next">
+        <source>Send Grimm</source>
+        <oldsource>Donations help our developers pay the bills and listing fees, doing PR, enable new developers to join the project</oldsource>
+        <translation type="unfinished">Донации помогают проекту оплачивать листинги, проводить маркетинговые компании, привлекать новых уастников в проект</translation>
+    </message>
+    <message id="donation_amount">
+        <source>Transaction amount</source>
+        <oldsource>Donation amount</oldsource>
+        <translation type="unfinished">Сумма</translation>
+    </message>
+    <message id="donate">
+        <source>send</source>
+        <oldsource>Donate</oldsource>
+        <translation type="unfinished">Отправить</translation>
+    </message>
 </context>
 </TS>

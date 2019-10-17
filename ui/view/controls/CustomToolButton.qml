@@ -12,11 +12,12 @@ ToolButton {
                              contentItem.implicitHeight + topPadding + bottomPadding)
     baselineOffset: contentItem.y + contentItem.baselineOffset
 
-	palette.buttonText: Style.content_main
+	palette.buttonText: Style.accent_incoming
 	palette.highlight: Style.content_main
 	palette.button: "transparent"
     padding: 8
     spacing: 8
+    opacity: 0.6
 
     icon.width: 16
     icon.height: 16

@@ -21,6 +21,7 @@ namespace grimm::wallet
     /*constexpr uint32_t kGrimmLockTimeInBlocks = 24 * 60;*/
     // TODO: Must be changed after tests!
     constexpr uint32_t kGrimmLockTimeInBlocks = 140;
+    constexpr Amount kMinFeeInCentum = 100;
 
     enum SubTxIndex : SubTxID
     {

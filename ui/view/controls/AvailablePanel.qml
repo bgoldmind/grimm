@@ -7,7 +7,7 @@ import "."
 Rectangle {
     id: panel
     radius: 10
-    color: Style.background_second
+    color: Style.navigation_background
 
     clip: true
 
@@ -19,17 +19,18 @@ Rectangle {
 
     SFText {
         id: title
-        font {
-            pixelSize: 18
-            styleName: "Bold"; weight: Font.Bold
-        }
+        font.pixelSize: 16
+        font.styleName: "Normal";
+        font.weight: Font.Bold
+        color: Style.content_main
+        opacity: 0.6
 
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: 30
         anchors.leftMargin: 30
 
-        color: Style.content_main
+
         //% "Available"
         text: qsTrId("available-panel-available")
     }
@@ -102,5 +103,13 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 3
         }
+        StatusBar {
+            id: status_bar
+            model: statusbarModel
+        }
+
     }
+
+
+
 }

@@ -52,7 +52,7 @@ static const size_t PACKER_FRAGMENTS_SIZE = 4096;
     using namespace grimm::wallet;
 namespace
 {
-
+    const char* MinimumFeeError = "Failed to initiate the send operation. The minimum fee is 100 Centum.";
     struct TlsOptions
     {
         bool use;
@@ -416,6 +416,11 @@ namespace
                     {
                         coins = data.coins ? *data.coins : CoinIDList();
                     }
+                    if (data.fee < MinimumFee)
+                    {
+                        doError(id, INTERNAL_JSON_RPC_ERROR, MinimumFeeError);
+                        return;
+                    }
 
                     auto txId = _wallet.transfer_money(from, data.address, data.value, data.fee, coins, true, kDefaultTxLifetime, kDefaultTxResponseTime, std::move(message), true);
 
@@ -546,6 +551,11 @@ namespace
                 {
                      WalletAddress senderAddress = storage::createAddress(*_walletDB);
                     _walletDB->saveAddress(senderAddress);
+                    if (data.fee < MinimumFee)
+                    {
+                        doError(id, INTERNAL_JSON_RPC_ERROR, MinimumFeeError);
+                        return;
+                    }
 
                     auto txId = _wallet.split_coins(senderAddress.m_walletID, data.coins, data.fee);
                     doResponse(id, Send::Response{ txId });

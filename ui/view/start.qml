@@ -1673,6 +1673,268 @@ Item
         }
 
         Component {
+            id: choose
+            Rectangle
+            {
+
+                property Item defaultFocusItem: openPassword
+
+                // default methods for open wallet, can be changed for unlock wallet
+                property var openWallet: function (pass) {
+                    return viewModel.openWallet(pass);
+                }
+                property var loadWallet: function () {
+
+                    root.parent.setSource("qrc:/loading.qml", {"isRecoveryMode" : false, "isCreating" : false});
+                }
+
+                property var checkCapsLockOnActivation: function () {
+                    viewModel.checkCapsLock();
+                    // OSX hack, to handle capslock shutdonw
+                    if (Qt.platform.os == "osx" && viewModel.isCapsLockOn) {
+                        var timer = Qt.createQmlObject('import QtQml 2.11; Timer {}', open, "osxCapsTimer");
+                        timer.interval = 500;
+                        timer.repeat = true;
+                        timer.triggered.connect(viewModel.checkCapsLock);
+                        timer.start();
+                    }
+                }
+                Component.onCompleted: root.parent.activated.connect(checkCapsLockOnActivation)
+                Component.onDestruction: root.parent.activated.disconnect(checkCapsLockOnActivation)
+
+                color: Style.background_main
+
+                Keys.onPressed: {
+                    // Linux hack, X11 return caps state with delay
+                    if (Qt.platform.os == "linux") {
+                        var timer = Qt.createQmlObject('import QtQml 2.11; Timer {}', open, "linuxCapsTimer");
+                        timer.interval = 500;
+                        timer.repeat = false;
+                        timer.triggered.connect(viewModel.checkCapsLock);
+                        timer.start();
+                    } else {
+                        viewModel.checkCapsLock();
+                    }
+                }
+                Keys.onReleased: {
+                    // OSX hack, to handle capslock shutdonw
+                    if (Qt.platform.os == "osx") {
+                        viewModel.checkCapsLock();
+                    }
+                }
+
+                Image {
+                    fillMode: Image.PreserveAspectCrop
+                    anchors.fill: parent
+                    source: "qrc:/assets/bg.svg"
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: 100
+                        Layout.maximumHeight: 280
+                    }
+
+                    Loader {
+                        sourceComponent: logoComponent
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 200//187
+                        Layout.maximumHeight: 269
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 30
+                        Layout.maximumHeight: 89
+                    }
+
+                    Row {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.topMargin: 18
+                        spacing: 19
+
+                        CustomButton {
+                            palette.buttonText: Style.content_opposite
+                            palette.button: Style.accent_outgoing
+                            anchors.verticalCenter: parent.verticalCenter
+                            id: btnCurrentWallet1
+                            //% "show my wallet"
+                            text: "Light wallet"
+                            icon.source: "qrc:/assets/icon-wallet-small.svg"
+                            onClicked: {
+                            viewModel.setupRandomNode();
+                            startWizzardView.push(openl);
+                            }
+                        }
+
+                        PrimaryButton {
+                            anchors.verticalCenter: parent.verticalCenter
+                            id: btnCurrentWallet2
+                            //% "show my wallet"
+                            text: "Full node wallet"
+                            icon.source: "qrc:/assets/icon-wallet-small.svg"
+                            onClicked: {
+                            viewModel.setupLocalNode(parseInt(10005), parseInt(0), "165.22.197.90:8385");
+                            startWizzardView.push(open);
+                            }
+                        }
+
+                                    }
+
+
+
+
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 20
+                        Layout.maximumHeight: 20
+                    }
+                    Item {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 36
+                        Layout.maximumHeight: 36
+                        Rectangle {
+                            id: capsWarning
+                            anchors.centerIn: parent
+                            color: Style.caps_warning
+                            width: 152
+                            height: 36
+                            radius: 6
+                            opacity: 0.2
+                            visible: viewModel.isCapsLockOn
+                        }
+                        SFText {
+                            anchors.centerIn: capsWarning
+                            horizontalAlignment: Qt.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                            //% "Caps lock is on!"
+                            text: qsTrId("start-open-caps-warning")
+                            color: Style.content_main
+                            font.pixelSize: 14
+                            visible: viewModel.isCapsLockOn
+                        }
+                    }
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 9
+                        Layout.maximumHeight: 6
+                    }
+                    Row {
+                        Layout.alignment: Qt.AlignHCenter
+                        spacing: 30
+                        SFText {
+                            Layout.alignment: Qt.AlignHCenter
+                            //% "Restore wallet or create a new one"
+                            text: qsTrId("start-open-restore-link")
+                            color: Style.active
+                            font.pixelSize: 14
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    confirmChangeWalletDialog.open();
+                                }
+                                hoverEnabled: true
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 67
+                    }
+
+                    Column {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.preferredWidth: 400
+                        Layout.topMargin: 50
+                        spacing: 2
+
+                        SFText {
+                            //% "Password"
+                            visible: false
+                            text: qsTrId("start-pwd-label")
+                            color: Style.content_main
+                            font.pixelSize: 14
+                            font.styleName: "Bold"; font.weight: Font.Bold
+                        }
+
+                        SFTextInput {
+                            id: openPassword
+                            visible: false
+                            width: parent.width
+                            focus: true
+                            activeFocusOnTab: true
+                            font.pixelSize: 14
+                            color: Style.content_main
+                            echoMode: TextInput.Password
+                            onAccepted: btnCurrentWallet.clicked()
+                            onTextChanged: if (openPassword.text.length > 0) openPasswordError.text = ""
+                        }
+
+                        SFText {
+                            height: 16
+                            visible: false
+                            width: parent.width
+                            id: openPasswordError
+                            color: Style.validator_error
+                            font.pixelSize: 14
+                        }
+                    }
+
+                    ConfirmationDialog {
+                        id: confirmChangeWalletDialog
+                        //% "proceed"
+                        okButtonText: qsTrId("start-open-change-wallet-confirm")
+                        okButtonIconSource: "qrc:/assets/icon-done.svg"
+                        cancelButtonIconSource: "qrc:/assets/icon-cancel-white.svg"
+                        cancelVisible: true
+                        width: 460
+                        height: 195
+                        contentItem: Column {
+                            anchors.fill: parent
+                            anchors.margins: 30
+                            spacing: 20
+
+                            SFText {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                horizontalAlignment: Qt.AlignHCenter
+                                //% "Restore wallet or create new one"
+                                text: qsTrId("start-open-change-wallet-title")
+                                color: Style.content_main
+                                font.pixelSize: 18
+                                font.styleName: "Bold"
+                                font.weight: Font.Bold
+                            }
+
+                            SFText {
+                                horizontalAlignment : Text.AlignHCenter
+                                width: parent.width
+                                //% "If you'll restore a wallet all transaction history and addresses will be lost."
+                                text: qsTrId("start-open-change-wallet-message")
+                                color: Style.content_main
+                                font.pixelSize: 14
+                                wrapMode: Text.Wrap
+                            }
+                        }
+                        onAccepted: {
+                            viewModel.isRecoveryMode = false;
+                            startWizzardView.push(start);
+                        }
+                    }
+                    }
+                    }
+                    }
+
+        Component {
             id: open
             Rectangle
             {
@@ -1683,6 +1945,7 @@ Item
                     return viewModel.openWallet(pass);
                 }
                 property var loadWallet: function () {
+
                     root.parent.setSource("qrc:/loading.qml", {"isRecoveryMode" : false, "isCreating" : false});
                 }
 
@@ -1795,7 +2058,7 @@ Item
                             anchors.verticalCenter: parent.verticalCenter
                             id: btnCurrentWallet
                             //% "show my wallet"
-                            text: qsTrId("open-show-wallet-button")
+                            text: "Connect"
                             icon.source: "qrc:/assets/icon-wallet-small.svg"
                             onClicked: {
                                 if(openPassword.text.length == 0)
@@ -1812,12 +2075,275 @@ Item
                                     }
                                     else
                                     {
+
                                         loadWallet();
+
                                     }
                                 }
                             }
                         }
+
+                                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 20
+                        Layout.maximumHeight: 20
                     }
+                    Item {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 36
+                        Layout.maximumHeight: 36
+                        Rectangle {
+                            id: capsWarning
+                            anchors.centerIn: parent
+                            color: Style.caps_warning
+                            width: 152
+                            height: 36
+                            radius: 6
+                            opacity: 0.2
+                            visible: viewModel.isCapsLockOn
+                        }
+                        SFText {
+                            anchors.centerIn: capsWarning
+                            horizontalAlignment: Qt.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                            //% "Caps lock is on!"
+                            text: qsTrId("start-open-caps-warning")
+                            color: Style.content_main
+                            font.pixelSize: 14
+                            visible: viewModel.isCapsLockOn
+                        }
+                    }
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 9
+                        Layout.maximumHeight: 6
+                    }
+
+                    Row {
+                        Layout.alignment: Qt.AlignHCenter
+                        spacing: 30
+                        SFText {
+                            Layout.alignment: Qt.AlignHCenter
+                            //% "Restore wallet or create a new one"
+                            text: qsTrId("start-open-restore-link")
+                            color: Style.active
+                            font.pixelSize: 14
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    confirmChangeWalletDialog.open();
+                                }
+                                hoverEnabled: true
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 67
+                    }
+
+                    ConfirmationDialog {
+                        id: confirmChangeWalletDialog
+                        //% "proceed"
+                        okButtonText: qsTrId("start-open-change-wallet-confirm")
+                        okButtonIconSource: "qrc:/assets/icon-done.svg"
+                        cancelButtonIconSource: "qrc:/assets/icon-cancel-white.svg"
+                        cancelVisible: true
+                        width: 460
+                        height: 195
+                        contentItem: Column {
+                            anchors.fill: parent
+                            anchors.margins: 30
+                            spacing: 20
+
+                            SFText {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                horizontalAlignment: Qt.AlignHCenter
+                                //% "Restore wallet or create new one"
+                                text: qsTrId("start-open-change-wallet-title")
+                                color: Style.content_main
+                                font.pixelSize: 18
+                                font.styleName: "Bold"
+                                font.weight: Font.Bold
+                            }
+
+                            SFText {
+                                horizontalAlignment : Text.AlignHCenter
+                                width: parent.width
+                                //% "If you'll restore a wallet all transaction history and addresses will be lost."
+                                text: qsTrId("start-open-change-wallet-message")
+                                color: Style.content_main
+                                font.pixelSize: 14
+                                wrapMode: Text.Wrap
+                            }
+                        }
+                        onAccepted: {
+                            viewModel.isRecoveryMode = false;
+                            startWizzardView.push(start);
+                        }
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: openl
+            Rectangle
+            {
+                property Item defaultFocusItem: openPassword
+
+                // default methods for open wallet, can be changed for unlock wallet
+                property var openWallet: function (pass) {
+                    return viewModel.openWallet(pass);
+                }
+                property var loadWallet: function () {
+
+                    root.parent.setSource("qrc:/loading.qml", {"isRecoveryMode" : false, "isCreating" : false});
+                }
+
+                property var checkCapsLockOnActivation: function () {
+                    viewModel.checkCapsLock();
+                    // OSX hack, to handle capslock shutdonw
+                    if (Qt.platform.os == "osx" && viewModel.isCapsLockOn) {
+                        var timer = Qt.createQmlObject('import QtQml 2.11; Timer {}', open, "osxCapsTimer");
+                        timer.interval = 500;
+                        timer.repeat = true;
+                        timer.triggered.connect(viewModel.checkCapsLock);
+                        timer.start();
+                    }
+                }
+                Component.onCompleted: root.parent.activated.connect(checkCapsLockOnActivation)
+                Component.onDestruction: root.parent.activated.disconnect(checkCapsLockOnActivation)
+
+                color: Style.background_main
+
+                Keys.onPressed: {
+                    // Linux hack, X11 return caps state with delay
+                    if (Qt.platform.os == "linux") {
+                        var timer = Qt.createQmlObject('import QtQml 2.11; Timer {}', open, "linuxCapsTimer");
+                        timer.interval = 500;
+                        timer.repeat = false;
+                        timer.triggered.connect(viewModel.checkCapsLock);
+                        timer.start();
+                    } else {
+                        viewModel.checkCapsLock();
+                    }
+                }
+                Keys.onReleased: {
+                    // OSX hack, to handle capslock shutdonw
+                    if (Qt.platform.os == "osx") {
+                        viewModel.checkCapsLock();
+                    }
+                }
+
+                Image {
+                    fillMode: Image.PreserveAspectCrop
+                    anchors.fill: parent
+                    source: "qrc:/assets/bg.svg"
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: 100
+                        Layout.maximumHeight: 280
+                    }
+
+                    Loader {
+                        sourceComponent: logoComponent
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 200//187
+                        Layout.maximumHeight: 269
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 30
+                        Layout.maximumHeight: 89
+                    }
+
+                    Column {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.preferredWidth: 400
+                        Layout.topMargin: 50
+                        spacing: 2
+
+                        SFText {
+                            //% "Password"
+                            text: qsTrId("start-pwd-label")
+                            color: Style.content_main
+                            font.pixelSize: 14
+                            font.styleName: "Bold"; font.weight: Font.Bold
+                        }
+
+                        SFTextInput {
+                            id: openPassword
+                            width: parent.width
+                            focus: true
+                            activeFocusOnTab: true
+                            font.pixelSize: 14
+                            color: Style.content_main
+                            echoMode: TextInput.Password
+                            onAccepted: btnCurrentWallet.clicked()
+                            onTextChanged: if (openPassword.text.length > 0) openPasswordError.text = ""
+                        }
+
+                        SFText {
+                            height: 16
+                            width: parent.width
+                            id: openPasswordError
+                            color: Style.validator_error
+                            font.pixelSize: 14
+                        }
+                    }
+
+                    Row {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.topMargin: 18
+                        spacing: 19
+
+                        CustomButton {
+                            palette.buttonText: Style.content_opposite
+                            palette.button: Style.accent_outgoing
+                            anchors.verticalCenter: parent.verticalCenter
+                            id: btnCurrentWallet
+                            //% "show my wallet"
+                            text: "Connect"
+                            icon.source: "qrc:/assets/icon-wallet-small.svg"
+                            onClicked: {
+                                if(openPassword.text.length == 0)
+                                {
+                                    //% "Please, enter password"
+                                    openPasswordError.text = qsTrId("open-pwd-empty");
+                                }
+                                else
+                                {
+                                    if(!openWallet(openPassword.text))
+                                    {
+                                        //% "Invalid password provided."
+                                        openPasswordError.text = qsTrId("open-pwd-fail");
+                                    }
+                                    else
+                                    {
+
+                                        loadWallet();
+
+                                    }
+                                }
+                            }
+                        }
+
+                                    }
 
                     Item {
                         Layout.fillHeight: true
@@ -1932,7 +2458,7 @@ Item
                                               "loadWallet": function () { root.parent.setSource("qrc:/main.qml"); } });
             }
             else if (viewModel.walletExists) {
-                startWizzardView.push(open);
+                startWizzardView.push(choose);
             }
             else if (viewModel.isFindExistingWalletDB())
             {

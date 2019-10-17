@@ -105,7 +105,5 @@ else()
     endif()
 
 endif()
-if(GRIMM_USE_GPU)
-add_subdirectory(gpu)
-endif()
+
 add_subdirectory(unittest)

@@ -8,114 +8,62 @@ import Grimm.Wallet 1.0;
 ColumnLayout {
     anchors.fill: parent
     UtxoViewModel {id: viewModel}
+    Item {
 
+        height: 110
+
+        Layout.fillWidth: true
+
+        RowLayout {
+
+
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height
+
+
+
+
+            DashboardPanel {
+                  WalletViewModel {id: wviewModel}
+                  SettingsViewModel {id: sviewModel}
+                  UtxoViewModel {id: uviewModel}
+                  Layout.minimumWidth: 350
+                  Layout.fillHeight: true
+                  Layout.fillWidth: true
+                  bheight: uviewModel.currentHeight
+                  ver: sviewModel.version
+                  receiving: wviewModel.receiving
+                  sending: wviewModel.sending
+                  maturing: wviewModel.maturing
+                  balance: wviewModel.available
+
+              }
+
+
+
+        }
+    }
     RowLayout {
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignTop
         Layout.bottomMargin: 10
+        Layout.topMargin: 10
 
-        height: 80
+        height: 40
         spacing: 10
 
-        SFText {
-            Layout.alignment: Qt.AlignTop
-            Layout.minimumHeight: 40
-            Layout.maximumHeight: 40
-            font.pixelSize: 36
-            color: Style.content_main
-            //% "UTXO"
-            text: qsTrId("utxo-utxo")
-        }
+
 
         Item {
             Layout.fillWidth: true
         }
 
-        Item {
-            Layout.fillWidth: true
-            height: parent.height
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.leftMargin: 20
-                anchors.topMargin: 10
-                anchors.bottomMargin: 20
-                spacing: 5
-
-                SFText {
-                    Layout.minimumHeight: 20
-                    Layout.maximumHeight: 20
-                    font.pixelSize: 18
-                    font.styleName: "Bold"; font.weight: Font.Bold
-                    color: Style.content_main
-                    //% "Blockchain Height"
-                    text: qsTrId("utxo-blockchain-height")
-                }
-
-                SFText {
-                    Layout.minimumHeight: 20
-                    Layout.maximumHeight: 20
-                    font.pixelSize: 16
-                    color: Style.active
-                    text: viewModel.currentHeight
-                }
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                radius: 10
-                color: Style.white
-                opacity: 0.1
-            }
-        }
-
-        Item {
-            Layout.fillWidth: true
-            height: parent.height
-
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.leftMargin: 20
-                anchors.rightMargin: 20
-                anchors.topMargin: 10
-                anchors.bottomMargin: 20
-                spacing: 5
-
-                SFText {
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: 20
-                    Layout.maximumHeight: 20
-                    font.pixelSize: 18
-                    font.styleName: "Bold"; font.weight: Font.Bold
-                    color: Style.content_main
-                    //% "Last block hash"
-                    text: qsTrId("utxo-last-block-hash")
-                }
-
-                SFText {
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: 20
-                    Layout.maximumHeight: 20
-                    font.pixelSize: 16
-                    color: Style.active
-                    text: viewModel.currentStateHash
-                    elide: Text.ElideRight
-                }
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                radius: 10
-                color: Style.white
-                opacity: 0.1
-            }
-        }
     }
 
-    StatusBar {
-        id: status_bar
-        model: statusbarModel
-    }
+
 
     CustomTableView {
         id: tableView

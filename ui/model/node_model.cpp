@@ -20,9 +20,7 @@
 #include "pow/external_pow.h"
 
 #include <boost/filesystem.hpp>
-#ifdef  GRIMM_USE_GPU
-#include "utility/gpu/gpu_tools.h"
-#endif //  GRIMM_USE_GPU
+
 
 using namespace grimm;
 using namespace grimm::io;
@@ -141,15 +139,7 @@ std::vector<std::string> NodeModel::getLocalNodePeers()
     return result;
 }
 
-#ifdef GRIMM_USE_GPU
-std::unique_ptr<IExternalPOW> NodeModel::getStratumServer()
-{
-    auto& settings = AppModel::getInstance()->getSettings();
-    GetSupportedCards();
-    auto devices = settings.getMiningDevices();
-    return settings.getUseGpu() && !devices.empty() ? IExternalPOW::create_opencl_solver(devices) : nullptr;
-}
-#endif //  GRIMM_USE_GPU
+
 
 void NodeModel::onNodeThreadFinished()
 {

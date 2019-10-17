@@ -56,6 +56,7 @@ endif()
 
 list(APPEND SUPPORTED_LANGS "en_US")
 list(APPEND SUPPORTED_LANGS "ru_RU")
+list(APPEND SUPPORTED_LANGS "zh_CN")
 
 set(UI_SRC
     ui.cpp
@@ -131,11 +132,7 @@ if(WIN32)
 endif()
 
 set(GRIMM_ICON_SUFFIX "masternet")
-if(GRIMM_TESTNET)
-    set(GRIMM_ICON_SUFFIX "testnet")
-elseif(GRIMM_MAINNET)
-    set(GRIMM_ICON_SUFFIX "mainnet")
-endif()
+
 
 add_definitions(-DAPP_NAME=\"${APP_NAME}\")
 
@@ -167,10 +164,7 @@ configure_file("${PROJECT_SOURCE_DIR}/version.h.in" "${CMAKE_CURRENT_BINARY_DIR}
 add_dependencies(${TARGET_NAME} wallet mnemonic qrcode cli)
 target_link_libraries(${TARGET_NAME} qrcode cli)
 
-if(GRIMM_USE_GPU)
-    add_dependencies(${TARGET_NAME} gpu_tools)
-    target_link_libraries(${TARGET_NAME} gpu_tools)
-endif()
+
 
 if (LINUX)
     target_link_libraries(${TARGET_NAME} X11)

@@ -6,44 +6,48 @@ import "."
 
 Rectangle {
     id: panel
-    property string title
+
+
     property string receiving
     property string sending
     property string maturing
+    property string bheight
+    property string hash
+    property string ver
 
     radius: 10
-    color: Style.background_second
+    color: Style.navigation_background
     clip: true
 
     signal copyValueText(string value)
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.topMargin: 30
-        anchors.leftMargin: 30
-        anchors.rightMargin: 30
-        anchors.bottomMargin: 36
-        spacing: 30
+        anchors.topMargin: 15
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+        anchors.bottomMargin: 15
 
-        SFText {
-            id: title_id
-            font.pixelSize: 18
-            font.styleName: "Bold";
-            font.weight: Font.Bold
-            color: Style.content_main
-            text: title
-        }
-                        
+
+
+
         RowLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
             spacing: 10
+
 
             ColumnLayout {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
                 spacing: 10
+
+                SvgImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize: Qt.size(35, 35)
+                    source: "qrc:/assets/ireceive.svg"
+                }
 
                 SFText {
                     Layout.alignment: Qt.AlignHCenter
@@ -53,30 +57,22 @@ Rectangle {
                     color: Style.content_main
                     opacity: 0.6
                     //% "RECEIVING"
-                    text: qsTrId("secondary-panel-receiving")
+                    text: "RECEIVING"
                 }
 
                 SFLabel {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    font.styleName: "Light"
+                    font.styleName: "Normal"
                     font.weight: Font.Normal
-                    font.pixelSize: 20
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 14
+                    font.pixelSize: 16
+                    opacity: 0.6
                     color: Style.accent_incoming
-                    text: (receiving !== "0") ? "+" + receiving : receiving;
+                    text: receiving;
                     elide: Text.ElideRight
                     copyMenuEnabled: true
                     onCopyText: panel.copyValueText(receiving)
-                }
-
-                SvgImage {
-                    Layout.alignment: Qt.AlignHCenter
-                    sourceSize: Qt.size(30, 30)
-                    source: "qrc:/assets/icon-received.svg"
                 }
             }
 
@@ -85,6 +81,12 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
                 spacing: 10
+
+                SvgImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize: Qt.size(35, 35)
+                    source: "qrc:/assets/isend.svg"
+                }
 
                 SFText {
                     Layout.alignment: Qt.AlignHCenter
@@ -94,30 +96,22 @@ Rectangle {
                     color: Style.content_main
                     opacity: 0.6
                     //% "SENDING"
-                    text: qsTrId("secondary-panel-sending")
+                    text: "SENDING"
                 }
 
                 SFLabel {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    font.styleName: "Light"
+                    font.styleName: "Normal"
                     font.weight: Font.Normal
-                    font.pixelSize: 20
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 14
+                    font.pixelSize: 16
+                    opacity: 0.6
                     color: Style.accent_outgoing
-                    text: (sending !== "0") ? "-" + sending : sending;
+                    text: sending;
                     elide: Text.ElideRight
                     copyMenuEnabled: true
                     onCopyText: panel.copyValueText(sending)
-                }
-
-                SvgImage {
-                    Layout.alignment: Qt.AlignHCenter
-                    sourceSize: Qt.size(30, 30)
-                    source: "qrc:/assets/icon-sent.svg"
                 }
             }
 
@@ -127,6 +121,12 @@ Rectangle {
                 Layout.preferredWidth: 1
                 spacing: 10
 
+                SvgImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize: Qt.size(35, 35)
+                    source: "qrc:/assets/imaturing.svg"
+                }
+
                 SFText {
                     Layout.alignment: Qt.AlignHCenter
                     font.pixelSize: 12
@@ -135,32 +135,156 @@ Rectangle {
                     color: Style.content_main
                     opacity: 0.6
                     //% "MATURING"
-                    text: qsTrId("secondary-panel-maturing")
+                    text: "LOCKED"
                 }
 
                 SFLabel {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    font.styleName: "Light"
+                    font.styleName: "Normal"
                     font.weight: Font.Normal
-                    font.pixelSize: 20
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 14
-                    color: Style.content_main
-                    text: maturing
+                    font.pixelSize: 16
+                    opacity: 0.6
+                    color: Style.accent_outgoing
+                    text: maturing;
                     elide: Text.ElideRight
                     copyMenuEnabled: true
                     onCopyText: panel.copyValueText(maturing)
                 }
 
+            }
+
+
+        }
+
+        RowLayout {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            spacing: 10
+
+
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 1
+                spacing: 10
+
                 SvgImage {
                     Layout.alignment: Qt.AlignHCenter
-                    sourceSize: Qt.size(30, 30)
-                    source: "qrc:/assets/icon-maturing.svg"
+                    sourceSize: Qt.size(35, 35)
+                    source: "qrc:/assets/iheight.svg"
+                }
+
+                SFText {
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 12
+                    font.styleName: "Normal";
+                    font.weight: Font.Bold
+                    color: Style.content_main
+                    opacity: 0.6
+                    //% "BLOCK HEIGHT"
+                    text: "BLOCK HEIGHT"
+                }
+
+                SFLabel {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.styleName: "Normal"
+                    font.weight: Font.Normal
+                    font.pixelSize: 16
+                    opacity: 0.6
+                    color: Style.accent_incoming
+                    text: bheight;
+                    elide: Text.ElideRight
+                    copyMenuEnabled: true
+                    onCopyText: panel.copyValueText(bheight)
+                }
+
+            }
+
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 1
+                spacing: 10
+
+                SvgImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize: Qt.size(35, 35)
+                    source: "qrc:/assets/ihash.svg"
+                }
+
+                SFText {
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 12
+                    font.styleName: "Normal";
+                    font.weight: Font.Bold
+                    color: Style.content_main
+                    opacity: 0.6
+                    //% "HASH"
+                    text: "LAST BLOCK HASH"
+                }
+
+                SFLabel {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.styleName: "Normal"
+                    font.weight: Font.Normal
+                    font.pixelSize: 16
+                    opacity: 0.6
+                    color: Style.accent_incoming
+                    text: hash;
+                    elide: Text.ElideRight
+                    copyMenuEnabled: true
+                    onCopyText: panel.copyValueText(hash)
                 }
             }
+
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 1
+                spacing: 10
+
+                SvgImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    sourceSize: Qt.size(40, 35)
+                    
+                    source: "qrc:/assets/ieye.svg"
+                }
+
+                SFText {
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 12
+                    font.styleName: "Normal";
+                    font.weight: Font.Bold
+                    color: Style.content_main
+                    opacity: 0.6
+                    //% "MATURING"
+                    text: "VERSION"
+                }
+
+                SFLabel {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.styleName: "Normal"
+                    font.weight: Font.Normal
+                    font.pixelSize: 16
+                    opacity: 0.6
+                    color: Style.accent_outgoing
+                    text: ver;
+                    elide: Text.ElideRight
+                    copyMenuEnabled: true
+                    onCopyText: panel.copyValueText(maturing)
+                }
+
+            }
+
+
         }
     }
 }

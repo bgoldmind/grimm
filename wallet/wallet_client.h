@@ -56,6 +56,7 @@ namespace grimm::wallet
         std::string getNodeAddress() const;
         std::string exportOwnerKey(const grimm::SecString& pass) const;
         bool isRunning() const;
+        bool isFork1() const;
 
     protected:
 

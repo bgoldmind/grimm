@@ -89,7 +89,7 @@ namespace grimm
         extern const char* GENERATE_PHRASE;
         extern const char* FEE;
         extern const char* FEE_FULL;
-        extern const char* RECEIVE;
+
         extern const char* LOG_LEVEL;
         extern const char* FILE_LOG_LEVEL;
         extern const char* LOG_INFO;
@@ -133,9 +133,6 @@ namespace grimm
         extern const char* API_TLS_KEY;
         extern const char* API_USE_ACL;
         extern const char* API_ACL_PATH;
-        #if defined(GRIMM_USE_GPU)
-        extern const char* MINER_TYPE;
-        #endif
 
         // treasury
         extern const char* TR_OPCODE;
@@ -147,6 +144,8 @@ namespace grimm
         extern const char* TR_N;
         // ui
         extern const char* APPDATA_PATH;
+        // Defaults that should be accessible outside
+        extern const Amount kMinimumFee;
     }
 
     enum OptionsFlag : int

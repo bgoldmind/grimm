@@ -92,7 +92,7 @@ namespace grimm
         const char* GENERATE_PHRASE = "generate_phrase";
         const char* FEE = "fee";
         const char* FEE_FULL = "fee,f";
-        const char* RECEIVE = "receive";
+
         const char* LOG_LEVEL = "log_level";
         const char* FILE_LOG_LEVEL = "file_log_level";
         const char* LOG_INFO = "info";
@@ -135,9 +135,7 @@ namespace grimm
         const char* API_TLS_KEY = "tls_key";
         const char* API_USE_ACL= "use_acl";
         const char* API_ACL_PATH = "acl_path";
-        #if defined(GRIMM_USE_GPU)
-        const char* MINER_TYPE = "miner_type";
-        #endif
+
 
         // treasury
         const char* TR_OPCODE = "tr_op";
@@ -149,6 +147,8 @@ namespace grimm
         const char* TR_N = "tr_N";
         // ui
         const char* APPDATA_PATH = "appdata";
+        // Defaults
+        const Amount kMinimumFee = 100;
     }
 
         template <typename T> struct TypeCvt {
@@ -178,9 +178,7 @@ namespace grimm
             (cli::PORT_FULL, po::value<uint16_t>()->default_value(10000), "port to start the server on")
             (cli::STORAGE, po::value<string>()->default_value("node.db"), "node storage path")
             (cli::MINING_THREADS, po::value<uint32_t>()->default_value(0), "number of mining threads(there is no mining if 0)")
-            #if defined(GRIMM_USE_GPU)
-            (cli::MINER_TYPE, po::value<string>()->default_value("cpu"), "miner type [cpu|gpu]")
-            #endif
+
 
             (cli::VERIFICATION_THREADS, po::value<int>()->default_value(-1), "number of threads for cryptographic verifications (0 = single thread, -1 = auto)")
             (cli::NONCEPREFIX_DIGITS, po::value<unsigned>()->default_value(0), "number of hex digits for nonce prefix for stratum client (0..6)")
@@ -218,7 +216,7 @@ namespace grimm
             (cli::LTC_PASS, po::value<string>(), "password for the litecoin node")
             (cli::LTC_USER_NAME, po::value<string>(), "user name for the litecoin node")
             (cli::AMOUNT_FULL, po::value<Positive<double>>(), "amount to send (in Grimms, 1 Grimm = 100,000,000 centum)")
-            (cli::FEE_FULL, po::value<Nonnegative<Amount>>()->default_value(Nonnegative<Amount>(0)), "fee (in Centum, 100,000,000 centum = 1 Grimm)")
+            (cli::FEE_FULL, po::value<Nonnegative<Amount>>()->default_value(Nonnegative<Amount>(cli::kMinimumFee)), "fee (in Centum, 100,000,000 centum = 1 Grimm)")
             (cli::RECEIVER_ADDR_FULL, po::value<string>(), "address of receiver")
             (cli::NODE_ADDR_FULL, po::value<string>(), "address of node")
             (cli::BTC_NODE_ADDR, po::value<string>(), "address of bitcoin node")
@@ -311,10 +309,12 @@ namespace grimm
             macro(uint32_t, DA.WindowMedian1, "Num of blocks taken at both endings of WindowWork, to pick medians") \
             macro(uint32_t, DA.Difficulty0, "Initial difficulty") \
             macro(Height, Fork1, "Height of the 1st fork") \
+            macro(Height, Fork2, "Height of the 2nd fork") \
             macro(bool, AllowPublicUtxos, "set to allow regular (non-coinbase) UTXO to have non-confidential signature") \
             macro(bool, FakePoW, "Don't verify PoW. Mining is simulated by the timer. For tests only")
 
 		#define Fork1 pForks[1].m_Height
+    #define Fork2 pForks[2].m_Height
 
         #define THE_MACRO(type, name, comment) (#name, po::value<type>()->default_value(TypeCvt<type>::get(Rules::get().name)), comment)
 

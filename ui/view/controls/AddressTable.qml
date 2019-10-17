@@ -1,6 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.3
+import Grimm.Wallet 1.0
 import "."
 import "../utils.js" as Utils
 
@@ -31,7 +32,7 @@ CustomTableView {
         role: parentModel.addressRole
         //% "Address"
         title: qsTrId("address-table-head-address")
-        width: 150 *  rootControl.resizableWidth / 750
+        width: 450 *  rootControl.resizableWidth / 750
         movable: false
         resizable: false
         delegate: Item {
@@ -63,6 +64,7 @@ CustomTableView {
         width: 150 *  rootControl.resizableWidth / 750
         resizable: false
         movable: false
+        visible: false
     }
 
     TableViewColumn {
@@ -94,10 +96,11 @@ CustomTableView {
     TableViewColumn {
         role:parentModel.createdRole
         //% "Created"
-        title: qsTrId("address-table-head-created")
+        title: ""
         width: 150 *  rootControl.resizableWidth / 750
         resizable: false
         movable: false
+        visible: false
         delegate: Item {
             Item {
                 width: parent.width

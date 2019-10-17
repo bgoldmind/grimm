@@ -48,10 +48,7 @@ protected:
     std::string getLocalNodeStorage() override;
     std::string getTempDir() override;
     std::vector<std::string> getLocalNodePeers() override;
-    #ifdef GRIMM_USE_GPU
-    std::unique_ptr<grimm::IExternalPOW> getStratumServer() override;
-    #endif //  GRIMM_USE_GPU
-
+  
     void onNodeThreadFinished() override;
 
 private:
