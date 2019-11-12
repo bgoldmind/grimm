@@ -7,6 +7,7 @@ set(WALLET_SRC
     default_peers.cpp
     wallet.h
     wallet.cpp
+    asset_transaction.cpp
     base_transaction.cpp
     base_tx_builder.cpp
     wallet_transaction.cpp
@@ -67,7 +68,7 @@ if(LINUX)
     target_link_libraries(${WALLET_API_NAME} -static-libstdc++ -static-libgcc)
 endif()
 
-add_subdirectory(unittests)
+# add_subdirectory(unittests)
 
 if (GRIMM_SIGN_PACKAGE AND WIN32)
     add_custom_command(

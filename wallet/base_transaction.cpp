@@ -81,7 +81,7 @@ namespace grimm::wallet
         LoadNonceSeeds();
     }
 
-    void LocalPrivateKeyKeeper::GeneratePublicKeys(const vector<Key::IDV>& ids, bool createCoinKey, Callback<PublicKeys>&& resultCallback, ExceptionCallback&& exceptionCallback)
+    void LocalPrivateKeyKeeper::GeneratePublicKeys(const vector<Asset>& ids, bool createCoinKey, Callback<PublicKeys>&& resultCallback, ExceptionCallback&& exceptionCallback)
     {
         try
         {
@@ -93,7 +93,7 @@ namespace grimm::wallet
         }
     }
 
-    void LocalPrivateKeyKeeper::GenerateOutputs(Height schemeHeight, const std::vector<Key::IDV>& ids, Callback<Outputs>&& resultCallback, ExceptionCallback&& exceptionCallback)
+    void LocalPrivateKeyKeeper::GenerateOutputs(Height schemeHeight, const std::vector<Asset>& ids, Callback<Outputs>&& resultCallback, ExceptionCallback&& exceptionCallback)
     {
         auto thisHolder = shared_from_this();
         shared_ptr<Outputs> result = make_shared<Outputs>();
@@ -146,7 +146,7 @@ namespace grimm::wallet
 
     ////
 
-    IPrivateKeyKeeper::PublicKeys LocalPrivateKeyKeeper::GeneratePublicKeysSync(const std::vector<Key::IDV>& ids, bool createCoinKey)
+    IPrivateKeyKeeper::PublicKeys LocalPrivateKeyKeeper::GeneratePublicKeysSync(const std::vector<Asset>& ids, bool createCoinKey)
     {
         PublicKeys result;
         Scalar::Native secretKey;
@@ -156,7 +156,7 @@ namespace grimm::wallet
             for (const auto& coinID : ids)
             {
                 Point& publicKey = result.emplace_back();
-                SwitchCommitment().Create(secretKey, publicKey, *GetChildKdf(coinID.m_SubIdx), coinID);
+                SwitchCommitment(&coinID.m_AssetID).Create(secretKey, publicKey, *GetChildKdf(coinID.m_IDV.m_SubIdx), coinID.m_IDV);
             }
         }
         else
@@ -164,21 +164,21 @@ namespace grimm::wallet
             for (const auto& keyID : ids)
             {
                 Point& publicKey = result.emplace_back();
-                m_MasterKdf->DeriveKey(secretKey, keyID);
+                m_MasterKdf->DeriveKey(secretKey, keyID.m_IDV);
                 publicKey = Context::get().G * secretKey;
             }
         }
         return result;
     }
 
-    ECC::Point LocalPrivateKeyKeeper::GeneratePublicKeySync(const Key::IDV& id, bool createCoinKey)
+    ECC::Point LocalPrivateKeyKeeper::GeneratePublicKeySync(const Key::IDV& id, bool createCoinKey, const AssetID* pAssetID /* = nullptr */)
     {
         Scalar::Native secretKey;
         Point publicKey;
 
         if (createCoinKey)
         {
-            SwitchCommitment().Create(secretKey, publicKey, *GetChildKdf(id.m_SubIdx), id);
+            SwitchCommitment(pAssetID).Create(secretKey, publicKey, *GetChildKdf(id.m_SubIdx), id);
         }
         else
         {
@@ -188,7 +188,7 @@ namespace grimm::wallet
         return publicKey;
     }
 
-    IPrivateKeyKeeper::Outputs LocalPrivateKeyKeeper::GenerateOutputsSync(Height schemeHeigh, const std::vector<Key::IDV>& ids)
+    IPrivateKeyKeeper::Outputs LocalPrivateKeyKeeper::GenerateOutputsSync(Height schemeHeigh, const std::vector<Asset>& ids)
     {
         Outputs result;
         Scalar::Native secretKey;
@@ -197,7 +197,13 @@ namespace grimm::wallet
         for (const auto& coinID : ids)
         {
             auto& output = result.emplace_back(make_unique<Output>());
-            output->Create(schemeHeigh, secretKey, *GetChildKdf(coinID.m_SubIdx), coinID, *m_MasterKdf);
+            output->m_AssetID = coinID.m_AssetID;
+
+            bool bPublic = coinID.m_Public;
+            if (!Rules().AllowPublicUtxos && bPublic)
+            bPublic = false; //if AllowPublicUtxos 0 (default) and coinID.m_Public 1, set bPublic 0
+
+            output->Create(schemeHeigh, secretKey, *GetChildKdf(coinID.m_IDV.m_SubIdx), coinID.m_IDV, *m_MasterKdf, bPublic); //
         }
         return result;
     }
@@ -208,7 +214,7 @@ namespace grimm::wallet
         return result;
     }
 
-    Scalar LocalPrivateKeyKeeper::SignSync(const std::vector<Key::IDV>& inputs, const std::vector<Key::IDV>& outputs, const Scalar::Native& offset, size_t nonceSlot, const ECC::Hash::Value& message, const Point::Native& publicNonce, const Point::Native& commitment)
+    Scalar LocalPrivateKeyKeeper::SignSync(const std::vector<Asset>& inputs, const std::vector<Asset>& outputs, const Scalar::Native& offset, size_t nonceSlot, const ECC::Hash::Value& message, const Point::Native& publicNonce, const Point::Native& commitment)
     {
         auto excess = GetExcess(inputs, outputs, offset);
 
@@ -286,7 +292,7 @@ namespace grimm::wallet
         return nonce.V;
     }
 
-    Scalar::Native LocalPrivateKeyKeeper::GetExcess(const std::vector<Key::IDV>& inputs, const std::vector<Key::IDV>& outputs, const ECC::Scalar::Native& offset) const
+    Scalar::Native LocalPrivateKeyKeeper::GetExcess(const std::vector<Asset>& inputs, const std::vector<Asset>& outputs, const ECC::Scalar::Native& offset) const
     {
         // Excess = Sum(input blinfing factors) - Sum(output blinfing factors) - offset
         Point commitment;
@@ -294,14 +300,14 @@ namespace grimm::wallet
         Scalar::Native excess = offset;
         for (const auto& coinID : outputs)
         {
-            SwitchCommitment().Create(blindingFactor, commitment, *GetChildKdf(coinID.m_SubIdx), coinID);
+            SwitchCommitment(&coinID.m_AssetID).Create(blindingFactor, commitment, *GetChildKdf(coinID.m_IDV.m_SubIdx), coinID.m_IDV);
             excess += blindingFactor;
         }
         excess = -excess;
 
         for (const auto& coinID : inputs)
         {
-            SwitchCommitment().Create(blindingFactor, commitment, *GetChildKdf(coinID.m_SubIdx), coinID);
+            SwitchCommitment(&coinID.m_AssetID).Create(blindingFactor, commitment, *GetChildKdf(coinID.m_IDV.m_SubIdx), coinID.m_IDV);
             excess += blindingFactor;
         }
         return excess;

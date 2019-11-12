@@ -111,7 +111,7 @@ namespace grimm
         extern const char* IP_WHITELIST;
         extern const char* HORIZON_HI;
         extern const char* HORIZON_LO;
-		extern const char* GENERATE_RECOVERY_PATH;
+		    extern const char* GENERATE_RECOVERY_PATH;
         extern const char* COLD_WALLET;
         extern const char* SWAP_INIT;
         extern const char* SWAP_LISTEN;
@@ -134,6 +134,37 @@ namespace grimm
         extern const char* API_USE_ACL;
         extern const char* API_ACL_PATH;
 
+        // Confidential assets
+        extern const char* ASSET_ENABLE;
+        extern const char* ASSET_EXCHANGE;
+        extern const char* ASSET_ID;
+        extern const char* ASSET_OPCODE;
+        extern const char* ASSET_KID;
+        //extern const char* ASSET_EMIT;
+        //extern const char* ASSET_SEND;
+        //extern const char* ASSET_BURN;
+
+        // Confidential Assetchains (CAC)
+        extern const char* CAC_SYMBOL;
+        extern const char* CAC_PORT;
+        extern const char* CAC_PORT_FULL;
+        extern const char* CAC_EMISSION_BLOCK;
+        extern const char* CAC_EMISSION_DROP0;
+        extern const char* CAC_EMISSION_DROP1;
+        extern const char* CAC_MATURITY_COINBASE;
+        extern const char* CAC_MATURITY_STANDART;
+        extern const char* CAC_BLOCK_SIZE;
+        extern const char* CAC_BLOCK_TIME;
+        extern const char* CAC_FTL;
+        extern const char* CAC_WINDOWWORK;
+        extern const char* CAC_TIMESTAMP_MEDIAN;
+        extern const char* CAC_BLOCKS_MEDIAN;
+        extern const char* CAC_ALLOW_PUBLIC_UTXO;
+        extern const char* CAC_DIFF_S;
+        extern const char* CAC_PREMINE;
+        extern const char* CAC_TREASURYM;
+        extern const char* CAC_TREASURYB;
+        //extern const char* CAC_GRIMMPOW;
         // treasury
         extern const char* TR_OPCODE;
         extern const char* TR_WID;

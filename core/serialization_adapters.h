@@ -519,6 +519,27 @@ namespace detail
         /// Common Grimm serialization adapters
         ///////////////////////////////////////////////////////////
 
+        /// grimm::Asset serialization
+		    template<typename Archive>
+		    static Archive& save(Archive& ar, const grimm::Asset& asset)
+		    {
+			ar
+				& asset.m_IDV
+				& asset.m_AssetID;
+
+			       return ar;
+		    }
+
+		    template<typename Archive>
+		    static Archive& load(Archive& ar, grimm::Asset& asset)
+		    {
+			ar
+			  & asset.m_IDV
+			  & asset.m_AssetID;
+
+			        return ar;
+		    }
+
         /// grimm::Input serialization
         template<typename Archive>
         static Archive& save(Archive& ar, const grimm::Input& input)
@@ -834,7 +855,7 @@ namespace detail
 		{
 			grimm::uintBigFor<uint32_t>::Type x;
 			ar & x;
-			
+
 			uint32_t nSize;
 			x.Export(nSize);
 

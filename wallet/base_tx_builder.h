@@ -30,17 +30,23 @@ namespace grimm::wallet
     public:
         BaseTxBuilder(BaseTransaction& tx, SubTxID subTxID, const AmountList& amount, Amount fee);
 
-        void SelectInputs();
-        void AddChange();
+        virtual void SelectInputs();
+        virtual void AddChange();
+        virtual void GenerateNewCoinList(bool bChange);
+        virtual void CreateKernel();
+        virtual void GenerateOffset();
+        virtual ECC::Point::Native GetPublicExcess() const;
+        virtual bool CreateInputs();
+        virtual Transaction::Ptr CreateTransaction();
+        virtual void SignPartial();
+        virtual Amount GetAssetAmount() const { return 0; }
+        virtual AssetID GetAssetID() const { return Zero; }
         void GenerateNewCoin(Amount amount, bool bChange);
         bool CreateOutputs();
         bool FinalizeOutputs();
         bool LoadKernel();
         bool HasKernelID() const;
-        void CreateKernel();
-        void GenerateOffset();
         void GenerateNonce();
-        virtual ECC::Point::Native GetPublicExcess() const;
         ECC::Point::Native GetPublicNonce() const;
         bool GetInitialTxParams();
         bool GetInputs();
@@ -49,10 +55,7 @@ namespace grimm::wallet
         bool GetPeerSignature();
         bool GetPeerInputsAndOutputs();
         void FinalizeSignature();
-        bool CreateInputs();
         void FinalizeInputs();
-        virtual Transaction::Ptr CreateTransaction();
-        void SignPartial();
         bool IsPeerSignatureValid() const;
 
         Amount GetAmount() const;
@@ -73,9 +76,9 @@ namespace grimm::wallet
         bool IsAcceptableMaxHeight() const;
         ECC::Hash::Value GetLockImage() const;
         SubTxID GetSubTxID() const;
+        const std::vector<Asset>& GetInputCoins() const;
+        const std::vector<Asset>& GetOutputCoins() const;
 
-        const std::vector<Coin::ID>& GetInputCoins() const;
-        const std::vector<Coin::ID>& GetOutputCoins() const;
 
     protected:
         BaseTransaction& m_Tx;
@@ -92,8 +95,8 @@ namespace grimm::wallet
         std::vector<Output::Ptr> m_Outputs;
         ECC::Scalar::Native m_Offset; // goes to offset
 
-        std::vector<Coin::ID> m_InputCoins;
-        std::vector<Coin::ID> m_OutputCoins;
+        std::vector<Asset> m_InputCoins;
+        std::vector<Asset> m_OutputCoins;
         size_t m_NonceSlot = 0;
         ECC::Point::Native m_PublicNonce;
 

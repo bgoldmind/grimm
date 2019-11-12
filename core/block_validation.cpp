@@ -216,6 +216,7 @@ namespace grimm
 		assert(m_Coinbase == Zero); // must have already been checked
 
 		AmountBig::AddTo(m_Sigma, m_Fee);
+		std::cout << __FUNCTION__ << " m_Sigma " << m_Sigma << "\n";
 		return m_Sigma == Zero;
 	}
 

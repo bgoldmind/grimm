@@ -135,7 +135,7 @@ namespace grimm::wallet
             m_SharedCoin = m_Tx.GetWalletDB()->generateSharedCoin(GetAmount());
             m_Tx.SetParameter(TxParameterID::SharedCoinID, m_SharedCoin.m_ID, m_SubTxID);
 
-            m_OutputCoins.push_back(m_SharedCoin.m_ID);
+            m_OutputCoins.push_back(Asset {m_SharedCoin.m_ID, Zero, false});
             m_Tx.SetParameter(TxParameterID::OutputCoins, m_OutputCoins, m_SubTxID);
             m_Tx.SetParameter(TxParameterID::Outputs, m_Outputs, false, m_SubTxID);
 

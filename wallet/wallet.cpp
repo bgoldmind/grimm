@@ -266,6 +266,75 @@ namespace grimm::wallet
         return transfer_money(from, from, amountList, fee, {}, sender, lifetime, responseTime, move(message));
     }
 
+    TxID Wallet::handle_asset(const WalletID& from, const WalletID& to, AssetCommand assetCommand, Amount assetAmount, uint64_t idx, AssetID assetID, Amount fee /* = 0 */, bool sender /* = true */, Height lifetime /* = kDefaultTxLifetime */, Height responseTime /* = kDefaultTxResponseTime */, ByteBuffer&& message /* = {} */)
+    {
+        auto receiverAddr = m_WalletDB->getAddress(to);
+
+        if (receiverAddr)
+        {
+            if (receiverAddr->m_OwnID && receiverAddr->isExpired())
+            {
+                LOG_INFO() << "expired address";
+                throw AddressExpiredException();
+            }
+        }
+       Key::ID kid = Key::ID(idx, Key::Type::Regular);
+
+       bool isTransfer = assetCommand == AssetCommand::Transfer ? true : false;
+       if (!isTransfer)
+       {
+           Scalar::Native sk;
+           m_WalletDB->get_MasterKdf()->DeriveKey(sk, kid);
+           AssetID aid = Zero;
+           grimm::proto::Sk2Pk(aid, sk);
+           assert(aid != Zero);
+           assetID = aid;
+           LOG_INFO() << "Asset ID: " << assetID;
+       }
+
+        AmountList amountList = {};
+        CoinIDList coins = {};
+        auto assetAmountList = AmountList{ assetAmount };
+
+        TxID txID = GenerateTxID();
+        auto tx = constructTransaction(txID, TxType::Simple);
+
+        tx->SetParameter(TxParameterID::TransactionType, TxType::Simple, false);
+        tx->SetParameter(TxParameterID::Lifetime, lifetime, false);
+        tx->SetParameter(TxParameterID::PeerResponseHeight, responseTime);
+        tx->SetParameter(TxParameterID::IsInitiator, true, false);
+        tx->SetParameter(TxParameterID::AmountList, amountList, false);
+        tx->SetParameter(TxParameterID::PreselectedCoins, coins, false);
+        tx->SetParameter(TxParameterID::AssetCommand, assetCommand, false);
+        tx->SetParameter(TxParameterID::AssetID, assetID, false);
+        tx->SetParameter(TxParameterID::AssetAmountList, assetAmountList, false);
+
+
+        if (!isTransfer)
+        {
+            tx->SetParameter(TxParameterID::AssetKIDId, idx, false);
+        }
+
+        TxDescription txDescription;
+        txDescription.m_txId = txID;
+        txDescription.m_amount = 0;
+        txDescription.m_fee = fee;
+        txDescription.m_assetCommand = assetCommand;
+        txDescription.m_assetAmount = std::accumulate(assetAmountList.begin(), assetAmountList.end(), 0ULL);
+        txDescription.m_assetID = assetID;
+        txDescription.m_peerId = (AssetCommand::Transfer == assetCommand) ? to : from;
+        txDescription.m_myId = from;
+        txDescription.m_message = move(message);
+        txDescription.m_createTime = getTimestamp();
+        txDescription.m_sender = sender;
+        txDescription.m_status = TxStatus::Pending;
+        txDescription.m_selfTx = (receiverAddr && receiverAddr->m_OwnID);
+        m_WalletDB->saveTx(txDescription);
+        m_ActiveTransactions.emplace(txID, tx);
+        updateTransaction(txID);
+        return txID;
+    }
+
     TxID Wallet::swap_coins(const WalletID& from, const WalletID& to, Amount amount, Amount fee, AtomicSwapCoin swapCoin,
         Amount swapAmount, bool isGrimmSide/*=true*/, Height lifetime/* = kDefaultTxLifetime*/, Height responseTime/* = kDefaultTxResponseTime*/)
     {
@@ -797,20 +866,21 @@ namespace grimm::wallet
     }
 
     void Wallet::OnRequestComplete(MyRequestUtxoEvents& r)
-    {
+  {
         const std::vector<proto::UtxoEvent>& v = r.m_Res.m_Events;
-		for (size_t i = 0; i < v.size(); i++)
-		{
-			const auto& event = v[i];
+        for (size_t i = 0; i < v.size(); i++)
+  {
+    const auto& event = v[i];
 
-			// filter-out false positives
-            if (m_KeyKeeper)
-            {
-                Point commitment = m_KeyKeeper->GeneratePublicKeySync(event.m_Kidv, true);
-			    if (commitment == event.m_Commitment)
-				    ProcessUtxoEvent(event);
-            }
-		}
+    // filter-out false positives
+          if (m_KeyKeeper)
+          {
+              Point commitment = m_KeyKeeper->GeneratePublicKeySync(event.m_Kidv, true, &event.m_AssetID);
+        if (commitment == event.m_Commitment)
+          ProcessUtxoEvent(event);
+          }
+  }
+
 
 		if (r.m_Res.m_Events.size() < proto::UtxoEvent::s_Max)
 		{
@@ -848,6 +918,7 @@ namespace grimm::wallet
     {
         Coin c;
         c.m_ID = evt.m_Kidv;
+        c.m_assetID = evt.m_AssetID;
 
         bool bExists = m_WalletDB->find(c);
 		c.m_maturity = evt.m_Maturity;

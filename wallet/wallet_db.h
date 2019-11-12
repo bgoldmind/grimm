@@ -24,7 +24,7 @@
 #if defined(__clang__)
 #  pragma clang diagnostic pop
 #endif
-
+#include "core/block_crypt.h"
 #include "core/common.h"
 #include "core/ecc_native.h"
 #include "wallet/common.h"
@@ -55,12 +55,14 @@ namespace grimm::wallet
             count
         };
 
-        Coin(Amount amount = 0, Key::Type keyType = Key::Type::Regular);
+        Coin(Amount amount = 0, Key::Type keyType = Key::Type::Regular, AssetID aid = Zero);
         bool operator==(const Coin&) const;
         bool operator!=(const Coin&) const;
         bool isReward() const;
         std::string toStringID() const;
         Amount getAmount() const;
+        AssetID getAssetID() const;
+        AssetID m_assetID;
 
         typedef Key::IDV ID; // unique identifier for the coin (including value), can be used to create blinding factor
         ID m_ID;
@@ -192,7 +194,7 @@ namespace grimm::wallet
         // Selects a list of coins matching certain specified amount
         // Selection logic will optimize for number of UTXOs and minimize change
         // Uses greedy algorithm up to a point and follows by some heuristics
-        virtual std::vector<Coin> selectCoins(Amount amount) = 0;
+        virtual std::vector<Coin> selectCoins(Amount amount, AssetID aid = Zero) = 0;
 
         // Some getters to get lists of coins by some input parameters
         virtual std::vector<Coin> getCoinsCreatedByTx(const TxID& txId) = 0;
@@ -214,7 +216,8 @@ namespace grimm::wallet
         virtual void clear() = 0;
 
         // Generic visitor to iterate over coin collection
-        virtual void visit(std::function<bool(const Coin& coin)> func) = 0;
+        virtual void visit(std::function<bool(const Coin& coin)> func, AssetID aid = Zero) = 0;
+        virtual void visitAll(std::function<bool(const Coin& coin)> func) {}
 
         // Used in split API for session management
         virtual bool lock(const CoinIDList& list, uint64_t session) = 0;
@@ -301,7 +304,7 @@ namespace grimm::wallet
 
         grimm::Key::IKdf::Ptr get_MasterKdf() const override;
         uint64_t AllocateKidRange(uint64_t nCount) override;
-        std::vector<Coin> selectCoins(Amount amount) override;
+        std::vector<Coin> selectCoins(Amount amount, AssetID aid = Zero) override;
         std::vector<Coin> getCoinsCreatedByTx(const TxID& txId) override;
         std::vector<Coin> getCoinsByTx(const TxID& txId) override;
         std::vector<Coin> getCoinsByID(const CoinIDList& ids) override;
@@ -315,7 +318,9 @@ namespace grimm::wallet
         bool find(Coin& coin) override;
         void clear() override;
 
-        void visit(std::function<bool(const Coin& coin)> func) override;
+        void visit(std::function<bool(const Coin& coin)> func, AssetID aid = Zero) override;
+        void visitAll(std::function<bool(const Coin& coin)> func) override;
+
 
         void setVarRaw(const char* name, const void* data, size_t size) override;
         bool getVarRaw(const char* name, void* data, int size) const override;
@@ -511,8 +516,8 @@ namespace grimm::wallet
             Amount Unspent = 0;
 
             Totals() {}
-            Totals(IWalletDB& db) { Init(db); }
-            void Init(IWalletDB&);
+            Totals(IWalletDB& db, const AssetID assetID = grimm::Zero) { Init(db, assetID); }
+            void Init(IWalletDB&, const AssetID assetID = grimm::Zero);
         };
 
         // Used for Payment Proof feature

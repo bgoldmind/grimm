@@ -32,6 +32,17 @@ namespace grimm::wallet
         ALL
     };
 
+    // Assets
+    enum class AssetCommand : uint8_t
+    {
+        Zero,
+        Issue,
+        Transfer,
+        Burn,
+        All
+    };
+
+
     using TxID = std::array<uint8_t, 16>;
     const Height kDefaultTxLifetime = 2 * 60;
     const Height kDefaultTxResponseTime = 12 * 60;
@@ -155,6 +166,9 @@ namespace grimm::wallet
 
         TxID m_txId;
         wallet::TxType m_txType = wallet::TxType::Simple;
+        AssetCommand m_assetCommand = AssetCommand::Zero;
+        Amount m_assetAmount = 0;
+        AssetID m_assetID = Zero;
         Amount m_amount=0;
         Amount m_fee=0;
         Amount m_change=0;
@@ -323,7 +337,16 @@ namespace grimm::wallet
         AtomicSwapSecretPublicKey = 203,
 
         InternalFailureReason = 210,
-    
+
+        AssetCommand = 215,
+        AssetID = 216,
+        AssetAmount = 217,
+        AssetAmountList = 218,
+        AssetOutputCoins = 219,
+        AssetKIDId = 220,
+        AssetInputs = 221,
+        AssetOutputs = 222,
+
         State = 255
 
     };

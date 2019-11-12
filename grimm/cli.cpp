@@ -189,11 +189,22 @@ int main_impl(int argc, char* argv[])
 			clean_old_logfiles(LOG_FILES_DIR, LOG_FILES_PREFIX, logCleanupPeriod);
 
 			Rules::get().UpdateChecksum();
+      auto port = vm[cli::PORT].as<uint16_t>();
+
+      if (Rules::get().isAssetchain) {
+               LOG_INFO() << "Confidential Assetchain Symbol: " << vm[cli::CAC_SYMBOL].as<string>();
+               LOG_INFO() << vm[cli::CAC_SYMBOL].as<string>() << " Node " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
+               port  = vm[cli::CAC_PORT].as<uint16_t>();
+
+
+         } else {
             LOG_INFO() << "Grimm Node " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
+
+         }
+
 			LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
-
-			auto port = vm[cli::PORT].as<uint16_t>();
-
+      //LOG_INFO() << Rules::get().CoinSymbol;
+      //LOG_INFO() << Rules::get().DA.Difficulty0;
             if (!port)
             {
                 LOG_ERROR() << "Port must be specified";
@@ -228,8 +239,11 @@ int main_impl(int argc, char* argv[])
 
 					node.m_Cfg.m_Listen.port(port);
 					node.m_Cfg.m_Listen.ip(INADDR_ANY);
-					node.m_Cfg.m_sPathLocal = vm[cli::STORAGE].as<string>();
-
+          if (Rules::get().isAssetchain) {
+					node.m_Cfg.m_sPathLocal = vm[cli::CAC_SYMBOL].as<string>() + "_" + vm[cli::STORAGE].as<string>();
+        } else {
+          node.m_Cfg.m_sPathLocal = vm[cli::STORAGE].as<string>();
+        }
 					node.m_Cfg.m_MiningThreads = vm[cli::MINING_THREADS].as<uint32_t>();
 
 					node.m_Cfg.m_VerificationThreads = vm[cli::VERIFICATION_THREADS].as<int>();

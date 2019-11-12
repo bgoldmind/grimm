@@ -90,7 +90,7 @@ namespace grimm
         {
             if (amount.m_value >= Rules::Coin)
             {
-                ss << Amount(amount.m_value / Rules::Coin) << " grimms ";
+                ss << Amount(amount.m_value / Rules::Coin) << " " << Rules::get().CoinSymbol << " ";
             }
             Amount c = amount.m_value % Rules::Coin;
             if (c > 0 || amount.m_value == 0)
@@ -99,7 +99,7 @@ namespace grimm
             }
             os << ss.str();
         }
-        
+
         return os;
     }
 }

@@ -127,9 +127,8 @@ namespace grimm
 		struct Parameters
 		{
 			Height m_Maturity0 = 0;
-			Height m_MaturityStep = 0; // 1 month roughly
-			uint32_t m_Bursts = 0; // 5 years plan
-
+			Height m_MaturityStep = Rules::get().TMS; // 0
+			uint32_t m_Bursts = Rules::get().MB; // 0
 		};
 
 		struct Entry

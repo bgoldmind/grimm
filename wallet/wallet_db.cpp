@@ -40,6 +40,7 @@
     each(spentHeight,    spentHeight,   INTEGER, obj) sep \
     each(createTxId,     createTxId,    BLOB, obj) sep \
     each(spentTxId,      spentTxId,     BLOB, obj) sep \
+    each(assetID,        assetID,       BLOB NOT NULL, obj) sep \
     each(sessionId,      sessionId,     INTEGER NOT NULL, obj)
 
 #define ENUM_ALL_STORAGE_FIELDS(each, sep, obj) \
@@ -690,7 +691,7 @@ namespace grimm::wallet
         const int DbVersion10 = 10;
     }
 
-    Coin::Coin(Amount amount /* = 0 */, Key::Type keyType /* = Key::Type::Regular */)
+    Coin::Coin(Amount amount /* = 0 */, Key::Type keyType /* = Key::Type::Regular */, AssetID aid /* = Zero */)
         : m_status{ Status::Unavailable }
         , m_maturity{ MaxHeight }
         , m_confirmHeight{ MaxHeight }
@@ -700,6 +701,7 @@ namespace grimm::wallet
         ZeroObject(m_ID);
         m_ID.m_Value = amount;
         m_ID.m_Type = keyType;
+        m_assetID = aid;
     }
 
     bool Coin::isReward() const
@@ -734,7 +736,7 @@ namespace grimm::wallet
 
     bool Coin::operator==(const Coin& other) const
     {
-        return other.m_ID == m_ID;
+        return other.m_ID == m_ID && other.m_assetID == m_assetID;
     }
 
     bool Coin::operator!=(const Coin& other) const
@@ -748,6 +750,11 @@ namespace grimm::wallet
         packed = m_ID;
 
         return to_hex(&packed, sizeof(packed));
+    }
+
+    AssetID Coin::getAssetID() const
+    {
+        return m_assetID;
     }
 
     Amount Coin::getAmount() const
@@ -1248,15 +1255,16 @@ namespace grimm::wallet
       return true;
 	}
 
-    vector<Coin> WalletDB::selectCoins(Amount amount)
+    vector<Coin> WalletDB::selectCoins(Amount amount, AssetID aid /* = Zero */)
     {
         vector<Coin> coins, coinsSel;
         Block::SystemState::ID stateID = {};
         getSystemStateID(stateID);
 
         {
-            sqlite::Statement stm(this, "SELECT " STORAGE_FIELDS " FROM " STORAGE_NAME " WHERE maturity>=0 AND maturity<=?1 AND spentHeight<0 ORDER BY amount ASC");
+            sqlite::Statement stm(this, "SELECT " STORAGE_FIELDS " FROM " STORAGE_NAME " WHERE maturity>=0 AND maturity<=?1 AND spentHeight<0 AND assetID=?2 ORDER BY amount ASC");
             stm.bind(1, stateID.m_Height);
+            stm.bind(2, aid);
 
             while (stm.step())
             {
@@ -1548,7 +1556,29 @@ namespace grimm::wallet
         return true;
     }
 
-    void WalletDB::visit(function<bool(const Coin& coin)> func)
+    void WalletDB::visit(function<bool(const Coin& coin)> func, const AssetID assetID/* = grimm::Zero*/)
+   {
+       const char* req = "SELECT " STORAGE_FIELDS " FROM " STORAGE_NAME " WHERE assetID=?1 ORDER BY ROWID;";
+       sqlite::Statement stm(this, req);
+       stm.bind(1, assetID);
+
+       Height h = getCurrentHeight();
+
+       while (stm.step())
+       {
+           Coin coin;
+
+           int colIdx = 0;
+           ENUM_ALL_STORAGE_FIELDS(STM_GET_LIST, NOSEP, coin);
+
+           storage::DeduceStatus(*this, coin, h);
+
+           if (!func(coin))
+               break;
+       }
+   }
+
+   void WalletDB::visitAll(function<bool(const Coin& coin)> func)
     {
         const char* req = "SELECT " STORAGE_FIELDS " FROM " STORAGE_NAME " ORDER BY ROWID;";
         sqlite::Statement stm(this, req);
@@ -1829,6 +1859,15 @@ namespace grimm::wallet
             case TxParameterID::IsSelfTx:
                 deserialize(txDescription.m_selfTx, parameter.m_value);
                 break;
+            case TxParameterID::AssetAmount:
+                deserialize(txDescription.m_assetAmount, parameter.m_value);
+                break;
+            case TxParameterID::AssetID:
+                deserialize(txDescription.m_assetID, parameter.m_value);
+                break;
+            case TxParameterID::AssetCommand:
+                deserialize(txDescription.m_assetCommand, parameter.m_value);
+                break;
             default:
                 break; // suppress warning
             }
@@ -1850,6 +1889,9 @@ namespace grimm::wallet
         storage::setTxParameter(*this, p.m_txId, TxParameterID::Amount, p.m_amount, false);
         storage::setTxParameter(*this, p.m_txId, TxParameterID::Fee, p.m_fee, false);
         storage::setTxParameter(*this, p.m_txId, TxParameterID::Change, p.m_change, false);
+        storage::setTxParameter(*this, p.m_txId, TxParameterID::AssetCommand, p.m_assetCommand, false);
+        storage::setTxParameter(*this, p.m_txId, TxParameterID::AssetAmount, p.m_assetAmount, false);
+        storage::setTxParameter(*this, p.m_txId, TxParameterID::AssetID, p.m_assetID, false);
         if (p.m_minHeight)
         {
             storage::setTxParameter(*this, p.m_txId, TxParameterID::MinHeight, p.m_minHeight, false);
@@ -2544,7 +2586,7 @@ namespace grimm::wallet
             return true;
         }
 
-        void Totals::Init(IWalletDB& walletDB)
+        void Totals::Init(IWalletDB& walletDB, const AssetID assetID/* = grimm::Zero*/)
         {
             ZeroObject(*this);
 
@@ -2589,7 +2631,7 @@ namespace grimm::wallet
                 }
 
                 return true;
-            });
+            }, assetID);
         }
 
         WalletAddress createAddress(IWalletDB& walletDB)

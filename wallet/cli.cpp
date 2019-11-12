@@ -578,12 +578,66 @@ namespace
         return 0;
     }
 
+    bool FromHex(AssetID& assetID, const std::string& s)
+    {
+        LOG_INFO() << "Parsing string " << s;
+        bool bValid = true;
+
+        ByteBuffer bb = from_hex(s, &bValid);
+        if (!bValid)
+        {
+            LOG_ERROR() << "Invalid AssetID (hex string)";
+            return false;
+        }
+        if (bb.size() != sizeof(assetID))
+        {
+            LOG_ERROR() << "Invalid AssetID (size string)";
+            return false;
+        }
+
+        typedef uintBig_t<sizeof(assetID)> BigSelf;
+        static_assert(sizeof(BigSelf) == sizeof(assetID), "");
+
+        *reinterpret_cast<BigSelf*>(&assetID) = Blob(bb);
+
+        LOG_INFO() << "Parsing string ok. AssetID: " << assetID;
+        return true;
+    }
+
+
     int ShowWalletInfo(const IWalletDB::Ptr& walletDB, const po::variables_map& vm)
     {
         Block::SystemState::ID stateID = {};
         walletDB->getSystemStateID(stateID);
+        AssetID assetID = Zero;
 
-        storage::Totals totals(*walletDB);
+        if (vm.count(cli::ASSET_ID))
+        {
+            if (!FromHex(assetID, vm[cli::ASSET_ID].as<string>()))
+            {
+                cout << "AssetID Parsing failed...\n";
+                return -1;
+            }
+        }
+
+        storage::Totals totals(*walletDB, assetID);
+
+        if (vm.count(cli::ASSET_ID))
+        {
+          cout << "____Asset Wallet____\n\n"
+              << "AssetID .................." << assetID << "\n\n"
+              << "Current height............" << stateID.m_Height << '\n'
+              << "Current state ID.........." << stateID.m_Hash << "\n\n"
+              << "Available................." << PrintableAmount(totals.Avail) << " assets" << '\n'
+              << "Maturing.................." << PrintableAmount(totals.Maturing) << '\n'
+              << "In progress..............." << PrintableAmount(totals.Incoming) << '\n'
+              << "Unavailable..............." << PrintableAmount(totals.Unavail) << '\n'
+              << "Available coinbase ......." << PrintableAmount(totals.AvailCoinbase) << '\n'
+              << "Total coinbase............" << PrintableAmount(totals.Coinbase) << '\n'
+              << "Avaliable fee............." << PrintableAmount(totals.AvailFee) << '\n'
+              << "Total fee................." << PrintableAmount(totals.Fee) << '\n'
+              << "Total unspent............." << PrintableAmount(totals.Unspent) << " assets" << "\n\n";
+        } else {
 
         cout << "____Wallet summary____\n\n"
             << "Current height............" << stateID.m_Height << '\n'
@@ -597,7 +651,7 @@ namespace
             << "Avaliable fee............." << PrintableAmount(totals.AvailFee) << '\n'
             << "Total fee................." << PrintableAmount(totals.Fee) << '\n'
             << "Total unspent............." << PrintableAmount(totals.Unspent) << "\n\n";
-
+        }
         if (vm.count(cli::TX_HISTORY))
         {
             auto txHistory = walletDB->getTxHistory();
@@ -609,13 +663,24 @@ namespace
 
             const array<uint8_t, 6> columnWidths{ { 20, 17, 26, 21, 33, 65} };
 
+            if (vm.count(cli::ASSET_ID))
+            {
             cout << "TRANSACTIONS\n\n  |"
                 << left << setw(columnWidths[0]) << " datetime" << " |"
                 << left << setw(columnWidths[1]) << " direction" << " |"
-                << right << setw(columnWidths[2]) << " amount, GRIMM" << " |"
+                << right << setw(columnWidths[2]) << " assets amount" << " |"
                 << left << setw(columnWidths[3]) << " status" << " |"
                 << setw(columnWidths[4]) << " ID" << " |"
                 << setw(columnWidths[5]) << " kernel ID" << " |" << endl;
+            } else {
+              cout << "TRANSACTIONS\n\n  |"
+                  << left << setw(columnWidths[0]) << " datetime" << " |"
+                  << left << setw(columnWidths[1]) << " direction" << " |"
+                  << right << setw(columnWidths[2]) << " amount " << vm[cli::CAC_SYMBOL].as<string>() << " |"
+                  << left << setw(columnWidths[3]) << " status" << " |"
+                  << setw(columnWidths[4]) << " ID" << " |"
+                  << setw(columnWidths[5]) << " kernel ID" << " |" << endl;
+            }
 
             for (auto& tx : txHistory)
             {
@@ -674,13 +739,25 @@ namespace
         }
 
         const array<uint8_t, 6> columnWidths{ { 49, 14, 14, 18, 30, 8} };
+        if (vm.count(cli::ASSET_ID))
+        {
+        cout << "AssetID .................." << assetID << "\n";
         cout << "  |"
             << left << setw(columnWidths[0]) << " ID" << " |"
-            << right << setw(columnWidths[1]) << " grimm" << " |"
+            << right << setw(columnWidths[1]) << " assets" << " |"
             << setw(columnWidths[2]) << " centum" << " |"
             << left << setw(columnWidths[3]) << " maturity" << " |"
             << setw(columnWidths[4]) << " status" << " |"
             << setw(columnWidths[5]) << " type" << endl;
+        } else {
+          cout << "  |"
+              << left << setw(columnWidths[0]) << " ID" << " |"
+              << right << setw(columnWidths[1]) << " " <<  vm[cli::CAC_SYMBOL].as<string>() << " |"
+              << setw(columnWidths[2]) << " centum" << " |"
+              << left << setw(columnWidths[3]) << " maturity" << " |"
+              << setw(columnWidths[4]) << " status" << " |"
+              << setw(columnWidths[5]) << " type" << endl;
+        }
 
 
         walletDB->visit([&columnWidths](const Coin& c)->bool
@@ -693,7 +770,7 @@ namespace
                 << " " << setw(columnWidths[4]+1) << c.m_status
                 << " " << setw(columnWidths[5]+1) << c.m_ID.m_Type << endl;
             return true;
-        });
+        }, assetID);
         return 0;
     }
 
@@ -883,6 +960,43 @@ namespace
         return coinIDs;
     }
 
+    bool LoadAssetParamsForTX(const po::variables_map& vm, AssetCommand& assetCommand, uint64_t& idx, AssetID& assetID)
+    {
+        if (vm.count(cli::ASSET_OPCODE) == 0)
+        {
+            return false;
+        }
+        if (vm.count(cli::ASSET_KID) == 0 && vm.count(cli::ASSET_ID) == 0)
+        {
+            LOG_ERROR() << "--- asset_id or asset_kid required";
+            return false;
+        }
+
+        switch (vm[cli::ASSET_OPCODE].as<uint32_t>())
+        {
+            case 1: assetCommand = AssetCommand::Issue; break;
+            case 2: assetCommand = AssetCommand::Transfer; break;
+            case 3: assetCommand = AssetCommand::Burn; break;
+            default: LOG_ERROR() << "confidential asset operation: 1=emission, 2=send, 3=burn"; return false;
+        }
+
+        if (assetCommand == AssetCommand::Transfer)
+        {
+            if (!FromHex(assetID, vm[cli::ASSET_ID].as<string>()))
+            {
+                LOG_ERROR() << "Invalid asset_id";
+                return false;
+            }
+        }
+        else
+        {
+            idx = vm[cli::ASSET_KID].as<uint64_t>();
+        }
+        
+        return true;
+    }
+
+
     bool LoadBaseParamsForTX(const po::variables_map& vm, Amount& amount, Amount& fee, WalletID& receiverWalletID, bool checkFee)
     {
         if (vm.count(cli::RECEIVER_ADDR) == 0)
@@ -1027,7 +1141,9 @@ int main_impl(int argc, char* argv[])
                             cli::INIT,
                             cli::RESTORE,
                             cli::SEND,
-
+                            //cli::ASSET_EMIT,
+                            //cli::ASSET_SEND,
+                            //cli::ASSET_BURN,
                             cli::LISTEN,
                             cli::TREASURY,
                             cli::INFO,
@@ -1061,8 +1177,15 @@ int main_impl(int argc, char* argv[])
                         GeneratePhrase();
                         return 0;
                     }
+                    if (Rules::get().isAssetchain) {
+                             LOG_INFO() << "Confidential Assetchain Symbol: " << vm[cli::CAC_SYMBOL].as<string>();
+                             LOG_INFO() << vm[cli::CAC_SYMBOL].as<string>() << " Wallet " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
 
+
+
+                       } else {
                     LOG_INFO() << "Grimm Wallet " << PROJECT_VERSION << " (" << BRANCH_NAME << ")";
+                    }
                     LOG_INFO() << "Rules signature: " << Rules::get().get_SignatureStr();
 
                     bool coldWallet = vm.count(cli::COLD_WALLET) > 0;
@@ -1098,7 +1221,7 @@ int main_impl(int argc, char* argv[])
                         {
                             LOG_ERROR() << "Your wallet is already initialized.";
                             return -1;
-                        }                  
+                        }
                     }
 
                     LOG_INFO() << "starting a wallet...";
@@ -1298,6 +1421,9 @@ int main_impl(int argc, char* argv[])
                     Amount fee = 0;
                     WalletID receiverWalletID(Zero);
                     bool isTxInitiator = command == cli::SEND;
+                    //bool isAssetEmit = command == cli::ASSET_EMIT;
+                    //bool isAssetSend = command == cli::ASSET_SEND;
+                    //bool isAssetBurn = command == cli::ASSET_BURN;
                     if (isTxInitiator && !LoadBaseParamsForTX(vm, amount, fee, receiverWalletID, isFork1))
                     {
                         return -1;
@@ -1478,11 +1604,39 @@ int main_impl(int argc, char* argv[])
                             }
                         }
 
+                        //if (isAssetEmit) {
+                        //     WalletAddress senderAddress = CreateNewAddress(walletDB, "");
+                        //     WalletAddress receiverAddress = CreateNewAddress(walletDB, "");
+                        //     AssetCommand assetCommand;
+                        //     uint64_t idx = 0;
+                        //     if (vm.count(cli::ASSET_KID) == 0)
+                        //     {
+                        //         LOG_ERROR() << "asset_kid required";
+                        //         return false;
+                        //     }
+                        //     idx = vm[cli::ASSET_KID].as<uint64_t>();
+                        //     AssetID assetID = Zero;
+                        //     LOG_INFO() << "Creating assets...";
+                        //     currentTxID = wallet.handle_asset(senderAddress.m_walletID, receiverAddress.m_walletID, assetCommand, move(amount), idx, assetID, move(fee), command == cli::SEND, kDefaultTxLifetime, kDefaultTxResponseTime, {});
+
+                         //  }
+
                         if (isTxInitiator)
                         {
                             WalletAddress senderAddress = CreateNewAddress(walletDB, "");
-                            CoinIDList coinIDs = GetPreselectedCoinIDs(vm);
-                            currentTxID = wallet.transfer_money(senderAddress.m_walletID, receiverWalletID, move(amount), move(fee), coinIDs, command == cli::SEND, kDefaultTxLifetime, kDefaultTxResponseTime, {}, true);
+                            AssetCommand assetCommand;
+                            uint64_t idx = 0;
+                            AssetID assetID = Zero;
+
+                           if (LoadAssetParamsForTX(vm, assetCommand, idx, assetID))
+                           {
+                               currentTxID = wallet.handle_asset(senderAddress.m_walletID, receiverWalletID, assetCommand, move(amount), idx, assetID, move(fee), command == cli::SEND, kDefaultTxLifetime, kDefaultTxResponseTime, {});
+                           }
+                           else
+                           {
+                               CoinIDList coinIDs = GetPreselectedCoinIDs(vm);
+                               currentTxID = wallet.transfer_money(senderAddress.m_walletID, receiverWalletID, move(amount), move(fee), coinIDs, command == cli::SEND, kDefaultTxLifetime, kDefaultTxResponseTime, {}, true);
+                           }
                         }
 
                         bool deleteTx = command == cli::DELETE_TX;

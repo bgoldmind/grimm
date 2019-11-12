@@ -110,6 +110,7 @@ namespace grimm::wallet
         TxID transfer_money(const WalletID& from, const WalletID& to, const AmountList& amountList, Amount fee = 0, const CoinIDList& coins = {}, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {}, bool saveReceiver = false);
         TxID split_coins(const WalletID& from, const AmountList& amountList, Amount fee = 0, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {});
         TxID swap_coins(const WalletID& from, const WalletID& to, Amount amount, Amount fee, AtomicSwapCoin swapCoin, Amount swapAmount, bool isGrimmSide = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime);
+        TxID handle_asset(const WalletID& from, const WalletID& to, AssetCommand assetCommand, Amount assetAmount, uint64_t idx, AssetID assetID, Amount fee = 0, bool sender = true, Height lifetime = kDefaultTxLifetime, Height responseTime = kDefaultTxResponseTime, ByteBuffer&& message = {});
 
 
         // Resets wallet state and rescans the blockchain from scratch

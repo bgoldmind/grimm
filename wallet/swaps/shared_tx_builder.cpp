@@ -116,7 +116,7 @@ namespace grimm::wallet
         output->Create(minHeight, blindingFactor, *m_Tx.GetWalletDB()->get_ChildKdf(outputCoin.m_ID.m_SubIdx), outputCoin.m_ID, *m_Tx.GetWalletDB()->get_MasterKdf());
 
         m_Outputs.push_back(std::move(output));
-        m_OutputCoins.push_back(outputCoin.m_ID);
+        m_OutputCoins.push_back(Asset {outputCoin.m_ID, Zero, false});
         m_Tx.SetParameter(TxParameterID::OutputCoins, m_OutputCoins, m_SubTxID);
     }
 

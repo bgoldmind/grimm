@@ -451,7 +451,10 @@ namespace grimm
 			ptExcNested += pt;
 
 			if (!m_Signature.IsValid(hv, ptExcNested))
-				return false;
+				 {
+          std::cout << "--- Invalid Сommitment " << m_Commitment << "\n";
+					return false;
+         }
 
 			*pExcess += pt;
 
@@ -488,7 +491,7 @@ namespace grimm
 					val = -m_AssetEmission;
 					sc.m_hGen = -sc.m_hGen;
 				}
-
+        std::cout << "--- Asset emission: " << val << "\n";
 				ECC::Tag::AddValue(*pExcess, &sc.m_hGen, val);
 			}
 		}
@@ -930,6 +933,11 @@ namespace grimm
 		// at Emission.Drop1 - 5/8
 		// each Emission.Drop1 cycle - 1/2
 
+		if (h == 0)
+		{
+			hEnd = Rules::HeightGenesis + 1;
+			return Emission.Premine;
+		}
 		if (h < Emission.Drop0)
 		{
 			hEnd = Rules::HeightGenesis + Emission.Drop0;

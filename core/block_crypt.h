@@ -88,6 +88,13 @@ namespace grimm
 		COMPARISON_VIA_CMP
 	};
 
+	struct Asset // Serialization structure
+	{
+			Key::IDV m_IDV;
+			AssetID m_AssetID;
+			bool m_Public;
+	};
+
 	struct Rules
 	{
 		Rules();
@@ -98,6 +105,7 @@ namespace grimm
 
 		struct {
 			// emission parameters
+			Amount Premine = Coin * 100; // Pre-mine for CAC, default 100*Coin (no premine for Grimm)
 			Amount Value0	= Coin * 100; // Initial emission. Each drop it will be halved. In case of odd num it's rounded to the lower value.
 			Height Drop0	= 1440 * 365; // 1 year roughly. This is the height of the last block that still has the initial emission, the drop is starting from the next block
 			Height Drop1	= 1440 * 365 * 4; // 4 years roughly. Each such a cycle there's a new drop
@@ -135,8 +143,13 @@ namespace grimm
 		} Macroblock;
 
 		size_t MaxBodySize = 0x200000; // 2MB
+		bool isAssetchain = false;
+		bool isGrimmPOW = true;
+		std::string CoinSymbol = "XGM"; //by default
+		Height TMS = 0; //Treasury MaturityStep for Assetchains in heights, default 0
+		uint32_t MB = 0; //Treasury steps quantity, default 0
 
-		bool AllowPublicUtxos = false;
+    bool AllowPublicUtxos = false;
 		bool FakePoW = false;
 
 		ECC::Hash::Value Prehistoric; // Prev hash of the 1st block

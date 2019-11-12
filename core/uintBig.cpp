@@ -22,9 +22,9 @@ namespace grimm {
 		return v + ((v < 10) ? '0' : ('a' - 10));
 	}
 
-	void uintBigImpl::_Print(const uint8_t* pDst, uint32_t nDst, std::ostream& s)
+	void uintBigImpl::_Print(const uint8_t* pDst, uint32_t nDst, std::ostream& s) //print all
 	{
-		const uint32_t nDigitsMax = 8;
+		const uint32_t nDigitsMax = 32;
 		if (nDst > nDigitsMax)
 			nDst = nDigitsMax; // truncate
 

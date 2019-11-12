@@ -114,7 +114,7 @@ namespace grimm
         const char* IP_WHITELIST = "ip_whitelist";
         const char* HORIZON_HI = "horizon_hi";
         const char* HORIZON_LO = "horizon_lo";
-		const char* GENERATE_RECOVERY_PATH = "generate_recovery";
+		    const char* GENERATE_RECOVERY_PATH = "generate_recovery";
         const char* COLD_WALLET = "cold_wallet";
         const char* SWAP_INIT = "swap_init";
         const char* SWAP_LISTEN = "swap_listen";
@@ -136,7 +136,38 @@ namespace grimm
         const char* API_USE_ACL= "use_acl";
         const char* API_ACL_PATH = "acl_path";
 
+        // Confidential Assets
+        const char* ASSET_ENABLE = "asset_enabled";
+        const char* ASSET_EXCHANGE = "asset_exchange";
+        const char* ASSET_ID = "asset_id";
+        const char* ASSET_OPCODE = "asset_command";
+        const char* ASSET_KID = "asset_kid";
+        //const char* ASSET_EMIT = "asset_create";
+        //const char* ASSET_SEND = "asset_send";
+        //const char* ASSET_BURN = "asset_burn";
 
+
+        // Confidential Assetchains (CAC)
+        const char* CAC_SYMBOL = "cac_symbol";
+        const char* CAC_PORT = "cac_port";
+        const char* CAC_PORT_FULL = "cac_port";
+        const char* CAC_PREMINE = "cac_premine";
+        const char* CAC_EMISSION_BLOCK = "cac_blockreward";
+        const char* CAC_EMISSION_DROP0 = "cac_drop0";
+        const char* CAC_EMISSION_DROP1 = "cac_drop1";
+        const char* CAC_MATURITY_COINBASE = "cac_coinbasematurity";
+        const char* CAC_MATURITY_STANDART = "cac_standartmaturity";
+        const char* CAC_BLOCK_SIZE = "cac_blocksize";
+        const char* CAC_BLOCK_TIME = "cac_blocktime";
+        const char* CAC_FTL = "cac_ftl";
+        const char* CAC_WINDOWWORK = "cac_windowwork";
+        const char* CAC_TIMESTAMP_MEDIAN = "cac_timestampmedian";
+        const char* CAC_BLOCKS_MEDIAN = "cac_blocksmedian";
+        const char* CAC_ALLOW_PUBLIC_UTXO = "cac_publicutxo";
+        const char* CAC_DIFF_S = "cac_diff";
+        const char* CAC_TREASURYM = "cac_trm";
+        const char* CAC_TREASURYB = "cac_trb";
+        //const char* CAC_GRIMMPOW = "cac_grimmpow";
         // treasury
         const char* TR_OPCODE = "tr_op";
         const char* TR_WID = "tr_wid";
@@ -262,6 +293,35 @@ namespace grimm
             (cli::WALLET_ADDR, po::value<vector<string>>()->multitoken())
             (cli::APPDATA_PATH, po::value<string>());
 
+        po::options_description cac_options("Confidential Assetchains (CAC) options");
+        cac_options.add_options()
+        (cli::CAC_SYMBOL, po::value<string>()->default_value("XGM"), "CAC symbol/ticker")
+        (cli::CAC_PORT_FULL, po::value<uint16_t>()->default_value(10015), "CAC port to start the server on")
+        (cli::CAC_PREMINE, po::value<Amount>()->default_value(10000000000), "CAC premine at 1st block in the smallest unit of the coin (1 coin = 10^8 units)")
+        (cli::CAC_EMISSION_BLOCK, po::value<Amount>()->default_value(10000000000), "CAC initial coinbase emission in a single block in the smallest unit of the coin (1 coin = 10^8 units)")
+        (cli::CAC_EMISSION_DROP0, po::value<Amount>()->default_value(1440 * 365), "height of the last block that still has the initial emission, the drop is starting from the next block")
+        (cli::CAC_EMISSION_DROP1, po::value<Amount>()->default_value(1440 * 365 * 4), "Each such a cycle there's a new halving")
+        (cli::CAC_MATURITY_COINBASE, po::value<Height>()->default_value(90), "coinbase coins can spend after blocks")
+        (cli::CAC_MATURITY_STANDART, po::value<Height>()->default_value(0), "standart coins can spend after blocks")
+        (cli::CAC_BLOCK_SIZE, po::value<size_t>()->default_value(0x200000), "block size")
+        (cli::CAC_BLOCK_TIME, po::value<uint32_t>()->default_value(60), "block time in sec")
+        (cli::CAC_FTL, po::value<uint32_t>()->default_value(60 * 15), "Timestamps ahead by more than FTL won't be accepted (in sec)")
+        (cli::CAC_WINDOWWORK, po::value<uint32_t>()->default_value(120), "window work in blocks")
+        (cli::CAC_TIMESTAMP_MEDIAN, po::value<uint32_t>()->default_value(25), "Timestamp for a block must be (strictly) higher than the median of preceding window")
+        (cli::CAC_BLOCKS_MEDIAN, po::value<uint32_t>()->default_value(7), "Num of blocks taken at both endings of WindowWork, to pick medians")
+        (cli::CAC_DIFF_S, po::value<uint32_t>()->default_value(1), "Start difficulty, default 2^1 (set 0 for start cpu mining)")
+        //(cli::CAC_GRIMMPOW, po::value<bool>()->default_value(true), "grimmpow")
+        (cli::CAC_TREASURYM, po::value<Height>()->default_value(0), "CAC Treasury maturity step (block height)")
+        (cli::CAC_TREASURYB, po::value<uint32_t>()->default_value(0), "CAC Treasury plan")
+        (cli::CAC_ALLOW_PUBLIC_UTXO, po::value<bool>()->default_value(false), "Non-confidential regular UTXO (default 'false', to switch on set - 'true')")
+        (cli::ASSET_ENABLE, po::value<bool>()->default_value(false), "Enable assets")
+        (cli::ASSET_EXCHANGE, po::value<bool>()->default_value(true), "Asset exchange in main coins")
+        (cli::ASSET_OPCODE, po::value<uint32_t>(), "confidential asset operation: 1=emission, 2=send, 3=burn")
+        (cli::ASSET_KID, po::value<uint64_t>(), "asset keyID")
+        (cli::ASSET_ID, po::value<string>(), "asset ID")
+        ;
+
+
         po::options_description options{ "Allowed options" };
         po::options_description visible_options{ "Allowed options" };
         if (flags & GENERAL_OPTIONS)
@@ -272,14 +332,20 @@ namespace grimm
         if (flags & NODE_OPTIONS)
         {
             options.add(node_options);
+            options.add(cac_options);
             options.add(node_treasury_options);
             visible_options.add(node_options);
+            visible_options.add(cac_options);
+            visible_options.add(node_treasury_options);
         }
         if (flags & WALLET_OPTIONS)
         {
             options.add(wallet_options);
+            options.add(cac_options);
             options.add(wallet_treasury_options);
             visible_options.add(wallet_options);
+            visible_options.add(cac_options);
+            visible_options.add(wallet_treasury_options);
         }
         if (flags & UI_OPTIONS)
         {
@@ -296,25 +362,13 @@ namespace grimm
     po::options_description createRulesOptionsDescription()
     {
         #define RulesParams(macro) \
-            macro(Amount, Emission.Value0, "initial coinbase emission in a single block") \
-            macro(Amount, Emission.Drop0, "height of the last block that still has the initial emission, the drop is starting from the next block") \
-            macro(Amount, Emission.Drop1, "Each such a cycle there's a new drop") \
-            macro(Height, Maturity.Coinbase, "num of blocks before coinbase UTXO can be spent") \
-            macro(Height, Maturity.Std, "num of blocks before non-coinbase UTXO can be spent") \
-            macro(size_t, MaxBodySize, "Max block body size [bytes]") \
-            macro(uint32_t, DA.Target_s, "Desired rate of generated blocks [seconds]") \
-            macro(uint32_t, DA.MaxAhead_s, "Block timestamp tolerance [seconds]") \
-            macro(uint32_t, DA.WindowWork, "num of blocks in the window for the mining difficulty adjustment") \
-            macro(uint32_t, DA.WindowMedian0, "How many blocks are considered in calculating the timestamp median") \
-            macro(uint32_t, DA.WindowMedian1, "Num of blocks taken at both endings of WindowWork, to pick medians") \
-            macro(uint32_t, DA.Difficulty0, "Initial difficulty") \
             macro(Height, Fork1, "Height of the 1st fork") \
             macro(Height, Fork2, "Height of the 2nd fork") \
-            macro(bool, AllowPublicUtxos, "set to allow regular (non-coinbase) UTXO to have non-confidential signature") \
             macro(bool, FakePoW, "Don't verify PoW. Mining is simulated by the timer. For tests only")
 
-		#define Fork1 pForks[1].m_Height
-    #define Fork2 pForks[2].m_Height
+	        	#define Fork1 pForks[1].m_Height
+            #define Fork2 pForks[2].m_Height
+
 
         #define THE_MACRO(type, name, comment) (#name, po::value<type>()->default_value(TypeCvt<type>::get(Rules::get().name)), comment)
 
@@ -357,8 +411,32 @@ namespace grimm
     void getRulesOptions(po::variables_map& vm)
     {
         #define THE_MACRO(type, name, comment) Rules::get().name = vm[#name].as<type>();
-                RulesParams(THE_MACRO);
+        RulesParams(THE_MACRO);
         #undef THE_MACRO
+        Rules::get().Emission.Value0 = vm[cli::CAC_EMISSION_BLOCK].as<Amount>();
+        Rules::get().Emission.Premine = vm[cli::CAC_PREMINE].as<Amount>();
+        Rules::get().Emission.Drop0 = vm[cli::CAC_EMISSION_DROP0].as<Amount>();
+        Rules::get().Emission.Drop1 = vm[cli::CAC_EMISSION_DROP1].as<Amount>();
+        Rules::get().Maturity.Coinbase = vm[cli::CAC_MATURITY_COINBASE].as<Height>();
+        Rules::get().Maturity.Std = vm[cli::CAC_MATURITY_STANDART].as<Height>();
+        Rules::get().MaxBodySize = vm[cli::CAC_BLOCK_SIZE].as<size_t>();
+        Rules::get().DA.Target_s = vm[cli::CAC_BLOCK_TIME].as<uint32_t>();
+        Rules::get().DA.MaxAhead_s = vm[cli::CAC_FTL].as<uint32_t>();
+        Rules::get().DA.WindowWork = vm[cli::CAC_WINDOWWORK].as<uint32_t>();
+        Rules::get().DA.WindowMedian0 = vm[cli::CAC_TIMESTAMP_MEDIAN].as<uint32_t>();
+        Rules::get().DA.WindowMedian1 = vm[cli::CAC_BLOCKS_MEDIAN].as<uint32_t>();
+        Rules::get().AllowPublicUtxos = vm[cli::CAC_ALLOW_PUBLIC_UTXO].as<bool>();
+        Rules::get().isAssetchain = ( (vm[cli::CAC_SYMBOL].as<string>() != "GRIMM") && (vm[cli::CAC_SYMBOL].as<string>() != "XGM") );
+        Rules::get().CoinSymbol = vm[cli::CAC_SYMBOL].as<string>();
+        Rules::get().DA.Difficulty0 = Difficulty(vm[cli::CAC_DIFF_S].as<uint32_t>() << Difficulty::s_MantissaBits);
+        Rules::get().TMS = vm[cli::CAC_TREASURYM].as<Height>();
+        Rules::get().MB = vm[cli::CAC_TREASURYB].as<uint32_t>();
+        Rules::get().CA.Enabled = vm[cli::ASSET_ENABLE].as<bool>();
+        Rules::get().CA.Deposit = vm[cli::ASSET_EXCHANGE].as<bool>();
+
+      //  Rules::get().isGrimmPOW = vm[cli::CAC_GRIMMPOW].as<bool>();
+      //  add other params
+
     }
 
     int getLogLevel(const std::string &dstLog, const po::variables_map& vm, int defaultValue)

@@ -18,6 +18,7 @@
 
 #include <numeric>
 #include "utility/logger.h"
+#include "asset_transaction.h"
 
 namespace grimm::wallet
 {
@@ -49,10 +50,31 @@ namespace grimm::wallet
         {
             amoutList = AmountList{ GetMandatoryParameter<Amount>(TxParameterID::Amount) };
         }
+        AssetID assetID = Zero;
+        if (GetParameter(TxParameterID::AssetID, assetID))
+        {
+            LOG_INFO() << "AssetID: " << assetID << "\n";
+        }
+
 
         if (!m_TxBuilder)
         {
-            m_TxBuilder = make_shared<BaseTxBuilder>(*this, kDefaultSubTxID, amoutList, GetMandatoryParameter<Amount>(TxParameterID::Fee));
+          if (assetID == Zero)
+         {
+             m_TxBuilder = make_shared<BaseTxBuilder>(*this, kDefaultSubTxID, amoutList, GetMandatoryParameter<Amount>(TxParameterID::Fee));
+             LOG_INFO() << "----------asset id zero -> base txbuilder ";
+         }
+         else
+         {
+             AmountList assetAmountList;
+             if (!GetParameter(TxParameterID::AssetAmountList, assetAmountList))
+             {
+                 assetAmountList = AmountList{ GetMandatoryParameter<Amount>(TxParameterID::AssetAmount) };
+
+             }
+
+             m_TxBuilder = make_shared<AssetTxBuilder>(*this, kDefaultSubTxID, GetMandatoryParameter<Amount>(TxParameterID::Fee), assetAmountList, assetID);
+         }
         }
         auto sharedBuilder = m_TxBuilder;
         BaseTxBuilder& builder = *sharedBuilder;
@@ -90,11 +112,7 @@ namespace grimm::wallet
 
                 if (isSelfTx || !isSender)
                 {
-                    // create receiver utxo
-                    for (const auto& amount : builder.GetAmountList())
-                    {
-                        builder.GenerateNewCoin(amount, false);
-                    }
+                    builder.GenerateNewCoinList(false);
                 }
 
                 UpdateTxDescription(TxStatus::InProgress);
@@ -316,6 +334,8 @@ namespace grimm::wallet
     {
         SetTxParameter msg;
         msg.AddParameter(TxParameterID::Amount, builder.GetAmount())
+            .AddParameter(TxParameterID::AssetAmount, builder.GetAssetAmount())
+            .AddParameter(TxParameterID::AssetID, builder.GetAssetID())
             .AddParameter(TxParameterID::Fee, builder.GetFee())
             .AddParameter(TxParameterID::MinHeight, builder.GetMinHeight())
             .AddParameter(TxParameterID::Lifetime, builder.GetLifetime())
@@ -436,6 +456,7 @@ namespace grimm::wallet
         case TxParameterID::Status:
         case TxParameterID::TransactionType:
         case TxParameterID::KernelID:
+        case TxParameterID::AssetAmount:
             return true;
         default:
             return false;
