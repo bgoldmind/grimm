@@ -16,6 +16,7 @@
 #include <chrono>
 #include <sstream>
 #include "block_crypt.h"
+#include "RandomX/randomx.h"
 
 namespace grimm
 {
