@@ -26,6 +26,7 @@ instructions_portable.cpp
 reciprocal.c
 virtual_machine.cpp
 vm_compiled_light.cpp
+rx-slow-hash.c
 blake2/blake2b.c)
 
 

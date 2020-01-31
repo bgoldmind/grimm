@@ -189,7 +189,7 @@ target_link_libraries(${TARGET_NAME} quazip_static)
     target_link_libraries(${TARGET_NAME} node external_pow)
 #endif()
 
-target_link_libraries(${TARGET_NAME} wallet mnemonic Qt5::Qml Qt5::Quick Qt5::Svg Qt5::PrintSupport)
+target_link_libraries(${TARGET_NAME} wallet mnemonic Qt5::Qml Qt5::Quick Qt5::Svg Qt5::PrintSupport randomx)
 
 if (GRIMM_SIGN_PACKAGE AND WIN32)
     add_custom_command(

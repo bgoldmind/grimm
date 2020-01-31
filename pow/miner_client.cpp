@@ -18,6 +18,7 @@
 #include "utility/io/tcpstream.h"
 #include "utility/io/timer.h"
 #include "utility/helpers.h"
+#include "RandomX/randomx.h"
 
 #include <boost/program_options.hpp>
 
@@ -242,7 +243,7 @@ int main(int argc, char* argv[]) {
     auto logger = Logger::create(LOG_LEVEL_INFO, options.logLevel, options.logLevel, logFilePrefix, "logs");
     int retCode = 0;
     try {
-        
+
         io::Reactor::Ptr reactor = io::Reactor::create();
         io::Address connectTo;
         if (!connectTo.resolve(options.serverAddress.c_str())) {

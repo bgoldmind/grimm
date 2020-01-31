@@ -15,7 +15,7 @@ target_link_libraries(explorer node http)
 add_executable(${TARGET_NAME} explorer_node.cpp)
 target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 add_dependencies(${TARGET_NAME} explorer cli)
-target_link_libraries(${TARGET_NAME} explorer cli)
+target_link_libraries(${TARGET_NAME} explorer cli randomx)
 
 add_subdirectory(unittest)
 

@@ -24,8 +24,8 @@ endif()
 
 target_compile_definitions(pow PRIVATE ENABLE_MINING)
 
-add_dependencies(pow crypto)
-target_link_libraries(pow crypto)
+add_dependencies(pow crypto randomx)
+target_link_libraries(pow crypto randomx)
 if(Boost_FOUND)
     target_link_libraries(pow boost)
 endif()
@@ -38,19 +38,19 @@ add_library(external_pow STATIC
     stratum_server.cpp
 )
 
-add_dependencies(external_pow core p2p pow)
-target_link_libraries(external_pow p2p pow core)
+add_dependencies(external_pow core p2p pow randomx)
+target_link_libraries(external_pow p2p pow core randomx)
 
 if (NOT ANDROID)
     add_executable(miner_client miner_client.cpp ../core/block_crypt.cpp) # ???????????????????????????
     if (Boost_FOUND)
         find_package(Boost COMPONENTS program_options)
-        add_dependencies(miner_client external_pow  Boost::program_options)
-        target_link_libraries(miner_client external_pow Boost::program_options)
+        add_dependencies(miner_client external_pow  Boost::program_options randomx)
+        target_link_libraries(miner_client external_pow Boost::program_options randomx)
     else()
-        add_dependencies(miner_client external_pow boost_program_options)
-        target_link_libraries(miner_client external_pow boost_program_options)
+        add_dependencies(miner_client external_pow boost_program_options randomx)
+        target_link_libraries(miner_client external_pow boost_program_options randomx)
     endif()
-    
+
     add_subdirectory(unittests)
 endif()
