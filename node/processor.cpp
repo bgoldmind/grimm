@@ -222,8 +222,11 @@ void NodeProcessor::InitCursor()
 		ZeroObject(m_Cursor);
 		m_Cursor.m_ID.m_Hash = Rules::get().Prehistoric;
 	}
-
-	m_Cursor.m_DifficultyNext = get_NextDifficulty();
+  if (m_Cursor.m_Full.m_Height >= Rules::get().pForks[1].m_Height) {
+	m_Cursor.m_DifficultyNextFork = get_NextDifficultyFork();
+  } else {
+	m_Cursor.m_DifficultyNext = get_NextDifficulty(); //add fork condition here for NextDifficultyFork()
+  }
 }
 
 void NodeProcessor::CongestionCache::Clear()
@@ -1438,17 +1441,19 @@ bool NodeProcessor::HandleBlock(const NodeDB::StateID& sid, MultiblockContext& m
 			return false;
 		}
 
-		if (m_Cursor.m_DifficultyNext.m_Packed != s.m_PoW.m_Difficulty.m_Packed)
-		{
-			LOG_WARNING() << LogSid(m_DB, sid) << " Difficulty expected=" << m_Cursor.m_DifficultyNext << ", actual=" << s.m_PoW.m_Difficulty;
-			return false;
-		}
+		// temporarily
+		//if (m_Cursor.m_DifficultyNext.m_Packed != s.m_PoW.m_Difficulty.m_Packed)
+		//{
+		//	LOG_WARNING() << LogSid(m_DB, sid) << " Difficulty expected=" << m_Cursor.m_DifficultyNext << ", actual=" << s.m_PoW.m_Difficulty;
+		//	return false;
+		//}
 
-		if (s.m_TimeStamp <= get_MovingMedian())
-		{
-			LOG_WARNING() << LogSid(m_DB, sid) << " Timestamp inconsistent wrt median";
-			return false;
-		}
+		//if (s.m_TimeStamp <= get_MovingMedian())
+		//{
+		//	LOG_WARNING() << LogSid(m_DB, sid) << " Timestamp inconsistent wrt median";
+		//	return false;
+		//}
+
 
 		struct MyFlyMmr :public Merkle::FlyMmr {
 			const Merkle::Hash* m_pHashes;
@@ -2052,7 +2057,7 @@ NodeProcessor::DataStatus::Enum NodeProcessor::OnState(const Block::SystemState:
 	{
 		LOG_INFO() << id << " Header accepted";
 	}
-	
+
 	return ret;
 }
 
@@ -2212,20 +2217,6 @@ Difficulty NodeProcessor::get_NextDifficulty()
 	// actual dt, only making sure it's non-negative
 	uint32_t dtSrc_s = (thw1.first > thw0.first) ? static_cast<uint32_t>(thw1.first - thw0.first) : 0;
 
-	if (m_Cursor.m_Full.m_Height >= r.pForks[1].m_Height)
-	{
-		// Apply dampening. Recalculate dtSrc_s := dtSrc_s * M/N + dtTrg_s * (N-M)/N
-		// Use 64-bit arithmetic to avoid overflow
-
-		uint64_t nVal =
-			static_cast<uint64_t>(dtSrc_s) * r.DA.Damp.M +
-			static_cast<uint64_t>(dtTrg_s) * (r.DA.Damp.N - r.DA.Damp.M);
-
-		uint32_t dt_s = static_cast<uint32_t>(nVal / r.DA.Damp.N);
-
-		if ((dt_s > dtSrc_s) != (dt_s > dtTrg_s)) // another overflow verification. The result normally must sit between src and trg (assuming valid damp parameters, i.e. M < N).
-			dtSrc_s = dt_s;
-	}
 
 	// apply "emergency" threshold
 	dtSrc_s = std::min(dtSrc_s, dtTrg_s * 2);
@@ -2240,6 +2231,73 @@ Difficulty NodeProcessor::get_NextDifficulty()
 	res.Calculate(dWrk, dh, dtTrg_s, dtSrc_s);
 
 	return res;
+}
+
+DifficultyFork NodeProcessor::get_NextDifficultyFork() //can simplify 2 in 1
+{
+	const Rules& r = Rules::get();
+
+	assert(r.DA.DifficultyAdjustBlocks > 1);
+
+	uint32_t height = m_Cursor.m_Full.m_Height;
+	if (height != 0 && height % r.DA.DifficultyAdjustBlocks == 0) {
+	    uint32_t blockHeight0;
+	    uint32_t blockInteval;
+	    if ((height - r.DA.DifficultyAdjustBlocks) < Rules::get().pForks[1].m_Height) {
+		    blockHeight0 = height - r.DA.DifficultyAdjustBlocks + 1;
+		    blockInteval = r.DA.DifficultyAdjustBlocks - 1;
+	    }
+	    else {
+		    blockHeight0 = height - r.DA.DifficultyAdjustBlocks;
+		    blockInteval = r.DA.DifficultyAdjustBlocks;
+	    }
+
+	    uint64_t row0 = FindActiveAtStrict(blockHeight0);
+	    Block::SystemState::Full s;
+	    m_DB.get_State(row0, s);
+
+	    uint32_t timestamp0 = s.m_TimeStamp;
+	    uint32_t timestamp1 = m_Cursor.m_Full.m_TimeStamp;
+
+	    assert(timestamp1 > timestamp0);
+
+	    uint32_t deltaTime = timestamp1 - timestamp0;
+	    uint32_t expectTime = blockInteval * r.DA.Target_s;
+
+	    DifficultyFork diff = m_Cursor.m_Full.m_PoW.m_DifficultyFork;
+	    arith_uint256 diffTarget;
+	    diff.Unpack(diffTarget);
+
+	    if ((deltaTime * 1.0 / expectTime) > 4)
+	    {
+		    diffTarget *= 4;
+	    }
+	    else if ((deltaTime * 1.0 / expectTime) < 0.25)
+	    {
+		    diffTarget /= 4;
+	    }
+	    else
+	    {
+		    diffTarget /= expectTime;
+		    diffTarget *= deltaTime;
+	    }
+
+        if (diffTarget > UintToArith256(Rules::PowLimit)) {
+            diffTarget = UintToArith256(Rules::PowLimit);
+        }
+
+	    diff.Pack(diffTarget);
+
+	    return diff;
+	}
+	else {
+	    if (height < (r.DA.DifficultyAdjustBlocks + Rules::get().pForks[1].m_Height)) {
+		    return DifficultyFork(r.DA.DifficultyFork0);
+	    }
+	    else {
+		    return m_Cursor.m_Full.m_PoW.m_DifficultyFork;
+	    }
+	}
 }
 
 void NodeProcessor::get_MovingMedianEx(uint64_t rowLast, uint32_t nWindow, THW& res)
@@ -2540,7 +2598,7 @@ void NodeProcessor::GenerateNewHdr(BlockContext& bc)
 	fmmr.m_ppKrn = bc.m_Block.m_vKernels.empty() ? NULL : &bc.m_Block.m_vKernels.front();
 	fmmr.get_Hash(bc.m_Hdr.m_Kernels);
 
-	bc.m_Hdr.m_PoW.m_Difficulty = m_Cursor.m_DifficultyNext;
+	bc.m_Hdr.m_PoW.m_Difficulty = m_Cursor.m_DifficultyNext; //add condition
 	bc.m_Hdr.m_TimeStamp = getTimestamp();
 
 	bc.m_Hdr.m_ChainWork = m_Cursor.m_Full.m_ChainWork + bc.m_Hdr.m_PoW.m_Difficulty;

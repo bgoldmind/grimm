@@ -78,6 +78,7 @@ class NodeProcessor
 
 	typedef std::pair<int64_t, std::pair<int64_t, Difficulty::Raw> > THW; // Time-Height-Work. Time and Height are signed
 	Difficulty get_NextDifficulty();
+	DifficultyFork get_NextDifficultyFork();
 	Timestamp get_MovingMedian();
 	void get_MovingMedianEx(uint64_t rowLast, uint32_t nWindow, THW&);
 
@@ -143,6 +144,8 @@ public:
 		Merkle::Hash m_History;
 		Merkle::Hash m_HistoryNext;
 		Difficulty m_DifficultyNext;
+		DifficultyFork m_DifficultyNextFork;
+
 
 	} m_Cursor;
 
@@ -248,7 +251,7 @@ public:
 
 	uint64_t FindActiveAtStrict(Height);
 
-	bool ValidateTxContext(const Transaction&); // assuming context-free validation is already performed, but 
+	bool ValidateTxContext(const Transaction&); // assuming context-free validation is already performed, but
 	bool ValidateTxWrtHeight(const Transaction&);
 
 	struct GeneratedBlock

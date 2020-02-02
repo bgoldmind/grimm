@@ -906,6 +906,7 @@ namespace grimm
 
 	const Height Rules::HeightGenesis	= 1;
 	const Amount Rules::Coin			= 100000000;
+	const uint256 Rules::PowLimit = uint256S("07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
 	Rules::Rules()
 	{
@@ -1053,8 +1054,7 @@ namespace grimm
 		oracle
 			<< "fork1"
 			<< pForks[1].m_Height
-			<< DA.Damp.M
-			<< DA.Damp.N
+			<< DA.DifficultyFork0.nBitsPow
 			// out
 			>> pForks[1].m_Hash;
 
@@ -1126,9 +1126,10 @@ namespace grimm
 		CMP_MEMBER_EX(m_Prev)
 		CMP_MEMBER_EX(m_ChainWork)
 		CMP_MEMBER(m_TimeStamp)
-		CMP_MEMBER(m_PoW.m_Difficulty.m_Packed)
 		CMP_MEMBER_EX(m_PoW.m_Nonce)
 		CMP_MEMBER(m_PoW.m_Indices)
+		CMP_MEMBER(m_PoW.m_Difficulty.m_Packed) //WIP CMP_MEMBER(m_PoW.m_DifficultyFork.nBitsPow)
+
 		return 0;
 	}
 
@@ -1159,7 +1160,7 @@ namespace grimm
 			<< m_Kernels
 			<< m_Definition
 			<< m_TimeStamp
-			<< m_PoW.m_Difficulty.m_Packed;
+			<< m_PoW.m_Difficulty.m_Packed; //WIP << m_PoW.m_DifficultyFork.nBitsPow;
 
 		if (bTotal)
 		{

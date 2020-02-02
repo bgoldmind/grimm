@@ -15,6 +15,8 @@
 #pragma once
 #include "uintBig.h"
 #include "ecc.h"
+#include "arith_uint256.h"
+#include "uint256.h"
 
 namespace grimm
 {
@@ -54,5 +56,33 @@ namespace grimm
 
 	};
 
+	struct DifficultyFork
+	{
+        uint32_t nBitsPow;
+
+        DifficultyFork(uint32_t d = 0) :nBitsPow(d) {}
+
+		typedef ECC::uintBig Raw;
+
+		    bool IsTargetReached(const uint256& hash) const;
+
+	      bool get_Target(arith_uint256&) const;
+	    	void Unpack(Raw&) const;
+        void Pack(const Raw&);
+        void Unpack(arith_uint256&) const;
+        void Pack(const arith_uint256&);
+	    	void Calculate(const Raw& wrk, uint32_t dh, uint32_t dtTrg_s, uint32_t dtSrc_s);
+
+		friend Raw operator + (const Raw&, const DifficultyFork&);
+		friend Raw operator - (const Raw&, const DifficultyFork&);
+		friend Raw& operator += (Raw&, const DifficultyFork&);
+		friend Raw& operator -= (Raw&, const DifficultyFork&);
+
+		    double ToFloat() const;
+
+
+	};
+
 	std::ostream& operator << (std::ostream&, const Difficulty&);
+	std::ostream& operator << (std::ostream&, const DifficultyFork&);
 }

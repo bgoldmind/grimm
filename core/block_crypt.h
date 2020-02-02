@@ -101,7 +101,8 @@ namespace grimm
 		static Rules& get();
 
 		static const Height HeightGenesis; // height of the 1st block, defines the convention. Currently =1
-		static const Amount Coin; // how many quantas in a single coin. Just cosmetic, has no meaning to the processing (which is in terms of quantas)
+		static const Amount Coin;
+		static const uint256 PowLimit;
 
 		struct {
 			// emission parameters
@@ -124,12 +125,10 @@ namespace grimm
 			uint32_t WindowMedian0	= 25; // Timestamp for a block must be (strictly) higher than the median of preceding window
 			uint32_t WindowMedian1	= 7; // Num of blocks taken at both endings of WindowWork, to pick medians.
 			Difficulty Difficulty0	= Difficulty(1 << Difficulty::s_MantissaBits); // 2^1 = 2 for cpu start
+			DifficultyFork DifficultyFork0 = DifficultyFork(0x1e00ffff); //TEST 0x1d00ffff, need change DifficultyFork::ToFloat()
+			uint32_t DifficultyAdjustBlocks = 50; //TEST
 
-			struct {
-				// damp factor. Adjustment of actual dt toward expected, effectively dampens
-				uint32_t M = 1; // Multiplier of the actual dt
-				uint32_t N = 3; // Denominator. The goal is multiplied by (N-M)
-			} Damp;
+
 		} DA;
 
 		struct {
@@ -504,7 +503,7 @@ namespace grimm
 			typedef uintBig_t<8> NonceType;
 			NonceType m_Nonce; // 8 bytes.
 			Difficulty m_Difficulty;
-
+      DifficultyFork m_DifficultyFork;
 			bool IsValid(const void* pInput, uint32_t nSizeInput) const;
 
 			using Cancel = std::function<bool(bool bRetrying)>;
@@ -526,6 +525,12 @@ namespace grimm
 					Height				m_Height;
 					Merkle::Hash		m_Prev;			// explicit referebce to prev
 					Difficulty::Raw		m_ChainWork;
+				};
+
+				struct PrefixFork {
+					Height				m_Height;
+					Merkle::Hash		m_Prev;			// explicit referebce to prev
+					DifficultyFork::Raw		m_ChainWork;
 				};
 
 				struct Element
@@ -771,10 +776,15 @@ namespace grimm
 		Merkle::Hash m_hvRootLive;
 		// crop thereshold. Off by default
 		Difficulty::Raw m_LowerBound;
-
+    DifficultyFork::Raw m_LowerBoundFork;
 		struct ISource
 		{
 			virtual void get_StateAt(SystemState::Full&, const Difficulty::Raw&) = 0;
+			virtual void get_Proof(Merkle::IProofBuilder&, Height) = 0;
+		};
+		struct ISourceFork
+		{
+			virtual void get_StateAt(SystemState::Full&, const DifficultyFork::Raw&) = 0;
 			virtual void get_Proof(Merkle::IProofBuilder&, Height) = 0;
 		};
 
@@ -790,7 +800,7 @@ namespace grimm
 		bool Crop(const ChainWorkProof& src);
 		bool IsEmpty() const { return m_Heading.m_vElements.empty(); }
 
-		template <typename Archive>
+		template <typename Archive> //need new serialize
 		void serialize(Archive& ar)
 		{
 			ar
@@ -814,6 +824,7 @@ namespace grimm
 	private:
 		struct Sampler;
 		bool IsValidInternal(size_t& iState, size_t& iHash, const Difficulty::Raw& lowerBound, SystemState::Full* pTip) const;
+		bool IsValidInternalFork(size_t& iState, size_t& iHash, const DifficultyFork::Raw& lowerBound, SystemState::Full* pTip) const;
 		void ZeroInit();
 		bool EnumStatesHeadingOnly(IStateWalker&) const; // skip arbitrary
 	};

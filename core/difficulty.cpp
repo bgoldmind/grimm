@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "difficulty.h"
+#include "stdlib.h"
+#include "block_crypt.h"
 #include <cmath>
 
 namespace grimm
@@ -247,6 +249,171 @@ namespace grimm
 		s << sz0 << '-' << sz1 << '(' << d.ToFloat() << ')';
 
 		return s;
+	}
+
+	void DifficultyFork::Pack(const arith_uint256& target)
+	{
+			nBitsPow = target.GetCompact();
+	}
+
+	void DifficultyFork::Unpack(arith_uint256& target) const
+	{
+			bool fNegative;
+			bool fOverflow;
+			target.SetCompact(nBitsPow, &fNegative, &fOverflow);
+			assert(!fNegative);
+			assert(!fOverflow);
+			assert(target != 0);
+	}
+
+	bool DifficultyFork::IsTargetReached(const uint256& hash) const
+	{
+			arith_uint256 bnTarget;
+			arith_uint256 bnHash;
+			bool fGetTarget = get_Target(bnTarget);
+			if (!fGetTarget)
+					return false;
+
+			bnHash = UintToArith256(hash);
+
+			if (bnHash > bnTarget)
+					return false;
+
+			return true;
+	}
+
+	bool DifficultyFork::get_Target(arith_uint256& bnTarget) const
+	{
+			bool fNegative;
+			bool fOverflow;
+
+			bnTarget.SetCompact(nBitsPow, &fNegative, &fOverflow);
+
+			if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(Rules::PowLimit))
+					return false;
+
+			return true;
+	}
+
+	void DifficultyFork::Unpack(Raw& res) const
+	{
+			arith_uint256 target;
+			Unpack(target);
+
+			arith_uint256 d = (~target / (target + 1)) + 1;
+
+			uint256 u = ArithToUint256(d);
+			unsigned char* pStart = u.begin();
+			auto usize = u.size();
+			for (unsigned int i = 0; i < usize; ++i)
+			{
+					res.m_pData[i] = *(pStart + usize - i - 1);
+			}
+	}
+
+	void DifficultyFork::Pack(const Raw& res)
+	{
+			std::vector<unsigned char> vch;
+			auto zs = res.nBytes;
+			vch.resize(zs);
+			for (unsigned int i = 0; i < zs; ++i)
+			{
+					vch[i] = res.m_pData[zs - i - 1];
+			}
+			uint256 r(vch);
+
+			arith_uint256 d = UintToArith256(r);
+			assert(d == 0);
+
+			arith_uint256 target = (~d + 1) / d;
+
+			Pack(target);
+	}
+
+DifficultyFork::Raw operator + (const DifficultyFork::Raw& base, const DifficultyFork& d)
+{
+	DifficultyFork::Raw res;
+	d.Unpack(res);
+	res += base;
+	return res;
+}
+
+DifficultyFork::Raw& operator += (DifficultyFork::Raw& res, const DifficultyFork& d)
+{
+	DifficultyFork::Raw base;
+	d.Unpack(base);
+	res += base;
+	return res;
+}
+
+DifficultyFork::Raw operator - (const DifficultyFork::Raw& base, const DifficultyFork& d)
+{
+	DifficultyFork::Raw res;
+	d.Unpack(res);
+	res.Negate();
+	res += base;
+	return res;
+}
+
+DifficultyFork::Raw& operator -= (DifficultyFork::Raw& res, const DifficultyFork& d)
+{
+	DifficultyFork::Raw base;
+	d.Unpack(base);
+	base.Negate();
+	res += base;
+	return res;
+}
+
+	void DifficultyFork::Calculate(const Raw& ref, uint32_t dh, uint32_t dtTrg_s, uint32_t dtSrc_s)
+	{
+			uint64_t div = dtSrc_s;
+			div *= dh;
+
+			std::vector<unsigned char> vch;
+			vch.resize(ref.nBytes);
+
+			for (unsigned int i = 0; i < ref.nBytes; ++i)
+			{
+					vch[i] = ref.m_pData[i];
+			}
+			uint256 r(vch);
+
+			arith_uint256 d = UintToArith256(r);
+			d *= dtTrg_s;
+			d /= div;
+			assert(d != 0);
+
+			arith_uint256 target = (~d + 1) / d;
+
+			Pack(target);
+	}
+
+	double DifficultyFork::ToFloat() const
+	{
+			int nShift = (nBitsPow >> 24) & 0xff;
+			double dDiff =
+					(double)0x0000ffff / (double)(nBitsPow & 0x00ffffff);
+
+			while (nShift < 30)
+			{
+					dDiff *= 256.0;
+					nShift++;
+			}
+			while (nShift > 30)
+			{
+					dDiff /= 256.0;
+					nShift--;
+			}
+
+			return dDiff;
+	}
+
+	std::ostream& operator << (std::ostream& s, const DifficultyFork& d)
+	{
+			char nBitsPowStr[16];
+			sprintf(nBitsPowStr, "%x", d.nBitsPow);
+			s << nBitsPowStr;
+			return s;
 	}
 
 } // namespace grimm
